@@ -1,0 +1,975 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Dashboard — 11:11:11 | EVOXU</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@200;300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --cream:#FAF8F4;--cream2:#F3EDE4;--cream3:#EBE3D8;--white:#FFFFFF;
+  --ink:#1C1914;--muted:#7A7268;--dim:#A49C92;
+  --burg:#7D2035;--burg2:#A8415A;--burg-dim:#5C1525;
+  --burg-pale:rgba(125,32,53,0.08);--burg-pale2:rgba(125,32,53,0.04);
+  --border:rgba(28,25,20,0.09);--border-burg:rgba(125,32,53,0.22);
+  --shadow:0 1px 16px rgba(28,25,20,0.07);--shadow2:0 4px 32px rgba(28,25,20,0.1);
+  --green:#16a34a;--green-bg:rgba(22,163,74,0.08);
+  --amber:#d97706;--amber-bg:rgba(217,119,6,0.08);
+  --red:#c0392b;--red-bg:rgba(192,57,43,0.08);
+}
+body{background:var(--cream);color:var(--ink);font-family:'Jost',sans-serif;font-weight:300;height:100vh;display:flex;overflow:hidden}
+
+/* SIDEBAR */
+.sidebar{width:230px;height:100vh;background:var(--white);border-right:1px solid var(--border);display:flex;flex-direction:column;flex-shrink:0;position:fixed;top:0;left:0;bottom:0;z-index:200;transition:transform .3s;box-shadow:var(--shadow)}
+.sb-logo{padding:1.4rem 1.5rem .9rem;border-bottom:1px solid var(--border)}
+.sb-logo a{font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:600;letter-spacing:.22em;color:var(--ink);text-decoration:none}
+.sb-logo p{font-size:.52rem;letter-spacing:.35em;text-transform:uppercase;color:var(--burg2);margin-top:.2rem}
+.sb-user{padding:.9rem 1.5rem;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:.8rem}
+.sb-avatar{width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,var(--burg-dim),var(--burg2));display:flex;align-items:center;justify-content:center;font-size:.7rem;color:#fff;flex-shrink:0;font-weight:500}
+.sb-uname{font-size:.78rem;color:var(--ink)}
+.sb-role{font-size:.54rem;color:var(--burg2);letter-spacing:.2em;text-transform:uppercase}
+.sb-nav{flex:1;padding:1rem 0;overflow-y:auto}
+.sb-section{font-size:.5rem;letter-spacing:.45em;text-transform:uppercase;color:var(--dim);padding:.5rem 1.5rem .3rem;margin-top:.4rem}
+.sb-item{display:flex;align-items:center;gap:.75rem;padding:.72rem 1.5rem;font-size:.68rem;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);cursor:pointer;transition:all .25s;border-left:2px solid transparent;text-decoration:none}
+.sb-item:hover{color:var(--ink);background:var(--cream2);border-left-color:rgba(125,32,53,.3)}
+.sb-item.on{color:var(--burg);background:var(--burg-pale);border-left-color:var(--burg)}
+.sb-item svg{width:15px;height:15px;flex-shrink:0}
+.sb-badge{margin-left:auto;background:var(--burg-pale);border:1px solid var(--border-burg);padding:.14rem .5rem;border-radius:100px;font-size:.52rem;color:var(--burg);min-width:20px;text-align:center}
+.sb-bottom{padding:1rem 1.5rem;border-top:1px solid var(--border)}
+.sb-logout{display:flex;align-items:center;gap:.7rem;font-size:.65rem;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);cursor:pointer;transition:color .3s;text-decoration:none}
+.sb-logout:hover{color:var(--red)}
+.sb-logout svg{width:14px;height:14px}
+
+/* MAIN */
+.main{margin-left:230px;flex:1;height:100vh;overflow-y:auto;display:flex;flex-direction:column}
+.topbar{padding:.9rem 2rem;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;background:var(--white);position:sticky;top:0;z-index:100;box-shadow:var(--shadow);gap:1rem}
+.tb-title{font-family:'Cormorant Garamond',serif;font-size:1.2rem;color:var(--ink)}
+.tb-crumb{font-size:.6rem;color:var(--dim);letter-spacing:.2em}
+.tb-right{display:flex;align-items:center;gap:.8rem}
+.tb-btn{background:none;border:1px solid var(--border);padding:.42rem .9rem;color:var(--muted);font-family:'Jost',sans-serif;font-size:.6rem;letter-spacing:.22em;text-transform:uppercase;cursor:pointer;transition:all .3s}
+.tb-btn:hover{border-color:var(--burg);color:var(--burg)}
+.tb-btn.primary{background:var(--ink);color:var(--white);border-color:var(--ink);font-weight:500}
+.tb-btn.primary:hover{background:var(--burg);border-color:var(--burg)}
+
+.content{padding:2rem;flex:1}
+.page{display:none}.page.on{display:block}
+
+/* STATS */
+.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-bottom:2rem}
+.stat-card{background:var(--white);border:1px solid var(--border);padding:1.3rem 1.2rem;position:relative;overflow:hidden;transition:all .3s;box-shadow:var(--shadow)}
+.stat-card::after{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:transparent;transition:background .3s}
+.stat-card:hover{transform:translateY(-2px);box-shadow:var(--shadow2)}
+.stat-card:hover::after{background:var(--burg)}
+.stat-icon{position:absolute;top:.8rem;right:1rem;font-size:1.4rem;opacity:.16}
+.stat-val{font-family:'Cormorant Garamond',serif;font-size:2.1rem;color:var(--burg);margin-bottom:.18rem;line-height:1}
+.stat-lbl{font-size:.56rem;letter-spacing:.28em;text-transform:uppercase;color:var(--muted);margin-bottom:.4rem}
+.stat-trend{font-size:.66rem;color:var(--green)}
+
+/* PANELS */
+.panel{background:var(--white);border:1px solid var(--border);padding:1.5rem;box-shadow:var(--shadow);margin-bottom:1.5rem}
+.panel-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.2rem;gap:1rem;flex-wrap:wrap}
+.panel-title{font-family:'Cormorant Garamond',serif;font-size:1.1rem;color:var(--ink)}
+.panel-actions{display:flex;gap:.6rem;flex-wrap:wrap}
+.btn-sm{padding:.38rem .85rem;font-family:'Jost',sans-serif;font-size:.58rem;letter-spacing:.22em;text-transform:uppercase;cursor:pointer;transition:all .3s;border-radius:0}
+.btn-ink{background:var(--ink);border:none;color:var(--white);font-weight:500}
+.btn-ink:hover{background:var(--burg)}
+.btn-outline{background:transparent;border:1px solid var(--border);color:var(--muted)}
+.btn-outline:hover{border-color:var(--burg);color:var(--burg)}
+.btn-danger{background:transparent;border:1px solid rgba(192,57,43,.3);color:var(--red)}
+.btn-danger:hover{background:var(--red-bg)}
+
+/* TABLE */
+.tbl{width:100%;border-collapse:collapse}
+.tbl thead tr{border-bottom:1px solid var(--border)}
+.tbl th{font-size:.56rem;letter-spacing:.3em;text-transform:uppercase;color:var(--dim);padding:.65rem .8rem;text-align:left;font-weight:300;white-space:nowrap}
+.tbl tbody tr{border-bottom:1px solid var(--cream3);transition:background .2s}
+.tbl tbody tr:hover{background:var(--cream2)}
+.tbl td{font-size:.8rem;color:var(--ink);padding:.75rem .8rem;vertical-align:middle}
+.tag{display:inline-flex;align-items:center;font-size:.56rem;letter-spacing:.18em;text-transform:uppercase;padding:.22rem .65rem;border-radius:100px;white-space:nowrap}
+.tag-active{background:var(--green-bg);color:var(--green);border:1px solid rgba(22,163,74,.22)}
+.tag-inactive{background:rgba(28,25,20,.05);color:var(--muted);border:1px solid var(--border)}
+.tag-pending{background:var(--amber-bg);color:var(--amber);border:1px solid rgba(217,119,6,.22)}
+.tag-male{background:rgba(29,78,216,.07);color:#1d4ed8;border:1px solid rgba(29,78,216,.18)}
+.tag-female{background:rgba(157,23,77,.07);color:#9d174d;border:1px solid rgba(157,23,77,.18)}
+.tag-combo{background:var(--burg-pale);color:var(--burg);border:1px solid var(--border-burg)}
+.dual-name{display:flex;flex-direction:column;gap:.18rem}
+.customer-name{font-weight:500;color:var(--ink);font-size:.82rem}
+.reseller-code{font-size:.64rem;color:var(--burg2);letter-spacing:.08em;background:var(--burg-pale);padding:.12rem .45rem;border-radius:2px;display:inline-block}
+.action-btns{display:flex;gap:.4rem;align-items:center;flex-wrap:nowrap}
+.icon-btn-sm{width:28px;height:28px;display:flex;align-items:center;justify-content:center;border:1px solid var(--border);background:transparent;cursor:pointer;transition:all .25s;color:var(--muted);font-size:.75rem}
+.icon-btn-sm:hover{border-color:var(--burg);color:var(--burg)}
+.icon-btn-sm.del:hover{border-color:var(--red);color:var(--red);background:var(--red-bg)}
+
+/* MODAL */
+.modal-overlay{position:fixed;inset:0;background:rgba(28,25,20,.45);z-index:500;opacity:0;visibility:hidden;transition:all .35s;backdrop-filter:blur(4px)}
+.modal-overlay.show{opacity:1;visibility:visible}
+.modal{position:fixed;top:0;right:0;bottom:0;width:min(520px,95vw);background:var(--white);z-index:501;transform:translateX(100%);transition:transform .4s cubic-bezier(.4,0,.2,1);display:flex;flex-direction:column;box-shadow:-4px 0 40px rgba(28,25,20,.12);overflow-y:auto}
+.modal.open{transform:translateX(0)}
+.modal-head{padding:1.3rem 1.8rem;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;background:var(--white);z-index:1}
+.modal-head h3{font-family:'Cormorant Garamond',serif;font-size:1.3rem;color:var(--ink)}
+.modal-close{background:none;border:none;color:var(--muted);font-size:1.1rem;cursor:pointer;transition:color .3s;line-height:1}
+.modal-close:hover{color:var(--ink)}
+.modal-body{padding:1.8rem;flex:1}
+.modal-note{background:var(--burg-pale);border:1px solid var(--border-burg);padding:.85rem 1rem;margin-bottom:1.5rem;font-size:.78rem;color:var(--burg-dim);line-height:1.65}
+.modal-note strong{color:var(--burg)}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem}
+.form-group{display:flex;flex-direction:column;gap:.35rem;margin-bottom:1rem}
+.form-group.full{grid-column:1/-1}
+.flbl{font-size:.56rem;letter-spacing:.32em;text-transform:uppercase;color:var(--dim)}
+.finput,.fsel,.ftarea{width:100%;background:transparent;border:none;border-bottom:1px solid var(--border);padding:.65rem 0;color:var(--ink);font-family:'Jost',sans-serif;font-size:.85rem;outline:none;transition:border-color .3s}
+.finput:focus,.fsel:focus,.ftarea:focus{border-color:var(--burg)}
+.finput::placeholder,.ftarea::placeholder{color:var(--dim)}
+.fsel{-webkit-appearance:none;cursor:pointer}
+.fsel option{background:var(--white)}
+.ftarea{resize:vertical;min-height:65px;border:1px solid var(--border);padding:.62rem .8rem;margin-top:3px}
+.ftarea:focus{border-color:var(--burg)}
+.field-hint{font-size:.62rem;color:var(--dim);margin-top:.25rem;letter-spacing:.04em}
+.modal-foot{padding:1.2rem 1.8rem;border-top:1px solid var(--border);display:flex;gap:.7rem;justify-content:flex-end;position:sticky;bottom:0;background:var(--white)}
+.modal-save{padding:.85rem 1.8rem;background:var(--ink);border:none;color:var(--white);font-family:'Jost',sans-serif;font-size:.65rem;letter-spacing:.38em;text-transform:uppercase;cursor:pointer;transition:all .35s;font-weight:500}
+.modal-save:hover{background:var(--burg)}
+.modal-cancel{padding:.85rem 1.2rem;background:transparent;border:1px solid var(--border);color:var(--muted);font-family:'Jost',sans-serif;font-size:.65rem;letter-spacing:.38em;text-transform:uppercase;cursor:pointer;transition:all .35s}
+.modal-cancel:hover{border-color:var(--burg);color:var(--burg)}
+
+/* RESELLER CARDS */
+.reseller-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1rem;margin-bottom:1.5rem}
+.reseller-card{background:var(--white);border:1px solid var(--border);padding:1.3rem;transition:all .3s;box-shadow:var(--shadow)}
+.reseller-card:hover{border-color:var(--border-burg);box-shadow:var(--shadow2)}
+.rc-head{display:flex;align-items:center;gap:.8rem;margin-bottom:.9rem}
+.rc-avatar{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:.85rem;color:#fff;flex-shrink:0}
+.rc-name{font-size:.9rem;color:var(--ink);font-weight:400;margin-bottom:.1rem}
+.rc-store{font-size:.68rem;color:var(--muted);letter-spacing:.04em}
+.rc-stats{display:grid;grid-template-columns:1fr 1fr 1fr;gap:.5rem;margin-bottom:.9rem}
+.rc-stat{text-align:center;padding:.6rem .4rem;background:var(--cream);border:1px solid var(--border)}
+.rc-val{font-family:'Cormorant Garamond',serif;font-size:1.1rem;color:var(--burg)}
+.rc-lbl{font-size:.5rem;letter-spacing:.2em;text-transform:uppercase;color:var(--dim)}
+.rc-foot{display:flex;align-items:center;justify-content:space-between}
+.rc-qr{font-size:.65rem;color:var(--burg2);letter-spacing:.04em;word-break:break-all}
+.rc-actions{display:flex;gap:.4rem}
+
+/* PENDING APPLICATIONS */
+.pending-list{display:flex;flex-direction:column;gap:.7rem}
+.pending-item{background:var(--cream2);border:1px solid var(--border-burg);padding:1rem 1.2rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap}
+.pi-info h4{font-size:.88rem;color:var(--ink);font-weight:400;margin-bottom:.2rem}
+.pi-info p{font-size:.72rem;color:var(--muted);line-height:1.6}
+.pi-actions{display:flex;gap:.5rem;flex-shrink:0}
+.btn-approve{padding:.42rem 1rem;background:var(--green-bg);border:1px solid rgba(22,163,74,.3);color:var(--green);font-family:'Jost',sans-serif;font-size:.6rem;letter-spacing:.22em;text-transform:uppercase;cursor:pointer;transition:all .3s}
+.btn-approve:hover{background:rgba(22,163,74,.18)}
+.btn-reject{padding:.42rem 1rem;background:var(--red-bg);border:1px solid rgba(192,57,43,.3);color:var(--red);font-family:'Jost',sans-serif;font-size:.6rem;letter-spacing:.22em;text-transform:uppercase;cursor:pointer;transition:all .3s}
+.btn-reject:hover{background:rgba(192,57,43,.18)}
+
+/* RESELLER SALES */
+.rs-card{background:var(--white);border:1px solid var(--border);margin-bottom:1.5rem;box-shadow:var(--shadow)}
+.rs-head{padding:1.2rem 1.5rem;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border);cursor:pointer;transition:background .2s}
+.rs-head:hover{background:var(--cream)}
+.rs-avatar{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.72rem;color:#fff;font-weight:500;flex-shrink:0}
+.rs-info{display:flex;align-items:center;gap:.9rem;flex:1}
+.rs-name{font-size:.88rem;font-weight:400;color:var(--ink)}
+.rs-meta{font-size:.62rem;color:var(--dim);letter-spacing:.08em}
+.rs-summary{display:flex;gap:2rem;align-items:center}
+.rs-stat{text-align:right}
+.rs-stat-val{font-family:'Cormorant Garamond',serif;font-size:1.15rem;color:var(--burg)}
+.rs-stat-lbl{font-size:.52rem;letter-spacing:.28em;text-transform:uppercase;color:var(--dim)}
+.rs-chevron{font-size:.7rem;color:var(--dim);transition:transform .3s;margin-left:1rem}
+.rs-card.open .rs-chevron{transform:rotate(180deg)}
+.rs-body{display:none;border-top:1px solid var(--border)}
+.rs-card.open .rs-body{display:block}
+.rs-url{padding:.8rem 1.5rem;background:var(--cream);border-bottom:1px solid var(--border);font-size:.68rem;color:var(--burg2);letter-spacing:.05em}
+.rs-prod-table{width:100%;border-collapse:collapse}
+.rs-prod-table th{font-size:.52rem;letter-spacing:.38em;text-transform:uppercase;color:var(--dim);padding:.7rem 1.5rem;text-align:left;border-bottom:1px solid var(--border)}
+.rs-prod-table td{font-size:.8rem;padding:.75rem 1.5rem;border-bottom:1px solid var(--cream3)}
+.rs-prod-table tr:last-child td{border-bottom:none}
+.rs-empty{padding:2rem 1.5rem;font-size:.75rem;color:var(--dim);text-align:center;letter-spacing:.12em}
+
+/* SETTINGS */
+.settings-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem}
+.setting-group{display:flex;flex-direction:column;gap:.35rem;margin-bottom:1.2rem}
+.setting-lbl{font-size:.58rem;letter-spacing:.3em;text-transform:uppercase;color:var(--dim)}
+.setting-input{width:100%;background:transparent;border:none;border-bottom:1px solid var(--border);padding:.6rem 0;color:var(--ink);font-family:'Jost',sans-serif;font-size:.88rem;outline:none;transition:border-color .3s}
+.setting-input:focus{border-color:var(--burg)}
+.setting-save{margin-top:.5rem;padding:.75rem 1.5rem;background:var(--ink);border:none;color:var(--white);font-family:'Jost',sans-serif;font-size:.62rem;letter-spacing:.38em;text-transform:uppercase;cursor:pointer;transition:all .35s;font-weight:500}
+.setting-save:hover{background:var(--burg)}
+
+/* MOBILE */
+.sb-toggle{display:none;position:fixed;top:1rem;left:1rem;z-index:300;background:var(--white);border:1px solid var(--border);padding:.5rem;cursor:pointer;color:var(--ink);box-shadow:var(--shadow)}
+.sb-toggle svg{width:18px;height:18px;display:block}
+.sidebar-overlay{display:none;position:fixed;inset:0;background:rgba(28,25,20,.4);z-index:150;backdrop-filter:blur(3px)}
+
+/* TOAST */
+#toast{position:fixed;bottom:1.5rem;right:1.5rem;background:var(--ink);border:1px solid rgba(125,32,53,.3);padding:1rem 1.3rem;z-index:9999;transform:translateX(110%);transition:transform .5s;max-width:270px}
+#toast.show{transform:translateX(0)}
+.tt{font-family:'Cormorant Garamond',serif;font-size:.92rem;color:var(--burg2);margin-bottom:.2rem}
+.tm{font-size:.72rem;color:rgba(255,255,255,.4);line-height:1.5}
+
+@media(max-width:900px){.stats-grid{grid-template-columns:1fr 1fr}.settings-grid{grid-template-columns:1fr}}
+@media(max-width:640px){
+  .sidebar{transform:translateX(-100%)}.sidebar.open{transform:translateX(0)}
+  .main{margin-left:0}.sb-toggle{display:flex}.sidebar-overlay.show{display:block}
+  .stats-grid{grid-template-columns:1fr 1fr}.topbar{padding:.8rem 1rem}.content{padding:1rem}
+  .form-row{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<div class="sidebar-overlay" id="sb-overlay" onclick="closeSidebar()"></div>
+<button class="sb-toggle" onclick="openSidebar()">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+</button>
+
+<aside class="sidebar" id="sidebar">
+  <div class="sb-logo"><a href="../index.html">11:11:11</a><p>Admin Portal</p></div>
+  <div class="sb-user">
+    <div class="sb-avatar">AD</div>
+    <div><div class="sb-uname">Administrator</div><div class="sb-role">Super Admin</div></div>
+  </div>
+  <nav class="sb-nav">
+    <div class="sb-section">Main</div>
+    <a class="sb-item on" data-page="overview" onclick="nav('overview',this)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>Overview
+    </a>
+    <a class="sb-item" data-page="products" onclick="nav('products',this)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/></svg>Products
+      <span class="sb-badge" id="sb-prod-count">12</span>
+    </a>
+    <a class="sb-item" data-page="resellers" onclick="nav('resellers',this)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>Resellers
+      <span class="sb-badge" style="background:var(--amber-bg);border-color:rgba(217,119,6,.3);color:var(--amber)" id="sb-pending-count">2</span>
+    </a>
+    <a class="sb-item" data-page="orders" onclick="nav('orders',this)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>Orders
+    </a>
+    <a class="sb-item" data-page="sales" onclick="nav('sales',this)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>Reseller Sales
+    </a>
+    <div class="sb-section">Config</div>
+    <a class="sb-item" data-page="settings" onclick="nav('settings',this)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z"/></svg>Settings
+    </a>
+  </nav>
+  <div class="sb-bottom">
+    <a class="sb-logout" href="index.html">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>Sign Out
+    </a>
+  </div>
+</aside>
+
+<!-- MAIN -->
+<div class="main">
+  <div class="topbar">
+    <div>
+      <div class="tb-title" id="tb-title">Overview</div>
+      <div class="tb-crumb">Admin → <span id="tb-crumb">Dashboard</span></div>
+    </div>
+    <div class="tb-right">
+      <a href="../index.html" class="tb-btn" style="text-decoration:none">View Store</a>
+      <a href="../reseller/dashboard.html" class="tb-btn" style="text-decoration:none">Reseller Portal</a>
+    </div>
+  </div>
+
+  <div class="content">
+
+    <!-- OVERVIEW -->
+    <div class="page on" id="page-overview">
+      <div class="stats-grid">
+        <div class="stat-card"><div class="stat-icon">📦</div><div class="stat-val" id="stat-prods">12</div><div class="stat-lbl">Active Products</div><div class="stat-trend">↑ All catalogue</div></div>
+        <div class="stat-card"><div class="stat-icon">👥</div><div class="stat-val">5</div><div class="stat-lbl">Active Resellers</div><div class="stat-trend">2 pending approval</div></div>
+        <div class="stat-card"><div class="stat-icon">🛒</div><div class="stat-val">1,247</div><div class="stat-lbl">Total Orders</div><div class="stat-trend">↑ This month: 186</div></div>
+        <div class="stat-card"><div class="stat-icon">₹</div><div class="stat-val">₹1.54L</div><div class="stat-lbl">Total Revenue</div><div class="stat-trend">↑ 23% this month</div></div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem">
+        <div class="panel" style="margin-bottom:0">
+          <div class="panel-head"><div class="panel-title">Recent Activity</div></div>
+          <div style="display:flex;flex-direction:column;gap:.65rem">
+            <div style="display:flex;gap:.8rem;align-items:flex-start;padding:.7rem 0;border-bottom:1px solid var(--cream3)"><div style="width:8px;height:8px;border-radius:50%;background:var(--green);margin-top:.4rem;flex-shrink:0"></div><div><div style="font-size:.8rem;color:var(--ink)">New order #AV-2847 — OIL-001 · Meera Nair</div><div style="font-size:.64rem;color:var(--muted);margin-top:.15rem">2 mins ago · via Reseller Priya Sharma</div></div></div>
+            <div style="display:flex;gap:.8rem;align-items:flex-start;padding:.7rem 0;border-bottom:1px solid var(--cream3)"><div style="width:8px;height:8px;border-radius:50%;background:var(--amber);margin-top:.4rem;flex-shrink:0"></div><div><div style="font-size:.8rem;color:var(--ink)">New reseller application — Kavita Sharma, Chennai</div><div style="font-size:.64rem;color:var(--muted);margin-top:.15rem">1 hour ago · Wellness & Spiritual Store</div></div></div>
+            <div style="display:flex;gap:.8rem;align-items:flex-start;padding:.7rem 0;border-bottom:1px solid var(--cream3)"><div style="width:8px;height:8px;border-radius:50%;background:var(--burg);margin-top:.4rem;flex-shrink:0"></div><div><div style="font-size:.8rem;color:var(--ink)">Payout processed — Priya Sharma · ₹4,100</div><div style="font-size:.64rem;color:var(--muted);margin-top:.15rem">3 hours ago · May 2025</div></div></div>
+            <div style="display:flex;gap:.8rem;align-items:flex-start;padding:.7rem 0"><div style="width:8px;height:8px;border-radius:50%;background:var(--green);margin-top:.4rem;flex-shrink:0"></div><div><div style="font-size:.8rem;color:var(--ink)">New reseller application — Ravi Kumar, Hyderabad</div><div style="font-size:.64rem;color:var(--muted);margin-top:.15rem">Yesterday · Salon & Beauty</div></div></div>
+          </div>
+        </div>
+        <div class="panel" style="margin-bottom:0">
+          <div class="panel-head"><div class="panel-title">Quick Actions</div></div>
+          <div style="display:flex;flex-direction:column;gap:.7rem">
+            <button class="btn-sm btn-ink" style="text-align:left;padding:.85rem 1rem;width:100%;font-size:.7rem" onclick="nav('products',document.querySelector('[data-page=products]'));setTimeout(openModal,100)">+ Add New Product</button>
+            <button class="btn-sm btn-outline" style="text-align:left;padding:.85rem 1rem;width:100%;font-size:.7rem" onclick="nav('resellers',document.querySelector('[data-page=resellers]'))">Review Pending Applications (2)</button>
+            <button class="btn-sm btn-outline" style="text-align:left;padding:.85rem 1rem;width:100%;font-size:.7rem" onclick="nav('orders',document.querySelector('[data-page=orders]'))">View All Orders</button>
+            <button class="btn-sm btn-outline" style="text-align:left;padding:.85rem 1rem;width:100%;font-size:.7rem" onclick="nav('settings',document.querySelector('[data-page=settings]'))">Manage Settings</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PRODUCTS -->
+    <div class="page" id="page-products">
+      <div class="panel">
+        <div class="panel-head">
+          <div>
+            <div class="panel-title">Product Catalogue</div>
+            <div style="font-size:.72rem;color:var(--muted);margin-top:.2rem">Dual naming: customer-facing name + reseller code</div>
+          </div>
+          <div class="panel-actions">
+            <button class="btn-sm btn-ink" onclick="openModal()">+ Add Product</button>
+          </div>
+        </div>
+        <table class="tbl" id="products-table">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Customer Name / Reseller Code</th>
+              <th>Category</th>
+              <th>Intent</th>
+              <th>Price</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="products-tbody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- RESELLERS -->
+    <div class="page" id="page-resellers">
+      <div class="panel">
+        <div class="panel-head">
+          <div><div class="panel-title">Pending Applications</div><div style="font-size:.72rem;color:var(--amber);margin-top:.2rem">2 applications awaiting review</div></div>
+        </div>
+        <div class="pending-list" id="pending-list"></div>
+      </div>
+      <div class="panel">
+        <div class="panel-head">
+          <div><div class="panel-title">Active Resellers</div></div>
+          <div class="panel-actions">
+            <button class="btn-sm btn-ink" onclick="openResellerModal()">+ Add Reseller</button>
+            <button class="btn-sm btn-outline" onclick="toast('📤','Export CSV — available in live version.')">Export CSV</button>
+          </div>
+        </div>
+        <table class="tbl">
+          <thead><tr><th>Name & Store</th><th>Type & ID</th><th>City</th><th>QR / Link</th><th>Earnings</th><th>Orders</th><th>Status</th><th>Actions</th></tr></thead>
+          <tbody id="resellers-tbody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ORDERS -->
+    <div class="page" id="page-orders">
+      <div class="panel">
+        <div class="panel-head">
+          <div><div class="panel-title">All Orders</div></div>
+          <div class="panel-actions">
+            <button class="btn-sm btn-outline" onclick="toast('📊','Filter options — in live version.')">Filter</button>
+            <button class="btn-sm btn-outline" onclick="toast('📤','Export — in live version.')">Export</button>
+          </div>
+        </div>
+        <table class="tbl">
+          <thead><tr><th>Order ID</th><th>Product Code</th><th>Customer</th><th>Reseller</th><th>Date</th><th>Amount</th><th>Commission</th><th>Status</th></tr></thead>
+          <tbody id="orders-tbody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- RESELLER SALES -->
+    <div class="page" id="page-sales">
+      <div class="panel" style="margin-bottom:1.5rem">
+        <div class="panel-head"><div class="panel-title">Sales Overview</div></div>
+        <div class="stats-grid" id="sales-stats-grid" style="padding:1.5rem">
+          <div class="stat-card"><div class="stat-label">Total Orders</div><div class="stat-val" id="ss-total-orders">—</div></div>
+          <div class="stat-card"><div class="stat-label">Total Revenue</div><div class="stat-val" id="ss-total-rev">—</div></div>
+          <div class="stat-card"><div class="stat-label">Total Commission</div><div class="stat-val" id="ss-total-comm">—</div></div>
+          <div class="stat-card"><div class="stat-label">Direct Orders</div><div class="stat-val" id="ss-direct">—</div></div>
+        </div>
+      </div>
+      <div id="sales-reseller-cards"></div>
+    </div>
+
+    <!-- SETTINGS -->
+    <div class="page" id="page-settings">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem">
+        <div class="panel" style="margin-bottom:0">
+          <div class="panel-head"><div class="panel-title">Store Settings</div></div>
+          <div class="setting-group"><label class="setting-lbl">Brand Name</label><input class="setting-input" value="11:11:11"></div>
+          <div class="setting-group"><label class="setting-lbl">Tagline</label><input class="setting-input" value="Ritual-Infused Manifestation Perfume Oils"></div>
+          <div class="setting-group"><label class="setting-lbl">Support Email</label><input class="setting-input" value="support@evoxu.com"></div>
+          <div class="setting-group"><label class="setting-lbl">WhatsApp Number</label><input class="setting-input" value="+91 98765 43210"></div>
+          <button class="setting-save" onclick="toast('✦','Store settings saved.')">Save Changes</button>
+        </div>
+        <div class="panel" style="margin-bottom:0">
+          <div class="panel-head"><div class="panel-title">Commission Settings</div></div>
+          <div class="setting-group"><label class="setting-lbl">Base Commission (₹ per order)</label><input class="setting-input" value="100" type="number"></div>
+          <div class="setting-group"><label class="setting-lbl">Silver Ambassador Commission (₹)</label><input class="setting-input" value="120" type="number"></div>
+          <div class="setting-group"><label class="setting-lbl">Gold Ambassador Commission (₹)</label><input class="setting-input" value="150" type="number"></div>
+          <div class="setting-group"><label class="setting-lbl">Payout Day of Month</label><input class="setting-input" value="1" type="number"></div>
+          <button class="setting-save" onclick="toast('₹','Commission settings saved.')">Save Changes</button>
+        </div>
+        <div class="panel" style="margin-bottom:0">
+          <div class="panel-head"><div class="panel-title">Announcement Bar</div></div>
+          <div class="setting-group"><label class="setting-lbl">Message</label><input class="setting-input" value="Get 20% OFF on your first order — Use code: NEWUSER20"></div>
+          <div class="setting-group"><label class="setting-lbl">Promo Code</label><input class="setting-input" value="NEWUSER20"></div>
+          <div class="setting-group"><label class="setting-lbl">Free Shipping Above (₹)</label><input class="setting-input" value="999" type="number"></div>
+          <button class="setting-save" onclick="toast('📢','Announcement settings saved.')">Save Changes</button>
+        </div>
+        <div class="panel" style="margin-bottom:0">
+          <div class="panel-head"><div class="panel-title">Admin Access</div></div>
+          <div class="setting-group"><label class="setting-lbl">Admin Email</label><input class="setting-input" value="admin@evoxu.com"></div>
+          <div class="setting-group"><label class="setting-lbl">New Password</label><input class="setting-input" placeholder="Leave blank to keep current" type="password"></div>
+          <div class="setting-group"><label class="setting-lbl">Confirm Password</label><input class="setting-input" placeholder="Confirm new password" type="password"></div>
+          <button class="setting-save" onclick="toast('🔑','Admin credentials updated.')">Update Credentials</button>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- end content -->
+</div><!-- end main -->
+
+<!-- PRODUCT MODAL -->
+<div class="modal-overlay" id="modal-overlay" onclick="closeModal()"></div>
+<div class="modal" id="modal-product">
+  <div class="modal-head">
+    <h3 id="modal-title">Add New Product</h3>
+    <button class="modal-close" onclick="closeModal()">✕</button>
+  </div>
+  <div class="modal-body">
+    <div class="modal-note">
+      <strong>Dual Naming System:</strong> The Customer Name is shown on the website and packaging (e.g. KLEOMA). The Reseller Code is shown only to resellers in their dashboard (e.g. OIL-001), keeping your product identity confidential.
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="flbl">Customer Name *</label>
+        <input class="finput" id="f-cname" placeholder="e.g. KLEOMA">
+        <div class="field-hint">Visible on website & to customers</div>
+      </div>
+      <div class="form-group">
+        <label class="flbl">Reseller Code *</label>
+        <input class="finput" id="f-rcode" placeholder="e.g. OIL-001">
+        <div class="field-hint">Shown only to resellers</div>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="flbl">Category *</label>
+        <select class="fsel" id="f-cat">
+          <option value="">Select category</option>
+          <option value="Male">Male</option>
+          <option value="Female">Female</option>
+          <option value="Combo">Combo</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="flbl">Price (₹) *</label>
+        <input class="finput" id="f-price" type="number" placeholder="1234">
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="flbl">Intent / Purpose *</label>
+      <input class="finput" id="f-intent" placeholder="e.g. Love & Attraction">
+    </div>
+    <div class="form-group">
+      <label class="flbl">Fragrance Notes</label>
+      <input class="finput" id="f-notes" placeholder="Rose · Ylang Ylang · Musk · Amber">
+    </div>
+    <div class="form-group">
+      <label class="flbl">Description</label>
+      <textarea class="ftarea" id="f-desc" placeholder="Full product description..."></textarea>
+    </div>
+    <div class="form-group">
+      <label class="flbl">Status</label>
+      <select class="fsel" id="f-status">
+        <option value="active">Active</option>
+        <option value="inactive">Inactive</option>
+      </select>
+    </div>
+  </div>
+  <div class="modal-foot">
+    <button class="modal-cancel" onclick="closeModal()">Cancel</button>
+    <button class="modal-save" onclick="saveProduct()">Save Product</button>
+  </div>
+</div>
+
+<!-- RESELLER MODAL -->
+<div class="modal-overlay" id="reseller-modal-overlay" onclick="closeResellerModal()"></div>
+<div class="modal" id="modal-reseller" style="max-width:560px">
+  <div class="modal-head">
+    <h3>Add New Reseller</h3>
+    <button class="modal-close" onclick="closeResellerModal()">✕</button>
+  </div>
+  <div class="modal-body">
+    <!-- Type selector -->
+    <div style="display:flex;gap:.7rem;margin-bottom:1.5rem">
+      <div id="rtype-retail" onclick="switchRType('retail')" style="flex:1;border:2px solid var(--burg);padding:.9rem 1rem;cursor:pointer;text-align:center;background:var(--burg-pale);transition:all .25s">
+        <div style="font-size:1.1rem;margin-bottom:.25rem">🏪</div>
+        <div id="rtype-retail-lbl" style="font-size:.7rem;font-weight:500;color:var(--burg);letter-spacing:.08em">Retail</div>
+        <div style="font-size:.62rem;color:var(--muted);margin-top:.15rem">RTSE-XXXX</div>
+      </div>
+      <div id="rtype-influencer" onclick="switchRType('influencer')" style="flex:1;border:2px solid var(--border);padding:.9rem 1rem;cursor:pointer;text-align:center;background:transparent;transition:all .25s">
+        <div style="font-size:1.1rem;margin-bottom:.25rem">📱</div>
+        <div id="rtype-influencer-lbl" style="font-size:.7rem;font-weight:500;color:var(--muted);letter-spacing:.08em">Influencer</div>
+        <div style="font-size:.62rem;color:var(--muted);margin-top:.15rem">INSE-XXXX</div>
+      </div>
+    </div>
+    <!-- Common fields -->
+    <div class="form-row">
+      <div class="form-group">
+        <label class="flbl">Full Name *</label>
+        <input class="finput" id="rf-name" placeholder="e.g. Kavitha Rao">
+      </div>
+      <div class="form-group">
+        <label class="flbl">Phone *</label>
+        <input class="finput" id="rf-phone" placeholder="+91 98765 43210">
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="flbl">Email *</label>
+        <input class="finput" id="rf-email" type="email" placeholder="reseller@email.com">
+      </div>
+      <div class="form-group">
+        <label class="flbl">Password *</label>
+        <input class="finput" id="rf-pass" type="password" placeholder="Minimum 6 characters">
+      </div>
+    </div>
+    <!-- Retail fields -->
+    <div id="rfields-retail">
+      <div class="form-row">
+        <div class="form-group">
+          <label class="flbl">Store / Business Name *</label>
+          <input class="finput" id="rf-store" placeholder="e.g. Bliss Wellness Shop">
+        </div>
+        <div class="form-group">
+          <label class="flbl">City *</label>
+          <input class="finput" id="rf-city" placeholder="Chennai">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="flbl">State</label>
+          <input class="finput" id="rf-state" placeholder="Tamil Nadu">
+        </div>
+        <div class="form-group">
+          <label class="flbl">Pincode</label>
+          <input class="finput" id="rf-pincode" placeholder="600001" maxlength="6">
+        </div>
+      </div>
+    </div>
+    <!-- Influencer fields -->
+    <div id="rfields-influencer" style="display:none">
+      <div class="form-row">
+        <div class="form-group">
+          <label class="flbl">Platform *</label>
+          <select class="fsel" id="rf-platform">
+            <option value="">Select platform</option>
+            <option>Instagram</option><option>YouTube</option>
+            <option>Facebook</option><option>Twitter / X</option><option>Other</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="flbl">Social Handle *</label>
+          <input class="finput" id="rf-handle" placeholder="@yourhandle">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="flbl">Follower Count</label>
+          <input class="finput" id="rf-followers" placeholder="e.g. 25,000">
+        </div>
+        <div class="form-group">
+          <label class="flbl">Profile URL</label>
+          <input class="finput" id="rf-profile-url" placeholder="https://instagram.com/handle">
+        </div>
+      </div>
+    </div>
+    <div id="r-err" style="display:none;background:rgba(192,57,43,.07);border:1px solid rgba(192,57,43,.22);color:#c0392b;padding:.7rem 1rem;font-size:.8rem;margin-top:.8rem"></div>
+  </div>
+  <div class="modal-foot">
+    <button class="modal-cancel" onclick="closeResellerModal()">Cancel</button>
+    <button class="modal-save" id="r-save-btn" onclick="saveReseller()">Add Reseller</button>
+  </div>
+</div>
+
+<div id="toast"><div class="tt" id="t-ttl"></div><div class="tm" id="t-msg"></div></div>
+
+<script>
+/* ── DATA ── */
+let PRODUCTS=[
+  {id:1,customerName:'KLEOMA',resellerCode:'OIL-001',category:'Male',intent:'Love & Attraction',price:1234,notes:'Rose · Ylang Ylang · Musk · Amber · Spice',desc:'A ritual-infused attar to support emotional connection and attraction.',status:'active'},
+  {id:2,customerName:'KLINFON',resellerCode:'OIL-002',category:'Male',intent:'Relaxation & Calm',price:1234,notes:'Lavender · Lemon · Caraway · Saffron · Oud · Amber',desc:'Supports calm presence and smooth transition into rest.',status:'active'},
+  {id:3,customerName:'MYSTRA',resellerCode:'OIL-003',category:'Male',intent:'Financial Clarity',price:1234,notes:'Citrus · Saffron · Cinnamon · Vetiver · Oud · Leather',desc:'For financial clarity, balance, and mindful decision-making.',status:'active'},
+  {id:4,customerName:'SHREEMSRI',resellerCode:'OIL-004',category:'Male',intent:'Wealth & Prosperity',price:1234,notes:'Golden Saffron · Cinnamon · Smoky Musk · Patchouli',desc:'A sacred oil for those walking the path of meaningful wealth creation.',status:'active'},
+  {id:5,customerName:'SUKCE',resellerCode:'OIL-005',category:'Male',intent:'Success & Achievement',price:1234,notes:'Lavender · Lemon · Saffron · Jasmine · Oud · Amber',desc:'A sensory anchor for entrepreneurs, leaders, and creators.',status:'active'},
+  {id:6,customerName:'KAMAVYA',resellerCode:'OIL-006',category:'Female',intent:'Attraction & Love',price:1234,notes:'Sweet Almond · Jasmine Sambac · Crystal Tuberose · Cocoa',desc:'Romantic and magnetic.',status:'active'},
+  {id:7,customerName:'KLINFON',resellerCode:'OIL-007',category:'Female',intent:'Relaxation & Calm',price:1234,notes:'Lavender · Lemon · Caraway · Saffron · Jasmine · Oud',desc:'Encourages ease, softness, and balanced rhythm.',status:'active'},
+  {id:8,customerName:'HREMAAN',resellerCode:'OIL-008',category:'Female',intent:'Financial Clarity',price:1234,notes:'Lavender · Lemon · Caraway · Saffron · Jasmine · Oud',desc:'A sacred anchor for clarity in financial thinking.',status:'active'},
+  {id:9,customerName:'SHRIVAA',resellerCode:'OIL-009',category:'Female',intent:'Wealth & Prosperity',price:1234,notes:'Golden Saffron · Cinnamon · Smoky Musk · Patchouli',desc:'For those walking the path of conscious prosperity.',status:'active'},
+  {id:10,customerName:'YCNEX',resellerCode:'OIL-010',category:'Female',intent:'Confidence & Success',price:1234,notes:'Citrus · Saffron · Cinnamon · Vetiver · Sandalwood · Oud',desc:'A sensory anchor for the woman who leads.',status:'active'},
+  {id:11,customerName:'KLINFON Combo',resellerCode:'OIL-011',category:'Combo',intent:'Relaxation — Him & Her',price:2345,notes:'Two 10ml Roll-Ons · Male + Female Formulations',desc:'The complete KLINFON ritual set.',status:'active'},
+  {id:12,customerName:'Love Combo',resellerCode:'OIL-012',category:'Combo',intent:'Love & Attraction — Him & Her',price:2345,notes:'OIL-001 (Male) + OIL-006 (Female) · Two 10ml Roll-Ons',desc:'The sacred love pairing.',status:'active'},
+];
+let editingId=null;
+
+const RESELLERS=[
+  {id:1,name:'Priya Sharma',store:'Bliss Salon',city:'Mumbai',earnings:'₹34,200',orders:342,link:'priya-sharma',status:'active',color:'#be185d',type:'retail',resellerId:'RTSE-0001'},
+  {id:2,name:'Rahul Mehta',store:'Serenity Spa',city:'Delhi',earnings:'₹28,900',orders:289,link:'rahul-mehta',status:'active',color:'#1d4ed8',type:'retail',resellerId:'RTSE-0002'},
+  {id:3,name:'Sunita Krishnan',store:'Aura Wellness',city:'Bangalore',earnings:'₹21,400',orders:214,link:'sunita-k',status:'active',color:'#065f46',type:'influencer',resellerId:'INSE-0001'},
+  {id:4,name:'Arjun Patel',store:'Pure Glow Studio',city:'Ahmedabad',earnings:'₹15,600',orders:156,link:'arjun-patel',status:'active',color:'#7D2035',type:'retail',resellerId:'RTSE-0003'},
+  {id:5,name:'Meena Joshi',store:'The Ritual Room',city:'Pune',earnings:'₹12,200',orders:122,link:'meena-joshi',status:'active',color:'#5b21b6',type:'influencer',resellerId:'INSE-0002'},
+];
+let PENDING=[
+  {id:6,name:'Kavita Sharma',store:'Soul Space',city:'Chennai',phone:'+91 43210 98765',applied:'01 Jun 2025',type:'Wellness & Spiritual Store'},
+  {id:7,name:'Ravi Kumar',store:'Harmony Salon',city:'Hyderabad',phone:'+91 32109 87654',applied:'02 Jun 2025',type:'Salon & Beauty'},
+];
+
+const ORDERS=[
+  {id:'AV-2847',product:'OIL-001',customer:'Meera Nair',reseller:'Priya Sharma',date:'02 Jun 2025',amount:'₹1,234',commission:'₹100',status:'delivered'},
+  {id:'AV-2846',product:'OIL-004',customer:'Rohit Verma',reseller:'Priya Sharma',date:'02 Jun 2025',amount:'₹1,234',commission:'₹100',status:'processing'},
+  {id:'AV-2845',product:'OIL-005',customer:'Ananya Iyer',reseller:'Rahul Mehta',date:'01 Jun 2025',amount:'₹1,234',commission:'₹100',status:'delivered'},
+  {id:'AV-2844',product:'OIL-006',customer:'Kiran Shah',reseller:'Sunita Krishnan',date:'01 Jun 2025',amount:'₹1,234',commission:'₹100',status:'delivered'},
+  {id:'AV-2843',product:'OIL-001',customer:'Divya Pillai',reseller:'Priya Sharma',date:'31 May 2025',amount:'₹1,234',commission:'₹100',status:'pending'},
+  {id:'AV-2842',product:'OIL-002',customer:'Arnav Gupta',reseller:'Arjun Patel',date:'31 May 2025',amount:'₹1,234',commission:'₹100',status:'delivered'},
+  {id:'AV-2841',product:'OIL-003',customer:'Preethi Raj',reseller:'Meena Joshi',date:'30 May 2025',amount:'₹1,234',commission:'₹100',status:'delivered'},
+  {id:'AV-2840',product:'OIL-004',customer:'Sanjay Malhotra',reseller:'Rahul Mehta',date:'30 May 2025',amount:'₹1,234',commission:'₹100',status:'delivered'},
+];
+
+/* ── HELPERS ── */
+let toastTm;
+function toast(icon,msg){if(toastTm)clearTimeout(toastTm);document.getElementById('t-ttl').textContent=icon+' 11:11:11';document.getElementById('t-msg').textContent=msg;document.getElementById('toast').classList.add('show');toastTm=setTimeout(()=>document.getElementById('toast').classList.remove('show'),4000);}
+function nav(name,el){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('on'));
+  document.querySelectorAll('.sb-item').forEach(i=>i.classList.remove('on'));
+  document.getElementById('page-'+name).classList.add('on');
+  if(el)el.classList.add('on');
+  const titles={overview:'Overview',products:'Products',resellers:'Resellers',orders:'Orders',sales:'Reseller Sales',settings:'Settings'};
+  document.getElementById('tb-title').textContent=titles[name]||name;
+  document.getElementById('tb-crumb').textContent=titles[name]||name;
+  if(name==='sales')loadResellerSales();
+  closeSidebar();
+}
+function openSidebar(){document.getElementById('sidebar').classList.add('open');document.getElementById('sb-overlay').classList.add('show');}
+function closeSidebar(){document.getElementById('sidebar').classList.remove('open');document.getElementById('sb-overlay').classList.remove('show');}
+
+/* ── PRODUCTS ── */
+function renderProducts(){
+  document.getElementById('sb-prod-count').textContent=PRODUCTS.length;
+  document.getElementById('stat-prods').textContent=PRODUCTS.filter(p=>p.status==='active').length;
+  document.getElementById('products-tbody').innerHTML=PRODUCTS.map((p,i)=>`
+    <tr>
+      <td style="color:var(--dim);font-size:.72rem">${i+1}</td>
+      <td>
+        <div class="dual-name">
+          <span class="customer-name">${p.customerName}</span>
+          <span class="reseller-code">${p.resellerCode}</span>
+        </div>
+      </td>
+      <td><span class="tag tag-${p.category.toLowerCase()}">${p.category}</span></td>
+      <td style="font-size:.75rem;color:var(--muted);max-width:160px">${p.intent}</td>
+      <td><span style="font-family:'Cormorant Garamond',serif;color:var(--burg);font-size:1rem">₹${p.price.toLocaleString('en-IN')}</span></td>
+      <td><span class="tag tag-${p.status}">${p.status.charAt(0).toUpperCase()+p.status.slice(1)}</span></td>
+      <td>
+        <div class="action-btns">
+          <button class="icon-btn-sm" onclick="editProduct(${p.id})" title="Edit">✎</button>
+          <button class="icon-btn-sm del" onclick="deleteProduct(${p.id})" title="Delete">✕</button>
+        </div>
+      </td>
+    </tr>
+  `).join('');
+}
+
+function openModal(id){
+  editingId=id||null;
+  document.getElementById('modal-title').textContent=id?'Edit Product':'Add New Product';
+  if(id){
+    const p=PRODUCTS.find(x=>x.id===id);
+    document.getElementById('f-cname').value=p.customerName;
+    document.getElementById('f-rcode').value=p.resellerCode;
+    document.getElementById('f-cat').value=p.category;
+    document.getElementById('f-price').value=p.price;
+    document.getElementById('f-intent').value=p.intent;
+    document.getElementById('f-notes').value=p.notes;
+    document.getElementById('f-desc').value=p.desc;
+    document.getElementById('f-status').value=p.status;
+  }else{
+    document.getElementById('f-cname').value='';
+    document.getElementById('f-rcode').value='OIL-0'+(PRODUCTS.length+1).toString().padStart(2,'0');
+    document.getElementById('f-cat').value='';
+    document.getElementById('f-price').value='1234';
+    document.getElementById('f-intent').value='';
+    document.getElementById('f-notes').value='';
+    document.getElementById('f-desc').value='';
+    document.getElementById('f-status').value='active';
+  }
+  document.getElementById('modal-overlay').classList.add('show');
+  document.getElementById('modal-product').classList.add('open');
+}
+
+function closeModal(){
+  document.getElementById('modal-overlay').classList.remove('show');
+  document.getElementById('modal-product').classList.remove('open');
+  editingId=null;
+}
+
+function editProduct(id){openModal(id);}
+
+function saveProduct(){
+  const cname=document.getElementById('f-cname').value.trim();
+  const rcode=document.getElementById('f-rcode').value.trim();
+  const cat=document.getElementById('f-cat').value;
+  const price=parseInt(document.getElementById('f-price').value)||1234;
+  if(!cname||!rcode||!cat){toast('⚠️','Please fill in all required fields.');return;}
+  if(editingId){
+    const idx=PRODUCTS.findIndex(p=>p.id===editingId);
+    PRODUCTS[idx]={...PRODUCTS[idx],customerName:cname,resellerCode:rcode,category:cat,price,intent:document.getElementById('f-intent').value,notes:document.getElementById('f-notes').value,desc:document.getElementById('f-desc').value,status:document.getElementById('f-status').value};
+    toast('✦',`${cname} updated successfully.`);
+  }else{
+    PRODUCTS.push({id:Date.now(),customerName:cname,resellerCode:rcode,category:cat,intent:document.getElementById('f-intent').value,price,notes:document.getElementById('f-notes').value,desc:document.getElementById('f-desc').value,status:document.getElementById('f-status').value});
+    toast('✦',`${cname} (${rcode}) added to catalogue.`);
+  }
+  closeModal();renderProducts();
+}
+
+function deleteProduct(id){
+  const p=PRODUCTS.find(x=>x.id===id);
+  if(confirm(`Delete "${p.customerName}" (${p.resellerCode})? This cannot be undone.`)){
+    PRODUCTS=PRODUCTS.filter(x=>x.id!==id);
+    renderProducts();
+    toast('✕',`${p.customerName} removed from catalogue.`);
+  }
+}
+
+/* ── RESELLERS ── */
+function renderResellers(){
+  document.getElementById('sb-pending-count').textContent=PENDING.length;
+  document.getElementById('pending-list').innerHTML=PENDING.length?PENDING.map(p=>`
+    <div class="pending-item">
+      <div class="pi-info">
+        <h4>${p.name} — ${p.store}, ${p.city}</h4>
+        <p>${p.type} · ${p.phone} · Applied: ${p.applied}</p>
+      </div>
+      <div class="pi-actions">
+        <button class="btn-approve" onclick="approvePending(${p.id})">Approve</button>
+        <button class="btn-reject" onclick="rejectPending(${p.id})">Reject</button>
+      </div>
+    </div>
+  `).join(''):'<div style="padding:1rem;font-size:.82rem;color:var(--muted)">No pending applications.</div>';
+
+  const typeStyle={
+    retail:`background:rgba(125,32,53,0.12);color:var(--burg);border:1px solid rgba(125,32,53,0.25)`,
+    influencer:`background:rgba(88,28,135,0.1);color:#7c3aed;border:1px solid rgba(124,58,237,0.25)`
+  };
+  document.getElementById('resellers-tbody').innerHTML=RESELLERS.map(r=>`
+    <tr>
+      <td>
+        <div style="display:flex;align-items:center;gap:.7rem">
+          <div style="width:32px;height:32px;border-radius:50%;background:${r.color};display:flex;align-items:center;justify-content:center;font-size:.65rem;color:#fff;font-weight:500;flex-shrink:0">${r.name.split(' ').map(n=>n[0]).join('')}</div>
+          <div><div style="font-size:.82rem;font-weight:400">${r.name}</div><div style="font-size:.68rem;color:var(--muted)">${r.store||'—'}</div></div>
+        </div>
+      </td>
+      <td>
+        <div style="display:flex;flex-direction:column;gap:.3rem">
+          <span style="font-size:.58rem;letter-spacing:.2em;text-transform:uppercase;padding:.2rem .55rem;border-radius:100px;width:fit-content;${typeStyle[r.type||'retail']}">${r.type==='influencer'?'Influencer':'Retail'}</span>
+          <span style="font-size:.68rem;color:var(--dim);letter-spacing:.06em">${r.resellerId||'—'}</span>
+        </div>
+      </td>
+      <td style="font-size:.78rem;color:var(--muted)">${r.city}</td>
+      <td style="font-size:.68rem;color:var(--burg2)">11-11-11.shop/r/${r.link}</td>
+      <td><span style="font-family:'Cormorant Garamond',serif;color:var(--burg);font-size:1rem">${r.earnings}</span></td>
+      <td style="font-size:.8rem">${r.orders}</td>
+      <td><span class="tag tag-active">Active</span></td>
+      <td><div class="action-btns"><button class="icon-btn-sm" onclick="toast('👤','Reseller profile — in live version.')">👁</button><button class="icon-btn-sm del" onclick="removeReseller(${r.id})">✕</button></div></td>
+    </tr>
+  `).join('');
+}
+
+function approvePending(id){
+  const p=PENDING.find(x=>x.id===id);
+  RESELLERS.push({id,name:p.name,store:p.store,city:p.city,earnings:'₹0',orders:0,link:p.name.toLowerCase().replace(/\s+/g,'-'),status:'active',color:'#'+Math.floor(Math.random()*16777215).toString(16).padStart(6,'0')});
+  PENDING=PENDING.filter(x=>x.id!==id);
+  renderResellers();
+  toast('✅',`${p.name} approved as reseller!`);
+}
+function rejectPending(id){
+  const p=PENDING.find(x=>x.id===id);
+  PENDING=PENDING.filter(x=>x.id!==id);
+  renderResellers();
+  toast('✕',`${p.name}'s application rejected.`);
+}
+function removeReseller(id){
+  const r=RESELLERS.find(x=>x.id===id);
+  if(!r||!confirm(`Remove ${r.name} as reseller? This cannot be undone.`))return;
+  RESELLERS.splice(RESELLERS.findIndex(x=>x.id===id),1);
+  renderResellers();
+  toast('✕',`${r.name} removed.`);
+}
+
+/* ── ADD RESELLER MODAL ── */
+let currentRType='retail';
+function openResellerModal(){
+  currentRType='retail';
+  ['rf-name','rf-phone','rf-email','rf-pass','rf-store','rf-city','rf-state','rf-pincode','rf-handle','rf-followers','rf-profile-url'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
+  document.getElementById('rf-platform').value='';
+  document.getElementById('r-err').style.display='none';
+  switchRType('retail');
+  document.getElementById('reseller-modal-overlay').classList.add('show');
+  document.getElementById('modal-reseller').classList.add('open');
+}
+function closeResellerModal(){
+  document.getElementById('reseller-modal-overlay').classList.remove('show');
+  document.getElementById('modal-reseller').classList.remove('open');
+}
+function switchRType(type){
+  currentRType=type;
+  const isRetail=type==='retail';
+  document.getElementById('rfields-retail').style.display=isRetail?'block':'none';
+  document.getElementById('rfields-influencer').style.display=isRetail?'none':'block';
+  const base='flex:1;padding:.9rem 1rem;cursor:pointer;text-align:center;transition:all .25s;';
+  document.getElementById('rtype-retail').style.cssText=base+(isRetail?'border:2px solid var(--burg);background:var(--burg-pale)':'border:2px solid var(--border);background:transparent');
+  document.getElementById('rtype-influencer').style.cssText=base+(!isRetail?'border:2px solid var(--burg);background:var(--burg-pale)':'border:2px solid var(--border);background:transparent');
+  document.getElementById('rtype-retail-lbl').style.color=isRetail?'var(--burg)':'var(--muted)';
+  document.getElementById('rtype-influencer-lbl').style.color=!isRetail?'var(--burg)':'var(--muted)';
+}
+const AVATAR_COLORS=['#be185d','#5b21b6','#7D2035','#065f46','#1d4ed8','#c2410c','#0f766e','#b45309'];
+const API='';
+const ADMIN_KEY='evoxu-admin-2025';
+
+async function loadResellers(){
+  try{
+    const res=await fetch(`${API}/api/reseller/admin-list/`,{headers:{'X-Admin-Key':ADMIN_KEY}});
+    if(res.ok){
+      const data=await res.json();
+      RESELLERS.length=0;
+      data.resellers.forEach(r=>RESELLERS.push({
+        id:r.id,name:r.name,store:r.store,city:r.city,
+        earnings:r.earnings,orders:r.orders,link:r.link,
+        status:r.is_active?'active':'inactive',
+        color:r.color,type:r.reseller_type,resellerId:r.reseller_id,
+      }));
+    }
+  }catch(e){}
+  renderResellers();
+}
+
+async function saveReseller(){
+  const name=document.getElementById('rf-name').value.trim();
+  const email=document.getElementById('rf-email').value.trim();
+  const phone=document.getElementById('rf-phone').value.trim();
+  const pass=document.getElementById('rf-pass').value.trim();
+  const errEl=document.getElementById('r-err');
+  const show=msg=>{errEl.textContent=msg;errEl.style.display='block';};
+  errEl.style.display='none';
+  if(!name||!email||!pass){show('Name, email, and password are required.');return;}
+  if(currentRType==='retail'&&!document.getElementById('rf-store').value.trim()){show('Store / Business Name is required for Retail resellers.');return;}
+  if(currentRType==='influencer'&&!document.getElementById('rf-handle').value.trim()){show('Social handle is required for Influencer resellers.');return;}
+
+  const isRetail=currentRType==='retail';
+  const payload={name,email,phone,password:pass,reseller_type:currentRType,
+    ...(isRetail
+      ?{store:document.getElementById('rf-store').value.trim(),city:document.getElementById('rf-city').value.trim()}
+      :{platform:document.getElementById('rf-platform').value,social_handle:document.getElementById('rf-handle').value.trim()}
+    )
+  };
+
+  const btn=document.getElementById('r-save-btn');
+  btn.textContent='Saving…';btn.disabled=true;
+  try{
+    const res=await fetch(`${API}/api/reseller/admin-create/`,{
+      method:'POST',
+      headers:{'Content-Type':'application/json','X-Admin-Key':ADMIN_KEY},
+      body:JSON.stringify(payload),
+    });
+    const data=await res.json();
+    if(!res.ok){show(data.error||'Failed to add reseller.');return;}
+    const r=data.reseller;
+    RESELLERS.push({
+      id:r.id,name:r.name,store:r.store,city:r.city,
+      earnings:r.earnings,orders:r.orders,link:r.link,
+      status:'active',color:AVATAR_COLORS[RESELLERS.length%AVATAR_COLORS.length],
+      type:r.reseller_type,resellerId:r.reseller_id,
+    });
+    renderResellers();
+    closeResellerModal();
+    toast('✅',`${r.name} added as reseller (${r.reseller_id})!`);
+  }catch(e){show('Server error. Make sure Django is running.');}
+  finally{btn.textContent='Add Reseller';btn.disabled=false;}
+}
+
+/* ── ORDERS ── */
+function renderOrders(){
+  document.getElementById('orders-tbody').innerHTML=ORDERS.map(o=>`
+    <tr>
+      <td style="font-size:.7rem;color:var(--dim)">${o.id}</td>
+      <td><span class="reseller-code">${o.product}</span></td>
+      <td style="font-size:.8rem">${o.customer}</td>
+      <td style="font-size:.75rem;color:var(--muted)">${o.reseller}</td>
+      <td style="font-size:.72rem;color:var(--muted)">${o.date}</td>
+      <td><span style="font-family:'Cormorant Garamond',serif;color:var(--burg);font-size:.95rem">${o.amount}</span></td>
+      <td style="color:var(--green);font-size:.78rem;font-weight:500">${o.commission}</td>
+      <td><span class="tag tag-${o.status}">${o.status.charAt(0).toUpperCase()+o.status.slice(1)}</span></td>
+    </tr>
+  `).join('');
+}
+
+/* ── RESELLER SALES ── */
+const RS_COLORS=['#be185d','#7D2035','#5b21b6','#065f46','#1d4ed8','#c2410c','#0f766e'];
+async function loadResellerSales(){
+  const el=document.getElementById('sales-reseller-cards');
+  el.innerHTML='<div style="padding:2rem;text-align:center;font-size:.75rem;color:var(--dim);letter-spacing:.15em">Loading sales data…</div>';
+  try{
+    const res=await fetch(`${API}/api/store/reseller-sales/`,{headers:{'X-Admin-Key':ADMIN_KEY}});
+    if(!res.ok){el.innerHTML='<div style="padding:2rem;text-align:center;color:var(--dim)">Could not load sales data.</div>';return;}
+    const d=await res.json();
+    document.getElementById('ss-total-orders').textContent=d.total_orders.toLocaleString('en-IN');
+    document.getElementById('ss-total-rev').textContent='₹'+d.total_revenue.toLocaleString('en-IN');
+    document.getElementById('ss-total-comm').textContent='₹'+d.total_commission.toLocaleString('en-IN');
+    document.getElementById('ss-direct').textContent=d.direct_orders.toLocaleString('en-IN');
+    el.innerHTML='';
+    if(!d.resellers.length){el.innerHTML='<div style="padding:2rem;text-align:center;color:var(--dim);font-size:.75rem;letter-spacing:.12em">No reseller orders yet.</div>';return;}
+    d.resellers.forEach((r,i)=>{
+      const card=document.createElement('div');
+      card.className='rs-card';
+      card.id='rs-card-'+r.id;
+      const url=`http://127.0.0.1:8000/${r.code}-ref`;
+      const pct=d.total_orders?Math.round(r.orders/d.total_orders*100):0;
+      card.innerHTML=`
+        <div class="rs-head" onclick="toggleRS(${r.id})">
+          <div class="rs-info">
+            <div class="rs-avatar" style="background:${RS_COLORS[i%RS_COLORS.length]}">${r.name.split(' ').map(w=>w[0]).join('').slice(0,2)}</div>
+            <div>
+              <div class="rs-name">${r.name} <span style="font-size:.58rem;letter-spacing:.22em;color:var(--dim);text-transform:uppercase;margin-left:.4rem">${r.reseller_id}</span></div>
+              <div class="rs-meta">${r.reseller_type==='influencer'?'Influencer':'Retail'} · ${r.code} · ${pct}% of all orders</div>
+            </div>
+          </div>
+          <div class="rs-summary">
+            <div class="rs-stat"><div class="rs-stat-val">${r.orders}</div><div class="rs-stat-lbl">Orders</div></div>
+            <div class="rs-stat"><div class="rs-stat-val">₹${r.revenue.toLocaleString('en-IN')}</div><div class="rs-stat-lbl">Revenue</div></div>
+            <div class="rs-stat"><div class="rs-stat-val">₹${r.commission.toLocaleString('en-IN')}</div><div class="rs-stat-lbl">Commission</div></div>
+          </div>
+          <span class="rs-chevron">▼</span>
+        </div>
+        <div class="rs-body">
+          <div class="rs-url">🔗 Referral URL: <strong>${url}</strong></div>
+          ${r.products.length?`
+          <table class="rs-prod-table">
+            <thead><tr><th>Product</th><th>Units Sold</th><th>Revenue</th><th>Avg. Price</th></tr></thead>
+            <tbody>${r.products.map(p=>`
+              <tr>
+                <td>${p.emoji} <strong>${p.name}</strong></td>
+                <td>${p.qty}</td>
+                <td style="font-family:'Cormorant Garamond',serif;color:var(--burg);font-size:.95rem">₹${p.revenue.toLocaleString('en-IN')}</td>
+                <td style="color:var(--dim);font-size:.75rem">₹${p.qty?Math.round(p.revenue/p.qty).toLocaleString('en-IN'):'—'}</td>
+              </tr>`).join('')}
+            </tbody>
+          </table>`:'<div class="rs-empty">No orders yet for this reseller.</div>'}
+        </div>`;
+      el.appendChild(card);
+    });
+  }catch(e){el.innerHTML='<div style="padding:2rem;text-align:center;color:var(--dim)">Server error loading sales data.</div>';}
+}
+function toggleRS(id){
+  const card=document.getElementById('rs-card-'+id);
+  card.classList.toggle('open');
+}
+
+/* ── INIT ── */
+document.addEventListener('DOMContentLoaded',()=>{renderProducts();loadResellers();renderOrders();});
+</script>
+</body>
+</html>

@@ -1,0 +1,1205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>11:11:11 — Ritual-Infused Manifestation Perfume Oils | EVOXU</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Jost:wght@200;300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --cream:#FAF8F4;
+  --cream2:#F3EDE4;
+  --cream3:#EBE3D8;
+  --white:#FFFFFF;
+  --ink:#1C1914;
+  --ink2:#2E2A24;
+  --muted:#7A7268;
+  --dim:#A49C92;
+  --gold:#7D2035;
+  --gold2:#A8415A;
+  --gold-dim:#5C1525;
+  --gold-pale:rgba(125,32,53,0.08);
+  --border:rgba(28,25,20,0.09);
+  --border-gold:rgba(125,32,53,0.22);
+  --border-gold2:rgba(125,32,53,0.1);
+  --shadow:0 1px 20px rgba(28,25,20,0.07);
+  --shadow2:0 6px 40px rgba(28,25,20,0.11);
+  --tm:rgba(28,25,20,0.45);
+  --amber:#7D2035;
+}
+html{scroll-behavior:smooth}
+body{background:var(--cream);color:var(--ink);font-family:'Jost',sans-serif;font-weight:300;overflow-x:hidden}
+
+/* ── ANNOUNCE ── */
+#announce{
+  background:var(--ink);color:rgba(255,255,255,.5);
+  text-align:center;padding:.6rem 1rem;
+  font-size:.68rem;letter-spacing:.32em;text-transform:uppercase;
+  position:relative;z-index:1002
+}
+#announce span{color:var(--gold2);font-weight:500}
+#announce a{color:var(--gold2);text-decoration:none;border-bottom:1px solid rgba(168,65,90,.35);margin-left:.5rem;cursor:pointer}
+
+/* ── INTRO ── */
+#intro{
+  position:fixed;inset:0;background:var(--cream);
+  z-index:9999;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  transition:opacity 1.2s ease,visibility 1.2s ease
+}
+#intro.gone{opacity:0;visibility:hidden;pointer-events:none}
+.i-pre{font-size:.62rem;letter-spacing:.88em;text-transform:uppercase;color:var(--dim);margin-bottom:1.4rem;animation:fadeUp 1.5s ease forwards;opacity:0}
+.i-num{font-family:'Cormorant Garamond',serif;font-size:clamp(4.5rem,13vw,9rem);font-weight:600;letter-spacing:.1em;color:var(--ink);animation:fadeUp 1.5s .3s ease forwards;opacity:0;line-height:1}
+.i-tag{font-size:.62rem;letter-spacing:.48em;text-transform:uppercase;color:var(--muted);margin-top:.9rem;animation:fadeUp 1.5s .6s ease forwards;opacity:0}
+.i-div{width:1px;height:55px;background:linear-gradient(to bottom,var(--gold),transparent);margin:2.2rem auto;animation:fadeUp 1.5s .9s ease forwards;opacity:0}
+.i-video{width:min(520px,88vw);aspect-ratio:16/9;background:var(--cream2);border:1px solid var(--border);position:relative;overflow:hidden;animation:fadeUp 1.5s 1.1s ease forwards;opacity:0;cursor:pointer}
+.i-vid-in{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.9rem}
+.i-play{width:60px;height:60px;border-radius:50%;border:1px solid var(--border-gold);background:var(--gold-pale);display:flex;align-items:center;justify-content:center;transition:all .35s}
+.i-play:hover{background:rgba(125,32,53,.2);transform:scale(1.08)}
+.i-play svg{width:20px;height:20px;fill:var(--gold);margin-left:4px}
+.i-vl{font-size:.58rem;letter-spacing:.42em;text-transform:uppercase;color:var(--muted)}
+.i-prog{position:absolute;bottom:0;left:0;height:2px;background:var(--gold);width:0;transition:width .1s linear}
+.i-timer{position:absolute;bottom:.65rem;right:.85rem;font-size:.6rem;color:var(--dim);letter-spacing:.15em}
+.i-actions{display:flex;flex-direction:column;align-items:center;gap:.7rem;margin-top:2rem;animation:fadeUp 1.5s 1.6s ease forwards;opacity:0}
+.i-enter{padding:.9rem 3.2rem;background:var(--ink);border:none;color:var(--white);font-family:'Jost',sans-serif;font-size:.68rem;letter-spacing:.48em;text-transform:uppercase;cursor:pointer;transition:all .4s;font-weight:500}
+.i-enter:hover{background:var(--gold)}
+.i-skip{background:none;border:none;color:var(--dim);font-size:.58rem;letter-spacing:.32em;cursor:pointer;text-transform:uppercase;transition:color .3s;font-family:'Jost',sans-serif}
+.i-skip:hover{color:var(--muted)}
+@keyframes fadeUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+
+/* ── NAV ── */
+nav{
+  position:fixed;top:33px;left:0;right:0;z-index:1000;
+  padding:1.4rem 4rem;display:flex;align-items:center;
+  justify-content:space-between;transition:all .4s cubic-bezier(.4,0,.2,1);gap:1rem
+}
+nav.scrolled{
+  background:linear-gradient(135deg,rgba(125,32,53,0.94),rgba(93,21,37,0.96));backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);
+  top:0;padding:1rem 4rem;border-bottom:1px solid rgba(125,32,53,0.4);box-shadow:0 2px 24px rgba(93,21,37,0.28)
+}
+nav.scrolled .nav-logo-main{color:#FFF8F2}
+nav.scrolled .nav-logo-sub{color:rgba(255,248,242,.45)}
+nav.scrolled .nav-links a{color:rgba(255,248,242,.72)}
+nav.scrolled .nav-links a:hover{color:#FFF8F2}
+nav.scrolled .nav-links .hl{color:#FFF8F2 !important;border-color:rgba(255,248,242,.32);background:rgba(255,248,242,.1)}
+nav.scrolled .nav-links .hl:hover{background:rgba(255,248,242,.18)}
+nav.scrolled .icon-btn{color:rgba(255,248,242,.65)}
+nav.scrolled .icon-btn:hover{color:#FFF8F2}
+nav.scrolled .hamburger span{background:rgba(255,248,242,.65)}
+nav.scrolled .nav-portal-btn{color:rgba(255,248,242,.8);border-color:rgba(255,248,242,.32)}
+nav.scrolled .nav-portal-btn:hover{background:rgba(255,248,242,.12)}
+/* ── CONGRATS REF STRIP ── */
+.nav-ref-congrats{
+  width:150px;display:none;flex-direction:column;gap:.15rem;
+  padding:.3rem .6rem;border-left:2px solid rgba(255,248,242,.28)
+}
+.nav-ref-congrats.show{display:flex}
+.nrc-top{font-size:.46rem;letter-spacing:.36em;text-transform:uppercase;color:rgba(255,248,242,.42);line-height:1}
+.nrc-msg{font-size:.62rem;color:#FFF8F2;font-weight:400;letter-spacing:.04em;line-height:1.3;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.nrc-msg strong{color:var(--gold2);font-weight:600}
+nav.scrolled .nav-ref-congrats{border-left-color:rgba(255,248,242,.22)}
+@media(max-width:900px){.nav-ref-congrats{display:none !important}}
+.nav-logo{text-align:center;text-decoration:none}
+.nav-logo-main{font-family:'Cormorant Garamond',serif;font-size:1.8rem;font-weight:600;letter-spacing:.22em;color:var(--ink);display:block;line-height:1}
+.nav-logo-sub{font-size:.44rem;letter-spacing:.52em;text-transform:uppercase;color:var(--dim);display:block;margin-top:.2rem}
+.nav-links{display:flex;gap:2.2rem;list-style:none;align-items:center}
+.nav-links a{color:var(--muted);text-decoration:none;font-size:.7rem;letter-spacing:.28em;text-transform:uppercase;transition:color .3s;white-space:nowrap}
+.nav-links a:hover{color:var(--ink)}
+.nav-links .hl{color:var(--gold) !important;border:1px solid var(--border-gold);padding:.3rem .9rem}
+.nav-links .hl:hover{background:var(--gold-pale)}
+.nav-right{display:flex;align-items:center;gap:1rem}
+.icon-btn{background:none;border:none;cursor:pointer;color:var(--muted);transition:color .3s;position:relative;padding:3px}
+.icon-btn:hover{color:var(--ink)}
+.icon-btn svg{width:18px;height:18px;display:block}
+.cart-badge{position:absolute;top:-5px;right:-5px;width:14px;height:14px;background:var(--gold);border-radius:50%;font-size:.45rem;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700}
+/* ── RESELLER REF CHIP ── */
+.ref-chip{display:none;align-items:center;gap:.45rem;padding:.28rem .75rem .28rem .55rem;border:1px solid var(--border-gold);background:var(--gold-pale);cursor:default;transition:all .35s}
+.ref-chip.show{display:flex}
+.rc-icon{font-size:.85rem;color:var(--gold);line-height:1}
+.rc-via{font-size:.46rem;letter-spacing:.28em;text-transform:uppercase;color:var(--dim);line-height:1.2;display:block}
+.rc-name{font-size:.65rem;color:var(--gold);font-weight:500;letter-spacing:.06em;display:block;line-height:1.2;max-width:90px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+nav:not(.scrolled) .ref-chip{background:rgba(255,248,242,.09);border-color:rgba(255,248,242,.2)}
+nav:not(.scrolled) .rc-icon{color:rgba(255,248,242,.8)}
+nav:not(.scrolled) .rc-via{color:rgba(255,248,242,.38)}
+nav:not(.scrolled) .rc-name{color:#FFF8F2}
+nav.scrolled .ref-chip{background:rgba(255,248,242,.1);border-color:rgba(255,248,242,.25)}
+nav.scrolled .rc-icon{color:rgba(255,248,242,.85)}
+nav.scrolled .rc-via{color:rgba(255,248,242,.45)}
+nav.scrolled .rc-name{color:#FFF8F2}
+@media(max-width:640px){.rc-via{display:none}.rc-name{font-size:.72rem}}
+/* ── NEWSLETTER POPUP ── */
+#nl-overlay{position:fixed;inset:0;background:rgba(28,25,20,.65);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);z-index:8000;opacity:0;visibility:hidden;transition:opacity .5s ease,visibility .5s ease}
+#nl-overlay.show{opacity:1;visibility:visible}
+#nl-popup{position:fixed;top:50%;left:50%;transform:translate(-50%,-46%);z-index:8001;width:min(500px,92vw);background:var(--cream);border:1px solid var(--border);box-shadow:0 24px 80px rgba(28,25,20,.22);opacity:0;visibility:hidden;transition:opacity .5s ease,transform .5s ease,visibility .5s ease}
+#nl-popup.show{opacity:1;visibility:visible;transform:translate(-50%,-50%)}
+.nl-top{background:var(--ink);padding:3rem 2.6rem 2.4rem;text-align:center;position:relative}
+.nl-close{position:absolute;top:1rem;right:1.2rem;background:none;border:none;color:rgba(255,248,242,.38);font-size:1.1rem;cursor:pointer;transition:color .3s;line-height:1;font-family:'Jost',sans-serif}
+.nl-close:hover{color:#FFF8F2}
+.nl-eyebrow{font-size:.5rem;letter-spacing:.62em;text-transform:uppercase;color:var(--gold2);margin-bottom:1rem}
+.nl-title{font-family:'Cormorant Garamond',serif;font-size:2.6rem;font-weight:600;color:#FFF8F2;line-height:1.12;margin-bottom:.6rem}
+.nl-sub{font-size:.7rem;color:rgba(255,248,242,.45);letter-spacing:.1em;line-height:1.75}
+.nl-body{padding:2rem 2.6rem 2.4rem}
+.nl-label{font-size:.57rem;letter-spacing:.35em;text-transform:uppercase;color:var(--dim);margin-bottom:.55rem;display:block}
+.nl-input{width:100%;border:1px solid var(--border);background:var(--white);padding:.8rem 1rem;font-family:'Jost',sans-serif;font-size:.82rem;color:var(--ink);outline:none;margin-bottom:1rem;transition:border-color .3s}
+.nl-input:focus{border-color:var(--gold)}
+.nl-btn{width:100%;background:var(--ink);border:none;color:var(--white);padding:.88rem;font-family:'Jost',sans-serif;font-size:.67rem;letter-spacing:.48em;text-transform:uppercase;cursor:pointer;transition:background .35s}
+.nl-btn:hover{background:var(--gold)}
+.nl-note{font-size:.55rem;color:var(--dim);text-align:center;margin-top:.8rem;letter-spacing:.06em;line-height:1.65}
+.nl-success{display:none;text-align:center;padding:.8rem 0 .4rem}
+.nl-success-icon{font-size:1.8rem;margin-bottom:.7rem;color:var(--gold)}
+.nl-success-msg{font-family:'Cormorant Garamond',serif;font-size:1.6rem;font-weight:600;color:var(--gold);margin-bottom:.5rem}
+.nl-success-code{display:inline-block;font-size:.78rem;letter-spacing:.45em;color:var(--ink);text-transform:uppercase;border:1px solid var(--border-gold);padding:.4rem 1.1rem;margin-bottom:.7rem}
+.nl-success-sub{font-size:.65rem;color:var(--muted);line-height:1.75}
+.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;background:none;border:none}
+.hamburger span{display:block;width:22px;height:1px;background:var(--muted);transition:all .35s}
+.nav-portal-btn{display:none;font-size:.6rem;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);border:1px solid var(--border-gold);padding:.32rem .75rem;text-decoration:none;transition:all .3s;white-space:nowrap;font-family:'Jost',sans-serif;font-weight:500}
+.nav-portal-btn:hover{background:var(--gold-pale)}
+@media(max-width:640px){.nav-portal-btn{display:inline-flex;align-items:center}}
+/* nav over dark hero — before scroll */
+nav:not(.scrolled) .nav-logo-main{color:#FFF8F2}
+nav:not(.scrolled) .nav-logo-sub{color:rgba(255,248,242,.32)}
+nav:not(.scrolled) .nav-links a{color:rgba(255,248,242,.5)}
+nav:not(.scrolled) .nav-links a:hover{color:#FFF8F2}
+nav:not(.scrolled) .nav-links .hl{color:var(--gold2) !important;border-color:rgba(168,65,90,.35)}
+nav:not(.scrolled) .icon-btn{color:rgba(255,248,242,.45)}
+nav:not(.scrolled) .icon-btn:hover{color:#FFF8F2}
+nav:not(.scrolled) .hamburger span{background:rgba(255,248,242,.55)}
+nav:not(.scrolled) .nav-portal-btn{color:var(--gold2);border-color:rgba(168,65,90,.32)}
+/* ── MOBILE MENU ── */
+.mob-overlay{position:fixed;inset:0;background:rgba(28,25,20,.45);z-index:1500;opacity:0;visibility:hidden;transition:all .4s;backdrop-filter:blur(4px)}
+.mob-overlay.show{opacity:1;visibility:visible}
+.mob-menu{position:fixed;top:0;right:0;bottom:0;width:min(300px,85vw);background:var(--cream);z-index:1501;transform:translateX(100%);transition:transform .4s cubic-bezier(.4,0,.2,1);display:flex;flex-direction:column;border-left:1px solid var(--border);box-shadow:-4px 0 40px rgba(28,25,20,.1)}
+.mob-menu.open{transform:translateX(0)}
+.mob-head{display:flex;align-items:center;justify-content:space-between;padding:1.3rem 1.5rem;border-bottom:1px solid var(--border)}
+.mob-logo{font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:600;letter-spacing:.22em;color:var(--ink)}
+.mob-close{background:none;border:none;color:var(--muted);font-size:1.1rem;cursor:pointer;line-height:1;transition:color .3s;padding:2px}
+.mob-close:hover{color:var(--ink)}
+.mob-nav{flex:1;display:flex;flex-direction:column;padding:.8rem 0;overflow-y:auto}
+.mob-nav a{display:block;padding:.95rem 1.5rem;color:var(--muted);text-decoration:none;font-size:.72rem;letter-spacing:.3em;text-transform:uppercase;border-bottom:1px solid var(--border);transition:all .25s}
+.mob-nav a:hover{color:var(--ink);background:var(--cream2)}
+.mob-portal{display:block;margin:1.5rem;padding:1rem;background:var(--ink);color:var(--white) !important;text-decoration:none;font-family:'Jost',sans-serif;font-size:.68rem;letter-spacing:.42em;text-transform:uppercase;text-align:center;transition:background .3s;font-weight:500;border:none}
+.mob-portal:hover{background:var(--gold) !important;color:var(--white) !important}
+
+/* ── HERO ── */
+#hero{
+  min-height:100vh;background:#110B0D;
+  display:flex;align-items:center;justify-content:center;
+  position:relative;overflow:hidden;padding:9rem 2rem 5rem;text-align:center
+}
+.hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse 65% 55% at 50% 90%,rgba(125,32,53,.45),transparent 65%),radial-gradient(ellipse 40% 40% at 15% 10%,rgba(125,32,53,.18),transparent 60%)}
+/* decorative floating drops */
+.h-drop{position:absolute;border-radius:50%;background:radial-gradient(circle at 35% 35%,rgba(168,65,90,.18),rgba(125,32,53,.03));pointer-events:none}
+.h-d1{width:90px;height:90px;top:12%;right:8%;animation:floatD 8s ease-in-out infinite}
+.h-d2{width:55px;height:55px;top:70%;left:6%;animation:floatD 10s ease-in-out infinite 2s}
+.h-d3{width:130px;height:130px;bottom:10%;right:13%;animation:floatD 12s ease-in-out infinite 1s}
+.h-d4{width:34px;height:34px;top:38%;left:11%;animation:floatD 7s ease-in-out infinite 3s}
+.h-d5{width:70px;height:70px;top:22%;left:32%;animation:floatD 9s ease-in-out infinite 1.5s}
+.h-d6{width:45px;height:45px;bottom:25%;left:22%;animation:floatD 11s ease-in-out infinite .8s}
+@keyframes floatD{0%,100%{transform:translateY(0) scale(1)}50%{transform:translateY(-22px) scale(1.06)}}
+/* decorative bottle watermark */
+/* JS-generated particles become gold shimmer */
+.hero-stars{position:absolute;inset:0;pointer-events:none}
+.star{position:absolute;border-radius:50%;background:radial-gradient(circle,rgba(125,32,53,.7),rgba(125,32,53,0));animation:shimmer var(--d,4s) ease-in-out infinite;animation-delay:var(--dl,0s);opacity:var(--o,.15)}
+@keyframes shimmer{0%,100%{opacity:calc(var(--o,.15)*.6);transform:scale(1)}50%{opacity:calc(var(--o,.15)*2.5);transform:scale(1.8)}}
+.hero-inner{position:relative;z-index:1;max-width:880px}
+.hero-eyebrow{display:inline-flex;align-items:center;gap:.9rem;margin-bottom:2rem;font-size:.65rem;letter-spacing:.72em;text-transform:uppercase;color:var(--gold)}
+.hero-eyebrow::before,.hero-eyebrow::after{content:'';height:1px;width:32px;background:var(--gold-dim)}
+.hero-h1{font-family:'Cormorant Garamond',serif;font-size:clamp(4.5rem,10vw,9.5rem);font-weight:600;line-height:1.0;color:#FFF8F2;margin-bottom:.35rem;letter-spacing:-.01em}
+.hero-h1 em{font-style:italic;color:var(--gold2)}
+.hero-num{font-family:'Cormorant Garamond',serif;font-size:clamp(1.1rem,2.5vw,1.7rem);font-weight:300;letter-spacing:.65em;color:rgba(255,248,242,.22);margin-bottom:2.2rem;display:block}
+.hero-p{font-size:1.05rem;color:rgba(255,248,242,.48);line-height:1.95;max-width:540px;margin:0 auto 3rem;letter-spacing:.02em}
+.hero-btns{display:flex;gap:1.2rem;justify-content:center;flex-wrap:wrap}
+.btn-primary{padding:.95rem 2.8rem;background:var(--ink);color:var(--white);border:none;font-family:'Jost',sans-serif;font-size:.7rem;letter-spacing:.44em;text-transform:uppercase;cursor:pointer;transition:all .38s;font-weight:500}
+.btn-primary:hover{background:var(--gold);transform:translateY(-2px);box-shadow:0 8px 24px rgba(125,32,53,.25)}
+.btn-outline{padding:.95rem 2.8rem;background:transparent;color:rgba(255,248,242,.75);border:1px solid rgba(255,248,242,.22);font-family:'Jost',sans-serif;font-size:.7rem;letter-spacing:.44em;text-transform:uppercase;cursor:pointer;transition:all .38s}
+.btn-outline:hover{border-color:var(--gold2);color:var(--gold2)}
+.hero-scroll{position:absolute;bottom:2.5rem;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:.5rem;color:rgba(255,248,242,.25);font-size:.52rem;letter-spacing:.45em;text-transform:uppercase}
+.scroll-line{width:1px;height:45px;background:linear-gradient(to bottom,var(--gold),transparent);animation:scPulse 2s ease-in-out infinite}
+@keyframes scPulse{0%{transform:scaleY(0);transform-origin:top;opacity:1}100%{transform:scaleY(1);transform-origin:top;opacity:0}}
+
+/* ── SHARED ── */
+section{position:relative;z-index:1}
+.sec-wrap{max-width:1200px;margin:0 auto;padding:0 4rem}
+.sec-label{font-size:.65rem;letter-spacing:.68em;text-transform:uppercase;color:var(--gold);display:flex;align-items:center;justify-content:center;gap:.9rem;margin-bottom:.9rem}
+.sec-label::before,.sec-label::after{content:'';height:1px;width:28px;background:rgba(125,32,53,.3)}
+.sec-h2{font-family:'Cormorant Garamond',serif;font-size:clamp(3rem,6vw,5.5rem);font-weight:300;text-align:center;color:var(--ink);line-height:1.08;margin-bottom:.85rem}
+.sec-h2 em{font-style:italic;color:var(--gold)}
+.sec-p{text-align:center;color:var(--muted);font-size:1.05rem;line-height:1.95;max-width:540px;margin:0 auto 3.5rem}
+.divider{height:1px;background:linear-gradient(90deg,transparent,var(--border),transparent)}
+
+/* ── TRINITY ── */
+#trinity{padding:7rem 0;background:var(--white)}
+.trinity-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2rem;max-width:1200px;margin:0 auto;padding:0 4rem}
+.tc{background:var(--white);border:1px solid var(--border);cursor:pointer;transition:all .45s cubic-bezier(.4,0,.2,1);box-shadow:var(--shadow);position:relative;overflow:hidden}
+.tc::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:transparent;transition:background .45s}
+.tc:hover{transform:translateY(-6px);box-shadow:var(--shadow2)}
+.tc:hover::before{background:var(--gold)}
+.tc-img{aspect-ratio:3/4;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
+.tc-glow{position:absolute;width:180px;height:180px;border-radius:50%;filter:blur(55px);opacity:.2;transition:opacity .5s}
+.tc:hover .tc-glow{opacity:.4}
+.tc-for-badge{position:absolute;top:1rem;right:1rem;font-size:.54rem;letter-spacing:.3em;text-transform:uppercase;color:var(--ink);background:rgba(250,248,244,.9);border:1px solid var(--border);padding:.24rem .68rem}
+.tc-num{position:absolute;top:.8rem;left:1rem;font-family:'Cormorant Garamond',serif;font-size:3rem;font-weight:300;color:rgba(28,25,20,.05);line-height:1}
+.tc-body{padding:1.6rem 1.8rem;border-top:1px solid var(--border)}
+.tc-name{font-family:'Cormorant Garamond',serif;font-size:1.9rem;color:var(--ink);margin-bottom:.22rem;letter-spacing:.05em}
+.tc-intent{font-size:.58rem;letter-spacing:.3em;text-transform:uppercase;color:var(--gold);margin-bottom:.75rem}
+.tc-desc{font-size:.88rem;color:var(--muted);line-height:1.85;margin-bottom:1.2rem}
+.tc-foot{display:flex;align-items:center;justify-content:space-between}
+.tc-price{font-family:'Cormorant Garamond',serif;font-size:1.55rem;color:var(--ink)}
+.tc-price small{font-family:'Jost',sans-serif;font-size:.54rem;color:var(--dim);letter-spacing:.15em;display:block;font-weight:300}
+.tc-btn{padding:.58rem 1.4rem;background:transparent;color:var(--ink);border:1px solid var(--border);font-family:'Jost',sans-serif;font-size:.6rem;letter-spacing:.28em;text-transform:uppercase;cursor:pointer;transition:all .3s}
+.tc-btn:hover{background:var(--ink);color:var(--white);border-color:var(--ink)}
+
+/* ── AI GUIDE ── */
+#ai-guide{padding:7rem 0;background:var(--cream2)}
+.ai-wrap{max-width:760px;margin:0 auto;background:var(--white);border:1px solid var(--border);overflow:hidden;box-shadow:var(--shadow2)}
+.ai-top{background:var(--cream2);padding:1.3rem 2rem;display:flex;align-items:center;gap:1rem;border-bottom:1px solid var(--border)}
+.ai-orb{width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,var(--cream3),var(--gold-dim));border:1px solid var(--border-gold);display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0;animation:orbP 4s ease infinite}
+@keyframes orbP{0%,100%{box-shadow:0 0 0 0 rgba(125,32,53,.3)}50%{box-shadow:0 0 0 9px rgba(125,32,53,0)}}
+.ai-name{font-family:'Cormorant Garamond',serif;font-size:1.15rem;color:var(--ink)}
+.ai-status{font-size:.58rem;letter-spacing:.28em;color:var(--gold);text-transform:uppercase;display:flex;align-items:center;gap:5px;margin-top:2px}
+.live-dot{width:5px;height:5px;background:#4ade80;border-radius:50%;animation:blink 2s ease infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.2}}
+.ai-chat{padding:1.8rem 2rem;min-height:280px;display:flex;flex-direction:column;gap:1rem;overflow-y:auto;max-height:380px;background:var(--white)}
+.ai-msg{display:flex;gap:.8rem;animation:msgIn .5s ease forwards;opacity:0}
+@keyframes msgIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.ai-sm-orb{width:28px;height:28px;border-radius:50%;background:var(--cream2);border:1px solid var(--border-gold);display:flex;align-items:center;justify-content:center;font-size:.7rem;flex-shrink:0;margin-top:3px}
+.ai-bubble{background:var(--cream2);border:1px solid var(--border);border-radius:0 10px 10px 10px;padding:.85rem 1.1rem;font-size:.9rem;line-height:1.85;color:var(--ink);max-width:82%}
+.user-msg{justify-content:flex-end}
+.user-bubble{background:var(--gold-pale);border:1px solid var(--border-gold);border-radius:10px 0 10px 10px;padding:.85rem 1.1rem;font-size:.9rem;line-height:1.85;color:var(--ink);max-width:82%}
+.intents{display:flex;flex-wrap:wrap;gap:.5rem;padding:.4rem 0 .4rem 2.3rem}
+.i-btn{padding:.52rem 1.15rem;background:transparent;border:1px solid var(--border);color:var(--muted);font-family:'Jost',sans-serif;font-size:.7rem;letter-spacing:.18em;cursor:pointer;border-radius:100px;transition:all .3s}
+.i-btn:hover,.i-btn.picked{background:var(--ink);border-color:var(--ink);color:var(--white)}
+.typing{display:flex;gap:4px;align-items:center;background:var(--cream2);border:1px solid var(--border);padding:.7rem 1rem;border-radius:0 10px 10px 10px;width:fit-content}
+.td{width:5px;height:5px;background:var(--dim);border-radius:50%;animation:tdB 1.4s ease infinite}
+.td:nth-child(2){animation-delay:.2s}.td:nth-child(3){animation-delay:.4s}
+@keyframes tdB{0%,60%,100%{transform:translateY(0)}30%{transform:translateY(-6px)}}
+.rec-card{background:var(--cream2);border:1px solid var(--border-gold);padding:1.1rem;max-width:82%}
+.rec-name{font-family:'Cormorant Garamond',serif;font-size:1.3rem;color:var(--ink);margin-bottom:.22rem}
+.rec-intent{font-size:.58rem;letter-spacing:.25em;text-transform:uppercase;color:var(--gold);margin-bottom:.55rem}
+.rec-desc{font-size:.85rem;color:var(--muted);line-height:1.82;margin-bottom:.9rem}
+.rec-btn{padding:.55rem 1.3rem;background:var(--ink);border:none;color:var(--white);font-family:'Jost',sans-serif;font-size:.65rem;letter-spacing:.28em;text-transform:uppercase;cursor:pointer;transition:all .3s;font-weight:500}
+.rec-btn:hover{background:var(--gold)}
+.ai-input-row{padding:1.1rem 2rem;border-top:1px solid var(--border);display:flex;gap:.7rem;align-items:center;background:var(--cream2)}
+.ai-text{flex:1;background:transparent;border:none;border-bottom:1px solid var(--border);padding:.45rem 0;color:var(--ink);font-family:'Jost',sans-serif;font-size:.9rem;outline:none}
+.ai-text::placeholder{color:var(--dim)}
+.ai-text:focus{border-color:var(--gold)}
+.send-btn{width:36px;height:36px;background:var(--ink);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .3s;flex-shrink:0}
+.send-btn:hover{background:var(--gold)}
+.send-btn svg{width:13px;height:13px;fill:var(--white)}
+
+/* ── COLLECTIONS ── */
+#collections{padding:7rem 0;background:var(--white)}
+.filter-tabs{display:flex;border:1px solid var(--border);width:fit-content;margin:0 auto 3.5rem}
+.ftab{padding:.72rem 2rem;background:transparent;border:none;color:var(--dim);font-family:'Jost',sans-serif;font-size:.68rem;letter-spacing:.32em;text-transform:uppercase;cursor:pointer;transition:all .3s;border-right:1px solid var(--border)}
+.ftab:last-child{border-right:none}
+.ftab.on{background:var(--ink);color:var(--white)}
+.ftab:not(.on):hover{color:var(--ink)}
+.prod-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(265px,1fr));gap:1.5rem;max-width:1200px;margin:0 auto;padding:0 4rem}
+.p-card{background:var(--white);border:1px solid var(--border);cursor:pointer;transition:all .4s cubic-bezier(.4,0,.2,1);box-shadow:var(--shadow);position:relative;overflow:hidden}
+.p-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:transparent;transition:background .4s}
+.p-card:hover{transform:translateY(-5px);box-shadow:var(--shadow2)}
+.p-card:hover::before{background:var(--gold)}
+.p-card.hidden{display:none}
+.p-img{aspect-ratio:1/1.18;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
+.p-glow{position:absolute;width:140px;height:140px;border-radius:50%;filter:blur(50px);opacity:.22;transition:opacity .5s}
+.p-card:hover .p-glow{opacity:.42}
+.p-for-badge{position:absolute;top:.75rem;left:.75rem;background:rgba(250,248,244,.9);border:1px solid var(--border);padding:.22rem .65rem;font-size:.52rem;letter-spacing:.26em;text-transform:uppercase;color:var(--ink)}
+.p-intent-tag{position:absolute;bottom:.75rem;left:0;right:0;font-size:.56rem;letter-spacing:.2em;color:var(--gold);text-transform:uppercase;text-align:center}
+.p-body{padding:1.3rem 1.5rem;border-top:1px solid var(--border)}
+.p-name{font-family:'Cormorant Garamond',serif;font-size:1.65rem;color:var(--ink);margin-bottom:.18rem;letter-spacing:.04em}
+.p-notes{font-size:.72rem;color:var(--dim);margin-bottom:.55rem;font-style:italic;line-height:1.6}
+.p-desc{font-size:.82rem;color:var(--muted);line-height:1.88;margin-bottom:.95rem}
+.p-foot{display:flex;align-items:center;justify-content:space-between}
+.p-price{font-family:'Cormorant Garamond',serif;font-size:1.45rem;color:var(--ink)}
+.p-size{font-size:.54rem;color:var(--dim);letter-spacing:.15em;margin-top:.1rem}
+.p-add{padding:.52rem 1.2rem;background:transparent;color:var(--ink);border:1px solid var(--border);font-family:'Jost',sans-serif;font-size:.6rem;letter-spacing:.26em;text-transform:uppercase;cursor:pointer;transition:all .3s}
+.p-add:hover{background:var(--ink);color:var(--white);border-color:var(--ink)}
+/* ── OUT OF STOCK ── */
+.p-card.oos .p-img{opacity:0.6;filter:grayscale(0.15)}
+.p-oos-badge{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);background:rgba(185,28,28,0.92);color:#fff;font-size:.58rem;letter-spacing:.28em;text-transform:uppercase;padding:.4rem 1rem;z-index:5;white-space:nowrap;font-family:'Jost',sans-serif;font-weight:500;pointer-events:none}
+.p-add:disabled{background:var(--cream3) !important;color:var(--muted) !important;cursor:not-allowed;border:1px solid var(--border);pointer-events:none;opacity:0.7}
+.p-card.oos .p-name{color:var(--muted)}
+
+/* ── RITUAL ── */
+#ritual{padding:7rem 0;background:var(--cream2)}
+.ritual-grid{display:grid;grid-template-columns:1fr 1fr;gap:7rem;max-width:1200px;margin:0 auto;padding:0 4rem;align-items:center}
+.ritual-visual{text-align:center}
+.ritual-circle{width:280px;height:280px;border-radius:50%;border:1px solid var(--border-gold);margin:0 auto;display:flex;align-items:center;justify-content:center;position:relative;background:radial-gradient(circle,rgba(125,32,53,.05),transparent)}
+.ritual-circle::before,.ritual-circle::after{content:'';position:absolute;border-radius:50%;border:1px solid rgba(125,32,53,.1)}
+.ritual-circle::before{inset:-20px}
+.ritual-circle::after{inset:-40px}
+.ritual-num-big{font-family:'Cormorant Garamond',serif;font-size:5.5rem;font-weight:300;color:var(--gold-dim);letter-spacing:.08em;line-height:1}
+.ritual-num-sub{font-size:.58rem;letter-spacing:.48em;text-transform:uppercase;color:var(--dim)}
+.ritual-info h3{font-family:'Cormorant Garamond',serif;font-size:clamp(1.9rem,4vw,3rem);font-weight:300;color:var(--ink);margin-bottom:.9rem;line-height:1.15}
+.ritual-info h3 em{font-style:italic;color:var(--gold)}
+.ritual-info>p{font-size:.95rem;color:var(--muted);line-height:2;margin-bottom:2rem}
+.ritual-steps{list-style:none;display:flex;flex-direction:column;gap:1rem}
+.r-step{display:flex;gap:1rem;align-items:flex-start}
+.r-num{flex-shrink:0;width:28px;height:28px;border:1px solid var(--border-gold);display:flex;align-items:center;justify-content:center;font-size:.62rem;color:var(--gold)}
+.r-txt{font-size:.88rem;color:var(--muted);line-height:1.78}
+.r-txt strong{display:block;color:var(--ink);font-weight:400;margin-bottom:.12rem;letter-spacing:.04em}
+
+/* ── JOURNEY ── */
+#journey{padding:7rem 0;background:var(--white)}
+.journey-grid{display:grid;grid-template-columns:1fr 1fr;gap:7rem;max-width:1200px;margin:0 auto;padding:0 4rem;align-items:center}
+.journey-content h2{font-family:'Cormorant Garamond',serif;font-size:clamp(2.2rem,4.5vw,3.8rem);font-weight:300;color:var(--ink);line-height:1.15;margin-bottom:1.1rem}
+.journey-content h2 em{font-style:italic;color:var(--gold)}
+.journey-content p{font-size:.95rem;color:var(--muted);line-height:2;margin-bottom:1.1rem}
+.journey-quote{background:var(--gold-pale);border-left:2px solid var(--gold);padding:1.1rem 1.5rem;margin:1.5rem 0;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:1.1rem;color:var(--ink);line-height:1.7}
+.journey-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;margin-top:2.5rem;background:var(--border)}
+.jstat{text-align:center;padding:1.4rem 1rem;background:var(--white)}
+.jstat-val{font-family:'Cormorant Garamond',serif;font-size:2.4rem;color:var(--gold);margin-bottom:.2rem}
+.jstat-lbl{font-size:.58rem;letter-spacing:.28em;text-transform:uppercase;color:var(--dim)}
+.journey-img-box{background:var(--cream2);border:1px solid var(--border);aspect-ratio:3/4;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;box-shadow:var(--shadow)}
+.artisan-badge{position:absolute;top:1rem;right:1rem;background:rgba(250,248,244,.9);border:1px solid var(--border);padding:.35rem .75rem;font-size:.54rem;letter-spacing:.24em;text-transform:uppercase;color:var(--ink)}
+.ji-label{position:absolute;bottom:0;left:0;right:0;padding:1.5rem;background:linear-gradient(to top,rgba(243,237,228,.98),transparent)}
+.ji-label h4{font-family:'Cormorant Garamond',serif;font-size:1.15rem;color:var(--ink);margin-bottom:.3rem}
+.ji-label p{font-size:.75rem;color:var(--muted);line-height:1.6}
+
+/* ── AFFIRMATIONS ── */
+#affirmations{padding:7rem 0;background:var(--cream2)}
+.aff-list{display:flex;flex-direction:column;gap:0;max-width:760px;margin:0 auto;border:1px solid var(--border)}
+.aff-card{background:var(--white);padding:1.6rem 2.2rem;position:relative;overflow:hidden;transition:background .4s;border-bottom:1px solid var(--border);cursor:default}
+.aff-card:last-child{border-bottom:none}
+.aff-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:2px;background:transparent;transition:background .4s}
+.aff-card:hover{background:var(--cream2)}
+.aff-card:hover::before{background:var(--gold)}
+.aff-for{font-size:.58rem;letter-spacing:.38em;text-transform:uppercase;color:var(--gold);margin-bottom:.55rem}
+.aff-text{font-family:'Cormorant Garamond',serif;font-size:1.15rem;font-style:italic;color:var(--ink);line-height:1.72}
+.aff-intent{font-size:.56rem;letter-spacing:.24em;text-transform:uppercase;color:var(--dim);margin-top:.5rem}
+
+/* ── RESELLERS ── */
+#resellers{padding:7rem 0;background:var(--cream)}
+.res-grid{display:grid;grid-template-columns:1fr 1fr;gap:6rem;max-width:1200px;margin:0 auto;padding:0 4rem;align-items:start}
+.res-info>p{font-size:.95rem;color:var(--muted);line-height:2;margin-bottom:1.8rem}
+.benefits{list-style:none;display:flex;flex-direction:column;gap:.85rem}
+.benefit{display:flex;gap:1rem;align-items:flex-start;font-size:.88rem;color:var(--muted);line-height:1.7;padding-bottom:.85rem;border-bottom:1px solid var(--border)}
+.benefit:last-child{border-bottom:none}
+.b-ic{flex-shrink:0;width:34px;height:34px;border:1px solid var(--border-gold);display:flex;align-items:center;justify-content:center;color:var(--gold);font-size:.9rem}
+.b-ic+div strong{display:block;color:var(--ink);font-weight:400;margin-bottom:.12rem}
+.res-form{background:var(--white);border:1px solid var(--border);padding:2.5rem;box-shadow:var(--shadow)}
+.form-title{font-family:'Cormorant Garamond',serif;font-size:1.8rem;color:var(--ink);margin-bottom:2rem;text-align:center}
+.form-title em{font-style:italic;color:var(--gold)}
+.fg{display:flex;flex-direction:column;gap:.36rem;margin-bottom:1.1rem}
+.fg.two{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.fg.two .fgroup{display:flex;flex-direction:column;gap:.36rem}
+.flbl{font-size:.58rem;letter-spacing:.32em;text-transform:uppercase;color:var(--dim)}
+.finput,.fsel,.ftarea{width:100%;background:transparent;border:none;border-bottom:1px solid var(--border);padding:.68rem 0;color:var(--ink);font-family:'Jost',sans-serif;font-size:.9rem;outline:none;transition:border-color .3s}
+.finput:focus,.fsel:focus,.ftarea:focus{border-color:var(--gold)}
+.finput::placeholder,.ftarea::placeholder{color:var(--dim)}
+.fsel{-webkit-appearance:none;cursor:pointer}
+.fsel option{background:var(--white)}
+.ftarea{resize:vertical;min-height:70px;border:1px solid var(--border);padding:.68rem .8rem;margin-top:3px}
+.ftarea:focus{border-color:var(--gold)}
+.f-submit{width:100%;margin-top:1.6rem;padding:1rem;background:var(--ink);border:none;color:var(--white);font-family:'Jost',sans-serif;font-size:.7rem;letter-spacing:.44em;text-transform:uppercase;cursor:pointer;transition:all .4s;font-weight:500}
+.f-submit:hover{background:var(--gold)}
+
+/* ── AI COACH ── */
+#ai-coach{padding:7rem 0;background:var(--cream2)}
+.coach-grid{display:grid;grid-template-columns:1fr 1fr;gap:6rem;max-width:1200px;margin:0 auto;padding:0 4rem;align-items:center}
+.phone-mock{width:258px;margin:0 auto;background:var(--white);border:1px solid var(--border);border-radius:36px;padding:35px 16px 26px;position:relative;box-shadow:var(--shadow2)}
+.ph-notch{position:absolute;top:10px;left:50%;transform:translateX(-50%);width:68px;height:5px;background:var(--cream3);border-radius:3px}
+.ph-screen{background:var(--cream);border-radius:18px;overflow:hidden;min-height:430px}
+.ph-head{background:var(--ink);padding:.85rem;text-align:center;border-bottom:1px solid var(--border)}
+.ph-head h4{font-family:'Cormorant Garamond',serif;font-size:.95rem;color:var(--white)}
+.ph-head p{font-size:.54rem;color:rgba(255,255,255,.4);letter-spacing:.2em;margin-top:2px}
+.ph-msgs{padding:.85rem;display:flex;flex-direction:column;gap:.65rem}
+.c-msg{font-size:.7rem;line-height:1.7;padding:.7rem .85rem;border-radius:0 9px 9px 9px;background:var(--white);border:1px solid var(--border);color:var(--ink)}
+.c-aff{background:var(--gold-pale);border:1px solid var(--border-gold2);text-align:center;font-style:italic;font-family:'Cormorant Garamond',serif;font-size:.85rem;color:var(--gold-dim)}
+.c-acts{display:flex;gap:.4rem;margin-top:.2rem}
+.c-act{flex:1;padding:.42rem;background:var(--white);border:1px solid var(--border);color:var(--muted);font-size:.56rem;letter-spacing:.12em;text-transform:uppercase;cursor:pointer;border-radius:100px;transition:all .3s;font-family:'Jost',sans-serif}
+.c-act:hover{background:var(--ink);border-color:var(--ink);color:var(--white)}
+.coach-features{display:flex;flex-direction:column;gap:1.6rem}
+.cf{display:flex;gap:1.2rem;align-items:flex-start}
+.cf-ic{width:44px;height:44px;flex-shrink:0;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:1.1rem;background:var(--white);transition:all .3s}
+.cf:hover .cf-ic{border-color:var(--border-gold);background:var(--gold-pale)}
+.cf-title{font-family:'Cormorant Garamond',serif;font-size:1.2rem;color:var(--ink);margin-bottom:.22rem}
+.cf-desc{font-size:.85rem;color:var(--muted);line-height:1.82}
+
+/* ── HOLISTIC ── */
+#holistic{padding:7rem 0;background:var(--white)}
+.holistic-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:0;max-width:1200px;margin:0 auto;border:1px solid var(--border)}
+.hc{background:var(--white);padding:2.4rem 1.8rem;text-align:center;transition:background .4s;border-right:1px solid var(--border);position:relative}
+.hc:last-child{border-right:none}
+.hc::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:transparent;transition:background .4s}
+.hc:hover{background:var(--cream2)}
+.hc:hover::after{background:var(--gold)}
+.hc-icon{font-size:2.2rem;margin-bottom:1.2rem;display:block}
+.hc-title{font-family:'Cormorant Garamond',serif;font-size:1.3rem;color:var(--ink);margin-bottom:.65rem}
+.hc-desc{font-size:.82rem;color:var(--muted);line-height:1.9}
+
+/* ── FOOTER ── */
+footer{padding:5rem 4rem 2.5rem;background:var(--ink);border-top:1px solid rgba(255,255,255,.06)}
+.ft-top{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:4rem;margin-bottom:3.5rem}
+.ft-logo{font-family:'Cormorant Garamond',serif;font-size:1.8rem;font-weight:300;letter-spacing:.22em;color:var(--white);display:block;margin-bottom:.25rem}
+.ft-logo-sub{font-size:.44rem;letter-spacing:.5em;text-transform:uppercase;color:rgba(255,248,242,.52);display:block;margin-bottom:1rem}
+.ft-brand p{font-size:.82rem;color:rgba(255,248,242,.65);line-height:2;margin-bottom:1.1rem}
+.ft-socials{display:flex;gap:.6rem}
+.ft-soc{width:32px;height:32px;border:1px solid rgba(255,248,242,.18);display:flex;align-items:center;justify-content:center;color:rgba(255,248,242,.52);text-decoration:none;font-size:.62rem;transition:all .3s}
+.ft-soc:hover{border-color:var(--gold2);color:var(--gold2)}
+.ft-col-title{font-size:.58rem;letter-spacing:.42em;text-transform:uppercase;color:rgba(255,248,242,.82);margin-bottom:1rem;font-weight:500}
+.ft-links{list-style:none;display:flex;flex-direction:column;gap:.7rem}
+.ft-links a{color:rgba(255,248,242,.68);text-decoration:none;font-size:.82rem;transition:color .3s}
+.ft-links a:hover{color:var(--white)}
+.ft-nl-row{display:flex;border:1px solid rgba(255,255,255,.12);overflow:hidden;margin-top:.5rem}
+.ft-nl-input{flex:1;background:transparent;border:none;padding:.68rem .9rem;color:var(--white);font-family:'Jost',sans-serif;font-size:.82rem;outline:none}
+.ft-nl-input::placeholder{color:rgba(255,248,242,.38)}
+.ft-nl-btn{padding:.68rem 1rem;background:var(--gold2);border:none;color:var(--ink);font-family:'Jost',sans-serif;font-size:.6rem;letter-spacing:.22em;text-transform:uppercase;cursor:pointer;transition:background .3s;white-space:nowrap;font-weight:500}
+.ft-nl-btn:hover{background:var(--gold)}
+.ft-bottom{display:flex;justify-content:space-between;align-items:center;padding-top:2rem;border-top:1px solid rgba(255,255,255,.08);font-size:.68rem;color:rgba(255,248,242,.5);flex-wrap:wrap;gap:.5rem}
+.ft-bottom a{color:rgba(255,248,242,.5);text-decoration:none;transition:color .3s}
+.ft-bottom a:hover{color:rgba(255,248,242,.9)}
+
+/* ── CART ── */
+#cart-drawer{position:fixed;right:0;top:0;bottom:0;width:390px;background:var(--white);border-left:1px solid var(--border);z-index:2000;transform:translateX(100%);transition:transform .5s cubic-bezier(.4,0,.2,1);display:flex;flex-direction:column;box-shadow:-4px 0 40px rgba(28,25,20,.1)}
+#cart-drawer.open{transform:translateX(0)}
+.cd-head{padding:1.3rem 1.8rem;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+.cd-title{font-family:'Cormorant Garamond',serif;font-size:1.3rem;color:var(--ink)}
+.cd-close{background:none;border:none;color:var(--dim);cursor:pointer;font-size:1rem;transition:color .3s}
+.cd-close:hover{color:var(--ink)}
+.cd-items{flex:1;overflow-y:auto;padding:1.3rem 1.8rem;display:flex;flex-direction:column;gap:.8rem}
+.cd-item{display:flex;gap:.85rem;align-items:center;padding:.85rem;background:var(--cream);border:1px solid var(--border)}
+.cd-thumb{width:54px;height:68px;flex-shrink:0;background:var(--cream2);display:flex;align-items:center;justify-content:center;font-size:1.4rem}
+.cd-info{flex:1}
+.cd-iname{font-family:'Cormorant Garamond',serif;font-size:1.05rem;color:var(--ink);margin-bottom:.12rem}
+.cd-ifor{font-size:.62rem;color:var(--muted);margin-bottom:.35rem}
+.cd-iprice{font-family:'Cormorant Garamond',serif;font-size:1.05rem;color:var(--ink)}
+.cd-empty{text-align:center;padding:3rem 1rem;color:var(--muted);font-size:.88rem}
+.cd-empty em{display:block;font-family:'Cormorant Garamond',serif;font-size:1.35rem;color:var(--ink);font-style:italic;margin-bottom:.4rem}
+.cd-foot{padding:1.3rem 1.8rem;border-top:1px solid var(--border)}
+.cd-total{display:flex;justify-content:space-between;margin-bottom:1rem;font-size:.88rem;color:var(--muted)}
+.cd-total strong{color:var(--ink);font-family:'Cormorant Garamond',serif;font-size:1.3rem;font-weight:300}
+.cd-checkout{width:100%;padding:1rem;background:var(--ink);border:none;color:var(--white);font-family:'Jost',sans-serif;font-size:.7rem;letter-spacing:.38em;text-transform:uppercase;cursor:pointer;transition:all .4s;font-weight:500}
+.cd-checkout:hover{background:var(--gold)}
+#overlay-bg{position:fixed;inset:0;background:rgba(28,25,20,.5);z-index:1999;opacity:0;visibility:hidden;transition:all .4s;backdrop-filter:blur(4px)}
+#overlay-bg.show{opacity:1;visibility:visible}
+
+/* ── ANIMATIONS ── */
+.fade-up{opacity:0;transform:translateY(28px);transition:opacity .85s cubic-bezier(.4,0,.2,1),transform .85s cubic-bezier(.4,0,.2,1)}
+.fade-up.vis{opacity:1;transform:translateY(0)}
+
+/* ── TOAST ── */
+#toast{position:fixed;bottom:2rem;right:2rem;background:var(--ink);border:1px solid rgba(125,32,53,.3);padding:1rem 1.4rem;z-index:9998;transform:translateX(110%);transition:transform .5s cubic-bezier(.4,0,.2,1);max-width:270px}
+#toast.show{transform:translateX(0)}
+.tt{font-family:'Cormorant Garamond',serif;font-size:.95rem;color:var(--gold2);margin-bottom:.18rem}
+.tm2{font-size:.75rem;color:rgba(255,255,255,.4);line-height:1.5}
+
+/* ── RESPONSIVE ── */
+@media(max-width:1024px){
+  nav{padding:1.2rem 2.5rem}
+  nav.scrolled{padding:.9rem 2.5rem}
+  .ritual-grid,.journey-grid,.coach-grid,.res-grid{padding:0 2.5rem;gap:3.5rem}
+  .trinity-grid{padding:0 2.5rem}
+  .prod-grid{padding:0 2.5rem}
+  footer{padding:4rem 2.5rem 2rem}
+  .ft-top{gap:2.5rem}
+}
+@media(max-width:960px){
+  .ritual-grid,.journey-grid,.coach-grid,.res-grid{grid-template-columns:1fr;gap:3rem}
+  .trinity-grid{grid-template-columns:1fr 1fr}
+  .ft-top{grid-template-columns:1fr 1fr;gap:2rem}
+
+}
+@media(max-width:640px){
+  nav{padding:1rem 1.2rem}
+  nav.scrolled{padding:.75rem 1.2rem}
+  .nav-links{display:none}
+  .hamburger{display:flex}
+  .trinity-grid{grid-template-columns:1fr;padding:0 1.2rem}
+  .prod-grid{padding:0 1.2rem}
+  .ft-top{grid-template-columns:1fr}
+  .fg.two{grid-template-columns:1fr}
+  #cart-drawer{width:100%}
+  #hero{padding:7rem 1.5rem 4.5rem}
+  .ritual-grid,.journey-grid,.coach-grid,.res-grid{padding:0 1.2rem}
+  footer{padding:3rem 1.2rem 2rem}
+  .sec-wrap{padding:0 1.2rem}
+  .holistic-grid{grid-template-columns:1fr 1fr}
+  .hc{border-right:1px solid var(--border);border-bottom:1px solid var(--border)}
+}
+</style>
+</head>
+<body>
+<div id="overlay-bg" onclick="closeCart()"></div>
+<!-- MOBILE MENU -->
+<div class="mob-overlay" id="mob-overlay" onclick="closeMobileMenu()"></div>
+<div class="mob-menu" id="mob-menu">
+  <div class="mob-head">
+    <span class="mob-logo">11:11:11</span>
+    <button class="mob-close" onclick="closeMobileMenu()">✕</button>
+  </div>
+  <nav class="mob-nav">
+    <a href="#trinity" onclick="closeMobileMenu()">Collections</a>
+    <a href="#ai-guide" onclick="closeMobileMenu()">Find My Scent</a>
+    <a href="#affirmations" onclick="closeMobileMenu()">Affirmations</a>
+    <a href="#journey" onclick="closeMobileMenu()">Our Journey</a>
+    <a href="#resellers" onclick="closeMobileMenu()">Become a Reseller</a>
+  </nav>
+  <a href="reseller/login.html" class="mob-portal">Reseller Portal Login →</a>
+</div>
+
+<!-- CART -->
+<div id="cart-drawer">
+  <div class="cd-head"><div class="cd-title">Your Ritual Cart</div><button class="cd-close" onclick="closeCart()">✕</button></div>
+  <div class="cd-items" id="cart-items"><div class="cd-empty"><em>Your cart is empty</em>Add ritual oils to begin your manifestation journey.</div></div>
+  <div class="cd-foot">
+    <div class="cd-total"><span>Total</span><strong id="cart-total">₹0</strong></div>
+    <button class="cd-checkout" onclick="proceedToCheckout()">Proceed to Checkout</button>
+  </div>
+</div>
+
+<!-- ANNOUNCEMENT -->
+<div id="announce">✦ Get <span>20% OFF</span> on your first order — Use code: <span>NEWUSER20</span> &nbsp;·&nbsp; Free shipping above ₹999 <a onclick="toast('🎁','Use NEWUSER20 at checkout for 20% off!')">Shop Now</a></div>
+
+<!-- INTRO -->
+<div id="intro">
+  <div class="i-pre">EVOXU PVT LTD presents</div>
+  <div class="i-num">11:11:11</div>
+  <div class="i-tag">Ritual-Infused Manifestation Perfume Oils</div>
+  <div class="i-div"></div>
+  <div class="i-video" onclick="toast('🎬','Sacred brand story video — plays in live version.')">
+    <div class="i-vid-in">
+      <div class="i-play"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+      <div class="i-vl">Watch Our Sacred Story</div>
+    </div>
+    <div class="i-timer" id="i-timer">0:30</div>
+    <div class="i-prog" id="i-prog"></div>
+  </div>
+  <div class="i-actions">
+    <button class="i-enter" onclick="enterSite()">Enter the Experience</button>
+    <button class="i-skip" onclick="enterSite()">Skip Intro</button>
+  </div>
+</div>
+
+<!-- NAV -->
+<nav id="navbar">
+  <div class="nav-ref-congrats" id="nav-ref-congrats">
+    <span class="nrc-top">✦ Special entry</span>
+    <span class="nrc-msg">Congrats! <strong id="nrc-name"></strong> referred you!</span>
+  </div>
+  <a href="#hero" class="nav-logo">
+    <span class="nav-logo-main">11:11:11</span>
+    <span class="nav-logo-sub">Manifestation Perfume Oils</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#trinity">Collections</a></li>
+    <li><a href="#ai-guide">Manifest</a></li>
+    <li><a href="#affirmations">Affirmations</a></li>
+    <li><a href="#journey">Our Journey</a></li>
+    <li><a href="#resellers">Resellers</a></li>
+    <li><a href="reseller/login.html" class="hl">Reseller Login</a></li>
+  </ul>
+  <div class="nav-right">
+    <div class="ref-chip" id="ref-chip">
+      <span class="rc-icon">▦</span>
+      <div>
+        <span class="rc-via">Referred by</span>
+        <span class="rc-name" id="rc-name"></span>
+      </div>
+    </div>
+    <button class="icon-btn" onclick="openCart()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+      <span class="cart-badge" id="cart-count">0</span>
+    </button>
+    <button class="icon-btn" onclick="document.getElementById('ai-guide').scrollIntoView({behavior:'smooth'})">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></svg>
+    </button>
+    <a href="reseller/login.html" class="nav-portal-btn">Reseller</a>
+    <button class="hamburger" id="hamburger-btn" onclick="toggleMobileMenu()"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-bg"></div>
+  <!-- floating perfume drops -->
+  <span class="h-drop h-d1"></span>
+  <span class="h-drop h-d2"></span>
+  <span class="h-drop h-d3"></span>
+  <span class="h-drop h-d4"></span>
+  <span class="h-drop h-d5"></span>
+  <span class="h-drop h-d6"></span>
+  <!-- gold shimmer particles (JS-generated) -->
+  <div class="hero-stars" id="hero-stars"></div>
+  <div class="hero-inner">
+    <div class="hero-eyebrow">Ritual · Intention · Transformation</div>
+    <h1 class="hero-h1">Wear Your<br><em>Intention.</em></h1>
+    <span class="hero-num">11 · 11 · 11</span>
+    <p class="hero-p">Ancient wisdom meets modern manifestation. Ceremonially prepared with sacred fire rituals and Beej mantras — alcohol-free attar oils designed to amplify your frequency and transform your reality.</p>
+    <div class="hero-btns">
+      <button class="btn-primary" onclick="document.getElementById('collections').scrollIntoView({behavior:'smooth'})">Shop the Collection</button>
+      <button class="btn-outline" onclick="document.getElementById('ai-guide').scrollIntoView({behavior:'smooth'})">Find My Scent</button>
+    </div>
+  </div>
+  <div class="hero-scroll"><div class="scroll-line"></div><span>Scroll</span></div>
+</section>
+
+<div class="divider"></div>
+
+<!-- SACRED TRINITY -->
+<section id="trinity">
+  <div class="sec-label">The Sacred Trinity</div>
+  <h2 class="sec-h2">Most <em>Beloved</em> Ritual Oils</h2>
+  <p class="sec-p">Three of our most powerfully manifested fragrances — ceremonially infused and loved by thousands of seekers across India.</p>
+  <div class="trinity-grid" id="trinity-grid"></div>
+</section>
+
+<div class="divider"></div>
+
+<!-- AI GUIDE -->
+<section id="ai-guide">
+  <div class="sec-label">AI Powered</div>
+  <h2 class="sec-h2">Find Your <em>Sacred</em> Scent</h2>
+  <p class="sec-p">Meet Ara — your 11:11:11 manifestation guide. Share your deepest intention and she will reveal the oil perfectly attuned to your energy.</p>
+  <div class="sec-wrap">
+    <div class="ai-wrap fade-up">
+      <div class="ai-top">
+        <div class="ai-orb">✦</div>
+        <div>
+          <div class="ai-name">Ara · 11:11:11 Guide</div>
+          <div class="ai-status"><span class="live-dot"></span>Attuned to your frequency</div>
+        </div>
+      </div>
+      <div class="ai-chat" id="ai-chat"></div>
+      <div class="ai-input-row">
+        <input type="text" class="ai-text" id="ai-input" placeholder="Share your intention with Ara…" onkeydown="if(event.key==='Enter')sendMsg()">
+        <button class="send-btn" onclick="sendMsg()"><svg viewBox="0 0 24 24"><path d="M22 2L11 13M22 2L15 22l-4-9-9-4 20-7z"/></svg></button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- COLLECTIONS -->
+<section id="collections">
+  <div class="sec-label">All Ritual Oils</div>
+  <h2 class="sec-h2">The <em>Collection</em></h2>
+  <p class="sec-p">10ml alcohol-free attar roll-ons. Each oil ceremonially prepared with sacred fire rituals, Beej mantras, and an 11-Day Activation Ritual included in every box.</p>
+  <div style="text-align:center">
+    <div class="filter-tabs">
+      <button class="ftab on" onclick="filterProducts('all',this)">All</button>
+      <button class="ftab" onclick="filterProducts('male',this)">For Him</button>
+      <button class="ftab" onclick="filterProducts('female',this)">For Her</button>
+      <button class="ftab" onclick="filterProducts('combo',this)">Combo Sets</button>
+    </div>
+  </div>
+  <div class="prod-grid" id="prod-grid"></div>
+</section>
+
+<div class="divider"></div>
+
+<!-- RITUAL -->
+<section id="ritual">
+  <div class="sec-wrap">
+    <div class="ritual-grid">
+      <div class="ritual-visual fade-up">
+        <div class="ritual-circle">
+          <div><div class="ritual-num-big">11</div><div class="ritual-num-sub">Day Activation</div></div>
+        </div>
+        <p style="font-size:.8rem;color:var(--dim);margin-top:1.5rem;letter-spacing:.1em;text-align:center">Results within 18 weeks of consistent practice</p>
+      </div>
+      <div class="ritual-info fade-up" style="transition-delay:.15s">
+        <div class="sec-label" style="justify-content:flex-start;margin-bottom:.8rem"><span style="height:1px;width:25px;background:rgba(125,32,53,.3)"></span>The Sacred Practice</div>
+        <h3>Your <em>11-Day</em> Activation Ritual</h3>
+        <p>Every 11:11:11 oil comes with a complete 11-Day Activation Ritual drawn from ancient Vedic traditions, adapted for the modern seeker. Each bottle is ceremonially prepared by our artisans in Channapatna, Karnataka — a UNESCO-recognised craft tradition.</p>
+        <ul class="ritual-steps">
+          <li class="r-step"><div class="r-num">01</div><div class="r-txt"><strong>Set Your Sacred Intention</strong>Hold your oil between both palms. Close your eyes and speak your intention clearly three times. Feel it as already real.</div></li>
+          <li class="r-step"><div class="r-num">02</div><div class="r-txt"><strong>Recite Your Beej Mantra</strong>Each oil comes with its unique Beej mantra. Chant it 11 times to activate the oil's vibrational frequency.</div></li>
+          <li class="r-step"><div class="r-num">03</div><div class="r-txt"><strong>Apply to Pulse Points</strong>Roll gently onto your wrists, neck, and behind ears. As each point warms the oil, visualise your manifestation.</div></li>
+          <li class="r-step"><div class="r-num">04</div><div class="r-txt"><strong>Breathe & Anchor</strong>Breathe in the fragrance deeply. Let it anchor your intention into your nervous system. Trust. Surrender. Allow.</div></li>
+          <li class="r-step"><div class="r-num">05</div><div class="r-txt"><strong>Repeat for 11 Days</strong>Consistency is sacred. Perform this ritual each morning for 11 consecutive days to fully activate your frequency.</div></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- JOURNEY -->
+<section id="journey">
+  <div class="sec-wrap">
+    <div class="journey-grid">
+      <div class="journey-content fade-up">
+        <div class="sec-label" style="justify-content:flex-start;margin-bottom:.8rem"><span style="height:1px;width:25px;background:rgba(125,32,53,.3)"></span>Our Sacred Journey</div>
+        <h2>Ancient Wisdom,<br><em>Modern Intention</em></h2>
+        <p>11:11:11 was born from a profound belief: fragrance is not merely cosmetic — it is a tool for transformation. For centuries, ancient civilisations understood the metaphysical power of aroma — from Egyptian temples to Vedic rituals. We revive this sacred knowledge for the modern seeker.</p>
+        <div class="journey-quote">"We don't just sell products — we offer experiences, intentions, and tools that empower your spiritual journey and enrich your everyday life."</div>
+        <p>Our oils are crafted with master artisans in Channapatna, Karnataka, using hand-turned wooden bottles. Each batch passes through sacred fire rituals and mantra-led ceremonies.</p>
+        <div class="journey-stats">
+          <div class="jstat"><div class="jstat-val">10</div><div class="jstat-lbl">Sacred Oils</div></div>
+          <div class="jstat"><div class="jstat-val">18</div><div class="jstat-lbl">Weeks to Manifest</div></div>
+          <div class="jstat"><div class="jstat-val">11</div><div class="jstat-lbl">Day Activation</div></div>
+        </div>
+      </div>
+      <div class="fade-up" style="transition-delay:.15s">
+        <div class="journey-img-box">
+          <svg width="130" height="190" viewBox="0 0 140 200" fill="none">
+            <defs><linearGradient id="jbg" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#C9A84C" stop-opacity=".45"/><stop offset="100%" stop-color="#8A6D2A" stop-opacity=".3"/></linearGradient></defs>
+            <ellipse cx="70" cy="45" rx="18" ry="11" fill="url(#jbg)"/>
+            <rect x="58" y="54" width="24" height="38" rx="3" fill="url(#jbg)"/>
+            <path d="M28 92 Q22 100 20 120 L20 170 Q20 180 32 180 L108 180 Q120 180 120 170 L120 120 Q118 100 112 92 Z" fill="url(#jbg)"/>
+            <rect x="35" y="116" width="70" height="44" rx="2" fill="rgba(255,255,255,0.35)" stroke="rgba(125,32,53,0.3)" stroke-width="1"/>
+            <text x="70" y="136" text-anchor="middle" font-family="'Cormorant Garamond',serif" font-size="8" fill="rgba(28,25,20,0.6)" letter-spacing="2.5">11:11:11</text>
+            <text x="70" y="150" text-anchor="middle" font-family="serif" font-style="italic" font-size="6.5" fill="rgba(138,109,42,0.9)">Manifestation Oil</text>
+          </svg>
+          <div class="artisan-badge">Channapatna Craft</div>
+          <div class="ji-label">
+            <h4>Handcrafted Sacred Vessels</h4>
+            <p>Each bottle hand-turned by master artisans using a UNESCO-recognised craft tradition from Karnataka, India.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- AFFIRMATIONS -->
+<section id="affirmations">
+  <div class="sec-label">Daily Practice</div>
+  <h2 class="sec-h2">Sacred <em>Affirmations</em></h2>
+  <p class="sec-p">Pair your ritual oil with these intention-setting affirmations. Speak them aloud as you apply your oil each morning.</p>
+  <div class="aff-list" id="aff-list"></div>
+</section>
+
+<div class="divider"></div>
+
+<!-- RESELLERS -->
+<section id="resellers">
+  <div class="sec-label">Sacred Partnership</div>
+  <h2 class="sec-h2">Become a <em>Sacred Ambassador</em></h2>
+  <p class="sec-p">Bring the power of 11:11:11 ritual oils to your community and earn commissions on every sale you generate.</p>
+  <div class="res-grid">
+    <div class="res-info fade-up">
+      <p>As an authorised 11:11:11 reseller, you become a bridge between sacred fragrance and the seekers who need it. Whether you own a wellness store, a spiritual boutique, or operate through social media — our ecosystem empowers you to build meaningful income while spreading conscious living.</p>
+      <ul class="benefits">
+        <li class="benefit"><div class="b-ic">⬡</div><div><strong>Dedicated Reseller Dashboard</strong>Track all activity, earnings, orders, and customer growth in real time from your personal portal.</div></li>
+        <li class="benefit"><div class="b-ic">🔗</div><div><strong>Unique Referral Link</strong>Your personal URL tracks every click and conversion — share on Instagram, WhatsApp, or your website.</div></li>
+        <li class="benefit"><div class="b-ic">▦</div><div><strong>Personalised QR Code</strong>Display at your store or share digitally. Every scan is automatically tracked to your account.</div></li>
+        <li class="benefit"><div class="b-ic">₹</div><div><strong>Commission on Every Sale</strong>Earn ₹100 flat commission on each order, paid directly to your bank or UPI ID.</div></li>
+        <li class="benefit"><div class="b-ic">📊</div><div><strong>Live Analytics Dashboard</strong>Monitor referral traffic, orders, commission history, and engagement in real time.</div></li>
+      </ul>
+    </div>
+    <div class="res-form fade-up" style="transition-delay:.15s">
+      <div class="form-title">Apply to <em>Join</em></div>
+      <form onsubmit="submitForm(event)">
+        <div class="fg two">
+          <div class="fgroup"><label class="flbl">Full Name *</label><input type="text" class="finput" placeholder="Your full name" required></div>
+          <div class="fgroup"><label class="flbl">Phone *</label><input type="tel" class="finput" placeholder="+91 XXXXX XXXXX" required></div>
+        </div>
+        <div class="fg two">
+          <div class="fgroup"><label class="flbl">WhatsApp</label><input type="tel" class="finput" placeholder="If different"></div>
+          <div class="fgroup"><label class="flbl">Email *</label><input type="email" class="finput" placeholder="your@email.com" required></div>
+        </div>
+        <div class="fg"><label class="flbl">Store / Business Name *</label><input type="text" class="finput" placeholder="Your store or business name" required></div>
+        <div class="fg"><label class="flbl">Store Address *</label><textarea class="ftarea" placeholder="Complete address including city and pincode" required></textarea></div>
+        <div class="fg two">
+          <div class="fgroup"><label class="flbl">Outlet Type *</label>
+            <select class="fsel" required>
+              <option value="">Select type</option>
+              <option>Wellness &amp; Spiritual Store</option>
+              <option>Perfume &amp; Cosmetics</option>
+              <option>Fashion Boutique</option>
+              <option>Gift &amp; Lifestyle Store</option>
+              <option>Online / Social Media</option>
+              <option>Salon &amp; Beauty</option>
+              <option>Other</option>
+            </select>
+          </div>
+          <div class="fgroup"><label class="flbl">Bank / UPI *</label><input type="text" class="finput" placeholder="UPI ID or bank details" required></div>
+        </div>
+        <button type="submit" class="f-submit">Submit Application ✦</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- AI COACH -->
+<section id="ai-coach">
+  <div class="sec-label">Post-Purchase</div>
+  <h2 class="sec-h2">Your <em>Manifestation</em> Coach</h2>
+  <p class="sec-p">Ara guides you after purchase — daily affirmations, ritual tracking, Beej mantra guidance, and spiritual support to keep your 11:11:11 practice aligned.</p>
+  <div class="coach-grid">
+    <div class="fade-up">
+      <div class="phone-mock">
+        <div class="ph-notch"></div>
+        <div class="ph-screen">
+          <div class="ph-head"><h4>Ara · Daily Ritual</h4><p>11:11:11 Manifestation Coach</p></div>
+          <div class="ph-msgs">
+            <div class="c-msg">🌅 Good morning. Today's energy is aligned for <strong>abundance</strong>. Your SHREEMSRI ritual awaits.</div>
+            <div class="c-aff">"Wealth flows to me effortlessly. I am open to all forms of prosperity."</div>
+            <div class="c-msg">Apply your <strong>SHREEMSRI</strong> oil to your wrists. Chant your Beej mantra 11 times. 🕯️</div>
+            <div class="c-acts">
+              <button class="c-act">✓ Ritual Done</button>
+              <button class="c-act">🔔 Remind Later</button>
+            </div>
+            <div class="c-msg" style="margin-top:.2rem">Day 7 of your 11-Day Activation. Stay consistent — you're more than halfway. ✨</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="coach-features fade-up" style="transition-delay:.15s">
+      <div class="cf"><div class="cf-ic">🌅</div><div><div class="cf-title">Daily Affirmations</div><p class="cf-desc">Personalised affirmations each morning, matched to your oil's manifestation frequency and personal intention.</p></div></div>
+      <div class="cf"><div class="cf-ic">🕯️</div><div><div class="cf-title">11-Day Ritual Tracking</div><p class="cf-desc">Track your activation ritual progress. Ara reminds you each morning and celebrates your consistency streaks.</p></div></div>
+      <div class="cf"><div class="cf-ic">📿</div><div><div class="cf-title">Beej Mantra Guidance</div><p class="cf-desc">Audio and written guidance for your oil's Beej mantra — pronunciation, meaning, and timing for each sacred sound.</p></div></div>
+      <div class="cf"><div class="cf-ic">🌙</div><div><div class="cf-title">Moon Cycle Rituals</div><p class="cf-desc">Special rituals aligned to new moon and full moon — amplify your manifestation with cosmic timing.</p></div></div>
+      <div class="cf"><div class="cf-ic">💫</div><div><div class="cf-title">Manifestation Journal</div><p class="cf-desc">Log your intentions, wins, and breakthroughs. Ara helps you recognise synchronicities and celebrate your journey.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- HOLISTIC -->
+<section id="holistic">
+  <div class="sec-label">Holistic Care</div>
+  <h2 class="sec-h2">Complete Your <em>Practice</em></h2>
+  <p class="sec-p">Everything included to support your full manifestation journey — beyond the fragrance.</p>
+  <div class="holistic-grid">
+    <div class="hc fade-up"><span class="hc-icon">🔥</span><div class="hc-title">Sacred Fire Preparation</div><p class="hc-desc">Every oil is ceremonially prepared through sacred fire rituals — a Vedic tradition ensuring each bottle carries intentional vibrational energy.</p></div>
+    <div class="hc fade-up" style="transition-delay:.08s"><span class="hc-icon">📜</span><div class="hc-title">Ritual Cards Included</div><p class="hc-desc">Each box includes your oil's Beej mantra, 11-day activation instructions, and a daily practice ritual card.</p></div>
+    <div class="hc fade-up" style="transition-delay:.16s"><span class="hc-icon">🪵</span><div class="hc-title">Artisan Wooden Bottles</div><p class="hc-desc">Hand-turned by Channapatna master craftsmen using traditional techniques — a UNESCO-recognised sustainable craft from Karnataka.</p></div>
+    <div class="hc fade-up" style="transition-delay:.24s"><span class="hc-icon">✦</span><div class="hc-title">Alcohol-Free Attar</div><p class="hc-desc">Pure, skin-kind attar formulations. Long-lasting 8–12 hours. No alcohol, no parabens. Safe for daily ritual use on pulse points.</p></div>
+    <div class="hc fade-up" style="transition-delay:.32s"><span class="hc-icon">🧘</span><div class="hc-title">Mantra Integration</div><p class="hc-desc">Each oil is aligned to a specific Beej mantra. When applied during mantra recitation, the scent deepens the vibrational imprint in your nervous system.</p></div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="ft-top">
+    <div class="ft-brand">
+      <span class="ft-logo">11:11:11</span>
+      <span class="ft-logo-sub">by EVOXU PVT LTD</span>
+      <p>Ritual-Infused Manifestation Perfume Oils. Ceremonially prepared with ancient wisdom, sacred fire rituals, and Beej mantras for the modern seeker.</p>
+      <div class="ft-socials">
+        <a href="https://instagram.com/111111manifesting" class="ft-soc" target="_blank">IG</a>
+        <a href="https://youtube.com/@manifest.growth.prosperity" class="ft-soc" target="_blank">YT</a>
+        <a href="#" class="ft-soc">FB</a>
+        <a href="#" class="ft-soc">WA</a>
+      </div>
+    </div>
+    <div>
+      <div class="ft-col-title">Collections</div>
+      <ul class="ft-links">
+        <li><a href="#" onclick="filterAndScroll('male')">For Him</a></li>
+        <li><a href="#" onclick="filterAndScroll('female')">For Her</a></li>
+        <li><a href="#" onclick="filterAndScroll('combo')">Combo Sets</a></li>
+        <li><a href="#trinity">The Sacred Trinity</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="ft-col-title">Explore</div>
+      <ul class="ft-links">
+        <li><a href="#ai-guide">Find My Scent (AI)</a></li>
+        <li><a href="#ritual">11-Day Ritual</a></li>
+        <li><a href="#affirmations">Affirmations</a></li>
+        <li><a href="#journey">Our Sacred Journey</a></li>
+        <li><a href="#holistic">Holistic Care</a></li>
+        <li><a href="#resellers">Become a Reseller</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="ft-col-title">Stay Aligned</div>
+      <p style="font-size:.78rem;color:rgba(255,248,242,.65);line-height:1.85;margin-bottom:.75rem">Receive weekly affirmations, moon rituals &amp; manifestation guidance.</p>
+      <div class="ft-nl-row">
+        <input type="email" class="ft-nl-input" placeholder="Your email">
+        <button class="ft-nl-btn" onclick="toast('✦','You are now aligned with 11:11:11.')">Join</button>
+      </div>
+      <div style="margin-top:1.1rem;font-size:.68rem;color:rgba(255,248,242,.62);line-height:1.85">WhatsApp Support<br><span style="color:rgba(255,248,242,.82)">Mon – Sat, 10am – 6pm IST</span></div>
+    </div>
+  </div>
+  <div class="ft-bottom">
+    <span>© 2025 11:11:11 · EVOXU PVT LTD. All rights reserved.</span>
+    <div style="display:flex;gap:1.1rem"><a href="#">Privacy</a><a href="#">Terms</a><a href="#">Refund Policy</a><a href="#">Shipping</a></div>
+    <div style="display:flex;align-items:center;gap:1.5rem">
+      <span style="font-size:.62rem;letter-spacing:.2em;color:rgba(255,248,242,.45)">EVOXU PVT LTD · India</span>
+      <a href="admin/index.html" style="font-size:.55rem;letter-spacing:.25em;text-transform:uppercase;color:rgba(255,248,242,.28);text-decoration:none;border:1px solid rgba(255,248,242,.12);padding:.22rem .6rem;transition:all .3s" onmouseover="this.style.color='rgba(255,248,242,.65)'" onmouseout="this.style.color='rgba(255,248,242,.28)'">Admin</a>
+    </div>
+  </div>
+</footer>
+
+<div id="toast"><div class="tt" id="t-ttl"></div><div class="tm2" id="t-msg"></div></div>
+
+<script>
+const PRODUCTS=[
+  {id:1,name:'KLEOMA',for:'male',intent:'Love & Attraction',notes:'Rose · Ylang Ylang · Musk · Amber · Spice',desc:'A ritual-infused attar to support emotional connection, attraction, and presence. Velvety, warm, and floral — a blooming heart of rose and ylang ylang over soft musk and amber.',price:1234,glow:'#e879b0',grad:'#be185d',bg:'#fdf2f8',emoji:'🌹'},
+  {id:2,name:'KLINFON',for:'male',intent:'Relaxation & Calm',notes:'Lavender · Lemon · Caraway · Saffron · Jasmine · Oud · Amber',desc:'Supports calm presence and smooth transition into rest. Herbal and grounding — a sacred oil for those who need to still the mind and restore balance.',price:1234,glow:'#93c5fd',grad:'#1d4ed8',bg:'#eff6ff',emoji:'🌿',outOfStock:true},
+  {id:3,name:'MYSTRA',for:'male',intent:'Financial Clarity',notes:'Citrus · Saffron · Cinnamon · Vetiver · Oud · Amber · Leather',desc:'For financial clarity, balance, and mindful decision-making. Opens with zesty citrus and saffron, grounded by oud, amber, and sacred resins.',price:1234,glow:'#fbbf24',grad:'#92400e',bg:'#fffbeb',emoji:'⚖️'},
+  {id:4,name:'SHREEMSRI',for:'male',intent:'Wealth & Prosperity',notes:'Golden Saffron · Cinnamon · Smoky Musk · Patchouli · Sacred Resins',desc:'Earthy, warm, and rich with subtle spice. A sacred oil for those walking the path of meaningful wealth creation — abundance, expansion, conscious prosperity.',price:1234,glow:'#c9a84c',grad:'#78350f',bg:'#fdf8ee',emoji:'👑'},
+  {id:5,name:'SUKCE',for:'male',intent:'Success & Achievement',notes:'Lavender · Lemon · Saffron · Jasmine · Oud · Warm Amber',desc:'A sensory anchor for entrepreneurs, leaders, and creators. Supports focus, discipline, and the unwavering belief that your success is inevitable.',price:1234,glow:'#a78bfa',grad:'#4c1d95',bg:'#f5f3ff',emoji:'🏆'},
+  {id:6,name:'KAMAVYA',for:'female',intent:'Attraction & Love',notes:'Sweet Almond · Jasmine Sambac · Crystal Tuberose · Tonka Bean · Cocoa',desc:'Romantic and magnetic. A sweet whisper of almond into lush jasmine and crystal tuberose, settling into tonka bean and cocoa.',price:1234,glow:'#f472b6',grad:'#9d174d',bg:'#fdf2f8',emoji:'🌸'},
+  {id:7,name:'KLINFON',for:'female',intent:'Relaxation & Calm',notes:'Lavender · Lemon · Caraway · Saffron · Jasmine · Oud · Amber',desc:'Encourages ease, softness, and balanced rhythm between activity and restoration. A sacred oil to transition into deep rest and inner stillness.',price:1234,glow:'#6ee7b7',grad:'#065f46',bg:'#ecfdf5',emoji:'🌙',outOfStock:true},
+  {id:8,name:'HREMAAN',for:'female',intent:'Financial Clarity',notes:'Lavender · Lemon · Caraway · Saffron · Jasmine · Oud · Warm Amber',desc:'A sacred anchor for clarity in financial thinking, calm steady awareness, and balanced mindful decisions for women walking with abundance.',price:1234,glow:'#fbbf24',grad:'#78350f',bg:'#fffbeb',emoji:'✨'},
+  {id:9,name:'SHRIVAA',for:'female',intent:'Wealth & Prosperity',notes:'Golden Saffron · Cinnamon · Smoky Musk · Patchouli · Sacred Resins',desc:'Earthy, warm, and rich. "The scent is soft, but the impact is loud." For those walking the path of conscious prosperity — abundance in every drop.',price:1234,glow:'#c9a84c',grad:'#92400e',bg:'#fdf8ee',emoji:'💛'},
+  {id:10,name:'YCNEX',for:'female',intent:'Confidence & Success',notes:'Citrus · Saffron · Cinnamon · Florals · Vetiver · Sandalwood · Oud · Amber',desc:'A sensory anchor for the woman who leads, creates, and rises. Focus, mental clarity, confident personal presence, consistent intentional action.',price:1234,glow:'#c084fc',grad:'#5b21b6',bg:'#faf5ff',emoji:'⭐'},
+  {id:11,name:'KLINFON Combo',for:'combo',intent:'Relaxation — Him & Her',notes:'Two 10ml Roll-Ons · Male + Female Formulations',desc:'The complete KLINFON ritual set. Two complementary formulations for couples or for those who hold both energies — sacred shared rest.',price:2345,glow:'#93c5fd',grad:'#1d4ed8',bg:'#eff6ff',emoji:'🤍'},
+  {id:12,name:'Love Combo',for:'combo',intent:'Love & Attraction — Him & Her',notes:'KLEOMA (Male) + KAMAVYA (Female) · Two 10ml Roll-Ons',desc:'The sacred love pairing — KLEOMA for him and KAMAVYA for her. One intention: to draw love closer and magnetise meaningful connections.',price:2345,glow:'#f472b6',grad:'#be185d',bg:'#fdf2f8',emoji:'💕'},
+];
+const INTENTS=[
+  {icon:'🌹',label:'Love & Attraction',p:0},
+  {icon:'👑',label:'Wealth & Prosperity',p:3},
+  {icon:'⚖️',label:'Financial Clarity',p:2},
+  {icon:'🏆',label:'Success & Achievement',p:4},
+  {icon:'🌿',label:'Relaxation & Calm',p:1},
+  {icon:'💫',label:'Confidence & Power',p:9},
+];
+const AFFIRMATIONS=[
+  {for:'KLEOMA & KAMAVYA',text:'"I am a magnet for love. Meaningful connections flow to me naturally and joyfully."',intent:'Love & Attraction'},
+  {for:'SHREEMSRI & SHRIVAA',text:'"Abundance is my birthright. Wealth flows to me in expected and unexpected ways. I am open to all forms of prosperity."',intent:'Wealth & Prosperity'},
+  {for:'MYSTRA & HREMAAN',text:'"My mind is clear and focused. I make wise, confident decisions that create lasting financial stability."',intent:'Financial Clarity'},
+  {for:'SUKCE & YCNEX',text:'"I am capable of achieving everything I set my mind to. Success is not a destination — it is who I am becoming."',intent:'Success & Achievement'},
+  {for:'KLINFON',text:'"I release the busyness of the day. My mind is calm, my body is at rest. I allow peace to flow through every cell."',intent:'Relaxation & Calm'},
+];
+let cart=[],toastTm;
+
+function initStars(){
+  const c=document.getElementById('hero-stars');
+  for(let i=0;i<70;i++){
+    const s=document.createElement('div');s.className='star';
+    const sz=Math.random()*3+1;
+    s.style.cssText=`width:${sz}px;height:${sz}px;left:${Math.random()*100}%;top:${Math.random()*100}%;--d:${(Math.random()*5+3).toFixed(1)}s;--dl:${(Math.random()*6).toFixed(1)}s;--o:${(Math.random()*.25+.08).toFixed(2)}`;
+    c.appendChild(s);
+  }
+}
+let iSec=30,iIv=null;
+function startIntro(){
+  const prog=document.getElementById('i-prog');
+  const timer=document.getElementById('i-timer');
+  iIv=setInterval(()=>{iSec--;if(prog)prog.style.width=((30-iSec)/30*100)+'%';if(timer)timer.textContent='0:'+(iSec<10?'0':'')+iSec;if(iSec<=0){clearInterval(iIv);enterSite();}},1000);
+}
+function enterSite(){clearInterval(iIv);document.getElementById('intro').classList.add('gone');document.body.style.overflow='';setTimeout(initAI,800);setTimeout(initNewsletterPopup,1800);}
+function initNav(){const nav=document.getElementById('navbar');window.addEventListener('scroll',()=>nav.classList.toggle('scrolled',window.scrollY>60));}
+function initScrollObs(){const obs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('vis');});},{threshold:.1});document.querySelectorAll('.fade-up').forEach(el=>obs.observe(el));}
+
+function renderTrinity(){
+  const featured=[PRODUCTS[3],PRODUCTS[5],PRODUCTS[4]];
+  document.getElementById('trinity-grid').innerHTML=featured.map((p,i)=>`
+    <div class="tc fade-up" style="transition-delay:${i*.12}s">
+      <div class="tc-img" style="background:${p.bg}">
+        <div class="tc-glow" style="background:${p.glow};top:40%;left:50%;transform:translate(-50%,-50%)"></div>
+        <div class="tc-num">0${i+1}</div>
+        <div class="tc-for-badge">${p.for==='male'?'For Him':'For Her'}</div>
+        <div style="position:relative;z-index:1;font-size:4rem;filter:drop-shadow(0 2px 12px ${p.glow}60)">${p.emoji}</div>
+      </div>
+      <div class="tc-body">
+        <div class="tc-name">${p.name}</div>
+        <div class="tc-intent">${p.intent}</div>
+        <div class="tc-desc">${p.desc.substring(0,115)}…</div>
+        <div class="tc-foot">
+          <div><div class="tc-price">₹${p.price.toLocaleString('en-IN')}<small>10ml Roll-On Attar</small></div></div>
+          <button class="tc-btn" onclick="addToCart(${p.id-1})">Add to Ritual</button>
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+function renderProducts(){
+  document.getElementById('prod-grid').innerHTML=PRODUCTS.map((p,i)=>{
+    const dn=ACTIVE_SUFFIX?`${p.name}-${ACTIVE_SUFFIX}`:p.name;
+    return`<div class="p-card fade-up ${p.for}${p.outOfStock?' oos':''}" data-for="${p.for}" style="transition-delay:${(i%4)*.08}s">
+      <div class="p-img" style="background:${p.bg}">
+        <div class="p-glow" style="background:${p.glow};top:50%;left:50%;transform:translate(-50%,-50%)"></div>
+        <div style="position:relative;z-index:1;font-size:3.4rem;filter:drop-shadow(0 2px 10px ${p.glow}50)">${p.emoji}</div>
+        <div class="p-for-badge">${p.for==='male'?'For Him':p.for==='female'?'For Her':'Combo'}</div>
+        <div class="p-intent-tag">${p.intent}</div>
+        ${p.outOfStock?'<div class="p-oos-badge">Out of Stock</div>':''}
+      </div>
+      <div class="p-body">
+        <div class="p-name">${dn}</div>
+        <div class="p-notes">${p.notes}</div>
+        <div class="p-desc">${p.desc.substring(0,95)}…</div>
+        <div class="p-foot">
+          <div><div class="p-price">₹${p.price.toLocaleString('en-IN')}</div><div class="p-size">10ml · Attar Roll-On</div></div>
+          <button class="p-add"${p.outOfStock?' disabled':''} onclick="${p.outOfStock?'':('addToCart('+i+')')}">
+            ${p.outOfStock?'Out of Stock':'Add'}
+          </button>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+  initScrollObs();
+}
+function filterProducts(type,btn){document.querySelectorAll('.ftab').forEach(b=>b.classList.remove('on'));btn.classList.add('on');document.querySelectorAll('.p-card').forEach(c=>{c.classList.toggle('hidden',type!=='all'&&c.dataset.for!==type);});}
+function filterAndScroll(type){document.getElementById('collections').scrollIntoView({behavior:'smooth'});setTimeout(()=>{const btn=[...document.querySelectorAll('.ftab')].find(b=>b.textContent.toLowerCase().includes(type==='male'?'him':type==='female'?'her':type));if(btn)filterProducts(type,btn);},600);}
+
+function addToCart(idx){const p=PRODUCTS[idx];const dn=ACTIVE_SUFFIX?`${p.name}-${ACTIVE_SUFFIX}`:p.name;const ex=cart.find(i=>i.id===p.id);if(ex)ex.qty++;else cart.push({...p,name:dn,qty:1});updateCart();toast(p.emoji,`${dn} added to your ritual cart.`);}
+function updateCart(){
+  document.getElementById('cart-count').textContent=cart.reduce((a,i)=>a+i.qty,0);
+  const total=cart.reduce((a,i)=>a+(i.price*i.qty),0);
+  document.getElementById('cart-total').textContent='₹'+total.toLocaleString('en-IN');
+  const el=document.getElementById('cart-items');
+  if(!cart.length){el.innerHTML='<div class="cd-empty"><em>Your cart is empty</em>Add ritual oils to begin your manifestation journey.</div>';return;}
+  el.innerHTML=cart.map((item,i)=>`
+    <div class="cd-item">
+      <div class="cd-thumb" style="background:${item.bg}">${item.emoji}</div>
+      <div class="cd-info">
+        <div class="cd-iname">${item.name}</div>
+        <div class="cd-ifor">${item.intent} · 10ml</div>
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-top:.35rem">
+          <div class="cd-iprice">₹${item.price.toLocaleString('en-IN')}</div>
+          <div style="display:flex;align-items:center;gap:.4rem">
+            <button onclick="changeQty(${i},-1)" style="background:none;border:1px solid var(--border);color:var(--tm);width:22px;height:22px;cursor:pointer;font-size:.9rem;display:flex;align-items:center;justify-content:center">-</button>
+            <span style="font-size:.88rem;min-width:14px;text-align:center">${item.qty}</span>
+            <button onclick="changeQty(${i},1)" style="background:none;border:1px solid var(--border);color:var(--tm);width:22px;height:22px;cursor:pointer;font-size:.9rem;display:flex;align-items:center;justify-content:center">+</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+function changeQty(i,d){cart[i].qty+=d;if(cart[i].qty<=0)cart.splice(i,1);updateCart();}
+function openCart(){document.getElementById('cart-drawer').classList.add('open');document.getElementById('overlay-bg').classList.add('show');}
+function closeCart(){document.getElementById('cart-drawer').classList.remove('open');document.getElementById('overlay-bg').classList.remove('show');}
+function proceedToCheckout(){
+  if(!cart.length){toast('✦','Your cart is empty. Add ritual oils to begin.');return;}
+  localStorage.setItem('111_cart',JSON.stringify(cart));
+  window.location.href='checkout.html';
+}
+
+/* ── RESELLER REF BADGE ── */
+const RESELLER_SUFFIX_MAP={'AV001':'ARA','SB001':'SIBI','BH001':'BHU'};
+let ACTIVE_SUFFIX='';
+function getResellerSuffix(code){
+  if(!code)return'';
+  const upper=code.toUpperCase();
+  if(RESELLER_SUFFIX_MAP[upper])return RESELLER_SUFFIX_MAP[upper];
+  const name=REF_NAME_MAP[upper];
+  if(name)return name.slice(0,3).toUpperCase();
+  return upper.replace(/\d/g,'').slice(0,3)||upper.slice(0,3);
+}
+const REF_NAME_MAP={
+  'AV001':'Aravind','SB001':'Sibi','BH001':'Bhupan',
+  'PS001':'Priya Sharma','RK001':'Rahul Kumar',
+  'DV001':'Divya Pillai','AN001':'Ananya Iyer','MN001':'Meera Nair',
+};
+function showRefChip(name){
+  if(!name)return;
+  document.getElementById('rc-name').textContent=name;
+  document.getElementById('ref-chip').classList.add('show');
+  document.getElementById('nrc-name').textContent=name;
+  document.getElementById('nav-ref-congrats').classList.add('show');
+}
+function initRefBadge(){
+  const params=new URLSearchParams(window.location.search);
+  const urlRef=params.get('ref');
+  if(!urlRef)return;
+  localStorage.setItem('111_ref',urlRef);
+  ACTIVE_SUFFIX=getResellerSuffix(urlRef);
+  showRefChip(REF_NAME_MAP[urlRef.toUpperCase()]||urlRef.replace(/[-_]/g,' ').replace(/\b\w/g,l=>l.toUpperCase()));
+  fetch(`http://127.0.0.1:8000/api/reseller/track-scan/?ref=${encodeURIComponent(urlRef)}`)
+    .then(r=>r.ok?r.json():null)
+    .then(d=>{if(d&&d.reseller)showRefChip(d.reseller);})
+    .catch(()=>{});
+}
+
+function initAI(){
+  const chat=document.getElementById('ai-chat');chat.innerHTML='';
+  const msgs=[{type:'ai',text:'Namaste ✦ I am Ara, your 11:11:11 manifestation guide. Each of our sacred oils is attuned to a specific vibrational frequency.',delay:400},{type:'ai',text:'The universe has guided you here for a reason. What do you wish to manifest in your life right now?',delay:1500},{type:'intents',delay:2500}];
+  msgs.forEach(m=>{setTimeout(()=>{m.type==='ai'?appendAI(chat,m.text):appendIntents(chat);},m.delay);});
+}
+function appendAI(chat,text){const d=document.createElement('div');d.className='ai-msg';d.innerHTML=`<div class="ai-sm-orb">✦</div><div class="ai-bubble">${text.replace(/\n/g,'<br>')}</div>`;chat.appendChild(d);chat.scrollTop=chat.scrollHeight;}
+function appendUser(chat,text){const d=document.createElement('div');d.className='user-msg';d.innerHTML=`<div class="user-bubble">${text}</div>`;chat.appendChild(d);chat.scrollTop=chat.scrollHeight;}
+function appendIntents(chat){const row=document.createElement('div');row.className='intents';row.id='intent-row';row.innerHTML=INTENTS.map((it,i)=>`<button class="i-btn" onclick="selectIntent(${i})">${it.icon} ${it.label}</button>`).join('');chat.appendChild(row);chat.scrollTop=chat.scrollHeight;}
+function selectIntent(idx){
+  const chat=document.getElementById('ai-chat');const row=document.getElementById('intent-row');
+  if(row)row.querySelectorAll('.i-btn').forEach((b,i)=>{if(i===idx)b.classList.add('picked');});
+  setTimeout(()=>appendUser(chat,INTENTS[idx].icon+' '+INTENTS[idx].label),200);
+  setTimeout(()=>{const t=document.createElement('div');t.className='ai-msg';t.id='typing1';t.innerHTML=`<div class="ai-sm-orb">✦</div><div class="typing"><div class="td"></div><div class="td"></div><div class="td"></div></div>`;chat.appendChild(t);chat.scrollTop=chat.scrollHeight;},600);
+  setTimeout(()=>{
+    const t=document.getElementById('typing1');if(t)t.remove();
+    appendAI(chat,'A beautiful intention. The universe is already responding. ✦\n\nBased on your energy, I recommend:');
+    setTimeout(()=>{
+      const p=PRODUCTS[INTENTS[idx].p];const rec=document.createElement('div');rec.className='ai-msg';
+      rec.innerHTML=`<div class="ai-sm-orb">✦</div><div><div class="rec-card"><div class="rec-name">${p.name}</div><div class="rec-intent">${p.intent} · ${p.for==='male'?'For Him':'For Her'} · 10ml Roll-On</div><div class="rec-desc">${p.desc}<br><br><em style="font-size:.78rem;color:var(--amber)">Includes 11-Day Activation Ritual + Beej Mantra card. Results within 18 weeks of consistent daily practice.</em></div><button class="rec-btn" onclick="addToCart(${INTENTS[idx].p})">Add to Ritual — ₹${p.price.toLocaleString('en-IN')}</button></div></div>`;
+      chat.appendChild(rec);chat.scrollTop=chat.scrollHeight;
+    },600);
+  },2200);
+}
+function sendMsg(){const input=document.getElementById('ai-input');const text=input.value.trim();if(!text)return;input.value='';const chat=document.getElementById('ai-chat');appendUser(chat,text);setTimeout(()=>{appendAI(chat,'Your words carry intention. Let me attune to your energy…\n\nWhich area of life do you most wish to transform?');setTimeout(()=>appendIntents(chat),400);},1200);}
+
+function renderAffirmations(){
+  document.getElementById('aff-list').innerHTML=AFFIRMATIONS.map(a=>`
+    <div class="aff-card fade-up">
+      <div class="aff-for">For ${a.for}</div>
+      <div class="aff-text">${a.text}</div>
+      <div class="aff-intent">✦ ${a.intent}</div>
+    </div>
+  `).join('');
+}
+function submitForm(e){e.preventDefault();toast('✦','Application submitted! We\'ll review and contact you within 48 hours.');e.target.reset();}
+function toast(icon,msg){if(toastTm)clearTimeout(toastTm);document.getElementById('t-ttl').textContent=icon+' 11:11:11';document.getElementById('t-msg').textContent=msg;document.getElementById('toast').classList.add('show');toastTm=setTimeout(()=>document.getElementById('toast').classList.remove('show'),4000);}
+
+function toggleMobileMenu(){
+  const menu=document.getElementById('mob-menu');
+  const overlay=document.getElementById('mob-overlay');
+  if(menu.classList.contains('open')){closeMobileMenu();}
+  else{menu.classList.add('open');overlay.classList.add('show');document.body.style.overflow='hidden';}
+}
+function closeMobileMenu(){
+  document.getElementById('mob-menu').classList.remove('open');
+  document.getElementById('mob-overlay').classList.remove('show');
+  if(!document.getElementById('intro')||document.getElementById('intro').classList.contains('gone'))document.body.style.overflow='';
+}
+/* ── NEWSLETTER ── */
+function initNewsletterPopup(){
+  if(localStorage.getItem('111_token'))return;
+  document.getElementById('nl-form').style.display='block';
+  document.getElementById('nl-success').style.display='none';
+  document.getElementById('nl-email').value='';
+  document.getElementById('nl-overlay').classList.add('show');
+  document.getElementById('nl-popup').classList.add('show');
+}
+function closeNewsletter(){
+  document.getElementById('nl-overlay').classList.remove('show');
+  document.getElementById('nl-popup').classList.remove('show');
+}
+function submitNewsletter(){
+  const email=document.getElementById('nl-email').value.trim();
+  if(!email||!email.includes('@')){document.getElementById('nl-email').style.borderColor='var(--gold)';document.getElementById('nl-email').focus();return;}
+  document.getElementById('nl-form').style.display='none';
+  document.getElementById('nl-success').style.display='block';
+  setTimeout(closeNewsletter,3500);
+}
+
+document.addEventListener('DOMContentLoaded',()=>{
+  document.body.style.overflow='hidden';
+  initStars();initNav();initRefBadge();renderTrinity();renderProducts();renderAffirmations();startIntro();initScrollObs();
+});
+</script>
+
+<!-- NEWSLETTER POPUP -->
+<div id="nl-overlay" onclick="closeNewsletter()"></div>
+<div id="nl-popup">
+  <div class="nl-top">
+    <button class="nl-close" onclick="closeNewsletter()">✕</button>
+    <div class="nl-eyebrow">✦ Sacred Offer ✦</div>
+    <div class="nl-title">Get 10% Off<br>Your First Order</div>
+    <div class="nl-sub">Join our ritual circle — receive your exclusive<br>discount code and first access to new arrivals.</div>
+  </div>
+  <div class="nl-body">
+    <div id="nl-form">
+      <label class="nl-label">Your Email Address</label>
+      <input class="nl-input" id="nl-email" type="email" placeholder="you@email.com" onkeydown="if(event.key==='Enter')submitNewsletter()">
+      <button class="nl-btn" onclick="submitNewsletter()">Claim My 10% Off</button>
+      <p class="nl-note">No spam, ever. Unsubscribe anytime.</p>
+    </div>
+    <div class="nl-success" id="nl-success">
+      <div class="nl-success-icon">✦</div>
+      <div class="nl-success-msg">Welcome to the Circle</div>
+      <div class="nl-success-code">FIRST10</div>
+      <div class="nl-success-sub">Your 10% discount is unlocked.<br>Use code <strong>FIRST10</strong> at checkout.</div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

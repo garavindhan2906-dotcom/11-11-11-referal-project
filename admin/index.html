@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Login — 11:11:11 | EVOXU</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@200;300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --cream:#FAF8F4;--cream2:#F3EDE4;--white:#FFFFFF;
+  --ink:#1C1914;--muted:#7A7268;--dim:#A49C92;
+  --burg:#7D2035;--burg2:#A8415A;--burg-dim:#5C1525;
+  --burg-pale:rgba(125,32,53,0.08);
+  --border:rgba(28,25,20,0.09);--border-burg:rgba(125,32,53,0.22);
+  --shadow:0 4px 32px rgba(28,25,20,0.1);
+}
+html,body{height:100%}
+body{background:var(--cream);color:var(--ink);font-family:'Jost',sans-serif;font-weight:300;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center}
+
+.topbar{position:fixed;top:0;left:0;right:0;background:rgba(250,248,244,.97);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);padding:1rem 3rem;display:flex;align-items:center;justify-content:space-between;z-index:100}
+.logo{font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-weight:600;letter-spacing:.22em;color:var(--ink);text-decoration:none}
+.back-link{display:flex;align-items:center;gap:.5rem;font-size:.65rem;letter-spacing:.28em;text-transform:uppercase;color:var(--muted);text-decoration:none;transition:color .3s}
+.back-link:hover{color:var(--ink)}
+.back-link svg{width:13px;height:13px}
+
+.wrap{width:100%;max-width:400px;padding:6rem 2rem 2rem}
+.badge{display:inline-flex;align-items:center;gap:.5rem;background:rgba(125,32,53,.08);border:1px solid var(--border-burg);padding:.35rem 1rem;font-size:.58rem;letter-spacing:.4em;text-transform:uppercase;color:var(--burg2);margin-bottom:1.8rem}
+.dot{width:5px;height:5px;background:var(--burg2);border-radius:50%;animation:blink 2s ease infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.25}}
+h1{font-family:'Cormorant Garamond',serif;font-size:clamp(2rem,5vw,3rem);font-weight:300;color:var(--ink);line-height:1.15;margin-bottom:.5rem}
+h1 em{font-style:italic;color:var(--burg2)}
+.sub{font-size:.88rem;color:var(--muted);line-height:1.7;margin-bottom:2rem}
+
+.card{background:var(--white);border:1px solid var(--border);padding:2.2rem;box-shadow:var(--shadow)}
+.demo-box{background:var(--cream2);border:1px solid var(--border-burg);padding:1rem 1.2rem;margin-bottom:1.5rem}
+.demo-lbl{font-size:.56rem;letter-spacing:.38em;text-transform:uppercase;color:var(--burg2);margin-bottom:.6rem}
+.demo-row{display:grid;grid-template-columns:1fr 1fr;gap:.4rem;margin-bottom:.7rem}
+.demo-field{font-size:.75rem;color:var(--muted);display:flex;flex-direction:column;gap:.1rem}
+.demo-field strong{color:var(--ink);font-weight:400;font-size:.85rem}
+.use-demo{display:block;width:100%;padding:.48rem;background:transparent;border:1px solid var(--border-burg);color:var(--burg2);font-family:'Jost',sans-serif;font-size:.6rem;letter-spacing:.3em;text-transform:uppercase;cursor:pointer;transition:all .3s}
+.use-demo:hover{background:var(--burg-pale)}
+
+.fg{display:flex;flex-direction:column;gap:.38rem;margin-bottom:1.2rem}
+.flabel{font-size:.58rem;letter-spacing:.35em;text-transform:uppercase;color:var(--dim)}
+.fwrap{position:relative}
+.finput{width:100%;background:transparent;border:none;border-bottom:1px solid var(--border);padding:.68rem 2rem .68rem 0;color:var(--ink);font-family:'Jost',sans-serif;font-size:.9rem;outline:none;transition:border-color .3s}
+.finput:focus{border-color:var(--burg)}
+.finput::placeholder{color:var(--dim)}
+.ficon{position:absolute;right:0;top:50%;transform:translateY(-50%);color:var(--dim);pointer-events:none}
+.ficon svg,.eye-btn svg{width:15px;height:15px;display:block}
+.eye-btn{position:absolute;right:0;top:50%;transform:translateY(-50%);background:none;border:none;color:var(--dim);cursor:pointer;transition:color .3s}
+.eye-btn:hover{color:var(--burg)}
+.ferr{font-size:.65rem;color:#c0392b;margin-top:.3rem;display:none}
+.fg.err .finput{border-color:#c0392b}
+.fg.err .ferr{display:block}
+.frow{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.5rem}
+.remember{display:flex;align-items:center;gap:.55rem;font-size:.72rem;color:var(--muted);cursor:pointer}
+.remember input{accent-color:var(--burg);width:13px;height:13px;cursor:pointer}
+.forgot{font-size:.62rem;letter-spacing:.2em;text-transform:uppercase;color:var(--burg2);text-decoration:none;transition:color .3s}
+.forgot:hover{color:var(--burg-dim)}
+
+.btn-in{width:100%;padding:1rem;background:var(--ink);border:none;color:var(--white);font-family:'Jost',sans-serif;font-size:.7rem;letter-spacing:.44em;text-transform:uppercase;cursor:pointer;transition:all .4s;position:relative;overflow:hidden;font-weight:500}
+.btn-in:hover{background:var(--burg)}
+.btn-in.loading{pointer-events:none}
+.btn-in.loading .btn-txt{opacity:0}
+.btn-in::after{content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:18px;height:18px;border:2px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite;opacity:0}
+.btn-in.loading::after{opacity:1}
+@keyframes spin{to{transform:translate(-50%,-50%) rotate(360deg)}}
+
+.back-cta{text-align:center;margin-top:1.4rem;font-size:.8rem;color:var(--muted)}
+.back-cta a{color:var(--burg2);text-decoration:none;transition:color .3s}
+.back-cta a:hover{color:var(--burg-dim)}
+
+footer{position:fixed;bottom:0;left:0;right:0;text-align:center;padding:1rem;font-size:.65rem;color:var(--dim);border-top:1px solid var(--border);background:var(--cream)}
+footer a{color:var(--dim);text-decoration:none}
+footer a:hover{color:var(--burg)}
+
+#toast{position:fixed;bottom:2rem;right:2rem;background:var(--ink);border:1px solid rgba(125,32,53,.3);padding:1rem 1.4rem;z-index:9999;transform:translateX(110%);transition:transform .5s;max-width:270px}
+#toast.show{transform:translateX(0)}
+.tt{font-family:'Cormorant Garamond',serif;font-size:.95rem;color:var(--burg2);margin-bottom:.18rem}
+.tm{font-size:.75rem;color:rgba(255,255,255,.4);line-height:1.5}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <a href="../index.html" class="logo">11:11:11</a>
+  <a href="../index.html" class="back-link">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+    Back to Store
+  </a>
+</div>
+
+<div class="wrap">
+  <div class="badge"><span class="dot"></span>Admin Portal</div>
+  <h1>Admin <em>Access</em></h1>
+  <p class="sub">Sign in to manage products, resellers, and your store operations.</p>
+
+  <div class="card">
+    <div class="demo-box">
+      <div class="demo-lbl">◆ Demo Access</div>
+      <div class="demo-row">
+        <div class="demo-field"><span>Email</span><strong>admin@evoxu.com</strong></div>
+        <div class="demo-field"><span>Password</span><strong>admin@111</strong></div>
+      </div>
+      <button class="use-demo" onclick="fillDemo()">Use Demo Credentials →</button>
+    </div>
+
+    <form id="form" onsubmit="doLogin(event)" novalidate>
+      <div class="fg" id="fg-email">
+        <label class="flabel">Email Address</label>
+        <div class="fwrap">
+          <input type="email" class="finput" id="i-email" placeholder="admin@evoxu.com" autocomplete="email">
+          <span class="ficon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,12 2,6"/></svg></span>
+        </div>
+        <span class="ferr" id="e-email">Please enter a valid email.</span>
+      </div>
+      <div class="fg" id="fg-pass">
+        <label class="flabel">Password</label>
+        <div class="fwrap">
+          <input type="password" class="finput" id="i-pass" placeholder="Your password" autocomplete="current-password">
+          <button type="button" class="eye-btn" onclick="togglePw()">
+            <svg id="eye-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+          </button>
+        </div>
+        <span class="ferr" id="e-pass">Incorrect password.</span>
+      </div>
+      <div class="frow">
+        <label class="remember"><input type="checkbox"> Remember me</label>
+        <a href="#" class="forgot" onclick="return false">Forgot password?</a>
+      </div>
+      <button type="submit" class="btn-in" id="btn-in"><span class="btn-txt">Sign In to Admin</span></button>
+    </form>
+    <div class="back-cta"><a href="../reseller/login.html">Reseller Portal →</a></div>
+  </div>
+</div>
+
+<footer>© 2025 11:11:11 · EVOXU PVT LTD &nbsp;·&nbsp; <a href="#">Privacy</a></footer>
+<div id="toast"><div class="tt" id="t-ttl"></div><div class="tm" id="t-msg"></div></div>
+
+<script>
+const DEMO={e:'admin@evoxu.com',p:'admin@111'};
+let toastTm;
+function toast(icon,msg){if(toastTm)clearTimeout(toastTm);document.getElementById('t-ttl').textContent=icon+' Admin';document.getElementById('t-msg').textContent=msg;document.getElementById('toast').classList.add('show');toastTm=setTimeout(()=>document.getElementById('toast').classList.remove('show'),4000);}
+function fillDemo(){document.getElementById('i-email').value=DEMO.e;document.getElementById('i-pass').value=DEMO.p;toast('◆','Demo credentials filled.');}
+function togglePw(){const i=document.getElementById('i-pass'),ic=document.getElementById('eye-ic');if(i.type==='password'){i.type='text';ic.innerHTML='<path d="M17.94 17.94A10.07 10.07 0 0112 20c-7 0-11-8-11-8a18.45 18.45 0 015.06-5.94M9.9 4.24A9.12 9.12 0 0112 4c7 0 11 8 11 8a18.5 18.5 0 01-2.16 3.19" stroke="currentColor" stroke-width="1.5" fill="none"/><line x1="1" y1="1" x2="23" y2="23" stroke="currentColor" stroke-width="1.5"/>';}else{i.type='password';ic.innerHTML='<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" stroke="currentColor" stroke-width="1.5" fill="none"/><circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.5" fill="none"/>';}}
+function doLogin(e){
+  e.preventDefault();
+  const em=document.getElementById('i-email').value.trim(),pw=document.getElementById('i-pass').value,btn=document.getElementById('btn-in');
+  document.getElementById('fg-email').classList.remove('err');document.getElementById('fg-pass').classList.remove('err');
+  let ok=true;
+  if(!em||!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(em)){document.getElementById('fg-email').classList.add('err');ok=false;}
+  if(!pw){document.getElementById('fg-pass').classList.add('err');ok=false;}
+  if(!ok)return;
+  btn.classList.add('loading');btn.disabled=true;
+  setTimeout(()=>{
+    btn.classList.remove('loading');btn.disabled=false;
+    if(em===DEMO.e&&pw===DEMO.p){toast('✦','Welcome! Loading dashboard…');setTimeout(()=>{window.location.href='dashboard.html';},1200);}
+    else{document.getElementById('fg-email').classList.add('err');document.getElementById('e-email').textContent='Account not found.';document.getElementById('fg-pass').classList.add('err');document.getElementById('e-pass').textContent='Incorrect password.';}
+  },1200);
+}
+</script>
+</body>
+</html>

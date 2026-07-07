@@ -1,0 +1,911 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Reseller Dashboard — 11:11:11 | EVOXU</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@200;300;400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --cream:#FAF8F4;
+  --cream2:#F3EDE4;
+  --cream3:#EBE3D8;
+  --white:#FFFFFF;
+  --ink:#1C1914;
+  --ink2:#2E2A24;
+  --muted:#7A7268;
+  --dim:#A49C92;
+  --gold:#7D2035;
+  --gold2:#A8415A;
+  --gold-dim:#5C1525;
+  --gold-pale:rgba(125,32,53,0.08);
+  --border:rgba(28,25,20,0.09);
+  --border-gold:rgba(125,32,53,0.22);
+  --shadow:0 1px 16px rgba(28,25,20,0.07);
+  --shadow2:0 4px 32px rgba(28,25,20,0.1);
+  --green:#16a34a;
+  --green-bg:rgba(22,163,74,0.08);
+  --amber:#d97706;
+  --amber-bg:rgba(217,119,6,0.08);
+}
+body{background:var(--cream);color:var(--ink);font-family:'Jost',sans-serif;font-weight:300;height:100vh;display:flex;overflow:hidden}
+
+/* ── SIDEBAR ── */
+.sidebar{width:220px;height:100vh;background:linear-gradient(180deg,#1E0B11 0%,#2A1018 50%,#1A0A0F 100%);border-right:1px solid rgba(125,32,53,0.4);display:flex;flex-direction:column;flex-shrink:0;position:fixed;top:0;left:0;bottom:0;z-index:200;transition:transform .3s;box-shadow:2px 0 32px rgba(0,0,0,0.35)}
+.sb-logo{padding:1.5rem 1.5rem .9rem;border-bottom:1px solid rgba(255,248,242,0.1)}
+.sb-logo a{font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:600;letter-spacing:.22em;color:#FFF8F2;text-decoration:none}
+.sb-logo p{font-size:.55rem;letter-spacing:.35em;text-transform:uppercase;color:rgba(255,248,242,0.38);margin-top:.2rem}
+.sb-user{padding:1rem 1.5rem;border-bottom:1px solid rgba(255,248,242,0.1);display:flex;align-items:center;gap:.8rem}
+.sb-avatar{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#A8415A,#7D2035);display:flex;align-items:center;justify-content:center;font-size:.75rem;color:#fff;flex-shrink:0;font-family:'Cormorant Garamond',serif;box-shadow:0 0 0 2px rgba(168,65,90,0.45)}
+.sb-uname{font-size:.8rem;color:#FFF8F2;letter-spacing:.04em}
+.sb-role{font-size:.56rem;color:rgba(168,65,90,0.9);letter-spacing:.2em;text-transform:uppercase}
+.sb-rid{font-size:.52rem;color:rgba(255,248,242,0.32);letter-spacing:.12em;margin-top:.15rem}
+.sb-type-badge{display:inline-flex;align-items:center;gap:.3rem;margin-top:.3rem;padding:.18rem .55rem;border-radius:100px;font-size:.5rem;letter-spacing:.22em;text-transform:uppercase;font-weight:500}
+.sb-type-badge.retail{background:rgba(125,32,53,0.45);color:#F4A0B0;border:1px solid rgba(168,65,90,0.4)}
+.sb-type-badge.influencer{background:rgba(88,28,135,0.45);color:#d8b4fe;border:1px solid rgba(167,139,250,0.4)}
+.sb-nav{flex:1;padding:1rem 0;overflow-y:auto}
+.sb-section{font-size:.52rem;letter-spacing:.45em;text-transform:uppercase;color:rgba(255,248,242,0.25);padding:.6rem 1.5rem .4rem;margin-top:.4rem}
+.sb-item{display:flex;align-items:center;gap:.75rem;padding:.75rem 1.5rem;font-size:.68rem;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,248,242,0.52);cursor:pointer;transition:all .25s;border-left:2px solid transparent;text-decoration:none}
+.sb-item:hover{color:#FFF8F2;background:rgba(255,248,242,0.07);border-left-color:rgba(255,248,242,0.28)}
+.sb-item.on{color:#FFF8F2;background:rgba(125,32,53,0.55);border-left-color:#A8415A}
+.sb-item svg{width:15px;height:15px;flex-shrink:0}
+.sb-badge{margin-left:auto;background:rgba(125,32,53,0.6);border:1px solid rgba(168,65,90,0.5);padding:.15rem .5rem;border-radius:100px;font-size:.52rem;color:#F4A0B0;min-width:20px;text-align:center}
+.sb-bottom{padding:1.2rem 1.5rem;border-top:1px solid rgba(255,248,242,0.1)}
+.sb-logout{display:flex;align-items:center;gap:.7rem;font-size:.66rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,248,242,0.42);cursor:pointer;transition:color .3s;text-decoration:none}
+.sb-logout:hover{color:#F4A0B0}
+.sb-logout svg{width:14px;height:14px}
+
+/* ── MAIN ── */
+.main{margin-left:220px;flex:1;height:100vh;overflow-y:auto;display:flex;flex-direction:column}
+.topbar{padding:.9rem 2rem;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;background:linear-gradient(to right,rgba(125,32,53,0.06),var(--white) 40%);position:sticky;top:0;z-index:100;gap:1rem;box-shadow:var(--shadow)}
+.tb-left{display:flex;align-items:center;gap:1rem}
+.tb-title{font-family:'Cormorant Garamond',serif;font-size:1.2rem;color:var(--ink)}
+.tb-breadcrumb{font-size:.6rem;color:var(--dim);letter-spacing:.2em}
+.tb-right{display:flex;align-items:center;gap:1rem}
+.tb-btn{background:none;border:1px solid var(--border);padding:.45rem .9rem;color:var(--muted);font-family:'Jost',sans-serif;font-size:.62rem;letter-spacing:.25em;text-transform:uppercase;cursor:pointer;transition:all .3s}
+.tb-btn:hover{border-color:var(--gold);color:var(--gold)}
+.tb-icon{background:none;border:none;color:var(--muted);cursor:pointer;padding:4px;transition:color .3s;position:relative}
+.tb-icon:hover{color:var(--ink)}
+.tb-icon svg{width:18px;height:18px;display:block}
+.notif-dot{position:absolute;top:2px;right:2px;width:7px;height:7px;background:var(--gold);border-radius:50%}
+
+/* ── CONTENT ── */
+.content{padding:2rem;flex:1}
+.page{display:none}
+.page.on{display:block}
+
+/* ── GREETING ── */
+.greeting{background:linear-gradient(135deg,rgba(125,32,53,0.11),rgba(168,65,90,0.05));border:1px solid var(--border-gold);border-left:3px solid var(--gold);padding:1.5rem 2rem;margin-bottom:2rem;display:flex;align-items:center;justify-content:space-between;gap:1rem}
+.g-text h2{font-family:'Cormorant Garamond',serif;font-size:1.55rem;color:var(--ink);margin-bottom:.3rem}
+.g-text h2 em{font-style:italic;color:var(--gold)}
+.g-text p{font-size:.82rem;color:var(--muted);line-height:1.65}
+.g-link{padding:.7rem 1.5rem;background:var(--ink);border:none;color:var(--white);font-family:'Jost',sans-serif;font-size:.65rem;letter-spacing:.3em;text-transform:uppercase;cursor:pointer;transition:all .35s;white-space:nowrap;flex-shrink:0;font-weight:500}
+.g-link:hover{background:var(--gold)}
+
+/* ── STATS ── */
+.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-bottom:2rem}
+.stat-card{background:var(--white);border:1px solid var(--border);border-top:3px solid transparent;padding:1.4rem 1.2rem;position:relative;overflow:hidden;transition:all .3s;cursor:default;box-shadow:var(--shadow)}
+.stat-card::after{content:'';position:absolute;top:-3px;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--gold-dim),var(--gold2));opacity:0;transition:opacity .3s}
+.stat-card:hover{transform:translateY(-2px);box-shadow:var(--shadow2)}
+.stat-card:hover::after{opacity:1}
+.stat-icon{position:absolute;top:.8rem;right:1rem;font-size:1.5rem;opacity:.18}
+.stat-val{font-family:'Cormorant Garamond',serif;font-size:2.2rem;color:var(--gold);margin-bottom:.2rem;line-height:1}
+.stat-lbl{font-size:.58rem;letter-spacing:.3em;text-transform:uppercase;color:var(--muted);margin-bottom:.5rem;margin-top:.15rem}
+.stat-trend{font-size:.68rem;display:flex;align-items:center;gap:.3rem}
+.stat-trend.up{color:var(--green)}
+.stat-trend.down{color:#c0392b}
+.stat-trend svg{width:12px;height:12px}
+
+/* ── GRIDS ── */
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-bottom:2rem}
+.three-col{display:grid;grid-template-columns:2fr 1fr;gap:1.5rem;margin-bottom:2rem}
+.panel{background:var(--white);border:1px solid var(--border);padding:1.5rem;box-shadow:var(--shadow)}
+.panel-title{font-family:'Cormorant Garamond',serif;font-size:1.1rem;color:var(--ink);margin-bottom:1.2rem;display:flex;align-items:center;justify-content:space-between;gap:1rem}
+.panel-link{font-size:.6rem;letter-spacing:.25em;text-transform:uppercase;color:var(--gold);cursor:pointer;transition:color .3s;background:none;border:none;font-family:'Jost',sans-serif}
+.panel-link:hover{color:var(--gold-dim)}
+
+/* ── BAR CHART ── */
+.bar-chart{display:flex;flex-direction:column;gap:.7rem}
+.bar-row{display:flex;align-items:center;gap:.8rem}
+.bar-label{font-size:.7rem;color:var(--muted);width:90px;flex-shrink:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.bar-track{flex:1;height:5px;background:var(--cream3);border-radius:3px;overflow:hidden}
+.bar-fill{height:100%;border-radius:3px;transition:width 1s ease}
+.bar-val{font-size:.72rem;color:var(--gold);width:60px;text-align:right;flex-shrink:0;font-family:'Cormorant Garamond',serif}
+
+/* ── ORDERS TABLE ── */
+.orders-table{width:100%;border-collapse:collapse}
+.orders-table thead tr{border-bottom:1px solid var(--border)}
+.orders-table th{font-size:.58rem;letter-spacing:.32em;text-transform:uppercase;color:var(--dim);padding:.7rem .8rem;text-align:left;font-weight:300}
+.orders-table tbody tr{border-bottom:1px solid var(--cream3);transition:background .2s}
+.orders-table tbody tr:hover{background:var(--cream2)}
+.orders-table td{font-size:.8rem;color:var(--ink);padding:.78rem .8rem;vertical-align:middle}
+.order-status{display:inline-flex;align-items:center;font-size:.58rem;letter-spacing:.2em;text-transform:uppercase;padding:.25rem .75rem;border-radius:100px}
+.status-delivered{background:var(--green-bg);color:var(--green);border:1px solid rgba(22,163,74,.22)}
+.status-pending{background:var(--amber-bg);color:var(--amber);border:1px solid rgba(217,119,6,.22)}
+.status-processing{background:var(--gold-pale);color:var(--gold-dim);border:1px solid var(--border-gold)}
+.order-id{font-size:.65rem;color:var(--dim);letter-spacing:.1em}
+.order-prod{font-weight:400;color:var(--ink)}
+
+/* ── QR SECTION ── */
+.qr-section{display:grid;grid-template-columns:auto 1fr;gap:1.5rem;align-items:start}
+.qr-canvas{width:164px;height:164px;background:#fff;padding:8px;flex-shrink:0;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;overflow:hidden;box-shadow:0 2px 12px rgba(28,25,20,0.08)}
+.qr-canvas img,.qr-canvas canvas{width:148px !important;height:148px !important;display:block}
+.qr-meta h3{font-family:'Cormorant Garamond',serif;font-size:1.2rem;color:var(--ink);margin-bottom:.4rem}
+.qr-meta p{font-size:.78rem;color:var(--muted);line-height:1.75;margin-bottom:.8rem}
+.qr-url{font-size:.72rem;color:var(--gold-dim);background:var(--gold-pale);border:1px solid var(--border-gold);padding:.5rem .8rem;margin-bottom:1rem;word-break:break-all;letter-spacing:.05em}
+.qr-actions{display:flex;gap:.7rem;flex-wrap:wrap}
+.qr-btn{padding:.55rem 1.1rem;font-family:'Jost',sans-serif;font-size:.62rem;letter-spacing:.25em;text-transform:uppercase;cursor:pointer;transition:all .3s}
+.qr-btn-primary{background:var(--ink);border:none;color:var(--white);font-weight:500}
+.qr-btn-primary:hover{background:var(--gold)}
+.qr-btn-outline{background:transparent;border:1px solid var(--border);color:var(--muted)}
+.qr-btn-outline:hover{border-color:var(--gold);color:var(--gold)}
+
+/* ── REFERRAL LINK ── */
+.ref-link-wrap{background:var(--gold-pale);border:1px solid var(--border-gold);padding:1rem 1.2rem;margin-top:1rem}
+.ref-link-label{font-size:.56rem;letter-spacing:.38em;text-transform:uppercase;color:var(--gold);margin-bottom:.5rem}
+.ref-link-row{display:flex;align-items:center;gap:.5rem}
+.ref-link-url{flex:1;font-size:.75rem;color:var(--ink);background:none;border:none;outline:none;font-family:'Jost',sans-serif;letter-spacing:.04em;cursor:default}
+.ref-copy-btn{padding:.4rem .9rem;background:var(--ink);border:none;color:var(--white);font-family:'Jost',sans-serif;font-size:.6rem;letter-spacing:.22em;text-transform:uppercase;cursor:pointer;transition:all .3s;white-space:nowrap;font-weight:500}
+.ref-copy-btn:hover{background:var(--gold)}
+
+/* ── COMMISSION ── */
+.commission-list{display:flex;flex-direction:column;gap:.7rem}
+.commission-item{display:flex;align-items:center;gap:.8rem;padding:.75rem 1rem;background:var(--cream);border:1px solid var(--border);transition:all .3s}
+.commission-item:hover{border-color:var(--border-gold);background:var(--cream2)}
+.ci-icon{width:36px;height:36px;border-radius:2px;display:flex;align-items:center;justify-content:center;font-size:.9rem;flex-shrink:0}
+.ci-name{flex:1}
+.ci-product{font-size:.82rem;color:var(--ink);margin-bottom:.15rem}
+.ci-date{font-size:.64rem;color:var(--muted);letter-spacing:.08em}
+.ci-amount{font-family:'Cormorant Garamond',serif;font-size:1.1rem;color:var(--gold);text-align:right}
+.ci-pct{font-size:.6rem;color:var(--dim);text-align:right}
+
+/* ── CUSTOMERS ── */
+.customer-row{display:flex;align-items:center;gap:1rem;padding:.85rem 0;border-bottom:1px solid var(--cream3)}
+.customer-row:last-child{border:none}
+.cust-avatar{width:36px;height:36px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:.72rem;font-family:'Cormorant Garamond',serif;color:#fff}
+.cust-name{flex:1}
+.cust-n{font-size:.82rem;color:var(--ink);margin-bottom:.15rem}
+.cust-d{font-size:.65rem;color:var(--muted);letter-spacing:.06em}
+.cust-orders{font-size:.75rem;color:var(--gold);text-align:right;white-space:nowrap}
+.cust-orders span{display:block;font-size:.62rem;color:var(--dim);font-family:'Jost',sans-serif}
+
+/* ── PERF CIRCLE ── */
+.perf-ring-wrap{display:flex;align-items:center;justify-content:center;padding:1rem 0}
+.perf-circle{position:relative;width:120px;height:120px}
+.perf-circle svg{transform:rotate(-90deg)}
+.perf-circle-track{fill:none;stroke:var(--cream3);stroke-width:10}
+.perf-circle-fill{fill:none;stroke:url(#perf-grad);stroke-width:10;stroke-linecap:round;transition:stroke-dashoffset 1.5s ease}
+.perf-label{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.perf-pct{font-family:'Cormorant Garamond',serif;font-size:1.9rem;color:var(--gold)}
+.perf-sub{font-size:.52rem;letter-spacing:.3em;text-transform:uppercase;color:var(--dim)}
+.perf-items{display:flex;flex-direction:column;gap:.65rem;margin-top:1rem}
+.perf-item{display:flex;align-items:center;justify-content:space-between;font-size:.75rem}
+.perf-dot{width:8px;height:8px;border-radius:50%;margin-right:.5rem;display:inline-block}
+
+/* ── NOTIFICATIONS ── */
+.notif-list{display:flex;flex-direction:column;gap:.6rem}
+.notif-item{display:flex;gap:.8rem;align-items:flex-start;padding:.85rem;background:var(--cream);border:1px solid var(--border);transition:all .3s}
+.notif-item:hover{border-color:var(--border-gold);background:var(--cream2)}
+.notif-item.unread{border-left:2px solid var(--gold)}
+.notif-ic{width:32px;height:32px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:1rem;background:var(--gold-pale);border:1px solid var(--border-gold);border-radius:2px}
+.notif-text{flex:1}
+.notif-msg{font-size:.8rem;color:var(--ink);line-height:1.6;margin-bottom:.2rem}
+.notif-time{font-size:.62rem;color:var(--dim);letter-spacing:.08em}
+
+/* ── PAYOUTS ── */
+.payout-row{display:flex;align-items:center;justify-content:space-between;padding:.85rem 0;border-bottom:1px solid var(--cream3)}
+.payout-row:last-child{border:none}
+.payout-period{font-size:.8rem;color:var(--ink)}
+.payout-period span{display:block;font-size:.64rem;color:var(--muted);margin-top:.15rem}
+.payout-amount{font-family:'Cormorant Garamond',serif;font-size:1.15rem;color:var(--gold)}
+.payout-status{font-size:.58rem;letter-spacing:.2em;text-transform:uppercase;padding:.24rem .7rem;border-radius:100px}
+.ps-paid{background:var(--green-bg);color:var(--green);border:1px solid rgba(22,163,74,.22)}
+.ps-pending{background:var(--amber-bg);color:var(--amber);border:1px solid rgba(217,119,6,.22)}
+
+/* ── SPARKLINE ── */
+.sparkline{display:flex;align-items:flex-end;gap:3px;height:55px;margin-top:.5rem}
+.spark-bar{flex:1;background:linear-gradient(to top,rgba(125,32,53,.55),rgba(125,32,53,.15));border-radius:2px 2px 0 0;min-height:4px;transition:height .6s ease}
+
+/* ── TOAST ── */
+#toast{position:fixed;bottom:1.5rem;right:1.5rem;background:var(--ink);border:1px solid rgba(125,32,53,.3);padding:1rem 1.3rem;z-index:9999;transform:translateX(110%);transition:transform .5s cubic-bezier(.4,0,.2,1);max-width:270px}
+#toast.show{transform:translateX(0)}
+.tt{font-family:'Cormorant Garamond',serif;font-size:.92rem;color:var(--gold2);margin-bottom:.2rem}
+.tm{font-size:.72rem;color:rgba(255,255,255,.4);line-height:1.5}
+
+/* ── MOBILE ── */
+.sb-toggle{display:none;position:fixed;top:1rem;left:1rem;z-index:300;background:var(--white);border:1px solid var(--border);padding:.55rem;cursor:pointer;color:var(--ink);box-shadow:var(--shadow)}
+.sb-toggle svg{width:18px;height:18px;display:block}
+.sidebar-overlay{display:none;position:fixed;inset:0;background:rgba(28,25,20,.45);z-index:150;backdrop-filter:blur(4px)}
+
+@media(max-width:900px){
+  .stats-grid{grid-template-columns:repeat(2,1fr)}
+  .two-col,.three-col{grid-template-columns:1fr}
+}
+@media(max-width:640px){
+  .sidebar{transform:translateX(-100%)}
+  .sidebar.open{transform:translateX(0)}
+  .main{margin-left:0}
+  .sb-toggle{display:flex}
+  .sidebar-overlay.show{display:block}
+  .stats-grid{grid-template-columns:1fr 1fr}
+  .topbar{padding:.8rem 1rem}
+  .content{padding:1rem}
+  .greeting{flex-direction:column;align-items:flex-start}
+}
+</style>
+</head>
+<body>
+
+<div class="sidebar-overlay" id="sb-overlay" onclick="closeSidebar()"></div>
+
+<button class="sb-toggle" onclick="openSidebar()">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+</button>
+
+<aside class="sidebar" id="sidebar">
+  <div class="sb-logo">
+    <a href="../index.html">11:11:11</a>
+    <p>Reseller Portal</p>
+  </div>
+  <div class="sb-user">
+    <div class="sb-avatar">PS</div>
+    <div style="min-width:0">
+      <div class="sb-uname">Priya Sharma</div>
+      <div class="sb-rid" id="sb-rid">—</div>
+      <span class="sb-type-badge retail" id="sb-type-badge">Retail</span>
+    </div>
+  </div>
+  <nav class="sb-nav">
+    <div class="sb-section">Main</div>
+    <a class="sb-item on" data-page="overview" onclick="switchPage('overview',this)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+      Overview
+    </a>
+    <a class="sb-item" data-page="orders" onclick="switchPage('orders',this)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+      Orders
+      <span class="sb-badge">24</span>
+    </a>
+    <a class="sb-item" data-page="referrals" onclick="switchPage('referrals',this)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/></svg>
+      Referrals
+    </a>
+    <a class="sb-item" data-page="earnings" onclick="switchPage('earnings',this)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
+      Earnings
+    </a>
+    <a class="sb-item" data-page="customers" onclick="switchPage('customers',this)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>
+      Customers
+    </a>
+    <div class="sb-section">Tools</div>
+    <a class="sb-item" data-page="qrcode" onclick="switchPage('qrcode',this)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="5" height="5"/><rect x="16" y="3" width="5" height="5"/><rect x="3" y="16" width="5" height="5"/><path d="M21 16h-3a2 2 0 00-2 2v3M21 21v.01M14 14h.01"/></svg>
+      QR & Links
+    </a>
+    <a class="sb-item" data-page="notifications" onclick="switchPage('notifications',this)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg>
+      Notifications
+      <span class="sb-badge" style="background:rgba(217,119,6,.1);border-color:rgba(217,119,6,.3);color:var(--amber)">3</span>
+    </a>
+    <a class="sb-item" onclick="toast('⚙️','Profile settings coming in backend phase.')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
+      Settings
+    </a>
+  </nav>
+  <div class="sb-bottom">
+    <a class="sb-logout" href="#" onclick="logout();return false">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+      Sign Out
+    </a>
+  </div>
+</aside>
+
+<div class="main">
+  <div class="topbar">
+    <div class="tb-left">
+      <div>
+        <div class="tb-title" id="tb-title">Overview</div>
+        <div class="tb-breadcrumb">Portal → <span id="tb-crumb">Dashboard</span></div>
+      </div>
+    </div>
+    <div class="tb-right">
+      <button class="tb-btn" onclick="toast('📤','Share link copied to clipboard!')">Share My Link</button>
+      <button class="tb-icon" onclick="switchPage('notifications',document.querySelector('[data-page=notifications]'))" title="Notifications">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg>
+        <span class="notif-dot"></span>
+      </button>
+      <button class="tb-icon" onclick="toast('👤','Profile settings coming in backend phase.')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <div class="content">
+
+    <!-- OVERVIEW -->
+    <div class="page on" id="page-overview">
+      <div class="greeting">
+        <div class="g-text">
+          <h2>Good morning, <em>Priya</em> ✦</h2>
+          <p>Your manifestation commerce is thriving. You have 3 new orders and 47 QR scans since yesterday.</p>
+        </div>
+        <button class="g-link" onclick="switchPage('qrcode',document.querySelector('[data-page=qrcode]'))">View My QR Code</button>
+      </div>
+
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-icon">₹</div>
+          <div class="stat-val">₹34,200</div>
+          <div class="stat-lbl">Total Earnings</div>
+          <div class="stat-trend up">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+            19% vs last month
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">📦</div>
+          <div class="stat-val">342</div>
+          <div class="stat-lbl">Total Orders</div>
+          <div class="stat-trend up">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+            24 this week
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">▦</div>
+          <div class="stat-val">1,847</div>
+          <div class="stat-lbl">QR Scans</div>
+          <div class="stat-trend up">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+            47 today
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">👥</div>
+          <div class="stat-val">89</div>
+          <div class="stat-lbl">Customers</div>
+          <div class="stat-trend up">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+            7 new today
+          </div>
+        </div>
+      </div>
+
+      <div class="three-col">
+        <div class="panel">
+          <div class="panel-title">Top Selling Products <button class="panel-link" onclick="switchPage('orders',document.querySelector('[data-page=orders]'))">View All →</button></div>
+          <div class="bar-chart">
+            <div class="bar-row"><span class="bar-label">OIL-001</span><div class="bar-track"><div class="bar-fill" style="width:84%;background:linear-gradient(90deg,#5C1525,#A8415A)"></div></div><span class="bar-val">84 orders</span></div>
+            <div class="bar-row"><span class="bar-label">OIL-004</span><div class="bar-track"><div class="bar-fill" style="width:61%;background:linear-gradient(90deg,#5C1525,#A8415A)"></div></div><span class="bar-val">61 orders</span></div>
+            <div class="bar-row"><span class="bar-label">OIL-005</span><div class="bar-track"><div class="bar-fill" style="width:47%;background:linear-gradient(90deg,#5C1525,#A8415A)"></div></div><span class="bar-val">47 orders</span></div>
+            <div class="bar-row"><span class="bar-label">OIL-006</span><div class="bar-track"><div class="bar-fill" style="width:38%;background:linear-gradient(90deg,#5C1525,#A8415A)"></div></div><span class="bar-val">38 orders</span></div>
+            <div class="bar-row"><span class="bar-label">OIL-002</span><div class="bar-track"><div class="bar-fill" style="width:32%;background:linear-gradient(90deg,#5C1525,#A8415A)"></div></div><span class="bar-val">32 orders</span></div>
+            <div class="bar-row"><span class="bar-label">OIL-003</span><div class="bar-track"><div class="bar-fill" style="width:28%;background:linear-gradient(90deg,#5C1525,#A8415A)"></div></div><span class="bar-val">28 orders</span></div>
+          </div>
+        </div>
+        <div class="panel">
+          <div class="panel-title">Conversion Rate</div>
+          <div class="perf-ring-wrap">
+            <div class="perf-circle">
+              <svg viewBox="0 0 120 120" width="120" height="120">
+                <defs><linearGradient id="perf-grad" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#B5924A"/><stop offset="100%" stop-color="#CCA85C"/></linearGradient></defs>
+                <circle class="perf-circle-track" cx="60" cy="60" r="50"/>
+                <circle class="perf-circle-fill" cx="60" cy="60" r="50" stroke-dasharray="314" stroke-dashoffset="88" id="perf-arc"/>
+              </svg>
+              <div class="perf-label"><div class="perf-pct">72%</div><div class="perf-sub">Conversion</div></div>
+            </div>
+          </div>
+          <div class="perf-items">
+            <div class="perf-item"><span><span class="perf-dot" style="background:var(--gold)"></span><span style="font-size:.72rem;color:var(--muted)">Scans → Visits</span></span><span style="color:var(--gold);font-family:'Cormorant Garamond',serif;font-size:1rem">1,847</span></div>
+            <div class="perf-item"><span><span class="perf-dot" style="background:#7c3aed"></span><span style="font-size:.72rem;color:var(--muted)">Visits → Orders</span></span><span style="color:var(--gold);font-family:'Cormorant Garamond',serif;font-size:1rem">342</span></div>
+            <div class="perf-item"><span><span class="perf-dot" style="background:var(--green)"></span><span style="font-size:.72rem;color:var(--muted)">Repeat Buyers</span></span><span style="color:var(--green);font-family:'Cormorant Garamond',serif;font-size:1rem">38%</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel" style="margin-bottom:0">
+        <div class="panel-title">Revenue — Last 12 Months <span style="font-size:.72rem;color:var(--muted);font-family:'Jost',sans-serif;font-weight:300">Total: ₹34,200</span></div>
+        <div class="sparkline" id="sparkline"></div>
+        <div style="display:flex;justify-content:space-between;margin-top:.5rem">
+          <span style="font-size:.62rem;color:var(--dim)">Jul '24</span>
+          <span style="font-size:.62rem;color:var(--dim)">Jun '25</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ORDERS -->
+    <div class="page" id="page-orders">
+      <div class="panel" style="margin-bottom:1.5rem">
+        <div class="panel-title">Recent Orders <span style="font-size:.75rem;color:var(--muted);font-family:'Jost',sans-serif;font-weight:300">342 total</span></div>
+        <table class="orders-table">
+          <thead><tr><th>Order ID</th><th>Product</th><th>Customer</th><th>Date</th><th>Amount</th><th>Commission</th><th>Status</th></tr></thead>
+          <tbody id="orders-tbody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- REFERRALS -->
+    <div class="page" id="page-referrals">
+      <div class="stats-grid" style="margin-bottom:1.5rem">
+        <div class="stat-card"><div class="stat-icon">🔗</div><div class="stat-val">1,847</div><div class="stat-lbl">Link Clicks</div><div class="stat-trend up">↑ 12% this week</div></div>
+        <div class="stat-card"><div class="stat-icon">▦</div><div class="stat-val">903</div><div class="stat-lbl">QR Scans</div><div class="stat-trend up">↑ 8% this week</div></div>
+        <div class="stat-card"><div class="stat-icon">🛒</div><div class="stat-val">342</div><div class="stat-lbl">Conversions</div><div class="stat-trend up">↑ 18.5% CR</div></div>
+        <div class="stat-card"><div class="stat-icon">📱</div><div class="stat-val">67%</div><div class="stat-lbl">Mobile Traffic</div><div class="stat-trend" style="color:var(--muted)">Across all channels</div></div>
+      </div>
+      <div class="two-col">
+        <div class="panel">
+          <div class="panel-title">Traffic Sources</div>
+          <div class="bar-chart">
+            <div class="bar-row"><span class="bar-label">QR Code Scan</span><div class="bar-track"><div class="bar-fill" style="width:49%;background:linear-gradient(90deg,#7c3aed,#a78bfa)"></div></div><span class="bar-val">903</span></div>
+            <div class="bar-row"><span class="bar-label">Referral Link</span><div class="bar-track"><div class="bar-fill" style="width:51%;background:linear-gradient(90deg,#8a7235,#c9a84c)"></div></div><span class="bar-val">944</span></div>
+            <div class="bar-row"><span class="bar-label">Instagram</span><div class="bar-track"><div class="bar-fill" style="width:32%;background:linear-gradient(90deg,#be185d,#f472b6)"></div></div><span class="bar-val">590</span></div>
+            <div class="bar-row"><span class="bar-label">WhatsApp</span><div class="bar-track"><div class="bar-fill" style="width:21%;background:linear-gradient(90deg,#065f46,#34d399)"></div></div><span class="bar-val">387</span></div>
+          </div>
+        </div>
+        <div class="panel">
+          <div class="panel-title">Your Referral Link</div>
+          <div class="ref-link-wrap">
+            <div class="ref-link-label">Unique Referral URL</div>
+            <div class="ref-link-row">
+              <input class="ref-link-url" readonly value="11-11-11.shop/r/priya-sharma" id="ref-url">
+              <button class="ref-copy-btn" onclick="copyRef()">Copy</button>
+            </div>
+          </div>
+          <div style="margin-top:1rem;font-size:.8rem;color:var(--muted);line-height:1.8">Share this link on your social media, WhatsApp groups, and bio links. Every visit and purchase through this URL is tracked to your account and generates commission automatically.</div>
+          <div style="display:flex;gap:.7rem;margin-top:1rem;flex-wrap:wrap">
+            <button class="qr-btn qr-btn-outline" onclick="toast('📱','WhatsApp share — opens in live app.')">Share on WhatsApp</button>
+            <button class="qr-btn qr-btn-outline" onclick="toast('📸','Instagram story share — opens in live app.')">Instagram Story</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- EARNINGS -->
+    <div class="page" id="page-earnings">
+      <div class="stats-grid" style="margin-bottom:1.5rem">
+        <div class="stat-card"><div class="stat-icon">💰</div><div class="stat-val">₹34,200</div><div class="stat-lbl">Total Earned</div><div class="stat-trend up">↑ All time</div></div>
+        <div class="stat-card"><div class="stat-icon">📆</div><div class="stat-val">₹4,900</div><div class="stat-lbl">This Month</div><div class="stat-trend up">↑ 19% vs last month</div></div>
+        <div class="stat-card"><div class="stat-icon">⏳</div><div class="stat-val">₹3,200</div><div class="stat-lbl">Pending Payout</div><div class="stat-trend" style="color:var(--amber)">Processes on 1st</div></div>
+        <div class="stat-card"><div class="stat-icon">💳</div><div class="stat-val">₹100</div><div class="stat-lbl">Commission Rate</div><div class="stat-trend" style="color:var(--muted)">Flat per order</div></div>
+      </div>
+      <div class="two-col">
+        <div class="panel"><div class="panel-title">Commission History</div><div class="commission-list" id="commission-list"></div></div>
+        <div class="panel"><div class="panel-title">Payout History</div><div id="payout-list"></div></div>
+      </div>
+    </div>
+
+    <!-- CUSTOMERS -->
+    <div class="page" id="page-customers">
+      <div class="panel">
+        <div class="panel-title">Your Customers <span style="font-size:.75rem;color:var(--muted);font-family:'Jost',sans-serif;font-weight:300">89 total</span></div>
+        <div id="customers-list"></div>
+      </div>
+    </div>
+
+    <!-- QR CODE -->
+    <div class="page" id="page-qrcode">
+      <div class="two-col">
+        <div class="panel">
+          <div class="panel-title">Your Sacred QR Code</div>
+          <div class="qr-section">
+            <div class="qr-canvas" id="qr-big"></div>
+            <div class="qr-meta">
+              <h3>Priya Sharma</h3>
+              <p>This QR code is uniquely linked to your reseller account. Every scan is tracked and attributed to you automatically — even offline.</p>
+              <div class="qr-url">11-11-11.shop/r/priya-sharma</div>
+              <div class="qr-actions">
+                <button class="qr-btn qr-btn-primary" onclick="downloadQR()">Download PNG</button>
+                <button class="qr-btn qr-btn-outline" onclick="toast('🖨️','QR print dialog — opens in live version.')">Print</button>
+                <button class="qr-btn qr-btn-outline" onclick="toast('📤','QR share sheet — opens in live version.')">Share</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="panel">
+          <div class="panel-title">QR Performance</div>
+          <div class="bar-chart" style="margin-bottom:1.5rem">
+            <div class="bar-row"><span class="bar-label">Mon</span><div class="bar-track"><div class="bar-fill" style="width:60%;background:linear-gradient(90deg,var(--gold-dim),var(--gold2))"></div></div><span class="bar-val">54 scans</span></div>
+            <div class="bar-row"><span class="bar-label">Tue</span><div class="bar-track"><div class="bar-fill" style="width:45%;background:linear-gradient(90deg,var(--gold-dim),var(--gold2))"></div></div><span class="bar-val">41 scans</span></div>
+            <div class="bar-row"><span class="bar-label">Wed</span><div class="bar-track"><div class="bar-fill" style="width:82%;background:linear-gradient(90deg,var(--gold-dim),var(--gold2))"></div></div><span class="bar-val">74 scans</span></div>
+            <div class="bar-row"><span class="bar-label">Thu</span><div class="bar-track"><div class="bar-fill" style="width:55%;background:linear-gradient(90deg,var(--gold-dim),var(--gold2))"></div></div><span class="bar-val">50 scans</span></div>
+            <div class="bar-row"><span class="bar-label">Fri</span><div class="bar-track"><div class="bar-fill" style="width:91%;background:linear-gradient(90deg,var(--gold-dim),var(--gold2))"></div></div><span class="bar-val">82 scans</span></div>
+            <div class="bar-row"><span class="bar-label">Sat</span><div class="bar-track"><div class="bar-fill" style="width:100%;background:linear-gradient(90deg,var(--gold-dim),var(--gold2))"></div></div><span class="bar-val">90 scans</span></div>
+            <div class="bar-row"><span class="bar-label">Sun</span><div class="bar-track"><div class="bar-fill" style="width:47%;background:linear-gradient(90deg,var(--gold-dim),var(--gold2))"></div></div><span class="bar-val">43 scans</span></div>
+          </div>
+          <div style="background:var(--gold-pale);border:1px solid var(--border-gold);padding:1rem">
+            <div style="font-size:.6rem;letter-spacing:.35em;text-transform:uppercase;color:var(--gold);margin-bottom:.8rem">Usage Tips</div>
+            <div style="font-size:.78rem;color:var(--muted);line-height:1.82">
+              • Print and frame at your store checkout counter<br>
+              • Add to your WhatsApp and Instagram bio<br>
+              • Include in customer receipts and packaging<br>
+              • Display on your store window for walk-ins
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- NOTIFICATIONS -->
+    <div class="page" id="page-notifications">
+      <div class="panel">
+        <div class="panel-title">Notifications <button class="panel-link" onclick="toast('✓','All notifications marked as read.')">Mark all read</button></div>
+        <div class="notif-list" id="notif-list"></div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div id="toast"><div class="tt" id="t-ttl"></div><div class="tm" id="t-msg"></div></div>
+
+<script>
+/* ── Config ──────────────────────────────────────────────────────── */
+const API_BASE = 'http://localhost:8000';
+
+/* ── Fallback data (shown when API is offline) ───────────────────── */
+const ORDERS_DATA=[
+  {id:'AV-2847',product:'KLEOMA',customer:'Meera Nair',date:'02 Jun 2025',amount:'₹1,234',commission:'₹100',status:'delivered'},
+  {id:'AV-2846',product:'SHREEMSRI',customer:'Rohit Verma',date:'02 Jun 2025',amount:'₹1,234',commission:'₹100',status:'processing'},
+  {id:'AV-2845',product:'SUKCE',customer:'Ananya Iyer',date:'01 Jun 2025',amount:'₹1,234',commission:'₹100',status:'delivered'},
+  {id:'AV-2844',product:'KAMAVYA',customer:'Kiran Shah',date:'01 Jun 2025',amount:'₹1,234',commission:'₹100',status:'delivered'},
+  {id:'AV-2843',product:'KLEOMA',customer:'Divya Pillai',date:'31 May 2025',amount:'₹1,234',commission:'₹100',status:'pending'},
+  {id:'AV-2842',product:'KLINFON',customer:'Arnav Gupta',date:'31 May 2025',amount:'₹1,234',commission:'₹100',status:'delivered'},
+  {id:'AV-2841',product:'MYSTRA',customer:'Preethi Raj',date:'30 May 2025',amount:'₹1,234',commission:'₹100',status:'delivered'},
+  {id:'AV-2840',product:'SHREEMSRI',customer:'Sanjay Malhotra',date:'30 May 2025',amount:'₹1,234',commission:'₹100',status:'delivered'},
+];
+const COMMISSIONS=[
+  {product:'KLEOMA',customer:'Meera Nair',date:'02 Jun 2025',amount:'₹100',icon:'✦',color:'#7D2035'},
+  {product:'SHREEMSRI',customer:'Rohit Verma',date:'02 Jun 2025',amount:'₹100',icon:'✦',color:'#7D2035'},
+  {product:'SUKCE',customer:'Ananya Iyer',date:'01 Jun 2025',amount:'₹100',icon:'✦',color:'#7D2035'},
+  {product:'KAMAVYA',customer:'Kiran Shah',date:'01 Jun 2025',amount:'₹100',icon:'✦',color:'#7D2035'},
+  {product:'KLEOMA',customer:'Divya Pillai',date:'31 May 2025',amount:'₹100',icon:'✦',color:'#7D2035'},
+];
+const PAYOUTS=[
+  {period:'May 2025',dates:'1 – 31 May',amount:'₹3,300',status:'paid'},
+  {period:'Apr 2025',dates:'1 – 30 Apr',amount:'₹3,200',status:'paid'},
+  {period:'Mar 2025',dates:'1 – 31 Mar',amount:'₹2,900',status:'paid'},
+  {period:'Feb 2025',dates:'1 – 28 Feb',amount:'₹2,400',status:'paid'},
+  {period:'Jun 2025 (pending)',dates:'1 – 30 Jun',amount:'₹3,200',status:'pending'},
+];
+const CUSTOMERS=[
+  {name:'Meera Nair',joined:'Joined Jan 2025',orders:'12 orders — ₹14,808',avatar:'MN',color:'#be185d'},
+  {name:'Ananya Iyer',joined:'Joined Feb 2025',orders:'8 orders — ₹9,872',avatar:'AI',color:'#5b21b6'},
+  {name:'Rohit Verma',joined:'Joined Feb 2025',orders:'6 orders — ₹7,404',avatar:'RV',color:'#8a7235'},
+  {name:'Kiran Shah',joined:'Joined Mar 2025',orders:'5 orders — ₹6,170',avatar:'KS',color:'#c2410c'},
+  {name:'Divya Pillai',joined:'Joined Mar 2025',orders:'4 orders — ₹4,936',avatar:'DP',color:'#065f46'},
+  {name:'Preethi Raj',joined:'Joined Apr 2025',orders:'3 orders — ₹3,702',avatar:'PR',color:'#1d4ed8'},
+  {name:'Sanjay Malhotra',joined:'Joined Apr 2025',orders:'3 orders — ₹3,702',avatar:'SM',color:'#7c3aed'},
+  {name:'Arnav Gupta',joined:'Joined May 2025',orders:'2 orders — ₹2,468',avatar:'AG',color:'#b5924a'},
+];
+const NOTIFS=[
+  {icon:'🛒',msg:'New order placed — KLEOMA (₹1,234). Commission: ₹100',time:'2 minutes ago',unread:true},
+  {icon:'▦',msg:'Your QR code was scanned 47 times today.',time:'1 hour ago',unread:true},
+  {icon:'💰',msg:'Payout processed to your bank account.',time:'3 hours ago',unread:true},
+  {icon:'📦',msg:'Order is now out for delivery.',time:'Yesterday, 6:41 PM',unread:false},
+  {icon:'✨',msg:"You've crossed a milestone — keep growing!",time:'Yesterday, 2:12 PM',unread:false},
+  {icon:'🔗',msg:'New referral click from Instagram — user browsed 3 products.',time:'2 days ago',unread:false},
+];
+const SPARKLINE_DATA=[900,1400,1700,2200,2600,2900,2400,3200,2900,3200,3300,3200];
+
+/* ── Helpers ─────────────────────────────────────────────────────── */
+let toastTm;
+function toast(icon,msg){if(toastTm)clearTimeout(toastTm);document.getElementById('t-ttl').textContent=icon+' 11:11:11';document.getElementById('t-msg').textContent=msg;document.getElementById('toast').classList.add('show');toastTm=setTimeout(()=>document.getElementById('toast').classList.remove('show'),4200);}
+
+function logout(){
+  localStorage.removeItem('111_token');
+  localStorage.removeItem('111_refresh');
+  localStorage.removeItem('111_reseller');
+  window.location.href='login.html';
+}
+
+function switchPage(name,el){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('on'));
+  document.querySelectorAll('.sb-item').forEach(i=>i.classList.remove('on'));
+  document.getElementById('page-'+name).classList.add('on');
+  if(el)el.classList.add('on');
+  const titles={overview:'Overview',orders:'Orders',referrals:'Referrals',earnings:'Earnings',customers:'Customers',qrcode:'QR & Links',notifications:'Notifications'};
+  document.getElementById('tb-title').textContent=titles[name]||name;
+  document.getElementById('tb-crumb').textContent=titles[name]||name;
+  closeSidebar();
+}
+function openSidebar(){document.getElementById('sidebar').classList.add('open');document.getElementById('sb-overlay').classList.add('show');}
+function closeSidebar(){document.getElementById('sidebar').classList.remove('open');document.getElementById('sb-overlay').classList.remove('show');}
+
+function copyRef(){
+  const info=JSON.parse(localStorage.getItem('111_reseller')||'{}');
+  const url=info.referral_link||document.getElementById('ref-url').value;
+  if(navigator.clipboard)navigator.clipboard.writeText(url);
+  toast('🔗','Referral link copied to clipboard!');
+}
+
+function downloadQR(){
+  const canvas=document.querySelector('#qr-big canvas');
+  if(canvas){
+    const info=JSON.parse(localStorage.getItem('111_reseller')||'{}');
+    const a=document.createElement('a');
+    a.download='QR_'+(info.code||'11-11-11')+'.png';
+    a.href=canvas.toDataURL('image/png');
+    a.click();
+  }
+  toast('⬇️','QR Code downloaded!');
+}
+
+/* ── Render functions ─────────────────────────────────────────────── */
+function renderOrders(){
+  document.getElementById('orders-tbody').innerHTML=ORDERS_DATA.map(o=>`
+    <tr>
+      <td><div class="order-id">${o.id}</div></td>
+      <td><div class="order-prod">${o.product}</div></td>
+      <td><span style="font-size:.8rem;color:#1C1914">${o.customer}</span></td>
+      <td><span style="font-size:.75rem;color:#7A7268">${o.date}</span></td>
+      <td><span style="font-family:'Cormorant Garamond',serif;color:#B5924A;font-size:1rem">${o.amount}</span></td>
+      <td><span style="color:#16a34a;font-size:.8rem;font-weight:500">${o.commission}</span></td>
+      <td><span class="order-status status-${o.status}">${o.status.charAt(0).toUpperCase()+o.status.slice(1)}</span></td>
+    </tr>
+  `).join('');
+}
+
+function renderCommissions(){
+  document.getElementById('commission-list').innerHTML=COMMISSIONS.map(c=>`
+    <div class="commission-item">
+      <div class="ci-icon" style="background:${c.color}18">${c.icon}</div>
+      <div class="ci-name">
+        <div class="ci-product">${c.product}</div>
+        <div class="ci-date">${c.customer} · ${c.date}</div>
+      </div>
+      <div>
+        <div class="ci-amount">${c.amount}</div>
+        <div class="ci-pct">₹100 flat commission</div>
+      </div>
+    </div>
+  `).join('');
+  document.getElementById('payout-list').innerHTML=PAYOUTS.map(p=>`
+    <div class="payout-row">
+      <div class="payout-period">${p.period}<span>${p.dates}</span></div>
+      <div class="payout-amount">${p.amount}</div>
+      <span class="payout-status ps-${p.status}">${p.status.charAt(0).toUpperCase()+p.status.slice(1)}</span>
+    </div>
+  `).join('');
+}
+
+function renderCustomers(){
+  document.getElementById('customers-list').innerHTML=CUSTOMERS.map(c=>`
+    <div class="customer-row">
+      <div class="cust-avatar" style="background:${c.color}">${c.avatar}</div>
+      <div class="cust-name">
+        <div class="cust-n">${c.name}</div>
+        <div class="cust-d">${c.joined}</div>
+      </div>
+      <div class="cust-orders">${c.orders.split('—')[0]}<span>₹${c.orders.split('₹')[1]}</span></div>
+    </div>
+  `).join('');
+}
+
+function renderNotifications(){
+  document.getElementById('notif-list').innerHTML=NOTIFS.map(n=>`
+    <div class="notif-item ${n.unread?'unread':''}">
+      <div class="notif-ic">${n.icon}</div>
+      <div class="notif-text">
+        <div class="notif-msg">${n.msg}</div>
+        <div class="notif-time">${n.time}</div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function renderQR(elId, code){
+  const el=document.getElementById(elId);if(!el)return;
+  el.innerHTML='';
+  const info=JSON.parse(localStorage.getItem('111_reseller')||'{}');
+  const rc=code||info.code||'AV001';
+  const url=info.referral_link||('file:///E:/Bhupan%20Format/index.html?ref='+rc);
+  /* update URL displays */
+  document.querySelectorAll('.qr-url').forEach(el=>el.textContent=url);
+  try{
+    new QRCode(el,{text:url,width:148,height:148,colorDark:'#1C1914',colorLight:'#ffffff',correctLevel:QRCode.CorrectLevel.H});
+  }catch(e){
+    el.innerHTML='<div style="width:148px;height:148px;display:flex;align-items:center;justify-content:center;font-size:.7rem;color:var(--muted);text-align:center;line-height:1.7">QR Code<br>'+rc+'</div>';
+  }
+}
+
+function renderSparkline(){
+  const el=document.getElementById('sparkline');if(!el)return;
+  const max=Math.max(...SPARKLINE_DATA,1);
+  el.innerHTML=SPARKLINE_DATA.map((v,i)=>`<div class="spark-bar" style="height:${Math.round(v/max*100)}%;opacity:${0.3+i/SPARKLINE_DATA.length*0.7}" title="₹${v.toLocaleString('en-IN')}"></div>`).join('');
+  const total=SPARKLINE_DATA.reduce((a,b)=>a+b,0);
+  const sp=document.querySelector('#page-overview .sparkline')?.closest('.panel')?.querySelector('.panel-title span');
+  if(sp)sp.textContent='Total: ₹'+total.toLocaleString('en-IN');
+}
+
+/* ── Reseller UI updater ─────────────────────────────────────────── */
+function updateResellerUI(info){
+  if(!info)return;
+  const initials=info.initials||(info.name||'').split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase();
+  document.querySelector('.sb-avatar').textContent=initials;
+  document.querySelector('.sb-uname').textContent=info.name||'';
+  /* reseller ID + type badge */
+  const ridEl=document.getElementById('sb-rid');
+  if(ridEl)ridEl.textContent=info.reseller_id||info.code||'—';
+  const badgeEl=document.getElementById('sb-type-badge');
+  if(badgeEl){
+    const isInfluencer=info.reseller_type==='influencer';
+    badgeEl.textContent=isInfluencer?'Influencer':'Retail';
+    badgeEl.className='sb-type-badge '+(isInfluencer?'influencer':'retail');
+  }
+  /* QR page name */
+  const qrName=document.querySelector('.qr-meta h3');
+  if(qrName)qrName.textContent=info.name||'';
+  /* referral link inputs */
+  const refUrl=info.referral_link||('file:///E:/Bhupan%20Format/index.html?ref='+(info.code||''));
+  const refInput=document.getElementById('ref-url');
+  if(refInput)refInput.value=refUrl;
+  /* greeting first name */
+  const greetEm=document.querySelector('#page-overview .g-text h2 em');
+  if(greetEm)greetEm.textContent=(info.name||'').split(' ')[0];
+}
+
+/* ── API fetch layer ─────────────────────────────────────────────── */
+function _token(){return localStorage.getItem('111_token');}
+function _headers(){return{'Authorization':'Bearer '+_token(),'Content-Type':'application/json'};}
+
+async function loadFromAPI(){
+  const info=JSON.parse(localStorage.getItem('111_reseller')||'null');
+  updateResellerUI(info);
+  renderQR('qr-big', info&&info.code);
+
+  if(!_token()){initFallback();return;}
+
+  try{
+    const res=await fetch(API_BASE+'/api/reseller/dashboard/',{headers:_headers()});
+    if(res.status===401){localStorage.removeItem('111_token');initFallback();return;}
+    if(!res.ok)throw new Error();
+    const d=await res.json();
+    applyDashboard(d);
+    loadEarnings();
+    loadCustomers();
+    loadNotifications();
+    loadReferrals();
+  }catch(_){
+    console.log('API offline — using demo data');
+    initFallback();
+  }
+}
+
+function initFallback(){
+  renderOrders();renderCommissions();renderCustomers();renderNotifications();renderSparkline();
+}
+
+function applyDashboard(d){
+  const s=d.stats, r=d.reseller;
+  /* merge type info into localStorage reseller object */
+  try{
+    const stored=JSON.parse(localStorage.getItem('111_reseller')||'{}');
+    if(r.reseller_id)stored.reseller_id=r.reseller_id;
+    if(r.reseller_type)stored.reseller_type=r.reseller_type;
+    if(r.referral_link)stored.referral_link=r.referral_link;
+    localStorage.setItem('111_reseller',JSON.stringify(stored));
+  }catch(_){}
+  updateResellerUI(r);
+
+  /* overview stat cards */
+  const cards=document.querySelectorAll('#page-overview .stats-grid .stat-card');
+  const fmt=n=>'₹'+Math.round(n).toLocaleString('en-IN');
+  const trendSVG='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>';
+  if(cards[0]){
+    cards[0].querySelector('.stat-val').textContent=fmt(s.total_earnings);
+    cards[0].querySelector('.stat-trend').innerHTML=trendSVG+(s.month_trend>=0?'+':'')+s.month_trend+'% vs last month';
+  }
+  if(cards[1]){
+    cards[1].querySelector('.stat-val').textContent=s.total_orders.toLocaleString('en-IN');
+    cards[1].querySelector('.stat-trend').innerHTML=trendSVG+s.week_scans+' this week';
+  }
+  if(cards[2]){
+    cards[2].querySelector('.stat-val').textContent=s.total_scans.toLocaleString('en-IN');
+    cards[2].querySelector('.stat-trend').innerHTML=trendSVG+s.today_scans+' today';
+  }
+  if(cards[3]){
+    cards[3].querySelector('.stat-val').textContent=s.total_customers.toLocaleString('en-IN');
+    cards[3].querySelector('.stat-trend').innerHTML=trendSVG+'All time';
+  }
+
+  /* sidebar orders badge */
+  const badge=document.querySelector('.sb-badge');
+  if(badge)badge.textContent=s.total_orders;
+
+  /* greeting desc */
+  const hour=new Date().getHours();
+  const greet=hour<12?'morning':hour<17?'afternoon':'evening';
+  const greetH=document.querySelector('#page-overview .g-text h2');
+  if(greetH)greetH.innerHTML='Good '+greet+', <em>'+r.name.split(' ')[0]+'</em> ✦';
+  const greetP=document.querySelector('#page-overview .g-text p');
+  if(greetP)greetP.textContent='You have '+d.recent_orders.length+' recent orders and '+s.today_scans+' QR scans today. This month: '+fmt(s.month_earnings)+'.';
+
+  /* update orders table data */
+  ORDERS_DATA.length=0;
+  d.recent_orders.forEach(o=>ORDERS_DATA.push(o));
+  renderOrders();
+
+  /* update orders page title count */
+  const ordTitle=document.querySelector('#page-orders .panel-title span');
+  if(ordTitle)ordTitle.textContent=s.total_orders+' total';
+
+  /* sparkline */
+  SPARKLINE_DATA.length=0;
+  d.sparkline.forEach(v=>SPARKLINE_DATA.push(v));
+  renderSparkline();
+
+  /* QR with correct code */
+  renderQR('qr-big', r.code);
+}
+
+async function loadEarnings(){
+  if(!_token())return;
+  try{
+    const d=(await (await fetch(API_BASE+'/api/reseller/earnings/',{headers:_headers()})).json());
+    /* earnings stat cards */
+    const ec=document.querySelectorAll('#page-earnings .stats-grid .stat-card');
+    if(ec[0])ec[0].querySelector('.stat-val').textContent=d.stats.total_earnings;
+    if(ec[1])ec[1].querySelector('.stat-val').textContent=d.stats.month_earnings;
+    if(ec[2])ec[2].querySelector('.stat-val').textContent=d.stats.pending_payout;
+    /* update data arrays */
+    COMMISSIONS.length=0;d.commissions.forEach(c=>COMMISSIONS.push(c));
+    PAYOUTS.length=0;d.payouts.forEach(p=>PAYOUTS.push(p));
+    renderCommissions();
+  }catch(_){}
+}
+
+async function loadCustomers(){
+  if(!_token())return;
+  try{
+    const d=(await (await fetch(API_BASE+'/api/reseller/customers/',{headers:_headers()})).json());
+    CUSTOMERS.length=0;
+    d.customers.forEach(c=>CUSTOMERS.push({
+      name:c.name,joined:c.joined,orders:c.orders_str,avatar:c.avatar,color:c.color,
+    }));
+    const ct=document.querySelector('#page-customers .panel-title span');
+    if(ct)ct.textContent=d.total+' total';
+    renderCustomers();
+  }catch(_){}
+}
+
+async function loadNotifications(){
+  if(!_token())return;
+  try{
+    const d=(await (await fetch(API_BASE+'/api/reseller/notifications/',{headers:_headers()})).json());
+    NOTIFS.length=0;d.notifications.forEach(n=>NOTIFS.push(n));
+    /* badge */
+    const nb=document.querySelectorAll('.sb-badge')[1];
+    if(nb&&d.unread_count>0){nb.textContent=d.unread_count;nb.style.display='inline';}
+    renderNotifications();
+  }catch(_){}
+}
+
+async function loadReferrals(){
+  if(!_token())return;
+  try{
+    const d=(await (await fetch(API_BASE+'/api/reseller/referrals/',{headers:_headers()})).json());
+    const rc=document.querySelectorAll('#page-referrals .stats-grid .stat-card');
+    if(rc[0])rc[0].querySelector('.stat-val').textContent=d.stats.link_clicks.toLocaleString('en-IN');
+    if(rc[1])rc[1].querySelector('.stat-val').textContent=d.stats.qr_scans.toLocaleString('en-IN');
+    if(rc[2])rc[2].querySelector('.stat-val').textContent=d.stats.conversions.toLocaleString('en-IN');
+    if(rc[3])rc[3].querySelector('.stat-val').textContent=d.stats.conversion_rate;
+    const ri=document.getElementById('ref-url');
+    if(ri)ri.value=d.full_referral_link||d.referral_link;
+  }catch(_){}
+}
+
+/* ── Boot ────────────────────────────────────────────────────────── */
+document.addEventListener('DOMContentLoaded',()=>{
+  /* clear stale referral_link so API always refreshes it */
+  try{const s=JSON.parse(localStorage.getItem('111_reseller')||'{}');if(s.referral_link&&s.referral_link.includes('11-11-11.shop')){delete s.referral_link;localStorage.setItem('111_reseller',JSON.stringify(s));}}catch(_){}
+  loadFromAPI();
+  setTimeout(()=>{const arc=document.getElementById('perf-arc');if(arc)arc.style.strokeDashoffset='88';},500);
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Reseller Login — 11:11:11 | EVOXU</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Jost:wght@200;300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --cream:#FAF8F4;--cream2:#F3EDE4;--cream3:#EBE3D8;--white:#FFFFFF;
+  --ink:#1C1914;--ink2:#2E2A24;--muted:#7A7268;--dim:#A49C92;
+  --gold:#7D2035;--gold2:#A8415A;--gold-dim:#5C1525;
+  --gold-pale:rgba(125,32,53,0.08);--border:rgba(28,25,20,0.09);
+  --border-gold:rgba(125,32,53,0.22);--shadow:0 1px 20px rgba(28,25,20,0.07);
+  --shadow2:0 6px 40px rgba(28,25,20,0.11);
+}
+html{height:100%}
+body{background:var(--cream);color:var(--ink);font-family:'Jost',sans-serif;font-weight:300;overflow-x:hidden;display:flex;flex-direction:column;min-height:100vh}
+.topbar{position:fixed;top:0;left:0;right:0;z-index:200;background:rgba(250,248,244,.97);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid var(--border);padding:1.1rem 3rem;display:flex;align-items:center;justify-content:space-between}
+.logo{font-family:'Cormorant Garamond',serif;font-size:1.65rem;font-weight:600;letter-spacing:.22em;color:var(--ink);text-decoration:none}
+.back-link{display:flex;align-items:center;gap:.55rem;font-size:.68rem;letter-spacing:.3em;text-transform:uppercase;color:var(--muted);text-decoration:none;transition:color .3s}
+.back-link:hover{color:var(--ink)}
+.back-link svg{width:14px;height:14px;flex-shrink:0}
+.layout{display:grid;grid-template-columns:420px 1fr;flex:1;padding-top:57px}
+.left-panel,.right-panel{min-height:calc(100vh - 57px)}
+.left-panel{background:var(--cream2);border-right:1px solid var(--border);display:flex;flex-direction:column;justify-content:center;padding:4.5rem 3.5rem;position:relative;overflow:hidden}
+.l-drop{position:absolute;border-radius:50%;background:radial-gradient(circle at 35% 35%,rgba(125,32,53,.2),rgba(125,32,53,.02));pointer-events:none}
+.l-d1{width:100px;height:100px;top:8%;right:-20px;animation:floatD 9s ease-in-out infinite}
+.l-d2{width:60px;height:60px;bottom:12%;left:-10px;animation:floatD 11s ease-in-out infinite 2s}
+.l-d3{width:140px;height:140px;bottom:25%;right:-40px;animation:floatD 13s ease-in-out infinite 1s}
+.l-d4{width:40px;height:40px;top:38%;left:20px;animation:floatD 8s ease-in-out infinite 3s}
+@keyframes floatD{0%,100%{transform:translateY(0)}50%{transform:translateY(-18px)}}
+.l-badge{display:inline-flex;align-items:center;gap:.55rem;background:var(--white);border:1px solid var(--border-gold);padding:.38rem 1rem;font-size:.6rem;letter-spacing:.42em;text-transform:uppercase;color:var(--gold);margin-bottom:2rem;width:fit-content}
+.l-dot{width:6px;height:6px;background:var(--gold);border-radius:50%;animation:blink 2s ease infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.25}}
+.l-brand{font-family:'Cormorant Garamond',serif;font-size:3.8rem;font-weight:300;letter-spacing:.15em;color:var(--ink);line-height:1;margin-bottom:.5rem}
+.l-sub{font-size:.62rem;letter-spacing:.48em;text-transform:uppercase;color:var(--gold);margin-bottom:1.5rem}
+.l-line{width:40px;height:1px;background:var(--gold-dim);margin-bottom:1.5rem}
+.l-desc{font-size:.92rem;color:var(--muted);line-height:2;margin-bottom:2.5rem;max-width:320px}
+.l-stats{display:flex;gap:0;border:1px solid var(--border)}
+.l-stat{flex:1;padding:1rem .8rem;text-align:center;background:var(--white);border-right:1px solid var(--border)}
+.l-stat:last-child{border-right:none}
+.l-val{font-family:'Cormorant Garamond',serif;font-size:1.6rem;color:var(--gold);margin-bottom:.2rem;line-height:1}
+.l-lbl{font-size:.52rem;letter-spacing:.25em;text-transform:uppercase;color:var(--dim)}
+.l-quote{margin-top:2rem;padding:1.1rem 1.3rem;border-left:2px solid var(--gold);background:rgba(125,32,53,.06);font-family:'Cormorant Garamond',serif;font-style:italic;font-size:1rem;color:var(--ink2);line-height:1.7}
+.right-panel{display:flex;align-items:center;justify-content:center;padding:3rem 3.5rem;background:var(--cream)}
+.form-wrap{width:100%;max-width:420px}
+.form-head{text-align:center;margin-bottom:2.5rem}
+.form-eyebrow{font-size:.6rem;letter-spacing:.55em;text-transform:uppercase;color:var(--gold);margin-bottom:1rem;display:block}
+h1{font-family:'Cormorant Garamond',serif;font-size:clamp(2.2rem,4vw,3.2rem);font-weight:300;color:var(--ink);line-height:1.15;margin-bottom:.55rem}
+h1 em{font-style:italic;color:var(--gold)}
+.form-sub{font-size:.9rem;color:var(--muted);line-height:1.75}
+.card{background:var(--white);border:1px solid var(--border);padding:2.5rem;box-shadow:var(--shadow2)}
+.demo-box{background:var(--cream2);border:1px solid var(--border-gold);padding:1.1rem 1.3rem;margin-bottom:1.8rem}
+.demo-lbl{font-size:.58rem;letter-spacing:.38em;text-transform:uppercase;color:var(--gold);margin-bottom:.65rem}
+.use-demo{display:block;width:100%;padding:.55rem .9rem;background:transparent;border:1px solid var(--border-gold);color:var(--muted);font-family:'Jost',sans-serif;font-size:.76rem;letter-spacing:.04em;text-align:left;cursor:pointer;transition:all .3s;margin-bottom:.4rem}
+.use-demo:last-child{margin-bottom:0}
+.use-demo:hover{background:var(--gold-pale);color:var(--gold-dim);border-color:var(--gold)}
+.fg{display:flex;flex-direction:column;gap:.4rem;margin-bottom:1.3rem}
+.flabel{font-size:.6rem;letter-spacing:.35em;text-transform:uppercase;color:var(--dim)}
+.fwrap{position:relative}
+.finput{width:100%;background:transparent;border:none;border-bottom:1px solid var(--border);padding:.7rem 2.2rem .7rem 0;color:var(--ink);font-family:'Jost',sans-serif;font-size:.92rem;outline:none;transition:border-color .3s}
+.finput:focus{border-color:var(--gold)}
+.finput::placeholder{color:var(--dim)}
+.ficon{position:absolute;right:0;top:50%;transform:translateY(-50%);color:var(--dim);pointer-events:none}
+.ficon svg{width:15px;height:15px;display:block}
+.eye-btn{position:absolute;right:0;top:50%;transform:translateY(-50%);background:none;border:none;color:var(--dim);cursor:pointer;transition:color .3s}
+.eye-btn:hover{color:var(--gold)}
+.eye-btn svg{width:15px;height:15px;display:block}
+.ferr{font-size:.68rem;color:#c0392b;letter-spacing:.05em;margin-top:.3rem;display:none}
+.fg.err .finput{border-color:#c0392b}
+.fg.err .ferr{display:block}
+.frow{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.8rem}
+.remember{display:flex;align-items:center;gap:.6rem;font-size:.75rem;color:var(--muted);cursor:pointer}
+.remember input{accent-color:var(--gold);width:14px;height:14px;cursor:pointer}
+.forgot{font-size:.65rem;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);text-decoration:none;transition:color .3s}
+.forgot:hover{color:var(--gold-dim)}
+.btn-in{width:100%;padding:1.05rem;background:var(--ink);border:none;color:var(--white);font-family:'Jost',sans-serif;font-size:.72rem;letter-spacing:.44em;text-transform:uppercase;cursor:pointer;transition:all .4s;position:relative;overflow:hidden;font-weight:500}
+.btn-in:hover{background:var(--gold)}
+.btn-in.loading{pointer-events:none}
+.btn-in.loading .btn-txt{opacity:0}
+.btn-in::after{content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:18px;height:18px;border:2px solid rgba(255,255,255,.3);border-top-color:var(--white);border-radius:50%;animation:spin .7s linear infinite;opacity:0}
+.btn-in.loading::after{opacity:1}
+@keyframes spin{to{transform:translate(-50%,-50%) rotate(360deg)}}
+.or-div{display:flex;align-items:center;gap:1rem;margin:1.5rem 0;color:var(--dim);font-size:.62rem;letter-spacing:.3em;text-transform:uppercase}
+.or-div::before,.or-div::after{content:'';flex:1;height:1px;background:var(--border)}
+.btn-wa{width:100%;padding:1rem;background:transparent;border:1px solid rgba(37,211,102,.35);color:#2d8f52;font-family:'Jost',sans-serif;font-size:.7rem;letter-spacing:.3em;text-transform:uppercase;cursor:pointer;transition:all .4s;display:flex;align-items:center;justify-content:center;gap:.75rem}
+.btn-wa:hover{background:rgba(37,211,102,.07);border-color:rgba(37,211,102,.5)}
+.btn-wa svg{width:17px;height:17px;fill:#2d8f52;flex-shrink:0}
+.reg-cta{text-align:center;margin-top:1.6rem;font-size:.82rem;color:var(--muted)}
+.reg-cta a{color:var(--gold);text-decoration:none;transition:color .3s}
+.reg-cta a:hover{color:var(--gold-dim)}
+footer{text-align:center;padding:1.3rem;font-size:.68rem;color:var(--dim);border-top:1px solid var(--border);background:var(--cream)}
+footer a{color:var(--dim);text-decoration:none;transition:color .3s}
+footer a:hover{color:var(--gold)}
+#toast{position:fixed;bottom:2rem;right:2rem;background:var(--ink);border:1px solid rgba(125,32,53,.3);padding:1rem 1.4rem;z-index:9999;transform:translateX(110%);transition:transform .5s cubic-bezier(.4,0,.2,1);max-width:270px}
+#toast.show{transform:translateX(0)}
+.tt{font-family:'Cormorant Garamond',serif;font-size:.95rem;color:var(--gold2);margin-bottom:.2rem}
+.tm{font-size:.75rem;color:rgba(255,255,255,.4);line-height:1.5}
+@media(max-width:900px){.layout{grid-template-columns:1fr}.left-panel{display:none}.topbar{padding:1rem 1.5rem}.right-panel{padding:2.5rem 1.5rem}}
+@media(max-width:480px){.card{padding:1.8rem 1.3rem}.right-panel{padding:2rem 1rem}}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <a href="../index.html" class="logo">11:11:11</a>
+  <a href="../index.html" class="back-link">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+    Back to Store
+  </a>
+</div>
+
+<div class="layout">
+  <div class="left-panel">
+    <span class="l-drop l-d1"></span><span class="l-drop l-d2"></span>
+    <span class="l-drop l-d3"></span><span class="l-drop l-d4"></span>
+    <div class="l-badge"><span class="l-dot"></span>Reseller Portal</div>
+    <div class="l-brand">11:11:11</div>
+    <div class="l-sub">Sacred Ambassador Program</div>
+    <div class="l-line"></div>
+    <p class="l-desc">Track your earnings, manage your unique QR code, and grow your manifestation commerce business — all from your personal sacred dashboard.</p>
+    <div class="l-stats">
+      <div class="l-stat"><div class="l-val">₹100</div><div class="l-lbl">Per Sale</div></div>
+      <div class="l-stat"><div class="l-val">10</div><div class="l-lbl">Sacred Oils</div></div>
+      <div class="l-stat"><div class="l-val">Live</div><div class="l-lbl">Analytics</div></div>
+    </div>
+    <div class="l-quote">"Every scan of your QR code is a step closer to your abundance."</div>
+  </div>
+
+  <div class="right-panel">
+    <div class="form-wrap">
+      <div class="form-head">
+        <span class="form-eyebrow">Reseller Sign In</span>
+        <h1>Welcome <em>Back,</em><br>Ambassador</h1>
+        <p class="form-sub">Sign in to your sacred dashboard to track your manifestation commerce journey.</p>
+      </div>
+      <div class="card">
+        <!-- 3 real reseller demo buttons -->
+        <div class="demo-box">
+          <div class="demo-lbl">◆ Demo Resellers — Click to Fill</div>
+          <button class="use-demo" onclick="fillReseller('aravind@111-11-11.shop','Aravind@1111','Aravind')">
+            <strong style="color:var(--ink)">Aravind</strong>
+            <span style="opacity:.45;font-size:.68rem;margin-left:.35rem">· AV001</span>
+            <span style="float:right;opacity:.35">→</span>
+          </button>
+          <button class="use-demo" onclick="fillReseller('sibi@111-11-11.shop','Sibi@1111','Sibi')">
+            <strong style="color:var(--ink)">Sibi</strong>
+            <span style="opacity:.45;font-size:.68rem;margin-left:.35rem">· SB001</span>
+            <span style="float:right;opacity:.35">→</span>
+          </button>
+          <button class="use-demo" onclick="fillReseller('bhupan@111-11-11.shop','Bhupan@1111','Bhupan')">
+            <strong style="color:var(--ink)">Bhupan</strong>
+            <span style="opacity:.45;font-size:.68rem;margin-left:.35rem">· BH001</span>
+            <span style="float:right;opacity:.35">→</span>
+          </button>
+        </div>
+
+        <form id="form" onsubmit="doLogin(event)" novalidate>
+          <div class="fg" id="fg-email">
+            <label class="flabel">Email Address</label>
+            <div class="fwrap">
+              <input type="email" class="finput" id="i-email" placeholder="your@email.com" autocomplete="email">
+              <span class="ficon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,12 2,6"/></svg></span>
+            </div>
+            <span class="ferr" id="e-email">Please enter a valid email.</span>
+          </div>
+          <div class="fg" id="fg-pass">
+            <label class="flabel">Password</label>
+            <div class="fwrap">
+              <input type="password" class="finput" id="i-pass" placeholder="Your password" autocomplete="current-password">
+              <button type="button" class="eye-btn" onclick="togglePw()">
+                <svg id="eye-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+              </button>
+            </div>
+            <span class="ferr" id="e-pass">Incorrect password.</span>
+          </div>
+          <div class="frow">
+            <label class="remember"><input type="checkbox"> Remember me</label>
+            <a href="#" class="forgot" onclick="toast('🔑','Contact your account manager to reset.');return false">Forgot password?</a>
+          </div>
+          <button type="submit" class="btn-in" id="btn-in"><span class="btn-txt">Sign In to Dashboard</span></button>
+        </form>
+
+        <div class="or-div">or</div>
+        <button class="btn-wa" onclick="toast('💬','WhatsApp OTP login coming soon.')">
+          <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347zM11.999 2C6.477 2 2 6.477 2 11.999a9.958 9.958 0 001.385 5.112L2 22l5.006-1.371A9.958 9.958 0 0011.999 22c5.522 0 10-4.477 10-10S17.521 2 12 2z"/></svg>
+          Continue with WhatsApp OTP
+        </button>
+        <div class="reg-cta">Not a reseller yet? <a href="register.html">Apply to Join →</a></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer>© 2025 11:11:11 · EVOXU PVT LTD &nbsp;·&nbsp; <a href="#">Privacy</a> &nbsp;·&nbsp; <a href="#">Support</a></footer>
+<div id="toast"><div class="tt" id="t-ttl"></div><div class="tm" id="t-msg"></div></div>
+
+<script>
+const API_BASE = 'http://localhost:8000';
+
+const DEMO_RESELLERS = {
+  'aravind@111-11-11.shop': {password:'Aravind@1111', name:'Aravind', code:'AV001', initials:'AR'},
+  'sibi@111-11-11.shop':    {password:'Sibi@1111',    name:'Sibi',    code:'SB001', initials:'SB'},
+  'bhupan@111-11-11.shop':  {password:'Bhupan@1111',  name:'Bhupan',  code:'BH001', initials:'BH'},
+};
+
+let toastTm;
+function toast(icon,msg){
+  if(toastTm)clearTimeout(toastTm);
+  document.getElementById('t-ttl').textContent=icon+' 11:11:11';
+  document.getElementById('t-msg').textContent=msg;
+  document.getElementById('toast').classList.add('show');
+  toastTm=setTimeout(()=>document.getElementById('toast').classList.remove('show'),4500);
+}
+
+function fillReseller(email, pass, name) {
+  document.getElementById('i-email').value = email;
+  document.getElementById('i-pass').value  = pass;
+  toast('◆', name + "'s credentials filled — click Sign In.");
+}
+
+function togglePw(){
+  const i=document.getElementById('i-pass'),ic=document.getElementById('eye-ic');
+  if(i.type==='password'){
+    i.type='text';
+    ic.innerHTML='<path d="M17.94 17.94A10.07 10.07 0 0112 20c-7 0-11-8-11-8a18.45 18.45 0 015.06-5.94M9.9 4.24A9.12 9.12 0 0112 4c7 0 11 8 11 8a18.5 18.5 0 01-2.16 3.19" stroke="currentColor" stroke-width="1.5" fill="none"/><line x1="1" y1="1" x2="23" y2="23" stroke="currentColor" stroke-width="1.5"/>';
+  }else{
+    i.type='password';
+    ic.innerHTML='<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" stroke="currentColor" stroke-width="1.5" fill="none"/><circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.5" fill="none"/>';
+  }
+}
+
+function clearErr(){
+  document.getElementById('fg-email').classList.remove('err');
+  document.getElementById('fg-pass').classList.remove('err');
+}
+function showErr(em, pw){
+  if(em){document.getElementById('fg-email').classList.add('err');document.getElementById('e-email').textContent=em;}
+  if(pw){document.getElementById('fg-pass').classList.add('err');document.getElementById('e-pass').textContent=pw;}
+}
+
+async function doLogin(e){
+  e.preventDefault();
+  const em  = document.getElementById('i-email').value.trim().toLowerCase();
+  const pw  = document.getElementById('i-pass').value;
+  const btn = document.getElementById('btn-in');
+
+  clearErr();
+  let ok=true;
+  if(!em||!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(em)){showErr('Please enter a valid email.');ok=false;}
+  if(!pw){showErr(null,'Password is required.');ok=false;}
+  if(!ok)return;
+
+  btn.classList.add('loading'); btn.disabled=true;
+
+  /* ── Live API ── */
+  try{
+    const res = await fetch(API_BASE+'/api/reseller/login/',{
+      method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({email:em,password:pw}),
+    });
+    btn.classList.remove('loading'); btn.disabled=false;
+    const data = await res.json();
+    if(res.ok){
+      localStorage.setItem('111_token',    data.access);
+      localStorage.setItem('111_refresh',  data.refresh);
+      localStorage.setItem('111_reseller', JSON.stringify(data.reseller));
+      toast('✦','Welcome back, '+data.reseller.name+'! Entering dashboard…');
+      setTimeout(()=>{window.location.href='dashboard.html';},1200);
+    }else{
+      showErr(data.error||'Invalid credentials.','Please check your details.');
+    }
+    return;
+  }catch(_){}
+
+  btn.classList.remove('loading'); btn.disabled=false;
+
+  /* ── Demo fallback (API offline) ── */
+  const demo = DEMO_RESELLERS[em];
+  if(demo && pw===demo.password){
+    localStorage.removeItem('111_token');
+    localStorage.setItem('111_reseller', JSON.stringify({
+      name:demo.name, email:em, code:demo.code, initials:demo.initials,
+      referral_link:'https://11-11-11.shop/?ref='+demo.code,
+    }));
+    toast('✦','Welcome, '+demo.name+'! (Demo mode — backend offline)');
+    setTimeout(()=>{window.location.href='dashboard.html';},1200);
+  }else{
+    showErr('Server offline — use demo buttons above.','Wrong password or server is down.');
+    toast('⚠️','Backend not running. Click a demo reseller above.');
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,41 @@
+# Django
+django_backend/__pycache__/
+django_backend/**/__pycache__/
+django_backend/**/*.pyc
+django_backend/django_backend/
+django_backend/media/
+django_backend/staticfiles/
+django_backend/db.sqlite3
+
+# Environment — NEVER commit secrets
+django_backend/.env
+
+# Python
+*.pyc
+*.pyo
+*.pyd
+__pycache__/
+*.egg-info/
+dist/
+build/
+.venv/
+venv/
+env/
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# IDE / Claude Code
+.vscode/
+.idea/
+*.suo
+*.user
+.claude/
+
+# Logs
+*.log
+
+# SQL dumps (keep schema, ignore data dumps)
+*_dump.sql

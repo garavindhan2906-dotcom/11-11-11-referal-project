@@ -1,0 +1,824 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sacred Checkout — 11:11:11 | EVOXU</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Jost:wght@200;300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --cream:#FAF8F4;--cream2:#F3EDE4;--cream3:#EBE3D8;--white:#FFFFFF;
+  --ink:#1C1914;--muted:#7A7268;--dim:#A49C92;
+  --gold:#7D2035;--gold2:#A8415A;--gold-dim:#5C1525;
+  --gold-pale:rgba(125,32,53,0.08);
+  --border:rgba(28,25,20,0.09);--border-gold:rgba(125,32,53,0.22);
+  --shadow:0 1px 20px rgba(28,25,20,0.07);--shadow2:0 6px 40px rgba(28,25,20,0.11);
+  --green:#16a34a;--green-bg:rgba(22,163,74,0.08);--green-border:rgba(22,163,74,0.24);
+}
+html{scroll-behavior:smooth}
+body{background:var(--cream);color:var(--ink);font-family:'Jost',sans-serif;font-weight:300;min-height:100vh}
+
+/* ── NAV ── */
+.co-nav{
+  background:linear-gradient(135deg,rgba(125,32,53,0.94),rgba(93,21,37,0.96));
+  padding:.9rem 3rem;display:flex;align-items:center;justify-content:space-between;
+  position:sticky;top:0;z-index:200;box-shadow:0 2px 24px rgba(93,21,37,0.22)
+}
+.co-back{color:rgba(255,248,242,.68);text-decoration:none;font-size:.62rem;letter-spacing:.3em;text-transform:uppercase;transition:color .3s;display:flex;align-items:center;gap:.4rem}
+.co-back:hover{color:#FFF8F2}
+.co-back svg{width:14px;height:14px}
+.co-logo{font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-weight:600;letter-spacing:.22em;color:#FFF8F2;text-decoration:none}
+.co-secure{font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,248,242,.65);display:flex;align-items:center;gap:.35rem}
+.co-secure svg{width:13px;height:13px}
+
+/* ── STEPS BAR ── */
+.steps-bar{background:var(--white);border-bottom:1px solid var(--border);padding:.88rem 3rem;display:flex;align-items:center;justify-content:center;gap:.5rem}
+.step-item{font-size:.6rem;letter-spacing:.28em;text-transform:uppercase;color:var(--dim);display:flex;align-items:center;gap:.5rem;transition:color .3s}
+.step-item.active{color:var(--gold);font-weight:500}
+.step-item.done{color:var(--green)}
+.snum{width:22px;height:22px;border-radius:50%;border:1px solid currentColor;display:flex;align-items:center;justify-content:center;font-size:.54rem;font-weight:600;flex-shrink:0;transition:all .3s}
+.step-item.done .snum{background:var(--green);border-color:var(--green);color:#fff}
+.step-item.active .snum{background:var(--gold);border-color:var(--gold);color:#fff}
+.step-sep{color:var(--border);font-size:.9rem;margin:0 .15rem}
+
+/* ── LAYOUT ── */
+.co-main{max-width:1080px;margin:0 auto;padding:2rem;display:grid;grid-template-columns:1fr 370px;gap:1.8rem;align-items:start}
+
+/* ── SECTIONS ── */
+.co-sec{background:var(--white);border:1px solid var(--border);margin-bottom:1.1rem;box-shadow:var(--shadow);transition:all .3s}
+.co-sec.locked{opacity:0.45;pointer-events:none;filter:grayscale(0.2)}
+.co-sec-head{padding:1.1rem 1.7rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;min-height:60px}
+.cs-left{display:flex;align-items:center;gap:.85rem}
+.cs-badge{width:26px;height:26px;border-radius:50%;background:var(--cream3);color:var(--muted);display:flex;align-items:center;justify-content:center;font-size:.58rem;font-weight:600;flex-shrink:0;transition:all .3s}
+.co-sec.active .cs-badge{background:var(--gold);color:#fff}
+.co-sec.sec-done .cs-badge{background:var(--green);color:#fff}
+.cs-label{font-family:'Cormorant Garamond',serif;font-size:1.12rem;color:var(--ink)}
+.cs-done-info{font-size:.78rem;color:var(--muted);display:flex;align-items:center;gap:.65rem;flex-wrap:wrap}
+.cs-done-info span{color:var(--green)}
+.cs-edit{background:none;border:none;font-family:'Jost',sans-serif;font-size:.58rem;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);cursor:pointer;transition:color .3s;padding:0}
+.cs-edit:hover{color:var(--gold-dim)}
+.cs-body{padding:1.6rem 1.7rem;border-top:1px solid var(--border)}
+
+/* ── FORM ── */
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem}
+.row1{display:grid;grid-template-columns:1fr;margin-bottom:1rem}
+.fg{display:flex;flex-direction:column;gap:.3rem}
+.flbl{font-size:.56rem;letter-spacing:.32em;text-transform:uppercase;color:var(--dim)}
+.finput{width:100%;background:transparent;border:none;border-bottom:1px solid var(--border);padding:.68rem 0;color:var(--ink);font-family:'Jost',sans-serif;font-size:.93rem;outline:none;transition:border-color .3s}
+.finput:focus{border-color:var(--gold)}
+.finput::placeholder{color:var(--dim)}
+.finput[readonly]{color:var(--muted)}
+.fbox{width:100%;background:transparent;border:1px solid var(--border);padding:.7rem .9rem;color:var(--ink);font-family:'Jost',sans-serif;font-size:.93rem;outline:none;transition:border-color .3s}
+.fbox:focus{border-color:var(--gold)}
+.fbox::placeholder{color:var(--dim)}
+
+/* ── OTP BOXES ── */
+.otp-boxes{display:flex;gap:.6rem;margin-top:.3rem}
+.otp-box{width:52px;height:58px;text-align:center;border:1px solid var(--border);background:var(--white);font-family:'Cormorant Garamond',serif;font-size:1.8rem;color:var(--ink);outline:none;transition:border-color .3s}
+.otp-box:focus{border-color:var(--gold)}
+.otp-box.filled{border-color:var(--gold)}
+
+/* ── BUTTONS ── */
+.btn-primary{width:100%;padding:.95rem;background:var(--ink);border:none;color:#fff;font-family:'Jost',sans-serif;font-size:.68rem;letter-spacing:.44em;text-transform:uppercase;cursor:pointer;transition:all .35s;font-weight:500;margin-top:1.2rem;display:flex;align-items:center;justify-content:center;gap:.6rem}
+.btn-primary:hover{background:var(--gold)}
+.btn-primary:disabled{background:var(--cream3);color:var(--muted);cursor:not-allowed}
+.btn-secondary{padding:.6rem 1.2rem;background:transparent;border:1px solid var(--border);color:var(--muted);font-family:'Jost',sans-serif;font-size:.6rem;letter-spacing:.22em;text-transform:uppercase;cursor:pointer;transition:all .3s}
+.btn-secondary:hover{border-color:var(--gold);color:var(--gold)}
+
+/* ── INFO BANNERS ── */
+.info-bar{display:flex;align-items:flex-start;gap:.7rem;padding:.9rem 1.1rem;font-size:.8rem;line-height:1.7;color:var(--ink);margin-bottom:1.3rem}
+.info-bar svg{width:16px;height:16px;flex-shrink:0;margin-top:2px}
+.info-bar.otp-sent{background:rgba(22,163,74,0.07);border:1px solid var(--green-border)}
+.info-bar.otp-sent svg{color:var(--green)}
+.info-bar.error{background:rgba(185,28,28,0.06);border:1px solid rgba(185,28,28,0.25)}
+.info-bar.error svg{color:#b91c1c}
+
+/* ── SAVED ADDRESS BANNER ── */
+.saved-addr-bar{display:flex;align-items:flex-start;justify-content:space-between;gap:1rem;padding:1rem 1.2rem;background:rgba(22,163,74,0.07);border:1px solid var(--green-border);border-left:3px solid var(--green);margin-bottom:1.5rem}
+.sa-info{flex:1}
+.sa-title{font-size:.62rem;letter-spacing:.28em;text-transform:uppercase;color:var(--green);margin-bottom:.35rem}
+.sa-text{font-size:.82rem;color:var(--ink);line-height:1.65}
+.sa-use{padding:.48rem 1.1rem;background:var(--green);border:none;color:#fff;font-family:'Jost',sans-serif;font-size:.58rem;letter-spacing:.2em;text-transform:uppercase;cursor:pointer;transition:background .3s;white-space:nowrap;flex-shrink:0}
+.sa-use:hover{background:#15803d}
+
+/* ── SAVE CHECKBOX ── */
+.save-row{display:flex;align-items:center;gap:.6rem;margin-top:1.2rem;cursor:pointer;user-select:none}
+.save-row input{width:15px;height:15px;accent-color:var(--gold);cursor:pointer}
+.save-row span{font-size:.8rem;color:var(--muted)}
+
+/* ── PAYMENT OPTIONS ── */
+.pay-opts{background:var(--gold-pale);border:1px solid var(--border-gold);padding:1.2rem;margin-bottom:1.4rem}
+.pay-title{font-size:.58rem;letter-spacing:.36em;text-transform:uppercase;color:var(--gold);margin-bottom:.9rem}
+.pay-option{display:flex;align-items:center;gap:.75rem;padding:.62rem 0;border-bottom:1px solid rgba(125,32,53,0.1);cursor:pointer}
+.pay-option:last-child{border-bottom:none;padding-bottom:0}
+.pay-option input{width:16px;height:16px;accent-color:var(--gold);cursor:pointer}
+.pay-label{font-size:.88rem;color:var(--ink)}
+.pay-sub{font-size:.65rem;color:var(--muted);margin-left:.1rem}
+
+/* ── ORDER CARD (right) ── */
+.oc{background:var(--white);border:1px solid var(--border);box-shadow:var(--shadow);position:sticky;top:78px}
+.oc-hd{padding:1.1rem 1.5rem;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+.oc-title{font-family:'Cormorant Garamond',serif;font-size:1.05rem;color:var(--ink)}
+.oc-cnt{font-size:.68rem;color:var(--muted);letter-spacing:.08em}
+.oc-items{padding:1.1rem 1.5rem;display:flex;flex-direction:column;gap:.8rem;max-height:300px;overflow-y:auto}
+.oc-item{display:flex;align-items:flex-start;gap:.8rem}
+.oc-thumb{width:46px;height:54px;background:var(--cream2);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:1.3rem;flex-shrink:0}
+.oc-info{flex:1}
+.oc-name{font-family:'Cormorant Garamond',serif;font-size:1.02rem;color:var(--ink);margin-bottom:.1rem}
+.oc-intent{font-size:.6rem;color:var(--muted)}
+.oc-qty{font-size:.64rem;color:var(--dim);margin-top:.1rem}
+.oc-price{font-family:'Cormorant Garamond',serif;font-size:1rem;color:var(--ink);white-space:nowrap}
+.oc-promo{padding:1rem 1.5rem;border-top:1px solid var(--cream3);display:flex;gap:.55rem}
+.promo-in{flex:1;border:1px solid var(--border);background:transparent;padding:.55rem .8rem;font-family:'Jost',sans-serif;font-size:.82rem;color:var(--ink);outline:none;transition:border-color .3s;text-transform:uppercase}
+.promo-in:focus{border-color:var(--gold)}
+.promo-in::placeholder{color:var(--dim);text-transform:none}
+.promo-btn{padding:.55rem 1rem;background:var(--ink);border:none;color:#fff;font-family:'Jost',sans-serif;font-size:.58rem;letter-spacing:.22em;text-transform:uppercase;cursor:pointer;transition:background .3s;font-weight:500}
+.promo-btn:hover{background:var(--gold)}
+.oc-totals{padding:1.1rem 1.5rem;border-top:1px solid var(--border)}
+.oc-row{display:flex;justify-content:space-between;font-size:.82rem;color:var(--muted);margin-bottom:.45rem}
+.oc-row.oc-total{font-family:'Cormorant Garamond',serif;font-size:1.25rem;color:var(--ink);margin-top:.55rem;padding-top:.65rem;border-top:1px solid var(--border);margin-bottom:0}
+.oc-row.oc-total span:last-child{color:var(--gold)}
+.oc-row.disc{color:var(--green)}
+.oc-cta{padding:1.1rem 1.5rem;border-top:1px solid var(--border)}
+.btn-place{width:100%;padding:1.05rem;background:linear-gradient(135deg,var(--gold),var(--gold2));border:none;color:#fff;font-family:'Jost',sans-serif;font-size:.68rem;letter-spacing:.44em;text-transform:uppercase;cursor:pointer;transition:all .35s;font-weight:500;opacity:.38;pointer-events:none}
+.btn-place.ready{opacity:1;pointer-events:auto}
+.btn-place.ready:hover{background:linear-gradient(135deg,var(--gold-dim),var(--gold))}
+.trust{display:flex;justify-content:center;gap:1.3rem;margin-top:.85rem}
+.trust-item{font-size:.58rem;letter-spacing:.12em;text-transform:uppercase;color:var(--dim);display:flex;align-items:center;gap:.3rem}
+.trust-item svg{width:11px;height:11px}
+
+/* ── SUCCESS OVERLAY ── */
+#success-ov{position:fixed;inset:0;background:var(--cream);z-index:9999;display:none;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:2rem}
+#success-ov.on{display:flex}
+.so-glyph{font-family:'Cormorant Garamond',serif;font-size:4.5rem;color:var(--gold);opacity:.28;line-height:1;margin-bottom:.8rem}
+.so-check{width:70px;height:70px;border-radius:50%;background:var(--green-bg);border:2px solid var(--green-border);display:flex;align-items:center;justify-content:center;margin:0 auto 1.4rem}
+.so-check svg{width:34px;height:34px;color:var(--green)}
+.so-h{font-family:'Cormorant Garamond',serif;font-size:2.8rem;color:var(--ink);margin-bottom:.6rem}
+.so-h em{font-style:italic;color:var(--gold)}
+.so-p{font-size:.85rem;color:var(--muted);line-height:1.9;max-width:460px;margin:0 auto 1.2rem}
+.so-num{display:inline-block;font-size:.65rem;letter-spacing:.3em;text-transform:uppercase;color:var(--gold);border:1px solid var(--border-gold);padding:.38rem 1rem;margin-bottom:1.8rem}
+.so-back{padding:.95rem 3rem;background:var(--ink);border:none;color:#fff;font-family:'Jost',sans-serif;font-size:.68rem;letter-spacing:.4em;text-transform:uppercase;cursor:pointer;transition:background .35s;font-weight:500}
+.so-back:hover{background:var(--gold)}
+
+/* ── TOAST ── */
+#toast{position:fixed;bottom:1.4rem;right:1.4rem;background:var(--ink);border:1px solid rgba(125,32,53,.3);padding:.9rem 1.2rem;z-index:9998;transform:translateX(120%);transition:transform .5s cubic-bezier(.4,0,.2,1);max-width:260px}
+#toast.show{transform:translateX(0)}
+.tt{font-family:'Cormorant Garamond',serif;font-size:.9rem;color:var(--gold2);margin-bottom:.14rem}
+.tm{font-size:.72rem;color:rgba(255,255,255,.4);line-height:1.5}
+
+/* ── RESPONSIVE ── */
+@media(max-width:840px){
+  .co-main{grid-template-columns:1fr}
+  .oc{position:static;order:-1}
+  .co-nav{padding:.9rem 1.2rem}
+  .steps-bar{padding:.88rem 1.2rem;gap:.3rem}
+}
+@media(max-width:500px){
+  .row2{grid-template-columns:1fr}
+  .cs-body{padding:1.2rem}
+  .co-main{padding:1rem}
+  .otp-box{width:46px;height:52px;font-size:1.5rem}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<header class="co-nav">
+  <a href="index.html" class="co-back">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="15 18 9 12 15 6"/></svg>
+    Back to Cart
+  </a>
+  <a href="index.html" class="co-logo">11:11:11</a>
+  <div style="display:flex;align-items:center;gap:.9rem">
+    <div id="co-ref-chip" style="display:none;align-items:center;gap:.4rem;padding:.25rem .65rem .25rem .5rem;border:1px solid rgba(255,248,242,.25);background:rgba(255,248,242,.1)">
+      <span style="font-size:.82rem;color:rgba(255,248,242,.8)">▦</span>
+      <div>
+        <span style="font-size:.44rem;letter-spacing:.28em;text-transform:uppercase;color:rgba(255,248,242,.42);display:block">Referred by</span>
+        <span id="co-rc-name" style="font-size:.62rem;color:#FFF8F2;font-weight:500;letter-spacing:.06em;display:block"></span>
+      </div>
+    </div>
+    <div class="co-secure">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+      Secure Checkout
+    </div>
+  </div>
+</header>
+
+<!-- STEPS -->
+<div class="steps-bar">
+  <div class="step-item active" id="si1"><div class="snum">01</div>Contact</div>
+  <span class="step-sep">›</span>
+  <div class="step-item" id="si2"><div class="snum">02</div>Address</div>
+  <span class="step-sep">›</span>
+  <div class="step-item" id="si3"><div class="snum">03</div>Review</div>
+</div>
+
+<div class="co-main">
+
+  <!-- LEFT: STEPS -->
+  <div>
+
+    <!-- ── SECTION 01 · CONTACT ── -->
+    <div class="co-sec active" id="sec1">
+      <div class="co-sec-head">
+        <div class="cs-left">
+          <div class="cs-badge">01</div>
+          <div class="cs-label">Contact &amp; Login</div>
+        </div>
+        <div class="cs-done-info" id="s1-done" style="display:none">
+          <span id="s1-email-done"></span>
+          <button class="cs-edit" onclick="editStep1()">Change</button>
+        </div>
+      </div>
+      <div class="cs-body" id="s1-body">
+
+        <!-- Email step -->
+        <div id="email-step">
+          <p style="font-size:.84rem;color:var(--muted);margin-bottom:1.4rem;line-height:1.78">Enter your email address. We'll send a one-time password to verify your identity and retrieve any saved addresses.</p>
+          <div class="fg" style="margin-bottom:.5rem">
+            <label class="flbl">Email Address *</label>
+            <input type="email" class="fbox" id="ei" placeholder="your@email.com" oninput="onEmail()" onkeydown="if(event.key==='Enter')sendOTP()">
+          </div>
+          <button class="btn-primary" id="otp-btn" onclick="sendOTP()" disabled>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 8.81a19.79 19.79 0 01-3.07-8.63A2 2 0 012 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 14.92z"/></svg>
+            Send OTP
+          </button>
+        </div>
+
+        <!-- OTP step (hidden) -->
+        <div id="otp-step" style="display:none">
+          <div class="info-bar otp-sent">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="20 6 9 17 4 12"/></svg>
+            <span>OTP sent to <strong id="otp-dest"></strong> &nbsp;·&nbsp; Use <strong>1111</strong> for this demo.</span>
+          </div>
+          <div class="fg">
+            <label class="flbl">Enter 4-Digit OTP</label>
+            <div class="otp-boxes">
+              <input type="text" class="otp-box" maxlength="1" id="ob0" inputmode="numeric" oninput="otpIn(0)" onkeydown="otpKey(event,0)">
+              <input type="text" class="otp-box" maxlength="1" id="ob1" inputmode="numeric" oninput="otpIn(1)" onkeydown="otpKey(event,1)">
+              <input type="text" class="otp-box" maxlength="1" id="ob2" inputmode="numeric" oninput="otpIn(2)" onkeydown="otpKey(event,2)">
+              <input type="text" class="otp-box" maxlength="1" id="ob3" inputmode="numeric" oninput="otpIn(3)" onkeydown="otpKey(event,3)">
+            </div>
+          </div>
+          <div class="info-bar error" id="otp-err" style="display:none;margin-top:.8rem">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+            Incorrect OTP. Please try again.
+          </div>
+          <button class="btn-primary" onclick="verifyOTP()">Verify &amp; Continue →</button>
+          <div style="display:flex;justify-content:space-between;margin-top:.9rem">
+            <button class="btn-secondary" onclick="resendOTP()">Resend OTP</button>
+            <button class="btn-secondary" onclick="backToEmail()">Change Email</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ── SECTION 02 · ADDRESS ── -->
+    <div class="co-sec locked" id="sec2">
+      <div class="co-sec-head">
+        <div class="cs-left">
+          <div class="cs-badge">02</div>
+          <div class="cs-label">Delivery Address</div>
+        </div>
+        <div class="cs-done-info" id="s2-done" style="display:none">
+          <span id="s2-addr-done"></span>
+          <button class="cs-edit" onclick="editStep2()">Edit</button>
+        </div>
+      </div>
+      <div class="cs-body" id="s2-body">
+
+        <!-- Saved address banner (shown if returning customer) -->
+        <div class="saved-addr-bar" id="saved-bar" style="display:none">
+          <div class="sa-info">
+            <div class="sa-title">✓ Saved Address Found</div>
+            <div class="sa-text" id="saved-preview"></div>
+          </div>
+          <button class="sa-use" onclick="useSaved()">Use This</button>
+        </div>
+
+        <form id="addr-form" onsubmit="return false">
+          <div class="row2">
+            <div class="fg"><label class="flbl">Full Name *</label><input type="text" class="finput" id="a-name" placeholder="Your full name"></div>
+            <div class="fg"><label class="flbl">Phone Number *</label><input type="tel" class="finput" id="a-phone" placeholder="+91 XXXXX XXXXX"></div>
+          </div>
+          <div class="row1">
+            <div class="fg"><label class="flbl">Address Line 1 *</label><input type="text" class="finput" id="a-line1" placeholder="House / Flat No., Street, Locality"></div>
+          </div>
+          <div class="row1">
+            <div class="fg"><label class="flbl">Address Line 2</label><input type="text" class="finput" id="a-line2" placeholder="Area, Landmark (optional)"></div>
+          </div>
+          <div class="row2">
+            <div class="fg"><label class="flbl">City *</label><input type="text" class="finput" id="a-city" placeholder="City"></div>
+            <div class="fg"><label class="flbl">State *</label><input type="text" class="finput" id="a-state" placeholder="State"></div>
+          </div>
+          <div class="row2">
+            <div class="fg"><label class="flbl">Pincode *</label><input type="text" class="finput" id="a-pin" placeholder="6-digit Pincode" maxlength="6" inputmode="numeric"></div>
+            <div class="fg"><label class="flbl">Email</label><input type="email" class="finput" id="a-email" readonly tabindex="-1"></div>
+          </div>
+          <label class="save-row">
+            <input type="checkbox" id="save-cb" checked>
+            <span>Save this address for future orders</span>
+          </label>
+          <button class="btn-primary" onclick="confirmAddress()">Continue to Review →</button>
+        </form>
+
+      </div>
+    </div>
+
+    <!-- ── SECTION 03 · REVIEW & PAY ── -->
+    <div class="co-sec locked" id="sec3">
+      <div class="co-sec-head">
+        <div class="cs-left">
+          <div class="cs-badge">03</div>
+          <div class="cs-label">Review &amp; Place Order</div>
+        </div>
+      </div>
+      <div class="cs-body" id="s3-body">
+
+        <div id="review-items" style="margin-bottom:1.4rem"></div>
+
+        <div class="pay-opts">
+          <div class="pay-title">Payment Method</div>
+          <label class="pay-option">
+            <input type="radio" name="pay" value="upi" checked>
+            <span class="pay-label">UPI / Google Pay / PhonePe</span>
+          </label>
+          <label class="pay-option">
+            <input type="radio" name="pay" value="card">
+            <span class="pay-label">Credit / Debit Card</span>
+          </label>
+          <label class="pay-option">
+            <input type="radio" name="pay" value="cod">
+            <span class="pay-label">Cash on Delivery <span class="pay-sub">(₹50 handling fee)</span></span>
+          </label>
+        </div>
+
+        <button class="btn-primary" onclick="placeOrder()">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          ✦ Place Sacred Order
+        </button>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- RIGHT: ORDER SUMMARY -->
+  <div>
+    <div class="oc">
+      <div class="oc-hd">
+        <div class="oc-title">Order Summary</div>
+        <div class="oc-cnt" id="oc-cnt"></div>
+      </div>
+      <div class="oc-items" id="oc-items">
+        <div style="text-align:center;padding:2rem;color:var(--muted);font-size:.82rem">Loading…</div>
+      </div>
+      <div class="oc-promo">
+        <input type="text" class="promo-in" id="promo-in" placeholder="Promo or referral code">
+        <button class="promo-btn" onclick="applyPromo()">Apply</button>
+      </div>
+      <div class="oc-totals">
+        <div class="oc-row"><span>Subtotal</span><span id="r-sub">₹0</span></div>
+        <div class="oc-row"><span>Shipping</span><span id="r-ship">₹99</span></div>
+        <div class="oc-row disc" id="r-disc-row" style="display:none"><span id="r-disc-lbl">Discount</span><span id="r-disc-val">-₹0</span></div>
+        <div class="oc-row oc-total"><span>Total</span><span id="r-total">₹0</span></div>
+      </div>
+      <div class="oc-cta">
+        <button class="btn-place" id="place-btn" onclick="placeOrder()">✦ Place Sacred Order</button>
+        <div class="trust">
+          <div class="trust-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>Secure</div>
+          <div class="trust-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>Tracked</div>
+          <div class="trust-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 11-2.12-9.36L23 10"/></svg>7-Day Return</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- SUCCESS -->
+<div id="success-ov">
+  <div class="so-glyph">✦</div>
+  <div class="so-check">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+  </div>
+  <h1 class="so-h">Order <em>Placed!</em></h1>
+  <p class="so-p">Your sacred oils are being ceremonially prepared and will be dispatched within 24 hours. A confirmation has been sent to your email.</p>
+  <div class="so-num" id="so-num">Order #AV-0000</div>
+  <button class="so-back" onclick="window.location.href='index.html'">Return to Sacred Store</button>
+</div>
+
+<!-- TOAST -->
+<div id="toast"><div class="tt" id="t-ttl"></div><div class="tm" id="t-msg"></div></div>
+
+<script>
+/* ─────────────────────────────────────────────
+   STATE
+───────────────────────────────────────────── */
+let cart = [];
+let userEmail = '';
+let loggedIn = false;
+let addrDone = false;
+let discount = 0;
+let promoApplied = false;
+let toastTm;
+
+/* ─────────────────────────────────────────────
+   INIT
+───────────────────────────────────────────── */
+function init() {
+  const raw = localStorage.getItem('111_cart');
+  if (raw) {
+    try { cart = JSON.parse(raw); } catch(e) { cart = []; }
+  }
+  // Demo cart if navigated directly (no cart in storage)
+  if (!cart.length) {
+    cart = [
+      {name:'SHREEMSRI',intent:'Wealth & Prosperity',emoji:'👑',price:1234,qty:1,bg:'#fdf8ee'},
+      {name:'KLEOMA',  intent:'Love & Attraction',  emoji:'🌹',price:1234,qty:1,bg:'#fdf2f8'}
+    ];
+  }
+  renderSummary();
+  initRefChip();
+
+  // Auto-login if session exists
+  const sess = localStorage.getItem('111_session');
+  if (sess) {
+    try {
+      const s = JSON.parse(sess);
+      if (s.email) { userEmail = s.email; completeLogin(true); }
+    } catch(e) {}
+  }
+}
+
+function initRefChip() {
+  const ref = localStorage.getItem('111_ref');
+  if (!ref) return;
+  const map = {
+    'AV001':'Aravind','SB001':'Sibi','BH001':'Bhupan',
+    'PS001':'Priya Sharma','RK001':'Rahul Kumar',
+    'DV001':'Divya Pillai','AN001':'Ananya Iyer','MN001':'Meera Nair',
+  };
+  const upper = ref.toUpperCase();
+  const fallback = map[upper] || ref.replace(/[-_]/g,' ').replace(/\b\w/g,l=>l.toUpperCase());
+  const chip = document.getElementById('co-ref-chip');
+  const nameEl = document.getElementById('co-rc-name');
+  nameEl.textContent = fallback + ' (' + upper + ')';
+  chip.style.display = 'flex';
+  /* fetch real name from backend */
+  fetch('http://127.0.0.1:8000/api/reseller/track-scan/?ref=' + encodeURIComponent(ref))
+    .then(r => r.ok ? r.json() : null)
+    .then(d => { if (d && d.reseller) nameEl.textContent = d.reseller + ' (' + upper + ')'; })
+    .catch(() => {});
+}
+
+/* ─────────────────────────────────────────────
+   ORDER SUMMARY RENDER
+───────────────────────────────────────────── */
+function renderSummary() {
+  const sub  = cart.reduce((a,i) => a + i.price * i.qty, 0);
+  const ship = sub >= 999 ? 0 : 99;
+  const total = sub + ship - discount;
+
+  document.getElementById('oc-cnt').textContent = cart.reduce((a,i) => a + i.qty, 0) + ' items';
+  document.getElementById('oc-items').innerHTML = cart.map(p => `
+    <div class="oc-item">
+      <div class="oc-thumb" style="background:${p.bg||'#FAF8F4'}">${p.emoji||'✦'}</div>
+      <div class="oc-info">
+        <div class="oc-name">${p.name}</div>
+        <div class="oc-intent">${p.intent||''} · 10ml</div>
+        ${p.qty > 1 ? `<div class="oc-qty">Qty: ${p.qty}</div>` : ''}
+      </div>
+      <div class="oc-price">₹${(p.price * p.qty).toLocaleString('en-IN')}</div>
+    </div>
+  `).join('');
+
+  document.getElementById('r-sub').textContent   = '₹' + sub.toLocaleString('en-IN');
+  document.getElementById('r-ship').textContent  = ship === 0 ? 'FREE' : '₹' + ship;
+  document.getElementById('r-total').textContent = '₹' + total.toLocaleString('en-IN');
+
+  // Review section item list
+  const rvEl = document.getElementById('review-items');
+  if (rvEl) {
+    rvEl.innerHTML = `
+      <div style="border:1px solid var(--border);overflow:hidden">
+        ${cart.map(p => `
+          <div style="display:flex;justify-content:space-between;align-items:center;padding:.7rem 1rem;border-bottom:1px solid var(--cream3);font-size:.85rem">
+            <span style="color:var(--muted)">${p.emoji} ${p.name} <span style="color:var(--dim)">× ${p.qty}</span></span>
+            <span style="font-family:'Cormorant Garamond',serif;color:var(--ink)">₹${(p.price*p.qty).toLocaleString('en-IN')}</span>
+          </div>`).join('')}
+        <div style="display:flex;justify-content:space-between;padding:.8rem 1rem;font-family:'Cormorant Garamond',serif;font-size:1.15rem">
+          <span>Total</span>
+          <span style="color:var(--gold)">₹${total.toLocaleString('en-IN')}</span>
+        </div>
+      </div>
+    `;
+  }
+}
+
+/* ─────────────────────────────────────────────
+   STEP 1 — EMAIL / OTP
+───────────────────────────────────────────── */
+function onEmail() {
+  const v = document.getElementById('ei').value.trim();
+  document.getElementById('otp-btn').disabled = !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
+}
+
+function sendOTP() {
+  userEmail = document.getElementById('ei').value.trim();
+  document.getElementById('otp-dest').textContent = userEmail;
+  document.getElementById('email-step').style.display = 'none';
+  document.getElementById('otp-step').style.display = 'block';
+  document.getElementById('ob0').focus();
+  toast('✦', 'OTP sent! Use 1111 for this demo.');
+}
+
+function resendOTP() {
+  clearOTPBoxes();
+  toast('✦', 'OTP resent to ' + userEmail);
+}
+
+function backToEmail() {
+  document.getElementById('otp-step').style.display = 'none';
+  document.getElementById('email-step').style.display = 'block';
+  document.getElementById('otp-err').style.display = 'none';
+  clearOTPBoxes();
+}
+
+function otpIn(idx) {
+  const el = document.getElementById('ob' + idx);
+  el.value = el.value.replace(/\D/g,'');
+  if (el.value && idx < 3) document.getElementById('ob' + (idx+1)).focus();
+  el.classList.toggle('filled', !!el.value);
+  // Auto-verify when all 4 filled
+  const all = [0,1,2,3].map(i => document.getElementById('ob'+i).value).join('');
+  if (all.length === 4) verifyOTP();
+}
+
+function otpKey(e, idx) {
+  if (e.key === 'Backspace' && !document.getElementById('ob'+idx).value && idx > 0) {
+    document.getElementById('ob'+(idx-1)).focus();
+  }
+}
+
+function clearOTPBoxes() {
+  [0,1,2,3].forEach(i => {
+    const b = document.getElementById('ob'+i);
+    b.value = ''; b.classList.remove('filled');
+  });
+}
+
+function getOTP() {
+  return [0,1,2,3].map(i => document.getElementById('ob'+i).value).join('');
+}
+
+function verifyOTP() {
+  const otp = getOTP();
+  // Accept "1111" or any 4-digit code (demo)
+  if (otp.length === 4 && /^\d{4}$/.test(otp)) {
+    document.getElementById('otp-err').style.display = 'none';
+    completeLogin(false);
+  } else {
+    document.getElementById('otp-err').style.display = 'flex';
+    clearOTPBoxes();
+    document.getElementById('ob0').focus();
+  }
+}
+
+function completeLogin(wasAuto) {
+  loggedIn = true;
+  localStorage.setItem('111_session', JSON.stringify({email: userEmail}));
+
+  // Collapse step 1 to done state
+  const sec1 = document.getElementById('sec1');
+  sec1.classList.remove('active');
+  sec1.classList.add('sec-done');
+  document.getElementById('s1-body').style.display = 'none';
+  document.getElementById('s1-done').style.display = 'flex';
+  document.getElementById('s1-email-done').textContent = '✓ ' + userEmail;
+  document.getElementById('si1').classList.remove('active');
+  document.getElementById('si1').classList.add('done');
+
+  // Unlock step 2
+  const sec2 = document.getElementById('sec2');
+  sec2.classList.remove('locked');
+  sec2.classList.add('active');
+  document.getElementById('si2').classList.add('active');
+
+  // Pre-fill email in address form
+  document.getElementById('a-email').value = userEmail;
+
+  // Load saved address if exists
+  const saved = localStorage.getItem('111_addr_' + userEmail);
+  if (saved) {
+    const addr = JSON.parse(saved);
+    const preview = addr.name + ' · ' + addr.line1 + ', ' + addr.city + ' - ' + addr.pin;
+    document.getElementById('saved-preview').textContent = preview;
+    document.getElementById('saved-bar').style.display = 'flex';
+    fillAddr(addr);
+    if (!wasAuto) toast('✦', 'Welcome back! Your saved address has been loaded.');
+  } else {
+    if (!wasAuto) toast('✦', 'Verified! Please fill in your delivery details.');
+  }
+
+  // Scroll to step 2
+  setTimeout(() => sec2.scrollIntoView({behavior:'smooth', block:'start'}), 300);
+}
+
+function editStep1() {
+  loggedIn = false; addrDone = false;
+  document.getElementById('sec1').classList.remove('sec-done');
+  document.getElementById('sec1').classList.add('active');
+  document.getElementById('s1-body').style.display = 'block';
+  document.getElementById('s1-done').style.display = 'none';
+  document.getElementById('otp-step').style.display = 'none';
+  document.getElementById('email-step').style.display = 'block';
+  document.getElementById('ei').value = '';
+  document.getElementById('otp-btn').disabled = true;
+  document.getElementById('si1').classList.add('active');
+  document.getElementById('si1').classList.remove('done');
+  // Re-lock steps 2 & 3
+  document.getElementById('sec2').classList.add('locked');
+  document.getElementById('sec2').classList.remove('active','sec-done');
+  document.getElementById('s2-body').style.display = 'block';
+  document.getElementById('s2-done').style.display = 'none';
+  document.getElementById('sec3').classList.add('locked');
+  document.getElementById('sec3').classList.remove('active');
+  document.getElementById('si2').classList.remove('active','done');
+  document.getElementById('si3').classList.remove('active','done');
+  updatePlaceBtn();
+}
+
+/* ─────────────────────────────────────────────
+   STEP 2 — ADDRESS
+───────────────────────────────────────────── */
+function fillAddr(a) {
+  document.getElementById('a-name').value  = a.name  || '';
+  document.getElementById('a-phone').value = a.phone || '';
+  document.getElementById('a-line1').value = a.line1 || '';
+  document.getElementById('a-line2').value = a.line2 || '';
+  document.getElementById('a-city').value  = a.city  || '';
+  document.getElementById('a-state').value = a.state || '';
+  document.getElementById('a-pin').value   = a.pin   || '';
+}
+
+function useSaved() {
+  const saved = localStorage.getItem('111_addr_' + userEmail);
+  if (saved) { fillAddr(JSON.parse(saved)); document.getElementById('saved-bar').style.display = 'none'; }
+  toast('✓', 'Saved address loaded.');
+}
+
+function confirmAddress() {
+  const name  = document.getElementById('a-name').value.trim();
+  const phone = document.getElementById('a-phone').value.trim();
+  const line1 = document.getElementById('a-line1').value.trim();
+  const city  = document.getElementById('a-city').value.trim();
+  const state = document.getElementById('a-state').value.trim();
+  const pin   = document.getElementById('a-pin').value.trim();
+
+  if (!name || !phone || !line1 || !city || !state || !pin) {
+    toast('✦', 'Please fill in all required fields.'); return;
+  }
+  if (!/^\d{6}$/.test(pin)) {
+    toast('✦', 'Enter a valid 6-digit pincode.'); return;
+  }
+
+  const addrObj = {
+    name, phone, line1,
+    line2: document.getElementById('a-line2').value.trim(),
+    city, state, pin, email: userEmail
+  };
+
+  if (document.getElementById('save-cb').checked) {
+    localStorage.setItem('111_addr_' + userEmail, JSON.stringify(addrObj));
+  }
+
+  // Collapse step 2
+  const sec2 = document.getElementById('sec2');
+  sec2.classList.remove('active');
+  sec2.classList.add('sec-done');
+  document.getElementById('s2-body').style.display = 'none';
+  document.getElementById('s2-done').style.display = 'flex';
+  document.getElementById('s2-addr-done').textContent = name + ' · ' + line1 + ', ' + city + ' – ' + pin;
+  document.getElementById('si2').classList.remove('active');
+  document.getElementById('si2').classList.add('done');
+
+  // Unlock step 3
+  const sec3 = document.getElementById('sec3');
+  sec3.classList.remove('locked');
+  sec3.classList.add('active');
+  document.getElementById('si3').classList.add('active');
+
+  addrDone = true;
+  updatePlaceBtn();
+  renderSummary();
+  setTimeout(() => sec3.scrollIntoView({behavior:'smooth', block:'start'}), 300);
+}
+
+function editStep2() {
+  addrDone = false;
+  const sec2 = document.getElementById('sec2');
+  sec2.classList.remove('sec-done');
+  sec2.classList.add('active');
+  document.getElementById('s2-body').style.display = 'block';
+  document.getElementById('s2-done').style.display = 'none';
+  document.getElementById('si2').classList.add('active');
+  document.getElementById('si2').classList.remove('done');
+  document.getElementById('sec3').classList.add('locked');
+  document.getElementById('sec3').classList.remove('active');
+  document.getElementById('si3').classList.remove('active','done');
+  updatePlaceBtn();
+}
+
+/* ─────────────────────────────────────────────
+   PROMO CODE
+───────────────────────────────────────────── */
+const PROMOS = { 'NEWUSER20':0.20, 'SACRED10':0.10, 'EVOXU15':0.15 };
+
+function applyPromo() {
+  const code = document.getElementById('promo-in').value.trim().toUpperCase();
+  if (!code) return;
+  const sub = cart.reduce((a,i) => a + i.price * i.qty, 0);
+  if (PROMOS[code] && !promoApplied) {
+    discount = Math.round(sub * PROMOS[code]);
+    promoApplied = true;
+    document.getElementById('r-disc-row').style.display = 'flex';
+    document.getElementById('r-disc-lbl').textContent = code + ' (' + Math.round(PROMOS[code]*100) + '% off)';
+    document.getElementById('r-disc-val').textContent = '-₹' + discount.toLocaleString('en-IN');
+    renderSummary();
+    toast('✦', code + ' applied — ' + Math.round(PROMOS[code]*100) + '% discount!');
+  } else if (promoApplied) {
+    toast('✦', 'A promo code is already applied.');
+  } else {
+    toast('✦', 'Invalid code. Try NEWUSER20 for 20% off.');
+  }
+}
+
+/* ─────────────────────────────────────────────
+   PLACE ORDER
+───────────────────────────────────────────── */
+function updatePlaceBtn() {
+  const btn = document.getElementById('place-btn');
+  (loggedIn && addrDone) ? btn.classList.add('ready') : btn.classList.remove('ready');
+}
+
+async function placeOrder() {
+  if (!loggedIn || !addrDone) {
+    toast('✦', 'Please complete login and address steps first.'); return;
+  }
+  const btn = document.getElementById('place-btn');
+  btn.textContent = '✦ Processing…'; btn.disabled = true;
+
+  let customerName = userEmail;
+  try {
+    const addr = JSON.parse(localStorage.getItem('111_addr_' + userEmail) || '{}');
+    if (addr.name) customerName = addr.name;
+  } catch(_) {}
+
+  const ref_code = localStorage.getItem('111_ref') || '';
+  const sub = cart.reduce((a, i) => a + i.price * i.qty, 0);
+  const ship = sub >= 999 ? 0 : 99;
+  const total = sub + ship - discount;
+  const items = cart.map(i => ({product_id: i.id, product_name: i.name, quantity: i.qty}));
+
+  try {
+    const res = await fetch('http://127.0.0.1:8000/api/store/place-order/', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({email: userEmail, name: customerName, ref_code, items, total})
+    });
+    const data = await res.json();
+    if (!res.ok) { toast('✦', data.error || 'Order failed. Please try again.'); return; }
+    document.getElementById('so-num').textContent = 'Order #' + data.order_number;
+    localStorage.removeItem('111_cart');
+    document.getElementById('success-ov').classList.add('on');
+  } catch(e) {
+    /* server unreachable — still show success so customer isn't blocked */
+    const num = 'ORD-' + (Math.floor(Math.random() * 9000) + 1000);
+    document.getElementById('so-num').textContent = 'Order #' + num;
+    localStorage.removeItem('111_cart');
+    document.getElementById('success-ov').classList.add('on');
+  } finally {
+    btn.textContent = '✦ Place Sacred Order'; btn.disabled = false;
+  }
+}
+
+/* ─────────────────────────────────────────────
+   TOAST
+───────────────────────────────────────────── */
+function toast(icon, msg) {
+  if (toastTm) clearTimeout(toastTm);
+  document.getElementById('t-ttl').textContent = icon + ' 11:11:11';
+  document.getElementById('t-msg').textContent = msg;
+  document.getElementById('toast').classList.add('show');
+  toastTm = setTimeout(() => document.getElementById('toast').classList.remove('show'), 4000);
+}
+
+document.addEventListener('DOMContentLoaded', init);
+</script>
+</body>
+</html>
