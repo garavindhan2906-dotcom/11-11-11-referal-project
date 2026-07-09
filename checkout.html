@@ -253,7 +253,7 @@ body{background:var(--cream);color:var(--ink);font-family:'Jost',sans-serif;font
         <div id="otp-step" style="display:none">
           <div class="info-bar otp-sent">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="20 6 9 17 4 12"/></svg>
-            <span>OTP sent to <strong id="otp-dest"></strong> &nbsp;·&nbsp; Use <strong>1111</strong> for this demo.</span>
+            <span>OTP sent to <strong id="otp-dest"></strong>. Check your inbox.</span>
           </div>
           <div class="fg">
             <label class="flbl">Enter 4-Digit OTP</label>
@@ -534,7 +534,7 @@ function sendOTP() {
   document.getElementById('email-step').style.display = 'none';
   document.getElementById('otp-step').style.display = 'block';
   document.getElementById('ob0').focus();
-  toast('✦', 'OTP sent! Use 1111 for this demo.');
+  toast('✦', 'OTP sent to ' + userEmail + '. Check your inbox.');
 }
 
 function resendOTP() {
@@ -578,7 +578,6 @@ function getOTP() {
 
 function verifyOTP() {
   const otp = getOTP();
-  // Accept "1111" or any 4-digit code (demo)
   if (otp.length === 4 && /^\d{4}$/.test(otp)) {
     document.getElementById('otp-err').style.display = 'none';
     completeLogin(false);

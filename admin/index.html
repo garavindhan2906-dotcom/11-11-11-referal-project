@@ -35,13 +35,6 @@ h1 em{font-style:italic;color:var(--burg2)}
 .sub{font-size:.88rem;color:var(--muted);line-height:1.7;margin-bottom:2rem}
 
 .card{background:var(--white);border:1px solid var(--border);padding:2.2rem;box-shadow:var(--shadow)}
-.demo-box{background:var(--cream2);border:1px solid var(--border-burg);padding:1rem 1.2rem;margin-bottom:1.5rem}
-.demo-lbl{font-size:.56rem;letter-spacing:.38em;text-transform:uppercase;color:var(--burg2);margin-bottom:.6rem}
-.demo-row{display:grid;grid-template-columns:1fr 1fr;gap:.4rem;margin-bottom:.7rem}
-.demo-field{font-size:.75rem;color:var(--muted);display:flex;flex-direction:column;gap:.1rem}
-.demo-field strong{color:var(--ink);font-weight:400;font-size:.85rem}
-.use-demo{display:block;width:100%;padding:.48rem;background:transparent;border:1px solid var(--border-burg);color:var(--burg2);font-family:'Jost',sans-serif;font-size:.6rem;letter-spacing:.3em;text-transform:uppercase;cursor:pointer;transition:all .3s}
-.use-demo:hover{background:var(--burg-pale)}
 
 .fg{display:flex;flex-direction:column;gap:.38rem;margin-bottom:1.2rem}
 .flabel{font-size:.58rem;letter-spacing:.35em;text-transform:uppercase;color:var(--dim)}
@@ -100,15 +93,6 @@ footer a:hover{color:var(--burg)}
   <p class="sub">Sign in to manage products, resellers, and your store operations.</p>
 
   <div class="card">
-    <div class="demo-box">
-      <div class="demo-lbl">◆ Demo Access</div>
-      <div class="demo-row">
-        <div class="demo-field"><span>Email</span><strong>admin@evoxu.com</strong></div>
-        <div class="demo-field"><span>Password</span><strong>admin@111</strong></div>
-      </div>
-      <button class="use-demo" onclick="fillDemo()">Use Demo Credentials →</button>
-    </div>
-
     <form id="form" onsubmit="doLogin(event)" novalidate>
       <div class="fg" id="fg-email">
         <label class="flabel">Email Address</label>
@@ -142,12 +126,10 @@ footer a:hover{color:var(--burg)}
 <div id="toast"><div class="tt" id="t-ttl"></div><div class="tm" id="t-msg"></div></div>
 
 <script>
-const DEMO={e:'admin@evoxu.com',p:'admin@111'};
 let toastTm;
 function toast(icon,msg){if(toastTm)clearTimeout(toastTm);document.getElementById('t-ttl').textContent=icon+' Admin';document.getElementById('t-msg').textContent=msg;document.getElementById('toast').classList.add('show');toastTm=setTimeout(()=>document.getElementById('toast').classList.remove('show'),4000);}
-function fillDemo(){document.getElementById('i-email').value=DEMO.e;document.getElementById('i-pass').value=DEMO.p;toast('◆','Demo credentials filled.');}
 function togglePw(){const i=document.getElementById('i-pass'),ic=document.getElementById('eye-ic');if(i.type==='password'){i.type='text';ic.innerHTML='<path d="M17.94 17.94A10.07 10.07 0 0112 20c-7 0-11-8-11-8a18.45 18.45 0 015.06-5.94M9.9 4.24A9.12 9.12 0 0112 4c7 0 11 8 11 8a18.5 18.5 0 01-2.16 3.19" stroke="currentColor" stroke-width="1.5" fill="none"/><line x1="1" y1="1" x2="23" y2="23" stroke="currentColor" stroke-width="1.5"/>';}else{i.type='password';ic.innerHTML='<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" stroke="currentColor" stroke-width="1.5" fill="none"/><circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.5" fill="none"/>';}}
-function doLogin(e){
+async function doLogin(e){
   e.preventDefault();
   const em=document.getElementById('i-email').value.trim(),pw=document.getElementById('i-pass').value,btn=document.getElementById('btn-in');
   document.getElementById('fg-email').classList.remove('err');document.getElementById('fg-pass').classList.remove('err');
@@ -156,11 +138,15 @@ function doLogin(e){
   if(!pw){document.getElementById('fg-pass').classList.add('err');ok=false;}
   if(!ok)return;
   btn.classList.add('loading');btn.disabled=true;
-  setTimeout(()=>{
+  try{
+    const res=await fetch('/api/admin/login/',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:em,password:pw})});
     btn.classList.remove('loading');btn.disabled=false;
-    if(em===DEMO.e&&pw===DEMO.p){toast('✦','Welcome! Loading dashboard…');setTimeout(()=>{window.location.href='dashboard.html';},1200);}
+    if(res.ok){toast('✦','Welcome! Loading dashboard…');setTimeout(()=>{window.location.href='dashboard.html';},1200);}
     else{document.getElementById('fg-email').classList.add('err');document.getElementById('e-email').textContent='Account not found.';document.getElementById('fg-pass').classList.add('err');document.getElementById('e-pass').textContent='Incorrect password.';}
-  },1200);
+  }catch(_){
+    btn.classList.remove('loading');btn.disabled=false;
+    document.getElementById('fg-email').classList.add('err');document.getElementById('e-email').textContent='Cannot connect to server.';
+  }
 }
 </script>
 </body>

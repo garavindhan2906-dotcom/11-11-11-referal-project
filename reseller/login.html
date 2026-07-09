@@ -54,11 +54,6 @@ h1{font-family:'Cormorant Garamond',serif;font-size:clamp(2.2rem,4vw,3.2rem);fon
 h1 em{font-style:italic;color:var(--gold)}
 .form-sub{font-size:.9rem;color:var(--muted);line-height:1.75}
 .card{background:var(--white);border:1px solid var(--border);padding:2.5rem;box-shadow:var(--shadow2)}
-.demo-box{background:var(--cream2);border:1px solid var(--border-gold);padding:1.1rem 1.3rem;margin-bottom:1.8rem}
-.demo-lbl{font-size:.58rem;letter-spacing:.38em;text-transform:uppercase;color:var(--gold);margin-bottom:.65rem}
-.use-demo{display:block;width:100%;padding:.55rem .9rem;background:transparent;border:1px solid var(--border-gold);color:var(--muted);font-family:'Jost',sans-serif;font-size:.76rem;letter-spacing:.04em;text-align:left;cursor:pointer;transition:all .3s;margin-bottom:.4rem}
-.use-demo:last-child{margin-bottom:0}
-.use-demo:hover{background:var(--gold-pale);color:var(--gold-dim);border-color:var(--gold)}
 .fg{display:flex;flex-direction:column;gap:.4rem;margin-bottom:1.3rem}
 .flabel{font-size:.6rem;letter-spacing:.35em;text-transform:uppercase;color:var(--dim)}
 .fwrap{position:relative}
@@ -139,26 +134,6 @@ footer a:hover{color:var(--gold)}
         <p class="form-sub">Sign in to your sacred dashboard to track your manifestation commerce journey.</p>
       </div>
       <div class="card">
-        <!-- 3 real reseller demo buttons -->
-        <div class="demo-box">
-          <div class="demo-lbl">◆ Demo Resellers — Click to Fill</div>
-          <button class="use-demo" onclick="fillReseller('aravind@111-11-11.shop','Aravind@1111','Aravind')">
-            <strong style="color:var(--ink)">Aravind</strong>
-            <span style="opacity:.45;font-size:.68rem;margin-left:.35rem">· AV001</span>
-            <span style="float:right;opacity:.35">→</span>
-          </button>
-          <button class="use-demo" onclick="fillReseller('sibi@111-11-11.shop','Sibi@1111','Sibi')">
-            <strong style="color:var(--ink)">Sibi</strong>
-            <span style="opacity:.45;font-size:.68rem;margin-left:.35rem">· SB001</span>
-            <span style="float:right;opacity:.35">→</span>
-          </button>
-          <button class="use-demo" onclick="fillReseller('bhupan@111-11-11.shop','Bhupan@1111','Bhupan')">
-            <strong style="color:var(--ink)">Bhupan</strong>
-            <span style="opacity:.45;font-size:.68rem;margin-left:.35rem">· BH001</span>
-            <span style="float:right;opacity:.35">→</span>
-          </button>
-        </div>
-
         <form id="form" onsubmit="doLogin(event)" novalidate>
           <div class="fg" id="fg-email">
             <label class="flabel">Email Address</label>
@@ -202,12 +177,6 @@ footer a:hover{color:var(--gold)}
 <script>
 const API_BASE = 'http://localhost:8000';
 
-const DEMO_RESELLERS = {
-  'aravind@111-11-11.shop': {password:'Aravind@1111', name:'Aravind', code:'AV001', initials:'AR'},
-  'sibi@111-11-11.shop':    {password:'Sibi@1111',    name:'Sibi',    code:'SB001', initials:'SB'},
-  'bhupan@111-11-11.shop':  {password:'Bhupan@1111',  name:'Bhupan',  code:'BH001', initials:'BH'},
-};
-
 let toastTm;
 function toast(icon,msg){
   if(toastTm)clearTimeout(toastTm);
@@ -215,12 +184,6 @@ function toast(icon,msg){
   document.getElementById('t-msg').textContent=msg;
   document.getElementById('toast').classList.add('show');
   toastTm=setTimeout(()=>document.getElementById('toast').classList.remove('show'),4500);
-}
-
-function fillReseller(email, pass, name) {
-  document.getElementById('i-email').value = email;
-  document.getElementById('i-pass').value  = pass;
-  toast('◆', name + "'s credentials filled — click Sign In.");
 }
 
 function togglePw(){
@@ -278,21 +241,8 @@ async function doLogin(e){
   }catch(_){}
 
   btn.classList.remove('loading'); btn.disabled=false;
-
-  /* ── Demo fallback (API offline) ── */
-  const demo = DEMO_RESELLERS[em];
-  if(demo && pw===demo.password){
-    localStorage.removeItem('111_token');
-    localStorage.setItem('111_reseller', JSON.stringify({
-      name:demo.name, email:em, code:demo.code, initials:demo.initials,
-      referral_link:'https://11-11-11.shop/?ref='+demo.code,
-    }));
-    toast('✦','Welcome, '+demo.name+'! (Demo mode — backend offline)');
-    setTimeout(()=>{window.location.href='dashboard.html';},1200);
-  }else{
-    showErr('Server offline — use demo buttons above.','Wrong password or server is down.');
-    toast('⚠️','Backend not running. Click a demo reseller above.');
-  }
+  showErr('Server offline. Please try again later.','Cannot connect to server.');
+  toast('⚠️','Backend not reachable. Please try again.');
 }
 </script>
 </body>
