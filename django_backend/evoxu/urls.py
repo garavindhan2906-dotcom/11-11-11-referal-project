@@ -13,8 +13,11 @@ def serve_frontend(request, path='index.html'):
 def ref_redirect(request, ref_code):
     return HttpResponseRedirect(f'/?ref={ref_code.upper()}')
 
+from resellers.views import AdminLoginView
+
 urlpatterns = [
     path('django-admin/', admin.site.urls),
+    path('api/admin/login/', AdminLoginView.as_view(), name='admin-login'),
     path('api/reseller/', include('resellers.urls')),
     path('api/store/', include('store.urls')),
     *static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT),

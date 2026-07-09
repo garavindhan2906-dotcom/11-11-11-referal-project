@@ -634,6 +634,22 @@ class RegisterView(APIView):
         }, status=201)
 
 
+class AdminLoginView(APIView):
+    permission_classes = [AllowAny]
+
+    def post(self, request):
+        from decouple import config as env
+        admin_user = env('ADMIN_USERNAME', default='')
+        admin_pass = env('ADMIN_PASSWORD', default='')
+        if not admin_user or not admin_pass:
+            return Response({'error': 'Admin credentials not configured on server.'}, status=503)
+        username = request.data.get('username', '').strip()
+        password = request.data.get('password', '')
+        if username == admin_user and password == admin_pass:
+            return Response({'success': True})
+        return Response({'error': 'Invalid credentials.'}, status=401)
+
+
 class ApplyView(APIView):
     permission_classes = [AllowAny]
 

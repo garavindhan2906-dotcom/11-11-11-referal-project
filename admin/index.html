@@ -94,13 +94,13 @@ footer a:hover{color:var(--burg)}
 
   <div class="card">
     <form id="form" onsubmit="doLogin(event)" novalidate>
-      <div class="fg" id="fg-email">
-        <label class="flabel">Email Address</label>
+      <div class="fg" id="fg-user">
+        <label class="flabel">Username</label>
         <div class="fwrap">
-          <input type="email" class="finput" id="i-email" placeholder="admin@evoxu.com" autocomplete="email">
-          <span class="ficon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,12 2,6"/></svg></span>
+          <input type="text" class="finput" id="i-user" placeholder="Your admin username" autocomplete="username">
+          <span class="ficon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg></span>
         </div>
-        <span class="ferr" id="e-email">Please enter a valid email.</span>
+        <span class="ferr" id="e-user">Please enter your username.</span>
       </div>
       <div class="fg" id="fg-pass">
         <label class="flabel">Password</label>
@@ -131,21 +131,21 @@ function toast(icon,msg){if(toastTm)clearTimeout(toastTm);document.getElementByI
 function togglePw(){const i=document.getElementById('i-pass'),ic=document.getElementById('eye-ic');if(i.type==='password'){i.type='text';ic.innerHTML='<path d="M17.94 17.94A10.07 10.07 0 0112 20c-7 0-11-8-11-8a18.45 18.45 0 015.06-5.94M9.9 4.24A9.12 9.12 0 0112 4c7 0 11 8 11 8a18.5 18.5 0 01-2.16 3.19" stroke="currentColor" stroke-width="1.5" fill="none"/><line x1="1" y1="1" x2="23" y2="23" stroke="currentColor" stroke-width="1.5"/>';}else{i.type='password';ic.innerHTML='<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" stroke="currentColor" stroke-width="1.5" fill="none"/><circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.5" fill="none"/>';}}
 async function doLogin(e){
   e.preventDefault();
-  const em=document.getElementById('i-email').value.trim(),pw=document.getElementById('i-pass').value,btn=document.getElementById('btn-in');
-  document.getElementById('fg-email').classList.remove('err');document.getElementById('fg-pass').classList.remove('err');
+  const un=document.getElementById('i-user').value.trim(),pw=document.getElementById('i-pass').value,btn=document.getElementById('btn-in');
+  document.getElementById('fg-user').classList.remove('err');document.getElementById('fg-pass').classList.remove('err');
   let ok=true;
-  if(!em||!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(em)){document.getElementById('fg-email').classList.add('err');ok=false;}
+  if(!un){document.getElementById('fg-user').classList.add('err');ok=false;}
   if(!pw){document.getElementById('fg-pass').classList.add('err');ok=false;}
   if(!ok)return;
   btn.classList.add('loading');btn.disabled=true;
   try{
-    const res=await fetch('/api/admin/login/',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:em,password:pw})});
+    const res=await fetch('/api/admin/login/',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({username:un,password:pw})});
     btn.classList.remove('loading');btn.disabled=false;
     if(res.ok){toast('✦','Welcome! Loading dashboard…');setTimeout(()=>{window.location.href='dashboard.html';},1200);}
-    else{document.getElementById('fg-email').classList.add('err');document.getElementById('e-email').textContent='Account not found.';document.getElementById('fg-pass').classList.add('err');document.getElementById('e-pass').textContent='Incorrect password.';}
+    else{document.getElementById('fg-user').classList.add('err');document.getElementById('e-user').textContent='Invalid credentials.';document.getElementById('fg-pass').classList.add('err');document.getElementById('e-pass').textContent='Incorrect password.';}
   }catch(_){
     btn.classList.remove('loading');btn.disabled=false;
-    document.getElementById('fg-email').classList.add('err');document.getElementById('e-email').textContent='Cannot connect to server.';
+    document.getElementById('fg-user').classList.add('err');document.getElementById('e-user').textContent='Cannot connect to server.';
   }
 }
 </script>
