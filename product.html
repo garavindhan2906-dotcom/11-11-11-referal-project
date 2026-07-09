@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Product — 11:11:11 | EVOXU</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,600&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --cream:#F6F8FC;--cream2:#EDF1F7;--cream3:#DDE3EE;--white:#FFFFFF;
+  --ink:#1E2A3E;--ink2:#2D3A52;--muted:#60718A;--dim:#8D9BB2;
+  --gold:#7D2035;--gold2:#A8415A;--gold-dim:#5C1525;
+  --gold-pale:rgba(125,32,53,0.07);--border:rgba(0,0,0,0.08);
+  --border-gold:rgba(125,32,53,0.2);--shadow:0 2px 16px rgba(30,42,62,0.06);
+  --shadow2:0 8px 40px rgba(30,42,62,0.12);--green:#16a34a;
+}
+html{scroll-behavior:smooth}
+body{background:var(--cream);color:var(--ink);font-family:'Poppins',sans-serif;font-weight:400;overflow-x:hidden}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:1000;background:rgba(250,248,244,.95);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);padding:1rem 4rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;box-shadow:var(--shadow)}
+.nav-logo{text-align:center;text-decoration:none}
+.nav-logo-main{font-family:'Poppins',sans-serif;font-size:1.2rem;font-weight:700;letter-spacing:.04em;color:var(--ink);display:block;line-height:1}
+.nav-logo-sub{font-size:.48rem;letter-spacing:.28em;text-transform:uppercase;color:var(--dim);display:block;margin-top:.15rem}
+.nav-back{display:flex;align-items:center;gap:.5rem;font-size:.65rem;letter-spacing:.22em;text-transform:uppercase;color:var(--muted);text-decoration:none;transition:color .3s}
+.nav-back:hover{color:var(--gold)}
+.nav-back svg{width:14px;height:14px}
+.icon-btn{background:none;border:none;cursor:pointer;color:var(--muted);transition:color .3s;position:relative;padding:3px}
+.icon-btn:hover{color:var(--ink)}
+.icon-btn svg{width:18px;height:18px;display:block}
+.cart-badge{position:absolute;top:-5px;right:-5px;width:14px;height:14px;background:var(--gold);border-radius:50%;font-size:.45rem;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700}
+@media(max-width:640px){nav{padding:.85rem 1.2rem}}
+
+/* BREADCRUMB */
+.breadcrumb{max-width:1200px;margin:0 auto;padding:6.5rem 4rem 0;display:flex;align-items:center;gap:.5rem;font-size:.62rem;letter-spacing:.16em;text-transform:uppercase;color:var(--dim)}
+.breadcrumb a{color:var(--dim);text-decoration:none;transition:color .3s}
+.breadcrumb a:hover{color:var(--gold)}
+.breadcrumb span{color:var(--gold)}
+@media(max-width:640px){.breadcrumb{padding:5.5rem 1.2rem 0}}
+
+/* PRODUCT LAYOUT */
+.product-wrap{max-width:1200px;margin:0 auto;padding:2.5rem 4rem 7rem;display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:start}
+@media(max-width:960px){.product-wrap{grid-template-columns:1fr;gap:3rem;padding:2rem 2.5rem 5rem}}
+@media(max-width:640px){.product-wrap{padding:1.5rem 1.2rem 4rem;gap:2.5rem}}
+
+/* LEFT — MEDIA */
+.prod-media{position:sticky;top:6rem}
+.prod-img-main{aspect-ratio:3/4;background:var(--cream2);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;overflow:hidden;position:relative;box-shadow:var(--shadow)}
+.prod-img-main img{width:100%;height:100%;object-fit:cover}
+.prod-emoji-fallback{font-size:7rem;filter:drop-shadow(0 4px 20px rgba(125,32,53,.25));position:relative;z-index:1}
+.prod-glow-bg{position:absolute;inset:0;display:flex;align-items:center;justify-content:center}
+.prod-glow-orb{width:260px;height:260px;border-radius:50%;filter:blur(70px);opacity:.28}
+.prod-video-wrap{margin-top:1rem;border:1px solid var(--border);overflow:hidden;background:var(--ink)}
+.prod-video-wrap video{width:100%;display:block;max-height:280px;object-fit:contain}
+.prod-badges-row{display:flex;gap:.6rem;margin-top:1rem;flex-wrap:wrap}
+.p-badge{padding:.28rem .75rem;border:1px solid var(--border);font-size:.54rem;letter-spacing:.26em;text-transform:uppercase;color:var(--muted);background:var(--white)}
+
+/* RIGHT — DETAILS */
+.prod-detail{}
+.pd-category{font-size:.6rem;letter-spacing:.42em;text-transform:uppercase;color:var(--gold);margin-bottom:.65rem}
+.pd-name{font-family:'Poppins',sans-serif;font-size:clamp(1.5rem,3.5vw,2.4rem);font-weight:700;color:var(--ink);line-height:1.15;margin-bottom:.35rem;letter-spacing:-.01em}
+.pd-intent{font-size:.72rem;letter-spacing:.28em;text-transform:uppercase;color:var(--muted);margin-bottom:1.6rem;display:flex;align-items:center;gap:.6rem}
+.pd-intent::before{content:'';width:24px;height:1px;background:rgba(125,32,53,.35)}
+
+/* PRICE */
+.pd-price-row{display:flex;align-items:baseline;gap:1rem;margin-bottom:.4rem;flex-wrap:wrap}
+.pd-price{font-family:'Poppins',sans-serif;font-size:1.8rem;color:var(--ink);font-weight:700}
+.pd-mrp{font-family:'Poppins',sans-serif;font-size:1.1rem;color:var(--dim);text-decoration:line-through}
+.pd-off{font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;color:var(--green);font-weight:500;background:rgba(22,163,74,.08);border:1px solid rgba(22,163,74,.2);padding:.22rem .65rem}
+.pd-tax{font-size:.68rem;color:var(--dim);margin-bottom:1.6rem;letter-spacing:.06em}
+
+/* OFFERS BOX */
+.pd-offers{border:1px solid var(--border);padding:1rem 1.2rem;margin-bottom:1.8rem;background:var(--white)}
+.pd-offers-title{font-size:.58rem;letter-spacing:.38em;text-transform:uppercase;color:var(--ink);margin-bottom:.75rem;font-weight:500}
+.pd-offer-item{display:flex;align-items:flex-start;gap:.6rem;font-size:.8rem;color:var(--muted);margin-bottom:.5rem;line-height:1.6}
+.pd-offer-item:last-child{margin-bottom:0}
+.pd-offer-item::before{content:'✓';color:var(--green);font-size:.75rem;margin-top:.1rem;flex-shrink:0}
+
+/* QUANTITY + CTA */
+.pd-qty-row{display:flex;align-items:center;gap:1rem;margin-bottom:1.2rem;flex-wrap:wrap}
+.qty-label{font-size:.58rem;letter-spacing:.35em;text-transform:uppercase;color:var(--dim)}
+.qty-control{display:flex;align-items:center;border:1px solid var(--border);background:var(--white)}
+.qty-btn{width:38px;height:38px;background:none;border:none;font-size:1.1rem;color:var(--muted);cursor:pointer;transition:all .25s;display:flex;align-items:center;justify-content:center;font-family:'Poppins',sans-serif}
+.qty-btn:hover{background:var(--cream2);color:var(--ink)}
+.qty-num{width:42px;text-align:center;font-size:.9rem;color:var(--ink);font-family:'Poppins',sans-serif;border-left:1px solid var(--border);border-right:1px solid var(--border);height:38px;line-height:38px}
+
+.pd-cta-row{display:flex;gap:.8rem;margin-bottom:1.8rem;flex-wrap:wrap}
+.btn-add-cart{flex:1;padding:1rem 1.6rem;background:transparent;border:1.5px solid var(--ink);color:var(--ink);font-family:'Poppins',sans-serif;font-size:.7rem;letter-spacing:.38em;text-transform:uppercase;cursor:pointer;transition:all .38s;font-weight:500;display:flex;align-items:center;justify-content:center;gap:.6rem;min-width:160px}
+.btn-add-cart:hover{background:var(--ink);color:var(--white)}
+.btn-buy-now{flex:1;padding:1rem 1.6rem;background:var(--gold);border:none;color:var(--white);font-family:'Poppins',sans-serif;font-size:.7rem;letter-spacing:.38em;text-transform:uppercase;cursor:pointer;transition:all .38s;font-weight:500;min-width:160px}
+.btn-buy-now:hover{background:var(--gold-dim)}
+.btn-add-cart:disabled,.btn-buy-now:disabled{opacity:.45;cursor:not-allowed;pointer-events:none}
+
+/* HIGHLIGHTS */
+.pd-section{margin-bottom:1.6rem}
+.pd-section-title{font-size:.58rem;letter-spacing:.42em;text-transform:uppercase;color:var(--ink);margin-bottom:.85rem;font-weight:500;display:flex;align-items:center;gap:.7rem}
+.pd-section-title::after{content:'';flex:1;height:1px;background:var(--border)}
+.pd-desc{font-size:.9rem;color:var(--muted);line-height:2;margin-bottom:1rem}
+.pd-notes-list{list-style:none;display:flex;flex-direction:column;gap:.5rem}
+.pd-notes-list li{display:flex;align-items:center;gap:.6rem;font-size:.82rem;color:var(--muted);line-height:1.6}
+.pd-notes-list li::before{content:'✦';color:var(--gold);font-size:.65rem;flex-shrink:0}
+.pd-highlights{display:grid;grid-template-columns:1fr 1fr;gap:.6rem}
+.pd-hl{display:flex;align-items:center;gap:.6rem;padding:.65rem .75rem;background:var(--white);border:1px solid var(--border);font-size:.75rem;color:var(--muted)}
+.pd-hl span{font-size:1rem}
+
+/* RELATED */
+.related-section{max-width:1200px;margin:0 auto;padding:0 4rem 7rem;border-top:1px solid var(--border)}
+@media(max-width:960px){.related-section{padding:0 2.5rem 5rem}}
+@media(max-width:640px){.related-section{padding:0 1.2rem 4rem}}
+.related-title{font-family:'Poppins',sans-serif;font-size:1.5rem;color:var(--ink);text-align:center;padding:3.5rem 0 2rem;font-weight:700}
+.related-title em{font-style:italic;color:var(--gold)}
+.related-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:1rem}
+.rel-card{background:var(--white);border:1px solid var(--border);cursor:pointer;transition:all .35s;box-shadow:var(--shadow)}
+.rel-card:hover{transform:translateY(-4px);box-shadow:var(--shadow2);border-color:var(--border-gold)}
+.rel-img{aspect-ratio:1/1;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
+.rel-img img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.rel-body{padding:1rem 1.1rem;border-top:1px solid var(--border)}
+.rel-name{font-family:'Poppins',sans-serif;font-size:.9rem;font-weight:700;color:var(--ink);margin-bottom:.15rem}
+.rel-intent{font-size:.55rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:.5rem}
+.rel-price{font-family:'Poppins',sans-serif;font-size:.9rem;font-weight:600;color:var(--ink)}
+
+/* CART DRAWER */
+#cart-drawer{position:fixed;right:0;top:0;bottom:0;width:390px;background:var(--white);border-left:1px solid var(--border);z-index:2000;transform:translateX(100%);transition:transform .5s cubic-bezier(.4,0,.2,1);display:flex;flex-direction:column;box-shadow:-4px 0 40px rgba(28,25,20,.1)}
+#cart-drawer.open{transform:translateX(0)}
+.cd-head{padding:1.3rem 1.8rem;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+.cd-title{font-family:'Poppins',sans-serif;font-size:1rem;font-weight:600;color:var(--ink)}
+.cd-close{background:none;border:none;color:var(--dim);cursor:pointer;font-size:1rem;transition:color .3s}
+.cd-close:hover{color:var(--ink)}
+.cd-items{flex:1;overflow-y:auto;padding:1.3rem 1.8rem;display:flex;flex-direction:column;gap:.8rem}
+.cd-item{display:flex;gap:.85rem;align-items:center;padding:.85rem;background:var(--cream);border:1px solid var(--border)}
+.cd-thumb{width:54px;height:68px;flex-shrink:0;background:var(--cream2);display:flex;align-items:center;justify-content:center;font-size:1.4rem;overflow:hidden}
+.cd-thumb img{width:100%;height:100%;object-fit:cover}
+.cd-info{flex:1}
+.cd-iname{font-family:'Poppins',sans-serif;font-size:1.05rem;color:var(--ink);margin-bottom:.12rem}
+.cd-ifor{font-size:.62rem;color:var(--muted);margin-bottom:.35rem}
+.cd-iprice{font-family:'Poppins',sans-serif;font-size:1.05rem;color:var(--ink)}
+.cd-empty{text-align:center;padding:3rem 1rem;color:var(--muted);font-size:.88rem}
+.cd-empty em{display:block;font-family:'Poppins',sans-serif;font-size:1.35rem;color:var(--ink);font-style:italic;margin-bottom:.4rem}
+.cd-foot{padding:1.3rem 1.8rem;border-top:1px solid var(--border)}
+.cd-total{display:flex;justify-content:space-between;margin-bottom:1rem;font-size:.88rem;color:var(--muted)}
+.cd-total strong{color:var(--ink);font-family:'Poppins',sans-serif;font-size:1.3rem;font-weight:300}
+.cd-checkout{width:100%;padding:1rem;background:var(--ink);border:none;color:var(--white);font-family:'Poppins',sans-serif;font-size:.7rem;letter-spacing:.38em;text-transform:uppercase;cursor:pointer;transition:all .4s;font-weight:500}
+.cd-checkout:hover{background:var(--gold)}
+#overlay-bg{position:fixed;inset:0;background:rgba(28,25,20,.5);z-index:1999;opacity:0;visibility:hidden;transition:all .4s;backdrop-filter:blur(4px)}
+#overlay-bg.show{opacity:1;visibility:visible}
+@media(max-width:640px){#cart-drawer{width:100%}}
+
+/* TOAST */
+#toast{position:fixed;bottom:2rem;right:2rem;background:var(--ink);border:1px solid rgba(125,32,53,.3);padding:1rem 1.4rem;z-index:9998;transform:translateX(110%);transition:transform .5s cubic-bezier(.4,0,.2,1);max-width:270px}
+#toast.show{transform:translateX(0)}
+.tt{font-family:'Poppins',sans-serif;font-size:.95rem;color:var(--gold2);margin-bottom:.18rem}
+.tm2{font-size:.75rem;color:rgba(255,255,255,.4);line-height:1.5}
+</style>
+</head>
+<body>
+
+<div id="overlay-bg" onclick="closeCart()"></div>
+
+<!-- NAV -->
+<nav>
+  <a href="index.html" class="nav-back">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="15 18 9 12 15 6"/></svg>
+    Back to Store
+  </a>
+  <a href="index.html" class="nav-logo">
+    <span class="nav-logo-main">11:11:11</span>
+    <span class="nav-logo-sub">Manifestation Oils</span>
+  </a>
+  <button class="icon-btn" onclick="openCart()">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+    <span class="cart-badge" id="cart-count">0</span>
+  </button>
+</nav>
+
+<!-- CART DRAWER -->
+<div id="cart-drawer">
+  <div class="cd-head"><div class="cd-title">Your Ritual Cart</div><button class="cd-close" onclick="closeCart()">✕</button></div>
+  <div class="cd-items" id="cart-items"><div class="cd-empty"><em>Your cart is empty</em>Add ritual oils to begin your manifestation journey.</div></div>
+  <div class="cd-foot">
+    <div class="cd-total"><span>Total</span><strong id="cart-total">₹0</strong></div>
+    <button class="cd-checkout" onclick="proceedToCheckout()">Proceed to Checkout</button>
+  </div>
+</div>
+
+<!-- BREADCRUMB -->
+<div class="breadcrumb">
+  <a href="index.html">Home</a>
+  <span>›</span>
+  <a href="index.html#collections">Collections</a>
+  <span>›</span>
+  <span id="bc-name">Product</span>
+</div>
+
+<!-- PRODUCT -->
+<div class="product-wrap" id="product-wrap">
+  <!-- LEFT -->
+  <div class="prod-media" id="prod-media">
+    <div class="prod-img-main" id="prod-img-main">
+      <div class="prod-glow-bg"><div class="prod-glow-orb" id="prod-glow"></div></div>
+      <div class="prod-emoji-fallback" id="prod-emoji">✦</div>
+    </div>
+    <div id="prod-video-wrap" style="display:none" class="prod-video-wrap">
+      <video id="prod-video" controls playsinline></video>
+    </div>
+    <div class="prod-badges-row" id="prod-badges">
+      <span class="p-badge" id="badge-size">10ml · Attar Roll-On</span>
+      <span class="p-badge" id="badge-gender">For Him</span>
+      <span class="p-badge">Alcohol-Free</span>
+      <span class="p-badge">Ritual-Infused</span>
+    </div>
+  </div>
+
+  <!-- RIGHT -->
+  <div class="prod-detail" id="prod-detail">
+    <div class="pd-category" id="pd-category">For Him · Sacred Oil</div>
+    <h1 class="pd-name" id="pd-name">Loading…</h1>
+    <div class="pd-intent" id="pd-intent"></div>
+
+    <!-- PRICE -->
+    <div class="pd-price-row">
+      <span class="pd-price" id="pd-price">₹—</span>
+      <span class="pd-mrp" id="pd-mrp"></span>
+      <span class="pd-off" id="pd-off" style="display:none"></span>
+    </div>
+    <div class="pd-tax">Inclusive of all taxes · Free shipping above ₹5,000</div>
+
+    <!-- OFFERS -->
+    <div class="pd-offers">
+      <div class="pd-offers-title">Available Offers</div>
+      <div class="pd-offer-item">Free Shipping on orders above ₹5,000</div>
+      <div class="pd-offer-item">10% off your first order — use code <strong>FIRST10</strong></div>
+      <div class="pd-offer-item">Includes 11-Day Activation Ritual Card + Beej Mantra guide</div>
+    </div>
+
+    <!-- QTY + CTA -->
+    <div class="pd-qty-row">
+      <span class="qty-label">Quantity</span>
+      <div class="qty-control">
+        <button class="qty-btn" onclick="changeQty(-1)">−</button>
+        <div class="qty-num" id="qty-display">1</div>
+        <button class="qty-btn" onclick="changeQty(1)">+</button>
+      </div>
+    </div>
+    <div class="pd-cta-row">
+      <button class="btn-add-cart" id="btn-add" onclick="addCurrentToCart()">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+        Add to Cart
+      </button>
+      <button class="btn-buy-now" id="btn-buy" onclick="buyNow()">Buy Now</button>
+    </div>
+
+    <!-- DESCRIPTION -->
+    <div class="pd-section">
+      <div class="pd-section-title">About This Oil</div>
+      <p class="pd-desc" id="pd-desc"></p>
+    </div>
+
+    <!-- NOTES -->
+    <div class="pd-section" id="pd-notes-section">
+      <div class="pd-section-title">Fragrance Notes</div>
+      <ul class="pd-notes-list" id="pd-notes-list"></ul>
+    </div>
+
+    <!-- HIGHLIGHTS -->
+    <div class="pd-section">
+      <div class="pd-section-title">Highlights</div>
+      <div class="pd-highlights">
+        <div class="pd-hl"><span>🔥</span> Sacred Fire Ritual</div>
+        <div class="pd-hl"><span>📿</span> Beej Mantra Included</div>
+        <div class="pd-hl"><span>🌿</span> Alcohol-Free Attar</div>
+        <div class="pd-hl"><span>📦</span> 10ml Roll-On Bottle</div>
+        <div class="pd-hl"><span>🪵</span> Artisan Wooden Vessel</div>
+        <div class="pd-hl"><span>✨</span> 11-Day Activation Ritual</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- RELATED -->
+<div class="related-section">
+  <div class="related-title">You May Also <em>Resonate</em> With</div>
+  <div class="related-grid" id="related-grid"></div>
+</div>
+
+<div id="toast"><div class="tt" id="t-ttl"></div><div class="tm2" id="t-msg"></div></div>
+
+<script>
+/* ── PRODUCT DATA (visual metadata) ── */
+const PRODUCT_VISUAL={
+  1:{glow:'#e879b0',bg:'#fdf2f8',emoji:'🌹',notes:['Rose','Ylang Ylang','Musk','Amber','Spice']},
+  2:{glow:'#93c5fd',bg:'#eff6ff',emoji:'🌿',notes:['Lavender','Lemon','Caraway','Saffron','Oud','Amber']},
+  3:{glow:'#fbbf24',bg:'#fffbeb',emoji:'⚖️',notes:['Citrus','Saffron','Cinnamon','Vetiver','Oud','Leather']},
+  4:{glow:'#c9a84c',bg:'#fdf8ee',emoji:'👑',notes:['Golden Saffron','Cinnamon','Smoky Musk','Patchouli','Sacred Resins']},
+  5:{glow:'#a78bfa',bg:'#f5f3ff',emoji:'🏆',notes:['Lavender','Lemon','Saffron','Jasmine','Oud','Warm Amber']},
+  6:{glow:'#f472b6',bg:'#fdf2f8',emoji:'🌸',notes:['Sweet Almond','Jasmine Sambac','Crystal Tuberose','Tonka Bean','Cocoa']},
+  7:{glow:'#6ee7b7',bg:'#ecfdf5',emoji:'🌙',notes:['Lavender','Lemon','Caraway','Saffron','Jasmine','Oud','Amber']},
+  8:{glow:'#fbbf24',bg:'#fffbeb',emoji:'✨',notes:['Lavender','Lemon','Caraway','Saffron','Jasmine','Oud','Warm Amber']},
+  9:{glow:'#c9a84c',bg:'#fdf8ee',emoji:'💛',notes:['Golden Saffron','Cinnamon','Smoky Musk','Patchouli','Sacred Resins']},
+  10:{glow:'#c084fc',bg:'#faf5ff',emoji:'⭐',notes:['Citrus','Saffron','Cinnamon','Florals','Vetiver','Sandalwood','Oud']},
+  11:{glow:'#93c5fd',bg:'#eff6ff',emoji:'🤍',notes:['Male Formula','Female Formula','Two 10ml Roll-Ons']},
+  12:{glow:'#f472b6',bg:'#fdf2f8',emoji:'💕',notes:['KLEOMA (Male)','KAMAVYA (Female)','Two 10ml Roll-Ons']},
+};
+
+/* MRP map: single → ₹1,599, combo → ₹2,999 */
+function getMRP(price){return price>=2000?2999:1599;}
+function getDiscount(price,mrp){return Math.round((mrp-price)/mrp*100);}
+
+let currentProduct=null;
+let qty=1;
+let cart=[];
+let toastTm;
+
+function toast(icon,msg){if(toastTm)clearTimeout(toastTm);document.getElementById('t-ttl').textContent=icon+' 11:11:11';document.getElementById('t-msg').textContent=msg;document.getElementById('toast').classList.add('show');toastTm=setTimeout(()=>document.getElementById('toast').classList.remove('show'),4000);}
+
+function changeQty(d){qty=Math.max(1,qty+d);document.getElementById('qty-display').textContent=qty;}
+
+function addCurrentToCart(){
+  if(!currentProduct||currentProduct.outOfStock)return;
+  const suffix=new URLSearchParams(window.location.search).get('suffix')||'';
+  const dn=suffix?`${currentProduct.name}-${suffix}`:currentProduct.name;
+  const vis=PRODUCT_VISUAL[currentProduct.id]||{};
+  for(let i=0;i<qty;i++){
+    const ex=cart.find(x=>x.id===currentProduct.id);
+    if(ex)ex.qty++;
+    else cart.push({...currentProduct,name:dn,qty:1,emoji:vis.emoji||currentProduct.emoji,bg:vis.bg||'#faf8f4',image_url:currentProduct.image_url});
+  }
+  updateCart();
+  toast(vis.emoji||'✦',`${dn} ×${qty} added to your ritual cart.`);
+  qty=1;document.getElementById('qty-display').textContent='1';
+}
+
+function buyNow(){addCurrentToCart();proceedToCheckout();}
+
+function updateCart(){
+  document.getElementById('cart-count').textContent=cart.reduce((a,i)=>a+i.qty,0);
+  const total=cart.reduce((a,i)=>a+(i.price*i.qty),0);
+  document.getElementById('cart-total').textContent='₹'+total.toLocaleString('en-IN');
+  const el=document.getElementById('cart-items');
+  if(!cart.length){el.innerHTML='<div class="cd-empty"><em>Your cart is empty</em>Add ritual oils to begin your manifestation journey.</div>';return;}
+  el.innerHTML=cart.map((item,i)=>`
+    <div class="cd-item">
+      <div class="cd-thumb" style="background:${item.bg||'#faf8f4'}">
+        ${item.image_url?`<img src="${item.image_url}" alt="${item.name}">`:`<span style="font-size:1.4rem">${item.emoji||'✦'}</span>`}
+      </div>
+      <div class="cd-info">
+        <div class="cd-iname">${item.name}</div>
+        <div class="cd-ifor">${item.intent||''} · 10ml</div>
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-top:.35rem">
+          <div class="cd-iprice">₹${item.price.toLocaleString('en-IN')}</div>
+          <div style="display:flex;align-items:center;gap:.4rem">
+            <button onclick="changeCartQty(${i},-1)" style="background:none;border:1px solid rgba(28,25,20,.09);color:rgba(28,25,20,.45);width:22px;height:22px;cursor:pointer;font-size:.9rem;display:flex;align-items:center;justify-content:center">-</button>
+            <span style="font-size:.88rem;min-width:14px;text-align:center">${item.qty}</span>
+            <button onclick="changeCartQty(${i},1)" style="background:none;border:1px solid rgba(28,25,20,.09);color:rgba(28,25,20,.45);width:22px;height:22px;cursor:pointer;font-size:.9rem;display:flex;align-items:center;justify-content:center">+</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function changeCartQty(i,d){cart[i].qty+=d;if(cart[i].qty<=0)cart.splice(i,1);updateCart();}
+function openCart(){document.getElementById('cart-drawer').classList.add('open');document.getElementById('overlay-bg').classList.add('show');}
+function closeCart(){document.getElementById('cart-drawer').classList.remove('open');document.getElementById('overlay-bg').classList.remove('show');}
+function proceedToCheckout(){
+  if(!cart.length){toast('✦','Your cart is empty.');return;}
+  localStorage.setItem('111_cart',JSON.stringify(cart));
+  window.location.href='checkout.html';
+}
+
+function loadCartFromStorage(){
+  try{const c=JSON.parse(localStorage.getItem('111_cart')||'[]');cart=c;}catch(e){}
+  updateCart();
+}
+
+function renderProduct(p){
+  currentProduct=p;
+  const vis=PRODUCT_VISUAL[p.id]||{glow:'#c9a84c',bg:'#fdf8ee',emoji:'✦',notes:[]};
+  const suffix=new URLSearchParams(window.location.search).get('suffix')||'';
+  const dn=suffix?`${p.name}-${suffix}`:p.name;
+
+  document.title=`${dn} — 11:11:11 | EVOXU`;
+  document.getElementById('bc-name').textContent=dn;
+  document.getElementById('pd-name').textContent=dn;
+  document.getElementById('pd-intent').textContent=p.intent;
+  document.getElementById('pd-category').textContent=(p.for_gender==='male'?'For Him':p.for_gender==='female'?'For Her':'Combo Set')+' · Sacred Ritual Oil';
+  document.getElementById('badge-gender').textContent=p.for_gender==='male'?'For Him':p.for_gender==='female'?'For Her':'Combo Set';
+  document.getElementById('pd-desc').textContent=p.description||p.desc||'';
+
+  // Price + MRP
+  const price=parseFloat(p.price);
+  const mrp=getMRP(price);
+  const offPct=getDiscount(price,mrp);
+  document.getElementById('pd-price').textContent='₹'+price.toLocaleString('en-IN');
+  document.getElementById('pd-mrp').textContent='₹'+mrp.toLocaleString('en-IN');
+  document.getElementById('pd-off').textContent=offPct+'% off';
+  document.getElementById('pd-off').style.display='inline';
+
+  // Image
+  const imgMain=document.getElementById('prod-img-main');
+  imgMain.style.background=vis.bg;
+  document.getElementById('prod-glow').style.background=vis.glow;
+  document.getElementById('prod-emoji').textContent=vis.emoji||p.emoji||'✦';
+  if(p.image_url){
+    const img=document.createElement('img');
+    img.src=p.image_url;img.alt=dn;img.style.cssText='position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:2';
+    imgMain.appendChild(img);
+  }
+
+  // Video
+  if(p.video_url){
+    const vw=document.getElementById('prod-video-wrap');
+    vw.style.display='block';
+    document.getElementById('prod-video').src=p.video_url;
+  }
+
+  // Notes
+  const notesList=document.getElementById('pd-notes-list');
+  const notes=(vis.notes&&vis.notes.length)?vis.notes:(p.notes?(p.notes.split('·').map(s=>s.trim())):['Ritual-Infused Attar','Sacred Formulation']);
+  notesList.innerHTML=notes.map(n=>`<li>${n}</li>`).join('');
+
+  // Out of stock
+  const outOfStock=p.in_stock===false||p.outOfStock===true;
+  document.getElementById('btn-add').disabled=outOfStock;
+  document.getElementById('btn-buy').disabled=outOfStock;
+  if(outOfStock){
+    document.getElementById('btn-add').textContent='Out of Stock';
+    document.getElementById('btn-buy').textContent='Out of Stock';
+  }
+
+  // Related
+  renderRelated(p);
+}
+
+function renderRelated(current){
+  // Try to get from localStorage product list first, then fallback
+  let all=[];
+  try{
+    const raw=localStorage.getItem('111_all_products');
+    if(raw)all=JSON.parse(raw);
+  }catch(e){}
+
+  // If no stored list, use placeholder cards
+  if(!all.length){
+    document.getElementById('related-grid').innerHTML='<div style="grid-column:1/-1;text-align:center;font-size:.78rem;color:var(--muted);padding:2rem;letter-spacing:.1em">Browse more oils on the <a href="index.html#collections" style="color:var(--gold);text-decoration:none">Collections page</a>.</div>';
+    return;
+  }
+
+  const related=all.filter(p=>p.id!==current.id&&p.for_gender===current.for_gender).slice(0,4);
+  if(!related.length){
+    document.getElementById('related-grid').innerHTML='<div style="grid-column:1/-1;text-align:center;font-size:.78rem;color:var(--muted);padding:2rem;letter-spacing:.1em"><a href="index.html#collections" style="color:var(--gold);text-decoration:none">View all oils →</a></div>';
+    return;
+  }
+  const suffix=new URLSearchParams(window.location.search).get('suffix')||'';
+  document.getElementById('related-grid').innerHTML=related.map(p=>{
+    const vis=PRODUCT_VISUAL[p.id]||{bg:'#fdf8ee',emoji:'✦',glow:'#c9a84c'};
+    const dn=suffix?`${p.name}-${suffix}`:p.name;
+    return`<div class="rel-card" onclick="window.location.href='product.html?id=${p.id}${suffix?'&suffix='+suffix:''}';localStorage.setItem('111_viewed_product',JSON.stringify({...${JSON.stringify(p)},activeSuffix:'${suffix}'}))">
+      <div class="rel-img" style="background:${vis.bg}">
+        ${p.image_url?`<img src="${p.image_url}" alt="${dn}">`:`<div style="position:relative;z-index:1;font-size:2.4rem">${vis.emoji}</div>`}
+        <div style="position:absolute;width:100px;height:100px;border-radius:50%;filter:blur(40px);opacity:.25;background:${vis.glow};top:50%;left:50%;transform:translate(-50%,-50%)"></div>
+      </div>
+      <div class="rel-body">
+        <div class="rel-name">${dn}</div>
+        <div class="rel-intent">${p.intent}</div>
+        <div class="rel-price">₹${parseFloat(p.price).toLocaleString('en-IN')}</div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+async function init(){
+  loadCartFromStorage();
+
+  const params=new URLSearchParams(window.location.search);
+  const id=parseInt(params.get('id'));
+
+  // Try localStorage first (fast)
+  let p=null;
+  try{
+    const stored=JSON.parse(localStorage.getItem('111_viewed_product')||'{}');
+    if(stored.id===id)p=stored;
+  }catch(e){}
+
+  // Fetch from API for fresh data (image_url etc.)
+  try{
+    const res=await fetch('/api/store/products/');
+    if(res.ok){
+      const all=await res.json();
+      localStorage.setItem('111_all_products',JSON.stringify(all));
+      const fresh=all.find(x=>x.id===id);
+      if(fresh)p={...p,...fresh};
+    }
+  }catch(e){}
+
+  if(p){
+    renderProduct(p);
+  }else{
+    document.getElementById('pd-name').textContent='Product not found';
+    document.getElementById('btn-add').disabled=true;
+    document.getElementById('btn-buy').disabled=true;
+  }
+}
+
+document.addEventListener('DOMContentLoaded',init);
+</script>
+</body>
+</html>

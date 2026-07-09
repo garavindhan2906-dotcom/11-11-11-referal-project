@@ -11,6 +11,8 @@ class Product(models.Model):
     for_gender = models.CharField(max_length=10, choices=GENDER_CHOICES)
     emoji = models.CharField(max_length=10, blank=True)
     in_stock = models.BooleanField(default=True)
+    image = models.ImageField(upload_to='products/', null=True, blank=True)
+    video = models.FileField(upload_to='products/videos/', null=True, blank=True)
 
     def __str__(self):
         return f"{self.name} ({self.get_for_gender_display()})"
