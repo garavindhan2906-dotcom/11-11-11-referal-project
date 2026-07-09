@@ -799,20 +799,20 @@ footer{padding:5rem 4rem 2.5rem;background:var(--ink);border-top:1px solid rgba(
     </div>
     <div class="res-form fade-up" style="transition-delay:.15s">
       <div class="form-title">Apply to <em>Join</em></div>
-      <form onsubmit="submitForm(event)">
+      <form id="apply-form" onsubmit="submitForm(event)" novalidate>
         <div class="fg two">
-          <div class="fgroup"><label class="flbl">Full Name *</label><input type="text" class="finput" placeholder="Your full name" required></div>
-          <div class="fgroup"><label class="flbl">Phone *</label><input type="tel" class="finput" placeholder="+91 XXXXX XXXXX" required></div>
+          <div class="fgroup"><label class="flbl">Full Name *</label><input type="text" class="finput" id="ra-name" placeholder="Your full name" required></div>
+          <div class="fgroup"><label class="flbl">Phone *</label><input type="tel" class="finput" id="ra-phone" placeholder="+91 XXXXX XXXXX" required></div>
         </div>
         <div class="fg two">
-          <div class="fgroup"><label class="flbl">WhatsApp</label><input type="tel" class="finput" placeholder="If different"></div>
-          <div class="fgroup"><label class="flbl">Email *</label><input type="email" class="finput" placeholder="your@email.com" required></div>
+          <div class="fgroup"><label class="flbl">WhatsApp</label><input type="tel" class="finput" id="ra-whatsapp" placeholder="If different"></div>
+          <div class="fgroup"><label class="flbl">Email</label><input type="email" class="finput" id="ra-email" placeholder="your@email.com"></div>
         </div>
-        <div class="fg"><label class="flbl">Store / Business Name *</label><input type="text" class="finput" placeholder="Your store or business name" required></div>
-        <div class="fg"><label class="flbl">Store Address *</label><textarea class="ftarea" placeholder="Complete address including city and pincode" required></textarea></div>
+        <div class="fg"><label class="flbl">Store / Business Name *</label><input type="text" class="finput" id="ra-store" placeholder="Your store or business name" required></div>
+        <div class="fg"><label class="flbl">Store Address *</label><textarea class="ftarea" id="ra-address" placeholder="Complete address including city and pincode" required></textarea></div>
         <div class="fg two">
           <div class="fgroup"><label class="flbl">Outlet Type *</label>
-            <select class="fsel" required>
+            <select class="fsel" id="ra-type" required>
               <option value="">Select type</option>
               <option>Wellness &amp; Spiritual Store</option>
               <option>Perfume &amp; Cosmetics</option>
@@ -823,9 +823,9 @@ footer{padding:5rem 4rem 2.5rem;background:var(--ink);border-top:1px solid rgba(
               <option>Other</option>
             </select>
           </div>
-          <div class="fgroup"><label class="flbl">Bank / UPI *</label><input type="text" class="finput" placeholder="UPI ID or bank details" required></div>
+          <div class="fgroup"><label class="flbl">Bank / UPI *</label><input type="text" class="finput" id="ra-upi" placeholder="UPI ID or bank details" required></div>
         </div>
-        <button type="submit" class="f-submit">Submit Application ✦</button>
+        <button type="submit" class="f-submit" id="ra-btn">Submit Application ✦</button>
       </form>
     </div>
   </div>
@@ -1155,7 +1155,34 @@ function renderAffirmations(){
     </div>
   `).join('');
 }
-function submitForm(e){e.preventDefault();toast('✦','Application submitted! We\'ll review and contact you within 48 hours.');e.target.reset();}
+async function submitForm(e){
+  e.preventDefault();
+  const name=document.getElementById('ra-name').value.trim();
+  const phone=document.getElementById('ra-phone').value.trim();
+  if(!name||!phone){toast('⚠️','Please fill in your name and phone number.');return;}
+  const btn=document.getElementById('ra-btn');
+  const orig=btn.textContent;
+  btn.disabled=true;btn.textContent='Submitting…';
+  try{
+    const res=await fetch('/api/reseller/apply/',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({
+        name,phone,
+        whatsapp:document.getElementById('ra-whatsapp').value.trim(),
+        email:document.getElementById('ra-email').value.trim(),
+        store_name:document.getElementById('ra-store').value.trim(),
+        store_address:document.getElementById('ra-address').value.trim(),
+        outlet_type:document.getElementById('ra-type').value,
+        bank_upi:document.getElementById('ra-upi').value.trim(),
+      }),
+    });
+    const d=await res.json();
+    if(res.ok){toast('✦',d.message||'Application submitted! We\'ll contact you within 48 hours.');e.target.reset();}
+    else{toast('⚠️',d.error||'Submission failed. Please try again.');}
+  }catch(_){toast('⚠️','Network error. Please try again.');}
+  finally{btn.disabled=false;btn.textContent=orig;}
+}
 function toast(icon,msg){if(toastTm)clearTimeout(toastTm);document.getElementById('t-ttl').textContent=icon+' 11:11:11';document.getElementById('t-msg').textContent=msg;document.getElementById('toast').classList.add('show');toastTm=setTimeout(()=>document.getElementById('toast').classList.remove('show'),4000);}
 
 function toggleMobileMenu(){

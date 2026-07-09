@@ -668,10 +668,7 @@ const RESELLERS=[
   {id:4,name:'Arjun Patel',store:'Pure Glow Studio',city:'Ahmedabad',earnings:'₹15,600',orders:156,link:'arjun-patel',status:'active',color:'#7D2035',type:'retail',resellerId:'RTSE-0003'},
   {id:5,name:'Meena Joshi',store:'The Ritual Room',city:'Pune',earnings:'₹12,200',orders:122,link:'meena-joshi',status:'active',color:'#5b21b6',type:'influencer',resellerId:'INSE-0002'},
 ];
-let PENDING=[
-  {id:6,name:'Kavita Sharma',store:'Soul Space',city:'Chennai',phone:'+91 43210 98765',applied:'01 Jun 2025',type:'Wellness & Spiritual Store'},
-  {id:7,name:'Ravi Kumar',store:'Harmony Salon',city:'Hyderabad',phone:'+91 32109 87654',applied:'02 Jun 2025',type:'Salon & Beauty'},
-];
+let PENDING=[];
 
 const ORDERS=[
   {id:'AV-2847',product:'OIL-001',customer:'Meera Nair',reseller:'Priya Sharma',date:'02 Jun 2025',amount:'₹1,234',commission:'₹100',status:'delivered'},
@@ -696,6 +693,7 @@ function nav(name,el){
   document.getElementById('tb-title').textContent=titles[name]||name;
   document.getElementById('tb-crumb').textContent=titles[name]||name;
   if(name==='sales')loadResellerSales();
+  if(name==='resellers')loadApplications();
   closeSidebar();
 }
 function openSidebar(){document.getElementById('sidebar').classList.add('open');document.getElementById('sb-overlay').classList.add('show');}
@@ -936,15 +934,30 @@ function renderResellers(){
   `).join('');
 }
 
-function approvePending(id){
+async function approvePending(id){
   const p=PENDING.find(x=>x.id===id);
-  RESELLERS.push({id,name:p.name,store:p.store,city:p.city,earnings:'₹0',orders:0,link:p.name.toLowerCase().replace(/\s+/g,'-'),status:'active',color:'#'+Math.floor(Math.random()*16777215).toString(16).padStart(6,'0')});
+  if(!p)return;
+  try{
+    const res=await fetch(`${API}/api/reseller/admin-applications/${id}/action/`,{
+      method:'POST',headers:{'Content-Type':'application/json','X-Admin-Key':ADMIN_KEY},
+      body:JSON.stringify({action:'approve'}),
+    });
+    if(!res.ok){toast('⚠️','Failed to approve. Try again.');return;}
+  }catch(_){}
   PENDING=PENDING.filter(x=>x.id!==id);
   renderResellers();
-  toast('✅',`${p.name} approved as reseller!`);
+  toast('✅',`${p.name}'s application approved!`);
 }
-function rejectPending(id){
+async function rejectPending(id){
   const p=PENDING.find(x=>x.id===id);
+  if(!p)return;
+  try{
+    const res=await fetch(`${API}/api/reseller/admin-applications/${id}/action/`,{
+      method:'POST',headers:{'Content-Type':'application/json','X-Admin-Key':ADMIN_KEY},
+      body:JSON.stringify({action:'reject'}),
+    });
+    if(!res.ok){toast('⚠️','Failed to reject. Try again.');return;}
+  }catch(_){}
   PENDING=PENDING.filter(x=>x.id!==id);
   renderResellers();
   toast('✕',`${p.name}'s application rejected.`);
@@ -998,6 +1011,28 @@ async function loadResellers(){
         earnings:r.earnings,orders:r.orders,link:r.link,
         status:r.is_active?'active':'inactive',
         color:r.color,type:r.reseller_type,resellerId:r.reseller_id,
+      }));
+    }
+  }catch(e){}
+  renderResellers();
+}
+
+async function loadApplications(){
+  try{
+    const res=await fetch(`${API}/api/reseller/admin-applications/`,{headers:{'X-Admin-Key':ADMIN_KEY}});
+    if(res.ok){
+      const data=await res.json();
+      PENDING.length=0;
+      data.applications.filter(a=>a.status==='pending').forEach(a=>PENDING.push({
+        id:a.id,
+        name:a.name,
+        store:a.store_name||'—',
+        city:a.store_address||'—',
+        phone:a.phone,
+        applied:a.applied_at,
+        type:a.outlet_type||'—',
+        email:a.email,
+        whatsapp:a.whatsapp,
       }));
     }
   }catch(e){}
@@ -1153,7 +1188,7 @@ async function loadProducts(){
 
 /* ── INIT ── */
 document.addEventListener('DOMContentLoaded',()=>{
-  loadProducts();loadResellers();renderOrders();
+  loadProducts();loadResellers();loadApplications();renderOrders();
   // Wire drag-drop on upload zones
   [['img','image'],['vid','video']].forEach(([prefix,type])=>{
     const zone=document.getElementById(prefix+'-drop-zone');

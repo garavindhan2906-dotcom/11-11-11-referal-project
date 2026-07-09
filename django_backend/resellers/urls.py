@@ -13,4 +13,7 @@ urlpatterns = [
     path('register/', views.RegisterView.as_view(), name='reseller-register'),
     path('admin-list/', views.AdminListResellersView.as_view(), name='admin-list'),
     path('admin-create/', views.AdminCreateResellerView.as_view(), name='admin-create'),
+    path('apply/', views.ApplyView.as_view(), name='reseller-apply'),
+    path('admin-applications/', views.AdminApplicationsView.as_view(), name='admin-applications'),
+    path('admin-applications/<int:pk>/action/', views.AdminApplicationActionView.as_view(), name='admin-application-action'),
 ]

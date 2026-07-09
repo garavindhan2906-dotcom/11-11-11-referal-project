@@ -73,3 +73,23 @@ class QRScan(models.Model):
 
     class Meta:
         ordering = ['-scanned_at']
+
+
+class ResellerApplication(models.Model):
+    STATUS_CHOICES = [('pending', 'Pending'), ('approved', 'Approved'), ('rejected', 'Rejected')]
+    name = models.CharField(max_length=200)
+    phone = models.CharField(max_length=20)
+    whatsapp = models.CharField(max_length=20, blank=True)
+    email = models.EmailField(blank=True)
+    store_name = models.CharField(max_length=200, blank=True)
+    store_address = models.TextField(blank=True)
+    outlet_type = models.CharField(max_length=100, blank=True)
+    bank_upi = models.CharField(max_length=200, blank=True)
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='pending')
+    applied_at = models.DateTimeField(default=timezone.now)
+
+    def __str__(self):
+        return f"{self.name} ({self.phone}) — {self.status}"
+
+    class Meta:
+        ordering = ['-applied_at']

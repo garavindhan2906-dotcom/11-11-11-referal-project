@@ -27,18 +27,19 @@ class LoginView(APIView):
     permission_classes = [AllowAny]
 
     def post(self, request):
-        email = request.data.get('email', '').strip().lower()
+        phone = request.data.get('phone', '').strip()
         password = request.data.get('password', '')
 
         user = None
-        try:
-            user_obj = User.objects.get(email__iexact=email)
-            user = authenticate(request, username=user_obj.username, password=password)
-        except User.DoesNotExist:
-            pass
+        if phone:
+            try:
+                reseller_obj = Reseller.objects.select_related('user').get(phone=phone)
+                user = authenticate(request, username=reseller_obj.user.username, password=password)
+            except (Reseller.DoesNotExist, Reseller.MultipleObjectsReturned):
+                pass
 
         if not user:
-            return Response({'error': 'Invalid email or password.'}, status=401)
+            return Response({'error': 'Invalid mobile number or password.'}, status=401)
 
         try:
             reseller = user.reseller
@@ -631,3 +632,79 @@ class RegisterView(APIView):
             'reseller_code': reseller.reseller_code,
             'message': f"Welcome {name}! Your application (ID: {reseller.reseller_id}) is under review.",
         }, status=201)
+
+
+class ApplyView(APIView):
+    permission_classes = [AllowAny]
+
+    def post(self, request):
+        from .models import ResellerApplication
+        data = request.data
+        name = data.get('name', '').strip()
+        phone = data.get('phone', '').strip()
+        if not name or not phone:
+            return Response({'error': 'Name and phone are required.'}, status=400)
+        app = ResellerApplication.objects.create(
+            name=name,
+            phone=phone,
+            whatsapp=data.get('whatsapp', '').strip(),
+            email=data.get('email', '').strip(),
+            store_name=data.get('store_name', '').strip(),
+            store_address=data.get('store_address', '').strip(),
+            outlet_type=data.get('outlet_type', '').strip(),
+            bank_upi=data.get('bank_upi', '').strip(),
+        )
+        return Response({
+            'success': True,
+            'id': app.id,
+            'message': f"Application submitted! We'll review and contact you on {phone} within 48 hours.",
+        }, status=201)
+
+
+class AdminApplicationsView(APIView):
+    permission_classes = [AllowAny]
+
+    def get(self, request):
+        if not _check_admin(request):
+            return Response({'error': 'Unauthorized.'}, status=401)
+        from .models import ResellerApplication
+        apps = ResellerApplication.objects.all()
+        result = [{
+            'id': a.id,
+            'name': a.name,
+            'phone': a.phone,
+            'whatsapp': a.whatsapp,
+            'email': a.email,
+            'store_name': a.store_name,
+            'store_address': a.store_address,
+            'outlet_type': a.outlet_type,
+            'bank_upi': a.bank_upi,
+            'status': a.status,
+            'applied_at': a.applied_at.strftime('%d %b %Y, %I:%M %p'),
+        } for a in apps]
+        return Response({
+            'applications': result,
+            'pending_count': sum(1 for a in result if a['status'] == 'pending'),
+        })
+
+
+class AdminApplicationActionView(APIView):
+    permission_classes = [AllowAny]
+
+    def post(self, request, pk):
+        if not _check_admin(request):
+            return Response({'error': 'Unauthorized.'}, status=401)
+        from .models import ResellerApplication
+        try:
+            app = ResellerApplication.objects.get(pk=pk)
+        except ResellerApplication.DoesNotExist:
+            return Response({'error': 'Not found.'}, status=404)
+        action = request.data.get('action', '')
+        if action == 'approve':
+            app.status = 'approved'
+        elif action == 'reject':
+            app.status = 'rejected'
+        else:
+            return Response({'error': 'Invalid action. Use approve or reject.'}, status=400)
+        app.save()
+        return Response({'success': True, 'status': app.status})
