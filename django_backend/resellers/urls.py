@@ -16,4 +16,5 @@ urlpatterns = [
     path('apply/', views.ApplyView.as_view(), name='reseller-apply'),
     path('admin-applications/', views.AdminApplicationsView.as_view(), name='admin-applications'),
     path('admin-applications/<int:pk>/action/', views.AdminApplicationActionView.as_view(), name='admin-application-action'),
+    path('admin-applications/<int:pk>/approve-create/', views.AdminApproveApplicationView.as_view(), name='admin-approve-application'),
 ]

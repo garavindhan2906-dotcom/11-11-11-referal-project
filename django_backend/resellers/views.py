@@ -1,5 +1,10 @@
+import io
+import random
+import string
+import qrcode
 from django.conf import settings
 from django.contrib.auth import authenticate
+from django.core.files.base import ContentFile
 from django.db.models import Sum, Count
 from django.utils import timezone
 from datetime import timedelta
@@ -11,6 +16,17 @@ from rest_framework_simplejwt.tokens import RefreshToken
 from django.contrib.auth.models import User
 
 from .models import Reseller, ResellerPayout, QRScan
+
+
+def _generate_qr(url, reseller_code):
+    qr = qrcode.QRCode(version=1, box_size=10, border=4)
+    qr.add_data(url)
+    qr.make(fit=True)
+    img = qr.make_image(fill_color='#1E2A3E', back_color='white')
+    buf = io.BytesIO()
+    img.save(buf, format='PNG')
+    buf.seek(0)
+    return ContentFile(buf.read(), name=f'qr_{reseller_code}.png')
 
 AVATAR_COLORS = [
     '#be185d', '#5b21b6', '#8a7235', '#c2410c', '#065f46',
@@ -480,6 +496,8 @@ class AdminListResellersView(APIView):
                 'link': r.reseller_code.lower(),
                 'earnings': f"₹{float(r.total_earnings or 0):,.0f}",
                 'orders': r.total_orders or 0,
+                'qr_url': request.build_absolute_uri(r.qr_image.url) if r.qr_image else None,
+                'referral_link': r.referral_link,
             })
         return Response({'resellers': result})
 
@@ -540,11 +558,17 @@ class AdminCreateResellerView(APIView):
 
         reseller.save()
 
+        qr_file = _generate_qr(reseller.referral_link, code)
+        reseller.qr_image = qr_file
+        reseller.save(update_fields=['qr_image'])
+
         if reseller_type == 'retail':
             store_display = reseller.address or '—'
         else:
             parts = [p for p in [reseller.platform, reseller.social_handle] if p]
             store_display = ' · '.join(parts) if parts else '—'
+
+        qr_url = request.build_absolute_uri(reseller.qr_image.url) if reseller.qr_image else None
 
         return Response({
             'success': True,
@@ -560,6 +584,8 @@ class AdminCreateResellerView(APIView):
                 'link': code.lower(),
                 'earnings': '₹0',
                 'orders': 0,
+                'qr_url': qr_url,
+                'referral_link': reseller.referral_link,
             },
         }, status=201)
 
@@ -648,6 +674,88 @@ class AdminLoginView(APIView):
         if username == admin_user and password == admin_pass:
             return Response({'success': True})
         return Response({'error': 'Invalid credentials.'}, status=401)
+
+
+class AdminApproveApplicationView(APIView):
+    permission_classes = [AllowAny]
+
+    def post(self, request, pk):
+        if not _check_admin(request):
+            return Response({'error': 'Unauthorized.'}, status=401)
+        from .models import ResellerApplication
+        try:
+            app = ResellerApplication.objects.get(pk=pk, status='pending')
+        except ResellerApplication.DoesNotExist:
+            return Response({'error': 'Application not found or already processed.'}, status=404)
+
+        password = 'Res@' + ''.join(random.choices(string.digits, k=6))
+        phone_digits = ''.join(filter(str.isdigit, app.phone))
+        email = f'{phone_digits}@reseller.local'
+        if User.objects.filter(email__iexact=email).exists():
+            email = f'{phone_digits}_{pk}@reseller.local'
+
+        initials = ''.join(w[0].upper() for w in app.name.split()[:2])
+        if len(initials) < 2:
+            initials = (initials + 'X')[:2]
+        n = Reseller.objects.count() + 1
+        code = f"{initials}{n:03d}"
+        while Reseller.objects.filter(reseller_code=code).exists():
+            n += 1
+            code = f"{initials}{n:03d}"
+
+        user = User.objects.create_user(
+            username=email, email=email, password=password, first_name=app.name,
+        )
+
+        base_url = getattr(settings, 'BASE_STORE_URL', 'http://127.0.0.1:8000')
+        referral_link = f"{base_url}/{code}-ref"
+
+        reseller = Reseller(
+            user=user,
+            name=app.name,
+            phone=app.phone,
+            reseller_code=code,
+            reseller_type='retail',
+            referral_link=referral_link,
+            commission_rate=100,
+            is_active=True,
+            address=app.store_address,
+        )
+        reseller.save()
+
+        qr_file = _generate_qr(referral_link, code)
+        reseller.qr_image = qr_file
+        reseller.save(update_fields=['qr_image'])
+
+        app.status = 'approved'
+        app.save()
+
+        qr_url = request.build_absolute_uri(reseller.qr_image.url) if reseller.qr_image else None
+        color = AVATAR_COLORS[Reseller.objects.count() % len(AVATAR_COLORS)]
+
+        return Response({
+            'success': True,
+            'reseller': {
+                'id': reseller.id,
+                'name': reseller.name,
+                'store': app.store_name or '—',
+                'city': '—',
+                'earnings': '₹0',
+                'orders': 0,
+                'link': code.lower(),
+                'type': 'retail',
+                'reseller_id': reseller.reseller_id,
+                'reseller_code': code,
+                'referral_link': referral_link,
+                'qr_url': qr_url,
+                'color': color,
+                'is_active': True,
+            },
+            'credentials': {
+                'phone': app.phone,
+                'password': password,
+            },
+        }, status=201)
 
 
 class ApplyView(APIView):
