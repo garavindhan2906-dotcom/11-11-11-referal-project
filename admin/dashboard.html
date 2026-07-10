@@ -192,6 +192,55 @@ body{background:var(--cream);color:var(--ink);font-family:'Inter',sans-serif;fon
 .setting-save{margin-top:.5rem;padding:.75rem 1.5rem;background:var(--ink);border:none;color:var(--white);font-family:'Inter',sans-serif;font-size:.62rem;letter-spacing:.38em;text-transform:uppercase;cursor:pointer;transition:all .35s;font-weight:500}
 .setting-save:hover{background:var(--burg)}
 
+/* CALENDAR */
+.cal-nav{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.4rem}
+.cal-month-label{font-family:'Poppins',sans-serif;font-size:1.1rem;font-weight:700;color:var(--ink)}
+.cal-nav-btn{background:none;border:1px solid var(--border);padding:.4rem .85rem;color:var(--muted);cursor:pointer;font-size:.72rem;transition:all .25s}
+.cal-nav-btn:hover{border-color:var(--burg);color:var(--burg)}
+.cal-summary{display:grid;grid-template-columns:repeat(4,1fr);gap:.8rem;margin-bottom:1.4rem}
+.cal-sum-card{background:var(--white);border:1px solid var(--border);padding:.9rem 1rem;text-align:center}
+.cal-sum-val{font-family:'Poppins',sans-serif;font-size:1.3rem;font-weight:700;color:var(--burg)}
+.cal-sum-lbl{font-size:.52rem;letter-spacing:.28em;text-transform:uppercase;color:var(--muted);margin-top:.2rem}
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:2px;background:var(--cream3)}
+.cal-dow{background:var(--cream2);padding:.55rem .4rem;text-align:center;font-size:.54rem;letter-spacing:.22em;text-transform:uppercase;color:var(--muted)}
+.cal-cell{background:var(--white);min-height:90px;padding:.55rem .6rem;cursor:pointer;transition:background .2s;position:relative}
+.cal-cell:hover{background:var(--cream2)}
+.cal-cell.today{background:rgba(125,32,53,.04);border:1px solid var(--border-burg)}
+.cal-cell.empty{background:var(--cream2);cursor:default;opacity:.5}
+.cal-cell.has-data:hover{background:var(--burg-pale)}
+.cal-date{font-size:.78rem;font-weight:600;color:var(--ink);margin-bottom:.4rem}
+.cal-cell.today .cal-date{color:var(--burg);font-weight:700}
+.cal-cell.empty .cal-date{color:var(--dim)}
+.cal-dot-row{display:flex;flex-direction:column;gap:.22rem}
+.cal-badge{display:inline-flex;align-items:center;gap:.3rem;font-size:.58rem;padding:.15rem .42rem;border-radius:100px;white-space:nowrap;width:fit-content}
+.cb-order{background:rgba(22,163,74,.1);color:#16a34a;border:1px solid rgba(22,163,74,.25)}
+.cb-reseller{background:rgba(125,32,53,.1);color:var(--burg);border:1px solid var(--border-burg)}
+.cb-app{background:rgba(217,119,6,.1);color:var(--amber);border:1px solid rgba(217,119,6,.25)}
+.cal-rev{font-size:.58rem;color:var(--muted);margin-top:.3rem}
+
+/* DAY DETAIL PANEL */
+.day-panel-overlay{position:fixed;inset:0;background:rgba(30,42,62,.35);z-index:400;opacity:0;visibility:hidden;transition:all .3s;backdrop-filter:blur(3px)}
+.day-panel-overlay.show{opacity:1;visibility:visible}
+.day-panel{position:fixed;top:0;right:0;bottom:0;width:min(560px,96vw);background:var(--white);z-index:401;transform:translateX(100%);transition:transform .38s cubic-bezier(.4,0,.2,1);display:flex;flex-direction:column;box-shadow:-6px 0 40px rgba(30,42,62,.12);overflow-y:auto}
+.day-panel.open{transform:translateX(0)}
+.dp-head{padding:1.2rem 1.6rem;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;background:var(--white);z-index:1}
+.dp-head h3{font-size:1rem;font-weight:700;color:var(--ink)}
+.dp-close{background:none;border:none;font-size:1.1rem;cursor:pointer;color:var(--muted);transition:color .2s}
+.dp-close:hover{color:var(--ink)}
+.dp-body{padding:1.4rem 1.6rem;flex:1}
+.dp-section{margin-bottom:1.6rem}
+.dp-section-title{font-size:.56rem;letter-spacing:.38em;text-transform:uppercase;color:var(--dim);margin-bottom:.8rem;display:flex;align-items:center;gap:.5rem}
+.dp-section-title span{background:var(--cream2);border:1px solid var(--border);padding:.1rem .5rem;border-radius:100px;font-size:.54rem;color:var(--muted)}
+.dp-order-card{background:var(--cream2);border:1px solid var(--border);padding:.85rem 1rem;margin-bottom:.55rem;border-left:3px solid var(--green)}
+.dp-order-card.direct{border-left-color:var(--dim)}
+.dp-order-num{font-size:.68rem;color:var(--dim);letter-spacing:.06em;margin-bottom:.25rem}
+.dp-order-customer{font-size:.88rem;font-weight:500;color:var(--ink)}
+.dp-order-meta{font-size:.72rem;color:var(--muted);margin-top:.2rem;display:flex;gap:.8rem;flex-wrap:wrap}
+.dp-order-amount{font-size:.92rem;font-weight:600;color:var(--burg);margin-top:.3rem}
+.dp-reseller-card{background:var(--cream2);border:1px solid var(--border-burg);padding:.8rem 1rem;margin-bottom:.5rem;border-left:3px solid var(--burg)}
+.dp-app-card{background:var(--amber-bg);border:1px solid rgba(217,119,6,.25);padding:.8rem 1rem;margin-bottom:.5rem;border-left:3px solid var(--amber)}
+.dp-empty{font-size:.8rem;color:var(--dim);text-align:center;padding:1.5rem;letter-spacing:.08em}
+
 /* UPLOAD ZONES */
 #img-drop-zone:hover,#vid-drop-zone:hover{border-color:var(--burg);background:var(--burg-pale2)}
 #img-drop-zone.drag-over,#vid-drop-zone.drag-over{border-color:var(--burg);background:var(--burg-pale);border-style:solid}
@@ -247,6 +296,9 @@ body{background:var(--cream);color:var(--ink);font-family:'Inter',sans-serif;fon
     </a>
     <a class="sb-item" data-page="sales" onclick="nav('sales',this)">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>Reseller Sales
+    </a>
+    <a class="sb-item" data-page="calendar" onclick="nav('calendar',this)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>Calendar
     </a>
     <div class="sb-section">Config</div>
     <a class="sb-item" data-page="settings" onclick="nav('settings',this)">
@@ -384,6 +436,28 @@ body{background:var(--cream);color:var(--ink);font-family:'Inter',sans-serif;fon
         </div>
       </div>
       <div id="sales-reseller-cards"></div>
+    </div>
+
+    <!-- CALENDAR -->
+    <div class="page" id="page-calendar">
+      <div class="cal-nav">
+        <button class="cal-nav-btn" onclick="calShift(-1)">← Prev</button>
+        <div class="cal-month-label" id="cal-month-label">—</div>
+        <button class="cal-nav-btn" onclick="calShift(1)">Next →</button>
+      </div>
+      <div class="cal-summary">
+        <div class="cal-sum-card"><div class="cal-sum-val" id="cal-s-orders">—</div><div class="cal-sum-lbl">Orders</div></div>
+        <div class="cal-sum-card"><div class="cal-sum-val" id="cal-s-rev">—</div><div class="cal-sum-lbl">Revenue</div></div>
+        <div class="cal-sum-card"><div class="cal-sum-val" id="cal-s-comm">—</div><div class="cal-sum-lbl">Commission Paid</div></div>
+        <div class="cal-sum-card"><div class="cal-sum-val" id="cal-s-res">—</div><div class="cal-sum-lbl">New Resellers</div></div>
+      </div>
+      <div class="panel" style="padding:0;overflow:hidden">
+        <div class="cal-grid" id="cal-header">
+          <div class="cal-dow">Mon</div><div class="cal-dow">Tue</div><div class="cal-dow">Wed</div>
+          <div class="cal-dow">Thu</div><div class="cal-dow">Fri</div><div class="cal-dow">Sat</div><div class="cal-dow">Sun</div>
+        </div>
+        <div class="cal-grid" id="cal-body" style="background:var(--cream3)"></div>
+      </div>
     </div>
 
     <!-- SETTINGS -->
@@ -736,6 +810,16 @@ body{background:var(--cream);color:var(--ink);font-family:'Inter',sans-serif;fon
   </div>
 </div>
 
+<!-- DAY DETAIL PANEL -->
+<div class="day-panel-overlay" id="day-panel-overlay" onclick="closeDayPanel()"></div>
+<div class="day-panel" id="day-panel">
+  <div class="dp-head">
+    <h3 id="dp-date-label">—</h3>
+    <button class="dp-close" onclick="closeDayPanel()">✕</button>
+  </div>
+  <div class="dp-body" id="dp-body"></div>
+</div>
+
 <div id="toast"><div class="tt" id="t-ttl"></div><div class="tm" id="t-msg"></div></div>
 
 <script>
@@ -769,11 +853,12 @@ function nav(name,el){
   document.querySelectorAll('.sb-item').forEach(i=>i.classList.remove('on'));
   document.getElementById('page-'+name).classList.add('on');
   if(el)el.classList.add('on');
-  const titles={overview:'Overview',products:'Products',resellers:'Resellers',orders:'Orders',sales:'Reseller Sales',settings:'Settings'};
+  const titles={overview:'Overview',products:'Products',resellers:'Resellers',orders:'Orders',sales:'Reseller Sales',calendar:'Calendar',settings:'Settings'};
   document.getElementById('tb-title').textContent=titles[name]||name;
   document.getElementById('tb-crumb').textContent=titles[name]||name;
   if(name==='sales')loadResellerSales();
   if(name==='resellers')loadApplications();
+  if(name==='calendar')loadCalendar(calYear,calMonth);
   closeSidebar();
 }
 function openSidebar(){document.getElementById('sidebar').classList.add('open');document.getElementById('sb-overlay').classList.add('show');}
@@ -1435,6 +1520,142 @@ async function loadProducts(){
     }
   }catch(e){}
   renderProducts();
+}
+
+/* ── CALENDAR ── */
+const MONTHS=['January','February','March','April','May','June','July','August','September','October','November','December'];
+let calYear=new Date().getFullYear(), calMonth=new Date().getMonth()+1;
+let CAL_DATA={};
+
+async function loadCalendar(year,month){
+  document.getElementById('cal-month-label').textContent=MONTHS[month-1]+' '+year;
+  document.getElementById('cal-body').innerHTML='<div style="grid-column:1/-1;padding:2rem;text-align:center;font-size:.78rem;color:var(--dim);letter-spacing:.12em">Loading…</div>';
+  document.getElementById('cal-s-orders').textContent='—';
+  document.getElementById('cal-s-rev').textContent='—';
+  document.getElementById('cal-s-comm').textContent='—';
+  document.getElementById('cal-s-res').textContent='—';
+  try{
+    const res=await fetch(`${API}/api/store/calendar/?year=${year}&month=${month}`,{headers:{'X-Admin-Key':ADMIN_KEY}});
+    if(!res.ok){document.getElementById('cal-body').innerHTML='<div style="grid-column:1/-1;padding:2rem;text-align:center;color:var(--red)">Failed to load data.</div>';return;}
+    const data=await res.json();
+    CAL_DATA=data.days||{};
+    const s=data.summary||{};
+    document.getElementById('cal-s-orders').textContent=s.total_orders||0;
+    document.getElementById('cal-s-rev').textContent='₹'+(s.total_revenue||0).toLocaleString('en-IN');
+    document.getElementById('cal-s-comm').textContent='₹'+(s.total_commission||0).toLocaleString('en-IN');
+    document.getElementById('cal-s-res').textContent=s.new_resellers||0;
+    renderCalendar(year,month);
+  }catch(_){document.getElementById('cal-body').innerHTML='<div style="grid-column:1/-1;padding:2rem;text-align:center;color:var(--red)">Server error. Make sure Django is running.</div>';}
+}
+
+function renderCalendar(year,month){
+  const today=new Date();
+  const firstDay=new Date(year,month-1,1);
+  const daysInMonth=new Date(year,month,0).getDate();
+  // Monday=0 offset
+  let startOffset=firstDay.getDay()-1; if(startOffset<0)startOffset=6;
+
+  let html='';
+  for(let i=0;i<startOffset;i++) html+=`<div class="cal-cell empty"><div class="cal-date"></div></div>`;
+
+  for(let d=1;d<=daysInMonth;d++){
+    const key=`${year}-${String(month).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+    const dayData=CAL_DATA[key]||{orders:[],resellers:[],applications:[],revenue:0,commission:0};
+    const isToday=today.getFullYear()===year&&today.getMonth()+1===month&&today.getDate()===d;
+    const hasData=dayData.orders.length||dayData.resellers.length||dayData.applications.length;
+    html+=`<div class="cal-cell${isToday?' today':''}${hasData?' has-data':''}" onclick="openDayPanel('${key}')">
+      <div class="cal-date">${d}</div>
+      <div class="cal-dot-row">
+        ${dayData.orders.length?`<span class="cal-badge cb-order">🛒 ${dayData.orders.length} order${dayData.orders.length>1?'s':''}</span>`:''}
+        ${dayData.resellers.length?`<span class="cal-badge cb-reseller">👤 ${dayData.resellers.length} reseller${dayData.resellers.length>1?'s':''}</span>`:''}
+        ${dayData.applications.length?`<span class="cal-badge cb-app">📋 ${dayData.applications.length} app${dayData.applications.length>1?'s':''}</span>`:''}
+      </div>
+      ${dayData.revenue>0?`<div class="cal-rev">₹${dayData.revenue.toLocaleString('en-IN')}</div>`:''}
+    </div>`;
+  }
+  // fill trailing empty cells to complete last row
+  const total=startOffset+daysInMonth;
+  const trailing=(7-total%7)%7;
+  for(let i=0;i<trailing;i++) html+=`<div class="cal-cell empty"></div>`;
+  document.getElementById('cal-body').innerHTML=html;
+}
+
+function calShift(dir){
+  calMonth+=dir;
+  if(calMonth>12){calMonth=1;calYear++;}
+  if(calMonth<1){calMonth=12;calYear--;}
+  loadCalendar(calYear,calMonth);
+}
+
+function openDayPanel(key){
+  const d=CAL_DATA[key];
+  const [y,m,day]=key.split('-');
+  const label=`${parseInt(day)} ${MONTHS[parseInt(m)-1]} ${y}`;
+  document.getElementById('dp-date-label').textContent=label;
+
+  let html='';
+
+  // Orders section
+  html+=`<div class="dp-section">
+    <div class="dp-section-title">Orders <span>${d?d.orders.length:0}</span></div>`;
+  if(!d||!d.orders.length){
+    html+='<div class="dp-empty">No orders on this day.</div>';
+  } else {
+    d.orders.forEach(o=>{
+      const isDirect=o.reseller==='Direct';
+      html+=`<div class="dp-order-card${isDirect?' direct':''}">
+        <div class="dp-order-num">${o.order_number}</div>
+        <div class="dp-order-customer">${o.customer}</div>
+        <div class="dp-order-meta">
+          <span>📱 ${o.customer_phone}</span>
+          <span>📦 ${o.product}${o.qty>1?' ×'+o.qty:''}</span>
+          <span>${isDirect?'🛒 Direct':'👤 '+o.reseller}</span>
+          <span class="tag tag-${o.status}" style="font-size:.54rem;padding:.12rem .45rem">${o.status}</span>
+        </div>
+        <div class="dp-order-amount">₹${o.amount.toLocaleString('en-IN')} <span style="font-size:.72rem;color:var(--green);font-weight:400">· ₹${o.commission} commission</span></div>
+      </div>`;
+    });
+  }
+  html+='</div>';
+
+  // New Resellers section
+  html+=`<div class="dp-section">
+    <div class="dp-section-title">New Resellers Joined <span>${d?d.resellers.length:0}</span></div>`;
+  if(!d||!d.resellers.length){
+    html+='<div class="dp-empty">No new resellers on this day.</div>';
+  } else {
+    d.resellers.forEach(r=>{
+      html+=`<div class="dp-reseller-card">
+        <div style="font-size:.88rem;font-weight:500;color:var(--ink)">${r.name}</div>
+        <div style="font-size:.72rem;color:var(--muted);margin-top:.25rem">${r.code} · ${r.type} · 📱 ${r.phone}</div>
+      </div>`;
+    });
+  }
+  html+='</div>';
+
+  // Applications section
+  html+=`<div class="dp-section">
+    <div class="dp-section-title">Applications Received <span>${d?d.applications.length:0}</span></div>`;
+  if(!d||!d.applications.length){
+    html+='<div class="dp-empty">No applications on this day.</div>';
+  } else {
+    d.applications.forEach(a=>{
+      html+=`<div class="dp-app-card">
+        <div style="font-size:.88rem;font-weight:500;color:var(--ink)">${a.name}</div>
+        <div style="font-size:.72rem;color:var(--muted);margin-top:.25rem">📱 ${a.phone} · ${a.store} · <span class="tag tag-${a.status}" style="font-size:.54rem;padding:.12rem .45rem">${a.status}</span></div>
+      </div>`;
+    });
+  }
+  html+='</div>';
+
+  document.getElementById('dp-body').innerHTML=html;
+  document.getElementById('day-panel-overlay').classList.add('show');
+  document.getElementById('day-panel').classList.add('open');
+}
+
+function closeDayPanel(){
+  document.getElementById('day-panel-overlay').classList.remove('show');
+  document.getElementById('day-panel').classList.remove('open');
 }
 
 /* ── INIT ── */

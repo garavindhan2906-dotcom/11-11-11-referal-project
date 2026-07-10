@@ -244,3 +244,101 @@ class ResellerSalesView(APIView):
             "direct_revenue": float(direct.aggregate(v=Sum("total_amount"))["v"] or 0),
             "resellers": resellers_data,
         })
+
+
+class CalendarView(APIView):
+    permission_classes = [AllowAny]
+
+    def get(self, request):
+        from resellers.views import ADMIN_SECRET
+        from resellers.models import Reseller, ResellerApplication
+        import calendar as cal
+        if request.headers.get("X-Admin-Key") != ADMIN_SECRET:
+            return Response({"error": "Unauthorized."}, status=401)
+
+        try:
+            year  = int(request.GET.get("year",  timezone.now().year))
+            month = int(request.GET.get("month", timezone.now().month))
+        except ValueError:
+            return Response({"error": "Invalid year/month."}, status=400)
+
+        # date range for the month
+        first = timezone.datetime(year, month, 1, tzinfo=timezone.get_current_timezone())
+        last_day = cal.monthrange(year, month)[1]
+        last  = timezone.datetime(year, month, last_day, 23, 59, 59, tzinfo=timezone.get_current_timezone())
+
+        # orders this month
+        orders_qs = (
+            Order.objects
+            .filter(created_at__gte=first, created_at__lte=last)
+            .select_related("customer", "reseller")
+            .prefetch_related("items__product")
+            .order_by("created_at")
+        )
+
+        # resellers joined this month
+        resellers_qs = Reseller.objects.filter(created_at__gte=first, created_at__lte=last).order_by("created_at")
+
+        # applications this month
+        apps_qs = ResellerApplication.objects.filter(applied_at__gte=first, applied_at__lte=last).order_by("applied_at")
+
+        # build day-keyed dict
+        days = {}
+
+        for o in orders_qs:
+            key = o.created_at.strftime("%Y-%m-%d")
+            if key not in days:
+                days[key] = {"orders": [], "resellers": [], "applications": [], "revenue": 0, "commission": 0}
+            first_item = o.items.first()
+            days[key]["orders"].append({
+                "order_number": o.order_number,
+                "customer":     o.customer.name,
+                "customer_phone": o.customer.phone or "—",
+                "product":      first_item.product.name if first_item else "—",
+                "qty":          first_item.quantity if first_item else 1,
+                "amount":       float(o.total_amount),
+                "commission":   float(o.commission_amount),
+                "reseller":     o.reseller.name if o.reseller else "Direct",
+                "status":       o.status,
+            })
+            days[key]["revenue"]    += float(o.total_amount)
+            days[key]["commission"] += float(o.commission_amount)
+
+        for r in resellers_qs:
+            key = r.created_at.strftime("%Y-%m-%d")
+            if key not in days:
+                days[key] = {"orders": [], "resellers": [], "applications": [], "revenue": 0, "commission": 0}
+            days[key]["resellers"].append({
+                "name": r.name,
+                "code": r.reseller_code,
+                "phone": r.phone,
+                "type": r.reseller_type,
+            })
+
+        for a in apps_qs:
+            key = a.applied_at.strftime("%Y-%m-%d")
+            if key not in days:
+                days[key] = {"orders": [], "resellers": [], "applications": [], "revenue": 0, "commission": 0}
+            days[key]["applications"].append({
+                "name":   a.name,
+                "phone":  a.phone,
+                "store":  a.store_name or "—",
+                "status": a.status,
+            })
+
+        # month summary
+        total_orders   = sum(len(d["orders"])      for d in days.values())
+        total_revenue  = sum(d["revenue"]           for d in days.values())
+        total_commission = sum(d["commission"]      for d in days.values())
+        total_resellers  = sum(len(d["resellers"])  for d in days.values())
+
+        return Response({
+            "year": year, "month": month,
+            "days": days,
+            "summary": {
+                "total_orders":     total_orders,
+                "total_revenue":    total_revenue,
+                "total_commission": total_commission,
+                "new_resellers":    total_resellers,
+            },
+        })
