@@ -227,8 +227,8 @@ body{background:var(--cream);color:var(--ink);font-family:'Inter',sans-serif;fon
 /* PAYOUT MODAL */
 .pay-overlay{position:fixed;inset:0;background:rgba(30,42,62,.5);z-index:600;opacity:0;visibility:hidden;transition:all .3s;backdrop-filter:blur(4px)}
 .pay-overlay.show{opacity:1;visibility:visible}
-.pay-box{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%) scale(.95);z-index:601;background:var(--white);border:1px solid var(--border);width:min(480px,93vw);max-height:90vh;overflow-y:auto;box-shadow:0 24px 60px rgba(30,42,62,.2);transition:transform .3s}
-.pay-box.open{transform:translate(-50%,-50%) scale(1)}
+.pay-box{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%) scale(.95);z-index:601;background:var(--white);border:1px solid var(--border);width:min(480px,93vw);max-height:90vh;overflow-y:auto;box-shadow:0 24px 60px rgba(30,42,62,.2);transition:all .3s;opacity:0;visibility:hidden;pointer-events:none}
+.pay-box.open{transform:translate(-50%,-50%) scale(1);opacity:1;visibility:visible;pointer-events:auto}
 .pay-head{padding:1.2rem 1.6rem;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;background:var(--white);z-index:1}
 .pay-head h3{font-size:.95rem;font-weight:700;color:var(--ink)}
 .pay-body{padding:1.6rem}
@@ -913,9 +913,34 @@ body{background:var(--cream);color:var(--ink);font-family:'Inter',sans-serif;fon
         <a id="prof-qr-dl" href="#" download style="display:none;font-size:.62rem;letter-spacing:.22em;text-transform:uppercase;color:var(--burg2);text-decoration:none;padding:.5rem 1rem;border:1px solid var(--border-burg)">⬇ Download QR</a>
       </div>
     </div>
+
+    <!-- PAYOUT SUMMARY inside profile -->
+    <div style="margin-top:1.5rem;padding-top:1.2rem;border-top:1px solid var(--border)">
+      <div style="font-size:.56rem;letter-spacing:.3em;text-transform:uppercase;color:var(--dim);margin-bottom:.8rem">Referral Payouts</div>
+      <div id="prof-payout-loading" style="font-size:.75rem;color:var(--dim)">Loading…</div>
+      <div id="prof-payout-body" style="display:none">
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:.6rem;margin-bottom:1rem">
+          <div style="background:var(--cream2);border:1px solid var(--border);padding:.75rem .9rem;text-align:center">
+            <div style="font-size:1rem;font-weight:700;color:var(--ink)" id="prof-earned">₹0</div>
+            <div style="font-size:.48rem;letter-spacing:.22em;text-transform:uppercase;color:var(--dim);margin-top:.15rem">Total Earned</div>
+          </div>
+          <div style="background:var(--cream2);border:1px solid var(--border);padding:.75rem .9rem;text-align:center">
+            <div style="font-size:1rem;font-weight:700;color:var(--green)" id="prof-paid">₹0</div>
+            <div style="font-size:.48rem;letter-spacing:.22em;text-transform:uppercase;color:var(--dim);margin-top:.15rem">Total Paid</div>
+          </div>
+          <div style="background:var(--cream2);border:1px solid var(--border);padding:.75rem .9rem;text-align:center">
+            <div style="font-size:1rem;font-weight:700;color:var(--burg)" id="prof-pending">₹0</div>
+            <div style="font-size:.48rem;letter-spacing:.22em;text-transform:uppercase;color:var(--dim);margin-top:.15rem">Pending</div>
+          </div>
+        </div>
+        <!-- Payment history -->
+        <div id="prof-pay-hist" style="margin-bottom:1rem"></div>
+      </div>
+    </div>
   </div>
-  <div class="modal-foot">
+  <div class="modal-foot" style="gap:.6rem;flex-wrap:wrap">
     <button class="modal-cancel" onclick="closeProfileModal()">Close</button>
+    <button class="modal-save" id="prof-pay-btn" style="background:var(--burg);border-color:var(--burg);opacity:.4;cursor:not-allowed" disabled onclick="triggerProfilePay()">Pay Now</button>
   </div>
 </div>
 
@@ -1324,7 +1349,8 @@ function closeCredModal(){
   document.getElementById('modal-credentials').classList.remove('open');
 }
 
-function viewReseller(id){
+let _profPayResellerId=null, _profPayPending=0, _profPayName='';
+async function viewReseller(id){
   const r=RESELLERS.find(x=>x.id===id);
   if(!r)return;
   const initials=r.name.split(' ').map(n=>n[0]||'').join('').slice(0,2).toUpperCase()||'R';
@@ -1351,8 +1377,59 @@ function viewReseller(id){
   }else{
     qrEl.style.display='none';dlEl.style.display='none';
   }
+  // Reset payout section
+  _profPayResellerId=id; _profPayName=r.name; _profPayPending=0;
+  document.getElementById('prof-payout-loading').style.display='block';
+  document.getElementById('prof-payout-body').style.display='none';
+  const btn=document.getElementById('prof-pay-btn');
+  btn.disabled=true;btn.style.opacity='.4';btn.style.cursor='not-allowed';
   document.getElementById('profile-modal-overlay').classList.add('show');
   document.getElementById('modal-profile').classList.add('open');
+  // Fetch payout data
+  try{
+    const res=await fetch('/api/reseller/admin-payouts/',{headers:{'X-Admin-Key':'evoxu-admin-2025'}});
+    if(res.ok){
+      const data=await res.json();
+      const rs=(data.resellers||[]).find(x=>x.id===id);
+      if(rs){
+        const earned=parseFloat(rs.total_earned||0),paid=parseFloat(rs.total_paid||0),pending=parseFloat(rs.pending||0);
+        _profPayPending=pending;
+        document.getElementById('prof-earned').textContent='₹'+earned.toLocaleString('en-IN');
+        document.getElementById('prof-paid').textContent='₹'+paid.toLocaleString('en-IN');
+        document.getElementById('prof-pending').textContent='₹'+pending.toLocaleString('en-IN');
+        // History
+        const hist=rs.history||[];
+        document.getElementById('prof-pay-hist').innerHTML=hist.length
+          ?'<div style="font-size:.52rem;letter-spacing:.3em;text-transform:uppercase;color:var(--dim);margin-bottom:.5rem">Payment History</div>'+hist.map(h=>`
+            <div style="display:flex;gap:.7rem;padding:.5rem 0;border-bottom:1px solid var(--cream3);font-size:.76rem">
+              <span style="background:var(--cream2);border:1px solid var(--border);padding:.15rem .45rem;font-size:.52rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);flex-shrink:0;align-self:flex-start">${h.payment_mode||'—'}</span>
+              <div style="flex:1">
+                <div style="font-weight:600;color:var(--green)">₹${parseFloat(h.amount).toLocaleString('en-IN')}</div>
+                ${h.period?`<div style="font-size:.68rem;color:var(--dim)">${h.period}</div>`:''}
+                ${h.payment_reference?`<div style="font-size:.65rem;color:var(--dim)">Ref: ${h.payment_reference}</div>`:''}
+                ${h.screenshot_url?`<a href="${h.screenshot_url}" target="_blank" style="font-size:.62rem;color:var(--burg2)">View Screenshot ↗</a>`:''}
+              </div>
+              <div style="font-size:.64rem;color:var(--dim);flex-shrink:0">${h.paid_at?new Date(h.paid_at).toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'}):''}</div>
+            </div>`).join('')
+          :'<div style="font-size:.74rem;color:var(--dim)">No payments recorded yet.</div>';
+        if(pending>0){btn.disabled=false;btn.style.opacity='1';btn.style.cursor='pointer';}
+      }else{
+        document.getElementById('prof-earned').textContent='₹0';
+        document.getElementById('prof-paid').textContent='₹0';
+        document.getElementById('prof-pending').textContent='₹0';
+        document.getElementById('prof-pay-hist').innerHTML='<div style="font-size:.74rem;color:var(--dim)">No orders yet.</div>';
+      }
+    }
+  }catch(e){
+    document.getElementById('prof-pay-hist').innerHTML='<div style="font-size:.74rem;color:var(--burg)">Could not load payout data.</div>';
+  }finally{
+    document.getElementById('prof-payout-loading').style.display='none';
+    document.getElementById('prof-payout-body').style.display='block';
+  }
+}
+function triggerProfilePay(){
+  closeProfileModal();
+  setTimeout(()=>openPayModal(_profPayResellerId,_profPayName,_profPayPending),200);
 }
 function closeProfileModal(){
   document.getElementById('profile-modal-overlay').classList.remove('show');
