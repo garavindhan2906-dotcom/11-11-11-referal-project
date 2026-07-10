@@ -492,6 +492,7 @@ class AdminListResellersView(APIView):
                 'city': r.city or '—',
                 'store': store,
                 'is_active': r.is_active,
+                'password': r.plain_password or '—',
                 'color': AVATAR_COLORS[i % len(AVATAR_COLORS)],
                 'link': r.reseller_code.lower(),
                 'earnings': f"₹{float(r.total_earnings or 0):,.0f}",
@@ -547,6 +548,7 @@ class AdminCreateResellerView(APIView):
             referral_link=f"{base_url}/{code}-ref",
             commission_rate=100,
             is_active=True,
+            plain_password=password,
         )
 
         if reseller_type == 'retail':
@@ -633,6 +635,7 @@ class RegisterView(APIView):
             referral_link=f"{base_url}/{code}-ref",
             commission_rate=100,
             is_active=False,  # pending admin approval
+            plain_password=password,
         )
 
         if reseller_type == 'retail':
@@ -720,6 +723,7 @@ class AdminApproveApplicationView(APIView):
             commission_rate=100,
             is_active=True,
             address=app.store_address,
+            plain_password=password,
         )
         reseller.save()
 

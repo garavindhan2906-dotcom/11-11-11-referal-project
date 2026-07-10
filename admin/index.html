@@ -6,7 +6,7 @@
 <title>Admin Login — 11:11:11 | EVOXU</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@200;300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,600&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 :root{
@@ -18,10 +18,10 @@
   --shadow:0 4px 32px rgba(28,25,20,0.1);
 }
 html,body{height:100%}
-body{background:var(--cream);color:var(--ink);font-family:'Jost',sans-serif;font-weight:300;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center}
+body{background:var(--cream);color:var(--ink);font-family:'Inter',sans-serif;font-weight:300;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center}
 
 .topbar{position:fixed;top:0;left:0;right:0;background:rgba(250,248,244,.97);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);padding:1rem 3rem;display:flex;align-items:center;justify-content:space-between;z-index:100}
-.logo{font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-weight:600;letter-spacing:.22em;color:var(--ink);text-decoration:none}
+.logo{font-family:'Inter',sans-serif;font-size:1.5rem;font-weight:600;letter-spacing:.22em;color:var(--ink);text-decoration:none}
 .back-link{display:flex;align-items:center;gap:.5rem;font-size:.65rem;letter-spacing:.28em;text-transform:uppercase;color:var(--muted);text-decoration:none;transition:color .3s}
 .back-link:hover{color:var(--ink)}
 .back-link svg{width:13px;height:13px}
@@ -30,7 +30,7 @@ body{background:var(--cream);color:var(--ink);font-family:'Jost',sans-serif;font
 .badge{display:inline-flex;align-items:center;gap:.5rem;background:rgba(125,32,53,.08);border:1px solid var(--border-burg);padding:.35rem 1rem;font-size:.58rem;letter-spacing:.4em;text-transform:uppercase;color:var(--burg2);margin-bottom:1.8rem}
 .dot{width:5px;height:5px;background:var(--burg2);border-radius:50%;animation:blink 2s ease infinite}
 @keyframes blink{0%,100%{opacity:1}50%{opacity:.25}}
-h1{font-family:'Cormorant Garamond',serif;font-size:clamp(2rem,5vw,3rem);font-weight:300;color:var(--ink);line-height:1.15;margin-bottom:.5rem}
+h1{font-family:'Inter',sans-serif;font-size:clamp(2rem,5vw,3rem);font-weight:300;color:var(--ink);line-height:1.15;margin-bottom:.5rem}
 h1 em{font-style:italic;color:var(--burg2)}
 .sub{font-size:.88rem;color:var(--muted);line-height:1.7;margin-bottom:2rem}
 
@@ -39,7 +39,7 @@ h1 em{font-style:italic;color:var(--burg2)}
 .fg{display:flex;flex-direction:column;gap:.38rem;margin-bottom:1.2rem}
 .flabel{font-size:.58rem;letter-spacing:.35em;text-transform:uppercase;color:var(--dim)}
 .fwrap{position:relative}
-.finput{width:100%;background:transparent;border:none;border-bottom:1px solid var(--border);padding:.68rem 2rem .68rem 0;color:var(--ink);font-family:'Jost',sans-serif;font-size:.9rem;outline:none;transition:border-color .3s}
+.finput{width:100%;background:transparent;border:none;border-bottom:1px solid var(--border);padding:.68rem 2rem .68rem 0;color:var(--ink);font-family:'Inter',sans-serif;font-size:.9rem;outline:none;transition:border-color .3s}
 .finput:focus{border-color:var(--burg)}
 .finput::placeholder{color:var(--dim)}
 .ficon{position:absolute;right:0;top:50%;transform:translateY(-50%);color:var(--dim);pointer-events:none}
@@ -55,7 +55,7 @@ h1 em{font-style:italic;color:var(--burg2)}
 .forgot{font-size:.62rem;letter-spacing:.2em;text-transform:uppercase;color:var(--burg2);text-decoration:none;transition:color .3s}
 .forgot:hover{color:var(--burg-dim)}
 
-.btn-in{width:100%;padding:1rem;background:var(--ink);border:none;color:var(--white);font-family:'Jost',sans-serif;font-size:.7rem;letter-spacing:.44em;text-transform:uppercase;cursor:pointer;transition:all .4s;position:relative;overflow:hidden;font-weight:500}
+.btn-in{width:100%;padding:1rem;background:var(--ink);border:none;color:var(--white);font-family:'Inter',sans-serif;font-size:.7rem;letter-spacing:.44em;text-transform:uppercase;cursor:pointer;transition:all .4s;position:relative;overflow:hidden;font-weight:500}
 .btn-in:hover{background:var(--burg)}
 .btn-in.loading{pointer-events:none}
 .btn-in.loading .btn-txt{opacity:0}
@@ -73,7 +73,7 @@ footer a:hover{color:var(--burg)}
 
 #toast{position:fixed;bottom:2rem;right:2rem;background:var(--ink);border:1px solid rgba(125,32,53,.3);padding:1rem 1.4rem;z-index:9999;transform:translateX(110%);transition:transform .5s;max-width:270px}
 #toast.show{transform:translateX(0)}
-.tt{font-family:'Cormorant Garamond',serif;font-size:.95rem;color:var(--burg2);margin-bottom:.18rem}
+.tt{font-family:'Inter',sans-serif;font-size:.95rem;color:var(--burg2);margin-bottom:.18rem}
 .tm{font-size:.75rem;color:rgba(255,255,255,.4);line-height:1.5}
 </style>
 </head>

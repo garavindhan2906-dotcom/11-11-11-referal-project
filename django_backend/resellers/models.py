@@ -17,6 +17,7 @@ class Reseller(models.Model):
     commission_rate = models.DecimalField(max_digits=10, decimal_places=2, default=100.00)
     is_active = models.BooleanField(default=True)
     created_at = models.DateTimeField(default=timezone.now)
+    plain_password = models.CharField(max_length=128, blank=True)
 
     # Retail-specific fields
     address = models.TextField(blank=True)

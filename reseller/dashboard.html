@@ -6,7 +6,7 @@
 <title>Reseller Dashboard — 11:11:11 | EVOXU</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@200;300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,600&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
@@ -32,15 +32,15 @@
   --amber:#d97706;
   --amber-bg:rgba(217,119,6,0.08);
 }
-body{background:var(--cream);color:var(--ink);font-family:'Jost',sans-serif;font-weight:300;height:100vh;display:flex;overflow:hidden}
+body{background:var(--cream);color:var(--ink);font-family:'Inter',sans-serif;font-weight:300;height:100vh;display:flex;overflow:hidden}
 
 /* ── SIDEBAR ── */
 .sidebar{width:220px;height:100vh;background:linear-gradient(180deg,#1E0B11 0%,#2A1018 50%,#1A0A0F 100%);border-right:1px solid rgba(125,32,53,0.4);display:flex;flex-direction:column;flex-shrink:0;position:fixed;top:0;left:0;bottom:0;z-index:200;transition:transform .3s;box-shadow:2px 0 32px rgba(0,0,0,0.35)}
 .sb-logo{padding:1.5rem 1.5rem .9rem;border-bottom:1px solid rgba(255,248,242,0.1)}
-.sb-logo a{font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:600;letter-spacing:.22em;color:#FFF8F2;text-decoration:none}
+.sb-logo a{font-family:'Inter',sans-serif;font-size:1.4rem;font-weight:600;letter-spacing:.22em;color:#FFF8F2;text-decoration:none}
 .sb-logo p{font-size:.55rem;letter-spacing:.35em;text-transform:uppercase;color:rgba(255,248,242,0.38);margin-top:.2rem}
 .sb-user{padding:1rem 1.5rem;border-bottom:1px solid rgba(255,248,242,0.1);display:flex;align-items:center;gap:.8rem}
-.sb-avatar{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#A8415A,#7D2035);display:flex;align-items:center;justify-content:center;font-size:.75rem;color:#fff;flex-shrink:0;font-family:'Cormorant Garamond',serif;box-shadow:0 0 0 2px rgba(168,65,90,0.45)}
+.sb-avatar{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#A8415A,#7D2035);display:flex;align-items:center;justify-content:center;font-size:.75rem;color:#fff;flex-shrink:0;font-family:'Inter',sans-serif;box-shadow:0 0 0 2px rgba(168,65,90,0.45)}
 .sb-uname{font-size:.8rem;color:#FFF8F2;letter-spacing:.04em}
 .sb-role{font-size:.56rem;color:rgba(168,65,90,0.9);letter-spacing:.2em;text-transform:uppercase}
 .sb-rid{font-size:.52rem;color:rgba(255,248,242,0.32);letter-spacing:.12em;margin-top:.15rem}
@@ -63,10 +63,10 @@ body{background:var(--cream);color:var(--ink);font-family:'Jost',sans-serif;font
 .main{margin-left:220px;flex:1;height:100vh;overflow-y:auto;display:flex;flex-direction:column}
 .topbar{padding:.9rem 2rem;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;background:linear-gradient(to right,rgba(125,32,53,0.06),var(--white) 40%);position:sticky;top:0;z-index:100;gap:1rem;box-shadow:var(--shadow)}
 .tb-left{display:flex;align-items:center;gap:1rem}
-.tb-title{font-family:'Cormorant Garamond',serif;font-size:1.2rem;color:var(--ink)}
+.tb-title{font-family:'Inter',sans-serif;font-size:1.2rem;color:var(--ink)}
 .tb-breadcrumb{font-size:.6rem;color:var(--dim);letter-spacing:.2em}
 .tb-right{display:flex;align-items:center;gap:1rem}
-.tb-btn{background:none;border:1px solid var(--border);padding:.45rem .9rem;color:var(--muted);font-family:'Jost',sans-serif;font-size:.62rem;letter-spacing:.25em;text-transform:uppercase;cursor:pointer;transition:all .3s}
+.tb-btn{background:none;border:1px solid var(--border);padding:.45rem .9rem;color:var(--muted);font-family:'Inter',sans-serif;font-size:.62rem;letter-spacing:.25em;text-transform:uppercase;cursor:pointer;transition:all .3s}
 .tb-btn:hover{border-color:var(--gold);color:var(--gold)}
 .tb-icon{background:none;border:none;color:var(--muted);cursor:pointer;padding:4px;transition:color .3s;position:relative}
 .tb-icon:hover{color:var(--ink)}
@@ -80,10 +80,10 @@ body{background:var(--cream);color:var(--ink);font-family:'Jost',sans-serif;font
 
 /* ── GREETING ── */
 .greeting{background:linear-gradient(135deg,rgba(125,32,53,0.11),rgba(168,65,90,0.05));border:1px solid var(--border-gold);border-left:3px solid var(--gold);padding:1.5rem 2rem;margin-bottom:2rem;display:flex;align-items:center;justify-content:space-between;gap:1rem}
-.g-text h2{font-family:'Cormorant Garamond',serif;font-size:1.55rem;color:var(--ink);margin-bottom:.3rem}
+.g-text h2{font-family:'Inter',sans-serif;font-size:1.55rem;color:var(--ink);margin-bottom:.3rem}
 .g-text h2 em{font-style:italic;color:var(--gold)}
 .g-text p{font-size:.82rem;color:var(--muted);line-height:1.65}
-.g-link{padding:.7rem 1.5rem;background:var(--ink);border:none;color:var(--white);font-family:'Jost',sans-serif;font-size:.65rem;letter-spacing:.3em;text-transform:uppercase;cursor:pointer;transition:all .35s;white-space:nowrap;flex-shrink:0;font-weight:500}
+.g-link{padding:.7rem 1.5rem;background:var(--ink);border:none;color:var(--white);font-family:'Inter',sans-serif;font-size:.65rem;letter-spacing:.3em;text-transform:uppercase;cursor:pointer;transition:all .35s;white-space:nowrap;flex-shrink:0;font-weight:500}
 .g-link:hover{background:var(--gold)}
 
 /* ── STATS ── */
@@ -93,7 +93,7 @@ body{background:var(--cream);color:var(--ink);font-family:'Jost',sans-serif;font
 .stat-card:hover{transform:translateY(-2px);box-shadow:var(--shadow2)}
 .stat-card:hover::after{opacity:1}
 .stat-icon{position:absolute;top:.8rem;right:1rem;font-size:1.5rem;opacity:.18}
-.stat-val{font-family:'Cormorant Garamond',serif;font-size:2.2rem;color:var(--gold);margin-bottom:.2rem;line-height:1}
+.stat-val{font-family:'Inter',sans-serif;font-size:2.2rem;color:var(--gold);margin-bottom:.2rem;line-height:1}
 .stat-lbl{font-size:.58rem;letter-spacing:.3em;text-transform:uppercase;color:var(--muted);margin-bottom:.5rem;margin-top:.15rem}
 .stat-trend{font-size:.68rem;display:flex;align-items:center;gap:.3rem}
 .stat-trend.up{color:var(--green)}
@@ -104,8 +104,8 @@ body{background:var(--cream);color:var(--ink);font-family:'Jost',sans-serif;font
 .two-col{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-bottom:2rem}
 .three-col{display:grid;grid-template-columns:2fr 1fr;gap:1.5rem;margin-bottom:2rem}
 .panel{background:var(--white);border:1px solid var(--border);padding:1.5rem;box-shadow:var(--shadow)}
-.panel-title{font-family:'Cormorant Garamond',serif;font-size:1.1rem;color:var(--ink);margin-bottom:1.2rem;display:flex;align-items:center;justify-content:space-between;gap:1rem}
-.panel-link{font-size:.6rem;letter-spacing:.25em;text-transform:uppercase;color:var(--gold);cursor:pointer;transition:color .3s;background:none;border:none;font-family:'Jost',sans-serif}
+.panel-title{font-family:'Inter',sans-serif;font-size:1.1rem;color:var(--ink);margin-bottom:1.2rem;display:flex;align-items:center;justify-content:space-between;gap:1rem}
+.panel-link{font-size:.6rem;letter-spacing:.25em;text-transform:uppercase;color:var(--gold);cursor:pointer;transition:color .3s;background:none;border:none;font-family:'Inter',sans-serif}
 .panel-link:hover{color:var(--gold-dim)}
 
 /* ── BAR CHART ── */
@@ -114,7 +114,7 @@ body{background:var(--cream);color:var(--ink);font-family:'Jost',sans-serif;font
 .bar-label{font-size:.7rem;color:var(--muted);width:90px;flex-shrink:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .bar-track{flex:1;height:5px;background:var(--cream3);border-radius:3px;overflow:hidden}
 .bar-fill{height:100%;border-radius:3px;transition:width 1s ease}
-.bar-val{font-size:.72rem;color:var(--gold);width:60px;text-align:right;flex-shrink:0;font-family:'Cormorant Garamond',serif}
+.bar-val{font-size:.72rem;color:var(--gold);width:60px;text-align:right;flex-shrink:0;font-family:'Inter',sans-serif}
 
 /* ── ORDERS TABLE ── */
 .orders-table{width:100%;border-collapse:collapse}
@@ -134,11 +134,11 @@ body{background:var(--cream);color:var(--ink);font-family:'Jost',sans-serif;font
 .qr-section{display:grid;grid-template-columns:auto 1fr;gap:1.5rem;align-items:start}
 .qr-canvas{width:164px;height:164px;background:#fff;padding:8px;flex-shrink:0;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;overflow:hidden;box-shadow:0 2px 12px rgba(28,25,20,0.08)}
 .qr-canvas img,.qr-canvas canvas{width:148px !important;height:148px !important;display:block}
-.qr-meta h3{font-family:'Cormorant Garamond',serif;font-size:1.2rem;color:var(--ink);margin-bottom:.4rem}
+.qr-meta h3{font-family:'Inter',sans-serif;font-size:1.2rem;color:var(--ink);margin-bottom:.4rem}
 .qr-meta p{font-size:.78rem;color:var(--muted);line-height:1.75;margin-bottom:.8rem}
 .qr-url{font-size:.72rem;color:var(--gold-dim);background:var(--gold-pale);border:1px solid var(--border-gold);padding:.5rem .8rem;margin-bottom:1rem;word-break:break-all;letter-spacing:.05em}
 .qr-actions{display:flex;gap:.7rem;flex-wrap:wrap}
-.qr-btn{padding:.55rem 1.1rem;font-family:'Jost',sans-serif;font-size:.62rem;letter-spacing:.25em;text-transform:uppercase;cursor:pointer;transition:all .3s}
+.qr-btn{padding:.55rem 1.1rem;font-family:'Inter',sans-serif;font-size:.62rem;letter-spacing:.25em;text-transform:uppercase;cursor:pointer;transition:all .3s}
 .qr-btn-primary{background:var(--ink);border:none;color:var(--white);font-weight:500}
 .qr-btn-primary:hover{background:var(--gold)}
 .qr-btn-outline{background:transparent;border:1px solid var(--border);color:var(--muted)}
@@ -148,8 +148,8 @@ body{background:var(--cream);color:var(--ink);font-family:'Jost',sans-serif;font
 .ref-link-wrap{background:var(--gold-pale);border:1px solid var(--border-gold);padding:1rem 1.2rem;margin-top:1rem}
 .ref-link-label{font-size:.56rem;letter-spacing:.38em;text-transform:uppercase;color:var(--gold);margin-bottom:.5rem}
 .ref-link-row{display:flex;align-items:center;gap:.5rem}
-.ref-link-url{flex:1;font-size:.75rem;color:var(--ink);background:none;border:none;outline:none;font-family:'Jost',sans-serif;letter-spacing:.04em;cursor:default}
-.ref-copy-btn{padding:.4rem .9rem;background:var(--ink);border:none;color:var(--white);font-family:'Jost',sans-serif;font-size:.6rem;letter-spacing:.22em;text-transform:uppercase;cursor:pointer;transition:all .3s;white-space:nowrap;font-weight:500}
+.ref-link-url{flex:1;font-size:.75rem;color:var(--ink);background:none;border:none;outline:none;font-family:'Inter',sans-serif;letter-spacing:.04em;cursor:default}
+.ref-copy-btn{padding:.4rem .9rem;background:var(--ink);border:none;color:var(--white);font-family:'Inter',sans-serif;font-size:.6rem;letter-spacing:.22em;text-transform:uppercase;cursor:pointer;transition:all .3s;white-space:nowrap;font-weight:500}
 .ref-copy-btn:hover{background:var(--gold)}
 
 /* ── COMMISSION ── */
@@ -160,18 +160,18 @@ body{background:var(--cream);color:var(--ink);font-family:'Jost',sans-serif;font
 .ci-name{flex:1}
 .ci-product{font-size:.82rem;color:var(--ink);margin-bottom:.15rem}
 .ci-date{font-size:.64rem;color:var(--muted);letter-spacing:.08em}
-.ci-amount{font-family:'Cormorant Garamond',serif;font-size:1.1rem;color:var(--gold);text-align:right}
+.ci-amount{font-family:'Inter',sans-serif;font-size:1.1rem;color:var(--gold);text-align:right}
 .ci-pct{font-size:.6rem;color:var(--dim);text-align:right}
 
 /* ── CUSTOMERS ── */
 .customer-row{display:flex;align-items:center;gap:1rem;padding:.85rem 0;border-bottom:1px solid var(--cream3)}
 .customer-row:last-child{border:none}
-.cust-avatar{width:36px;height:36px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:.72rem;font-family:'Cormorant Garamond',serif;color:#fff}
+.cust-avatar{width:36px;height:36px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:.72rem;font-family:'Inter',sans-serif;color:#fff}
 .cust-name{flex:1}
 .cust-n{font-size:.82rem;color:var(--ink);margin-bottom:.15rem}
 .cust-d{font-size:.65rem;color:var(--muted);letter-spacing:.06em}
 .cust-orders{font-size:.75rem;color:var(--gold);text-align:right;white-space:nowrap}
-.cust-orders span{display:block;font-size:.62rem;color:var(--dim);font-family:'Jost',sans-serif}
+.cust-orders span{display:block;font-size:.62rem;color:var(--dim);font-family:'Inter',sans-serif}
 
 /* ── PERF CIRCLE ── */
 .perf-ring-wrap{display:flex;align-items:center;justify-content:center;padding:1rem 0}
@@ -180,7 +180,7 @@ body{background:var(--cream);color:var(--ink);font-family:'Jost',sans-serif;font
 .perf-circle-track{fill:none;stroke:var(--cream3);stroke-width:10}
 .perf-circle-fill{fill:none;stroke:url(#perf-grad);stroke-width:10;stroke-linecap:round;transition:stroke-dashoffset 1.5s ease}
 .perf-label{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
-.perf-pct{font-family:'Cormorant Garamond',serif;font-size:1.9rem;color:var(--gold)}
+.perf-pct{font-family:'Inter',sans-serif;font-size:1.9rem;color:var(--gold)}
 .perf-sub{font-size:.52rem;letter-spacing:.3em;text-transform:uppercase;color:var(--dim)}
 .perf-items{display:flex;flex-direction:column;gap:.65rem;margin-top:1rem}
 .perf-item{display:flex;align-items:center;justify-content:space-between;font-size:.75rem}
@@ -201,7 +201,7 @@ body{background:var(--cream);color:var(--ink);font-family:'Jost',sans-serif;font
 .payout-row:last-child{border:none}
 .payout-period{font-size:.8rem;color:var(--ink)}
 .payout-period span{display:block;font-size:.64rem;color:var(--muted);margin-top:.15rem}
-.payout-amount{font-family:'Cormorant Garamond',serif;font-size:1.15rem;color:var(--gold)}
+.payout-amount{font-family:'Inter',sans-serif;font-size:1.15rem;color:var(--gold)}
 .payout-status{font-size:.58rem;letter-spacing:.2em;text-transform:uppercase;padding:.24rem .7rem;border-radius:100px}
 .ps-paid{background:var(--green-bg);color:var(--green);border:1px solid rgba(22,163,74,.22)}
 .ps-pending{background:var(--amber-bg);color:var(--amber);border:1px solid rgba(217,119,6,.22)}
@@ -213,7 +213,7 @@ body{background:var(--cream);color:var(--ink);font-family:'Jost',sans-serif;font
 /* ── TOAST ── */
 #toast{position:fixed;bottom:1.5rem;right:1.5rem;background:var(--ink);border:1px solid rgba(125,32,53,.3);padding:1rem 1.3rem;z-index:9999;transform:translateX(110%);transition:transform .5s cubic-bezier(.4,0,.2,1);max-width:270px}
 #toast.show{transform:translateX(0)}
-.tt{font-family:'Cormorant Garamond',serif;font-size:.92rem;color:var(--gold2);margin-bottom:.2rem}
+.tt{font-family:'Inter',sans-serif;font-size:.92rem;color:var(--gold2);margin-bottom:.2rem}
 .tm{font-size:.72rem;color:rgba(255,255,255,.4);line-height:1.5}
 
 /* ── MOBILE ── */
@@ -252,9 +252,9 @@ body{background:var(--cream);color:var(--ink);font-family:'Jost',sans-serif;font
     <p>Reseller Portal</p>
   </div>
   <div class="sb-user">
-    <div class="sb-avatar">PS</div>
+    <div class="sb-avatar">—</div>
     <div style="min-width:0">
-      <div class="sb-uname">Priya Sharma</div>
+      <div class="sb-uname">—</div>
       <div class="sb-rid" id="sb-rid">—</div>
       <span class="sb-type-badge retail" id="sb-type-badge">Retail</span>
     </div>
@@ -331,8 +331,8 @@ body{background:var(--cream);color:var(--ink);font-family:'Jost',sans-serif;font
     <div class="page on" id="page-overview">
       <div class="greeting">
         <div class="g-text">
-          <h2>Good morning, <em>Priya</em> ✦</h2>
-          <p>Your manifestation commerce is thriving. You have 3 new orders and 47 QR scans since yesterday.</p>
+          <h2>Good morning, <em>there</em> ✦</h2>
+          <p>Welcome back to your reseller dashboard.</p>
         </div>
         <button class="g-link" onclick="switchPage('qrcode',document.querySelector('[data-page=qrcode]'))">View My QR Code</button>
       </div>
@@ -401,15 +401,15 @@ body{background:var(--cream);color:var(--ink);font-family:'Jost',sans-serif;font
             </div>
           </div>
           <div class="perf-items">
-            <div class="perf-item"><span><span class="perf-dot" style="background:var(--gold)"></span><span style="font-size:.72rem;color:var(--muted)">Scans → Visits</span></span><span style="color:var(--gold);font-family:'Cormorant Garamond',serif;font-size:1rem">1,847</span></div>
-            <div class="perf-item"><span><span class="perf-dot" style="background:#7c3aed"></span><span style="font-size:.72rem;color:var(--muted)">Visits → Orders</span></span><span style="color:var(--gold);font-family:'Cormorant Garamond',serif;font-size:1rem">342</span></div>
-            <div class="perf-item"><span><span class="perf-dot" style="background:var(--green)"></span><span style="font-size:.72rem;color:var(--muted)">Repeat Buyers</span></span><span style="color:var(--green);font-family:'Cormorant Garamond',serif;font-size:1rem">38%</span></div>
+            <div class="perf-item"><span><span class="perf-dot" style="background:var(--gold)"></span><span style="font-size:.72rem;color:var(--muted)">Scans → Visits</span></span><span style="color:var(--gold);font-family:'Inter',sans-serif;font-size:1rem">1,847</span></div>
+            <div class="perf-item"><span><span class="perf-dot" style="background:#7c3aed"></span><span style="font-size:.72rem;color:var(--muted)">Visits → Orders</span></span><span style="color:var(--gold);font-family:'Inter',sans-serif;font-size:1rem">342</span></div>
+            <div class="perf-item"><span><span class="perf-dot" style="background:var(--green)"></span><span style="font-size:.72rem;color:var(--muted)">Repeat Buyers</span></span><span style="color:var(--green);font-family:'Inter',sans-serif;font-size:1rem">38%</span></div>
           </div>
         </div>
       </div>
 
       <div class="panel" style="margin-bottom:0">
-        <div class="panel-title">Revenue — Last 12 Months <span style="font-size:.72rem;color:var(--muted);font-family:'Jost',sans-serif;font-weight:300">Total: ₹34,200</span></div>
+        <div class="panel-title">Revenue — Last 12 Months <span style="font-size:.72rem;color:var(--muted);font-family:'Inter',sans-serif;font-weight:300">Total: ₹34,200</span></div>
         <div class="sparkline" id="sparkline"></div>
         <div style="display:flex;justify-content:space-between;margin-top:.5rem">
           <span style="font-size:.62rem;color:var(--dim)">Jul '24</span>
@@ -421,7 +421,7 @@ body{background:var(--cream);color:var(--ink);font-family:'Jost',sans-serif;font
     <!-- ORDERS -->
     <div class="page" id="page-orders">
       <div class="panel" style="margin-bottom:1.5rem">
-        <div class="panel-title">Recent Orders <span style="font-size:.75rem;color:var(--muted);font-family:'Jost',sans-serif;font-weight:300">342 total</span></div>
+        <div class="panel-title">Recent Orders <span style="font-size:.75rem;color:var(--muted);font-family:'Inter',sans-serif;font-weight:300">342 total</span></div>
         <table class="orders-table">
           <thead><tr><th>Order ID</th><th>Product</th><th>Customer</th><th>Date</th><th>Amount</th><th>Commission</th><th>Status</th></tr></thead>
           <tbody id="orders-tbody"></tbody>
@@ -452,7 +452,7 @@ body{background:var(--cream);color:var(--ink);font-family:'Jost',sans-serif;font
           <div class="ref-link-wrap">
             <div class="ref-link-label">Unique Referral URL</div>
             <div class="ref-link-row">
-              <input class="ref-link-url" readonly value="11-11-11.shop/r/priya-sharma" id="ref-url">
+              <input class="ref-link-url" readonly value="" id="ref-url">
               <button class="ref-copy-btn" onclick="copyRef()">Copy</button>
             </div>
           </div>
@@ -482,7 +482,7 @@ body{background:var(--cream);color:var(--ink);font-family:'Jost',sans-serif;font
     <!-- CUSTOMERS -->
     <div class="page" id="page-customers">
       <div class="panel">
-        <div class="panel-title">Your Customers <span style="font-size:.75rem;color:var(--muted);font-family:'Jost',sans-serif;font-weight:300">89 total</span></div>
+        <div class="panel-title">Your Customers <span style="font-size:.75rem;color:var(--muted);font-family:'Inter',sans-serif;font-weight:300">89 total</span></div>
         <div id="customers-list"></div>
       </div>
     </div>
@@ -495,9 +495,9 @@ body{background:var(--cream);color:var(--ink);font-family:'Jost',sans-serif;font
           <div class="qr-section">
             <div class="qr-canvas" id="qr-big"></div>
             <div class="qr-meta">
-              <h3>Priya Sharma</h3>
+              <h3>—</h3>
               <p>This QR code is uniquely linked to your reseller account. Every scan is tracked and attributed to you automatically — even offline.</p>
-              <div class="qr-url">11-11-11.shop/r/priya-sharma</div>
+              <div class="qr-url">—</div>
               <div class="qr-actions">
                 <button class="qr-btn qr-btn-primary" onclick="downloadQR()">Download PNG</button>
                 <button class="qr-btn qr-btn-outline" onclick="toast('🖨️','QR print dialog — opens in live version.')">Print</button>
@@ -545,52 +545,15 @@ body{background:var(--cream);color:var(--ink);font-family:'Jost',sans-serif;font
 
 <script>
 /* ── Config ──────────────────────────────────────────────────────── */
-const API_BASE = 'http://localhost:8000';
+const API_BASE = '';
 
-/* ── Fallback data (shown when API is offline) ───────────────────── */
-const ORDERS_DATA=[
-  {id:'AV-2847',product:'KLEOMA',customer:'Meera Nair',date:'02 Jun 2025',amount:'₹1,234',commission:'₹100',status:'delivered'},
-  {id:'AV-2846',product:'SHREEMSRI',customer:'Rohit Verma',date:'02 Jun 2025',amount:'₹1,234',commission:'₹100',status:'processing'},
-  {id:'AV-2845',product:'SUKCE',customer:'Ananya Iyer',date:'01 Jun 2025',amount:'₹1,234',commission:'₹100',status:'delivered'},
-  {id:'AV-2844',product:'KAMAVYA',customer:'Kiran Shah',date:'01 Jun 2025',amount:'₹1,234',commission:'₹100',status:'delivered'},
-  {id:'AV-2843',product:'KLEOMA',customer:'Divya Pillai',date:'31 May 2025',amount:'₹1,234',commission:'₹100',status:'pending'},
-  {id:'AV-2842',product:'KLINFON',customer:'Arnav Gupta',date:'31 May 2025',amount:'₹1,234',commission:'₹100',status:'delivered'},
-  {id:'AV-2841',product:'MYSTRA',customer:'Preethi Raj',date:'30 May 2025',amount:'₹1,234',commission:'₹100',status:'delivered'},
-  {id:'AV-2840',product:'SHREEMSRI',customer:'Sanjay Malhotra',date:'30 May 2025',amount:'₹1,234',commission:'₹100',status:'delivered'},
-];
-const COMMISSIONS=[
-  {product:'KLEOMA',customer:'Meera Nair',date:'02 Jun 2025',amount:'₹100',icon:'✦',color:'#7D2035'},
-  {product:'SHREEMSRI',customer:'Rohit Verma',date:'02 Jun 2025',amount:'₹100',icon:'✦',color:'#7D2035'},
-  {product:'SUKCE',customer:'Ananya Iyer',date:'01 Jun 2025',amount:'₹100',icon:'✦',color:'#7D2035'},
-  {product:'KAMAVYA',customer:'Kiran Shah',date:'01 Jun 2025',amount:'₹100',icon:'✦',color:'#7D2035'},
-  {product:'KLEOMA',customer:'Divya Pillai',date:'31 May 2025',amount:'₹100',icon:'✦',color:'#7D2035'},
-];
-const PAYOUTS=[
-  {period:'May 2025',dates:'1 – 31 May',amount:'₹3,300',status:'paid'},
-  {period:'Apr 2025',dates:'1 – 30 Apr',amount:'₹3,200',status:'paid'},
-  {period:'Mar 2025',dates:'1 – 31 Mar',amount:'₹2,900',status:'paid'},
-  {period:'Feb 2025',dates:'1 – 28 Feb',amount:'₹2,400',status:'paid'},
-  {period:'Jun 2025 (pending)',dates:'1 – 30 Jun',amount:'₹3,200',status:'pending'},
-];
-const CUSTOMERS=[
-  {name:'Meera Nair',joined:'Joined Jan 2025',orders:'12 orders — ₹14,808',avatar:'MN',color:'#be185d'},
-  {name:'Ananya Iyer',joined:'Joined Feb 2025',orders:'8 orders — ₹9,872',avatar:'AI',color:'#5b21b6'},
-  {name:'Rohit Verma',joined:'Joined Feb 2025',orders:'6 orders — ₹7,404',avatar:'RV',color:'#8a7235'},
-  {name:'Kiran Shah',joined:'Joined Mar 2025',orders:'5 orders — ₹6,170',avatar:'KS',color:'#c2410c'},
-  {name:'Divya Pillai',joined:'Joined Mar 2025',orders:'4 orders — ₹4,936',avatar:'DP',color:'#065f46'},
-  {name:'Preethi Raj',joined:'Joined Apr 2025',orders:'3 orders — ₹3,702',avatar:'PR',color:'#1d4ed8'},
-  {name:'Sanjay Malhotra',joined:'Joined Apr 2025',orders:'3 orders — ₹3,702',avatar:'SM',color:'#7c3aed'},
-  {name:'Arnav Gupta',joined:'Joined May 2025',orders:'2 orders — ₹2,468',avatar:'AG',color:'#b5924a'},
-];
-const NOTIFS=[
-  {icon:'🛒',msg:'New order placed — KLEOMA (₹1,234). Commission: ₹100',time:'2 minutes ago',unread:true},
-  {icon:'▦',msg:'Your QR code was scanned 47 times today.',time:'1 hour ago',unread:true},
-  {icon:'💰',msg:'Payout processed to your bank account.',time:'3 hours ago',unread:true},
-  {icon:'📦',msg:'Order is now out for delivery.',time:'Yesterday, 6:41 PM',unread:false},
-  {icon:'✨',msg:"You've crossed a milestone — keep growing!",time:'Yesterday, 2:12 PM',unread:false},
-  {icon:'🔗',msg:'New referral click from Instagram — user browsed 3 products.',time:'2 days ago',unread:false},
-];
-const SPARKLINE_DATA=[900,1400,1700,2200,2600,2900,2400,3200,2900,3200,3300,3200];
+/* ── Data arrays (populated from the API on load) ───────────────── */
+const ORDERS_DATA=[];
+const COMMISSIONS=[];
+const PAYOUTS=[];
+const CUSTOMERS=[];
+const NOTIFS=[];
+const SPARKLINE_DATA=[];
 
 /* ── Helpers ─────────────────────────────────────────────────────── */
 let toastTm;
@@ -643,7 +606,7 @@ function renderOrders(){
       <td><div class="order-prod">${o.product}</div></td>
       <td><span style="font-size:.8rem;color:#1C1914">${o.customer}</span></td>
       <td><span style="font-size:.75rem;color:#7A7268">${o.date}</span></td>
-      <td><span style="font-family:'Cormorant Garamond',serif;color:#B5924A;font-size:1rem">${o.amount}</span></td>
+      <td><span style="font-family:'Inter',sans-serif;color:#B5924A;font-size:1rem">${o.amount}</span></td>
       <td><span style="color:#16a34a;font-size:.8rem;font-weight:500">${o.commission}</span></td>
       <td><span class="order-status status-${o.status}">${o.status.charAt(0).toUpperCase()+o.status.slice(1)}</span></td>
     </tr>
@@ -754,15 +717,15 @@ function _token(){return localStorage.getItem('111_token');}
 function _headers(){return{'Authorization':'Bearer '+_token(),'Content-Type':'application/json'};}
 
 async function loadFromAPI(){
+  if(!_token()){window.location.href='login.html';return;}
+
   const info=JSON.parse(localStorage.getItem('111_reseller')||'null');
   updateResellerUI(info);
   renderQR('qr-big', info&&info.code);
 
-  if(!_token()){initFallback();return;}
-
   try{
     const res=await fetch(API_BASE+'/api/reseller/dashboard/',{headers:_headers()});
-    if(res.status===401){localStorage.removeItem('111_token');initFallback();return;}
+    if(res.status===401){localStorage.removeItem('111_token');window.location.href='login.html';return;}
     if(!res.ok)throw new Error();
     const d=await res.json();
     applyDashboard(d);
@@ -771,13 +734,9 @@ async function loadFromAPI(){
     loadNotifications();
     loadReferrals();
   }catch(_){
-    console.log('API offline — using demo data');
-    initFallback();
+    console.log('Could not load dashboard data.');
+    toast('⚠️','Could not load your dashboard. Please refresh the page.');
   }
-}
-
-function initFallback(){
-  renderOrders();renderCommissions();renderCustomers();renderNotifications();renderSparkline();
 }
 
 function applyDashboard(d){
