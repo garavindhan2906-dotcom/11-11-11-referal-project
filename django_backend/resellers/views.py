@@ -43,16 +43,19 @@ class LoginView(APIView):
     permission_classes = [AllowAny]
 
     def post(self, request):
-        phone = request.data.get('phone', '').strip()
+        raw_phone = request.data.get('phone', '').strip()
         password = request.data.get('password', '')
+        digits = ''.join(filter(str.isdigit, raw_phone))[-10:]  # last 10 digits
 
         user = None
-        if phone:
-            try:
-                reseller_obj = Reseller.objects.select_related('user').get(phone=phone)
+        if digits:
+            # Try exact match first, then suffix match for +91 stored numbers
+            qs = Reseller.objects.select_related('user').filter(
+                phone__endswith=digits
+            )
+            if qs.count() == 1:
+                reseller_obj = qs.first()
                 user = authenticate(request, username=reseller_obj.user.username, password=password)
-            except (Reseller.DoesNotExist, Reseller.MultipleObjectsReturned):
-                pass
 
         if not user:
             return Response({'error': 'Invalid mobile number or password.'}, status=401)
