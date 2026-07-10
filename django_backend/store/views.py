@@ -7,7 +7,7 @@ from rest_framework.response import Response
 from rest_framework.permissions import AllowAny
 from rest_framework.parsers import MultiPartParser, FormParser, JSONParser
 
-from .models import Product, Customer, Order, OrderItem
+from .models import Product, ProductImage, Customer, Order, OrderItem
 from resellers.models import Reseller
 
 
@@ -28,6 +28,10 @@ def _product_data(p, request):
         "in_stock": p.in_stock,
         "image_url": request.build_absolute_uri(p.image.url) if p.image else None,
         "video_url": request.build_absolute_uri(p.video.url) if p.video else None,
+        "gallery": [
+            {"id": img.id, "url": request.build_absolute_uri(img.image.url), "position": img.position}
+            for img in p.images.all()
+        ],
     }
 
 
@@ -66,6 +70,10 @@ class ProductCreateView(APIView):
         if "video" in request.FILES:
             product.video = request.FILES["video"]
         product.save()
+        for i in range(8):
+            key = f"image_{i}"
+            if key in request.FILES:
+                ProductImage.objects.create(product=product, image=request.FILES[key], position=i)
         return Response({"success": True, **_product_data(product, request)}, status=201)
 
 
@@ -96,6 +104,22 @@ class ProductUpdateView(APIView):
                 product.video.delete(save=False)
             product.video = request.FILES["video"]
         product.save()
+        # Delete gallery images flagged for removal
+        delete_ids = request.data.get("delete_image_ids", "")
+        if delete_ids:
+            for raw_id in str(delete_ids).split(","):
+                try:
+                    gimg = ProductImage.objects.get(id=int(raw_id.strip()), product=product)
+                    gimg.image.delete(save=False)
+                    gimg.delete()
+                except (ProductImage.DoesNotExist, ValueError):
+                    pass
+        # Add new gallery images (image_0 … image_7)
+        existing_count = product.images.count()
+        for i in range(8):
+            key = f"image_{i}"
+            if key in request.FILES:
+                ProductImage.objects.create(product=product, image=request.FILES[key], position=existing_count + i)
         return Response({"success": True, **_product_data(product, request)})
 
 
@@ -116,6 +140,22 @@ class ProductDeleteView(APIView):
             product.video.delete(save=False)
         product.delete()
         return Response({"success": True})
+
+
+class ProductImageDeleteView(APIView):
+    permission_classes = [AllowAny]
+
+    def delete(self, request, pk):
+        from resellers.views import ADMIN_SECRET
+        if request.headers.get("X-Admin-Key") != ADMIN_SECRET:
+            return Response({"error": "Unauthorized."}, status=401)
+        try:
+            img = ProductImage.objects.get(pk=pk)
+            img.image.delete(save=False)
+            img.delete()
+            return Response({"success": True})
+        except ProductImage.DoesNotExist:
+            return Response({"error": "Not found."}, status=404)
 
 
 class PlaceOrderView(APIView):

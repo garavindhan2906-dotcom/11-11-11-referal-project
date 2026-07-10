@@ -6,127 +6,281 @@
 <title>Product — 11:11:11 | EVOXU</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 :root{
   --cream:#F6F8FC;--cream2:#EDF1F7;--cream3:#DDE3EE;--white:#FFFFFF;
   --ink:#1E2A3E;--ink2:#2D3A52;--muted:#60718A;--dim:#8D9BB2;
   --gold:#7D2035;--gold2:#A8415A;--gold-dim:#5C1525;
-  --gold-pale:rgba(125,32,53,0.07);--border:rgba(0,0,0,0.08);
-  --border-gold:rgba(125,32,53,0.2);--shadow:0 2px 16px rgba(30,42,62,0.06);
-  --shadow2:0 8px 40px rgba(30,42,62,0.12);--green:#16a34a;
+  --gold-pale:rgba(125,32,53,.07);--gold-pale2:rgba(125,32,53,.04);
+  --border:rgba(0,0,0,.08);--border-gold:rgba(125,32,53,.2);
+  --shadow:0 2px 16px rgba(30,42,62,.06);--shadow2:0 8px 40px rgba(30,42,62,.12);
+  --green:#16a34a;--amber:#d97706;
 }
 html{scroll-behavior:smooth}
-body{background:var(--cream);color:var(--ink);font-family:'Inter',sans-serif;font-weight:400;overflow-x:hidden}
+body{background:var(--cream);color:var(--ink);font-family:'Poppins',sans-serif;font-weight:400;overflow-x:hidden}
 
 /* NAV */
-nav{position:fixed;top:0;left:0;right:0;z-index:1000;background:rgba(250,248,244,.95);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);padding:1rem 4rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;box-shadow:var(--shadow)}
+nav{position:fixed;top:0;left:0;right:0;z-index:1000;background:rgba(246,248,252,.96);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);padding:1rem 4rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;box-shadow:var(--shadow)}
 .nav-logo{text-align:center;text-decoration:none}
-.nav-logo-main{font-family:'Inter',sans-serif;font-size:1.2rem;font-weight:700;letter-spacing:.04em;color:var(--ink);display:block;line-height:1}
-.nav-logo-sub{font-size:.48rem;letter-spacing:.28em;text-transform:uppercase;color:var(--dim);display:block;margin-top:.15rem}
-.nav-back{display:flex;align-items:center;gap:.5rem;font-size:.65rem;letter-spacing:.22em;text-transform:uppercase;color:var(--muted);text-decoration:none;transition:color .3s}
+.nav-logo-main{font-family:'Poppins',sans-serif;font-size:1.1rem;font-weight:700;letter-spacing:.06em;color:var(--ink);display:block;line-height:1}
+.nav-logo-sub{font-size:.44rem;letter-spacing:.32em;text-transform:uppercase;color:var(--dim);display:block;margin-top:.18rem}
+.nav-back{display:flex;align-items:center;gap:.5rem;font-size:.6rem;letter-spacing:.22em;text-transform:uppercase;color:var(--muted);text-decoration:none;transition:color .3s}
 .nav-back:hover{color:var(--gold)}
 .nav-back svg{width:14px;height:14px}
 .icon-btn{background:none;border:none;cursor:pointer;color:var(--muted);transition:color .3s;position:relative;padding:3px}
 .icon-btn:hover{color:var(--ink)}
-.icon-btn svg{width:18px;height:18px;display:block}
-.cart-badge{position:absolute;top:-5px;right:-5px;width:14px;height:14px;background:var(--gold);border-radius:50%;font-size:.45rem;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700}
-@media(max-width:640px){nav{padding:.85rem 1.2rem}}
+.icon-btn svg{width:20px;height:20px;display:block}
+.cart-badge{position:absolute;top:-5px;right:-5px;width:16px;height:16px;background:var(--gold);border-radius:50%;font-size:.45rem;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700}
+@media(max-width:640px){nav{padding:.85rem 1rem;gap:.5rem}}
+
+/* CATEGORY DROPDOWN */
+.cat-wrap{position:relative}
+.cat-trigger{display:flex;align-items:center;gap:.5rem;font-size:.58rem;letter-spacing:.22em;text-transform:uppercase;color:var(--muted);cursor:pointer;background:none;border:none;font-family:'Poppins',sans-serif;padding:.4rem .6rem;transition:color .3s;user-select:none;white-space:nowrap}
+.cat-trigger:hover,.cat-wrap.open .cat-trigger{color:var(--ink)}
+.cat-trigger svg{width:13px;height:13px;transition:transform .3s;flex-shrink:0}
+.cat-wrap.open .cat-trigger svg{transform:rotate(180deg)}
+.cat-menu{position:absolute;top:calc(100% + .8rem);left:50%;transform:translateX(-50%);background:var(--white);border:1px solid var(--border);box-shadow:var(--shadow2);width:300px;opacity:0;visibility:hidden;transition:opacity .25s,transform .25s;transform:translateX(-50%) translateY(-6px);pointer-events:none;z-index:1100}
+.cat-wrap.open .cat-menu{opacity:1;visibility:visible;pointer-events:auto;transform:translateX(-50%) translateY(0)}
+.cat-section-label{font-size:.44rem;letter-spacing:.46em;text-transform:uppercase;color:var(--dim);padding:.9rem 1.4rem .45rem;font-weight:600;border-bottom:1px solid var(--border)}
+.cat-item{display:flex;align-items:center;justify-content:space-between;padding:.9rem 1.4rem;cursor:pointer;text-decoration:none;border-bottom:1px solid var(--border);transition:background .18s,color .18s;background:var(--white)}
+.cat-item:last-child{border-bottom:none}
+.cat-item:hover{background:var(--cream)}
+.cat-item:hover .cat-item-name{color:var(--gold)}
+.cat-item:hover .cat-chevron{color:var(--gold)}
+.cat-item-name{font-size:.78rem;font-weight:500;color:var(--ink);transition:color .18s}
+.cat-chevron{color:var(--dim);font-size:.65rem;transition:color .18s;flex-shrink:0}
+@media(max-width:640px){
+  .cat-trigger span{display:none}
+  .cat-menu{position:fixed;left:0;right:0;width:100%;top:58px;transform:translateY(-6px);border-left:none;border-right:none}
+  .cat-wrap.open .cat-menu{transform:translateY(0)}
+}
 
 /* BREADCRUMB */
-.breadcrumb{max-width:1200px;margin:0 auto;padding:6.5rem 4rem 0;display:flex;align-items:center;gap:.5rem;font-size:.62rem;letter-spacing:.16em;text-transform:uppercase;color:var(--dim)}
+.breadcrumb{max-width:1240px;margin:0 auto;padding:6.5rem 4rem 0;display:flex;align-items:center;gap:.5rem;font-size:.58rem;letter-spacing:.18em;text-transform:uppercase;color:var(--dim)}
 .breadcrumb a{color:var(--dim);text-decoration:none;transition:color .3s}
 .breadcrumb a:hover{color:var(--gold)}
-.breadcrumb span{color:var(--gold)}
+.breadcrumb .bc-active{color:var(--gold)}
 @media(max-width:640px){.breadcrumb{padding:5.5rem 1.2rem 0}}
 
-/* PRODUCT LAYOUT */
-.product-wrap{max-width:1200px;margin:0 auto;padding:2.5rem 4rem 7rem;display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:start}
-@media(max-width:960px){.product-wrap{grid-template-columns:1fr;gap:3rem;padding:2rem 2.5rem 5rem}}
-@media(max-width:640px){.product-wrap{padding:1.5rem 1.2rem 4rem;gap:2.5rem}}
+/* PRODUCT HERO */
+.product-wrap{max-width:1240px;margin:0 auto;padding:2rem 4rem 5rem;display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:start}
+@media(max-width:960px){.product-wrap{grid-template-columns:1fr;gap:3rem;padding:2rem 2rem 4rem}}
+@media(max-width:640px){.product-wrap{padding:1.5rem 1.2rem 3rem;gap:2.5rem}}
 
 /* LEFT — MEDIA */
 .prod-media{position:sticky;top:6rem}
-.prod-img-main{aspect-ratio:3/4;background:var(--cream2);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;overflow:hidden;position:relative;box-shadow:var(--shadow)}
-.prod-img-main img{width:100%;height:100%;object-fit:cover}
+.prod-img-main{aspect-ratio:4/5;background:var(--cream2);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;overflow:hidden;position:relative;box-shadow:var(--shadow2)}
+.prod-img-main img{width:100%;height:100%;object-fit:cover;transition:transform .6s ease}
+.prod-img-main:hover img{transform:scale(1.03)}
 .prod-emoji-fallback{font-size:7rem;filter:drop-shadow(0 4px 20px rgba(125,32,53,.25));position:relative;z-index:1}
 .prod-glow-bg{position:absolute;inset:0;display:flex;align-items:center;justify-content:center}
-.prod-glow-orb{width:260px;height:260px;border-radius:50%;filter:blur(70px);opacity:.28}
-.prod-video-wrap{margin-top:1rem;border:1px solid var(--border);overflow:hidden;background:var(--ink)}
+.prod-glow-orb{width:300px;height:300px;border-radius:50%;filter:blur(70px);opacity:.28}
+.prod-tag{position:absolute;top:1rem;left:1rem;background:var(--ink);color:#fff;font-size:.5rem;letter-spacing:.28em;text-transform:uppercase;padding:.3rem .75rem;z-index:2}
+.prod-video-wrap{margin-top:.8rem;border:1px solid var(--border);overflow:hidden;background:var(--ink)}
 .prod-video-wrap video{width:100%;display:block;max-height:280px;object-fit:contain}
-.prod-badges-row{display:flex;gap:.6rem;margin-top:1rem;flex-wrap:wrap}
-.p-badge{padding:.28rem .75rem;border:1px solid var(--border);font-size:.54rem;letter-spacing:.26em;text-transform:uppercase;color:var(--muted);background:var(--white)}
+.prod-badges-row{display:flex;gap:.5rem;margin-top:.75rem;flex-wrap:wrap}
+.p-badge{padding:.26rem .7rem;border:1px solid var(--border);font-size:.5rem;letter-spacing:.24em;text-transform:uppercase;color:var(--muted);background:var(--white)}
 
 /* RIGHT — DETAILS */
-.prod-detail{}
-.pd-category{font-size:.6rem;letter-spacing:.42em;text-transform:uppercase;color:var(--gold);margin-bottom:.65rem}
-.pd-name{font-family:'Inter',sans-serif;font-size:clamp(1.5rem,3.5vw,2.4rem);font-weight:700;color:var(--ink);line-height:1.15;margin-bottom:.35rem;letter-spacing:-.01em}
-.pd-intent{font-size:.72rem;letter-spacing:.28em;text-transform:uppercase;color:var(--muted);margin-bottom:1.6rem;display:flex;align-items:center;gap:.6rem}
-.pd-intent::before{content:'';width:24px;height:1px;background:rgba(125,32,53,.35)}
+.pd-category{font-size:.55rem;letter-spacing:.46em;text-transform:uppercase;color:var(--gold);margin-bottom:.6rem;font-weight:500}
+.pd-name{font-family:'Poppins',sans-serif;font-size:clamp(1.6rem,3.5vw,2.6rem);font-weight:700;color:var(--ink);line-height:1.1;margin-bottom:.3rem;letter-spacing:-.02em}
+.pd-intent{font-size:.68rem;letter-spacing:.3em;text-transform:uppercase;color:var(--muted);margin-bottom:.5rem;display:flex;align-items:center;gap:.6rem}
+.pd-intent::before{content:'';width:20px;height:1px;background:rgba(125,32,53,.4)}
+.pd-tagline{font-size:.9rem;color:var(--muted);line-height:1.9;margin-bottom:1.5rem;font-weight:300;font-style:italic}
+
+/* RATING */
+.pd-rating{display:flex;align-items:center;gap:.6rem;margin-bottom:1.4rem}
+.pd-stars{color:var(--amber);font-size:.95rem;letter-spacing:.05em}
+.pd-rcount{font-size:.68rem;color:var(--muted)}
+.pd-rcount a{color:var(--gold);text-decoration:none}
 
 /* PRICE */
-.pd-price-row{display:flex;align-items:baseline;gap:1rem;margin-bottom:.4rem;flex-wrap:wrap}
-.pd-price{font-family:'Inter',sans-serif;font-size:1.8rem;color:var(--ink);font-weight:700}
-.pd-mrp{font-family:'Inter',sans-serif;font-size:1.1rem;color:var(--dim);text-decoration:line-through}
-.pd-off{font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;color:var(--green);font-weight:500;background:rgba(22,163,74,.08);border:1px solid rgba(22,163,74,.2);padding:.22rem .65rem}
-.pd-tax{font-size:.68rem;color:var(--dim);margin-bottom:1.6rem;letter-spacing:.06em}
+.pd-price-row{display:flex;align-items:baseline;gap:.9rem;margin-bottom:.35rem;flex-wrap:wrap}
+.pd-price{font-family:'Poppins',sans-serif;font-size:1.9rem;color:var(--ink);font-weight:700}
+.pd-mrp{font-size:1.1rem;color:var(--dim);text-decoration:line-through;font-weight:300}
+.pd-off{font-size:.58rem;letter-spacing:.2em;text-transform:uppercase;color:var(--green);font-weight:600;background:rgba(22,163,74,.08);border:1px solid rgba(22,163,74,.2);padding:.2rem .6rem}
+.pd-tax{font-size:.62rem;color:var(--dim);margin-bottom:1.5rem;letter-spacing:.05em}
 
-/* OFFERS BOX */
-.pd-offers{border:1px solid var(--border);padding:1rem 1.2rem;margin-bottom:1.8rem;background:var(--white)}
-.pd-offers-title{font-size:.58rem;letter-spacing:.38em;text-transform:uppercase;color:var(--ink);margin-bottom:.75rem;font-weight:500}
-.pd-offer-item{display:flex;align-items:flex-start;gap:.6rem;font-size:.8rem;color:var(--muted);margin-bottom:.5rem;line-height:1.6}
+/* OFFERS */
+.pd-offers{border:1px solid var(--border);padding:1rem 1.2rem;margin-bottom:1.6rem;background:var(--white)}
+.pd-offers-title{font-size:.52rem;letter-spacing:.38em;text-transform:uppercase;color:var(--ink);margin-bottom:.7rem;font-weight:600}
+.pd-offer-item{display:flex;align-items:flex-start;gap:.5rem;font-size:.78rem;color:var(--muted);margin-bottom:.45rem;line-height:1.65}
 .pd-offer-item:last-child{margin-bottom:0}
-.pd-offer-item::before{content:'✓';color:var(--green);font-size:.75rem;margin-top:.1rem;flex-shrink:0}
+.pd-offer-item::before{content:'✓';color:var(--green);font-size:.7rem;margin-top:.18rem;flex-shrink:0}
 
-/* QUANTITY + CTA */
-.pd-qty-row{display:flex;align-items:center;gap:1rem;margin-bottom:1.2rem;flex-wrap:wrap}
-.qty-label{font-size:.58rem;letter-spacing:.35em;text-transform:uppercase;color:var(--dim)}
+/* QTY + CTA */
+.pd-qty-row{display:flex;align-items:center;gap:1rem;margin-bottom:1.1rem}
+.qty-label{font-size:.52rem;letter-spacing:.36em;text-transform:uppercase;color:var(--dim)}
 .qty-control{display:flex;align-items:center;border:1px solid var(--border);background:var(--white)}
-.qty-btn{width:38px;height:38px;background:none;border:none;font-size:1.1rem;color:var(--muted);cursor:pointer;transition:all .25s;display:flex;align-items:center;justify-content:center;font-family:'Inter',sans-serif}
+.qty-btn{width:40px;height:40px;background:none;border:none;font-size:1.1rem;color:var(--muted);cursor:pointer;transition:all .25s;display:flex;align-items:center;justify-content:center}
 .qty-btn:hover{background:var(--cream2);color:var(--ink)}
-.qty-num{width:42px;text-align:center;font-size:.9rem;color:var(--ink);font-family:'Inter',sans-serif;border-left:1px solid var(--border);border-right:1px solid var(--border);height:38px;line-height:38px}
-
-.pd-cta-row{display:flex;gap:.8rem;margin-bottom:1.8rem;flex-wrap:wrap}
-.btn-add-cart{flex:1;padding:1rem 1.6rem;background:transparent;border:1.5px solid var(--ink);color:var(--ink);font-family:'Inter',sans-serif;font-size:.7rem;letter-spacing:.38em;text-transform:uppercase;cursor:pointer;transition:all .38s;font-weight:500;display:flex;align-items:center;justify-content:center;gap:.6rem;min-width:160px}
-.btn-add-cart:hover{background:var(--ink);color:var(--white)}
-.btn-buy-now{flex:1;padding:1rem 1.6rem;background:var(--gold);border:none;color:var(--white);font-family:'Inter',sans-serif;font-size:.7rem;letter-spacing:.38em;text-transform:uppercase;cursor:pointer;transition:all .38s;font-weight:500;min-width:160px}
+.qty-num{width:44px;text-align:center;font-size:.9rem;color:var(--ink);font-family:'Poppins',sans-serif;border-left:1px solid var(--border);border-right:1px solid var(--border);height:40px;line-height:40px;font-weight:500}
+.pd-cta-row{display:flex;gap:.75rem;margin-bottom:2rem;flex-wrap:wrap}
+.btn-add-cart{flex:1;padding:1rem 1.5rem;background:transparent;border:1.5px solid var(--ink);color:var(--ink);font-family:'Poppins',sans-serif;font-size:.62rem;letter-spacing:.4em;text-transform:uppercase;cursor:pointer;transition:all .38s;font-weight:500;min-width:150px;display:flex;align-items:center;justify-content:center;gap:.5rem}
+.btn-add-cart:hover{background:var(--ink);color:#fff}
+.btn-buy-now{flex:1;padding:1rem 1.5rem;background:var(--gold);border:none;color:#fff;font-family:'Poppins',sans-serif;font-size:.62rem;letter-spacing:.4em;text-transform:uppercase;cursor:pointer;transition:all .38s;font-weight:500;min-width:150px}
 .btn-buy-now:hover{background:var(--gold-dim)}
 .btn-add-cart:disabled,.btn-buy-now:disabled{opacity:.45;cursor:not-allowed;pointer-events:none}
 
-/* HIGHLIGHTS */
-.pd-section{margin-bottom:1.6rem}
-.pd-section-title{font-size:.58rem;letter-spacing:.42em;text-transform:uppercase;color:var(--ink);margin-bottom:.85rem;font-weight:500;display:flex;align-items:center;gap:.7rem}
-.pd-section-title::after{content:'';flex:1;height:1px;background:var(--border)}
-.pd-desc{font-size:.9rem;color:var(--muted);line-height:2;margin-bottom:1rem}
+/* ACCORDION */
+.acc-section{border-top:1px solid var(--border)}
+.acc-section:last-of-type{border-bottom:1px solid var(--border)}
+.acc-head{display:flex;align-items:center;justify-content:space-between;padding:1.1rem 0;cursor:pointer;gap:1rem;user-select:none}
+.acc-title{font-size:.56rem;letter-spacing:.42em;text-transform:uppercase;color:var(--ink);font-weight:600}
+.acc-arrow{color:var(--muted);font-size:1rem;transition:transform .3s;flex-shrink:0}
+.acc-section.open .acc-arrow{transform:rotate(180deg)}
+.acc-body{display:none;padding-bottom:1.2rem}
+.acc-section.open .acc-body{display:block}
+
+/* ACCORDION CONTENT */
+.pd-desc{font-size:.88rem;color:var(--muted);line-height:2;font-weight:300}
 .pd-notes-list{list-style:none;display:flex;flex-direction:column;gap:.5rem}
 .pd-notes-list li{display:flex;align-items:center;gap:.6rem;font-size:.82rem;color:var(--muted);line-height:1.6}
 .pd-notes-list li::before{content:'✦';color:var(--gold);font-size:.65rem;flex-shrink:0}
 .pd-highlights{display:grid;grid-template-columns:1fr 1fr;gap:.6rem}
 .pd-hl{display:flex;align-items:center;gap:.6rem;padding:.65rem .75rem;background:var(--white);border:1px solid var(--border);font-size:.75rem;color:var(--muted)}
 .pd-hl span{font-size:1rem}
+.steps{display:flex;flex-direction:column;gap:.9rem}
+.step{display:flex;align-items:flex-start;gap:.85rem}
+.step-num{width:28px;height:28px;border:1px solid var(--border-gold);color:var(--gold);font-size:.65rem;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-weight:600;letter-spacing:.04em}
+.step-text{font-size:.84rem;color:var(--muted);line-height:1.8;padding-top:.18rem}
+
+/* SECTION SHARED */
+.sec-wrap{max-width:1240px;margin:0 auto;padding:0 4rem}
+@media(max-width:640px){.sec-wrap{padding:0 1.2rem}}
+.sec-gap{margin-top:5rem}
+@media(max-width:640px){.sec-gap{margin-top:3rem}}
+.sec-label{font-size:.5rem;letter-spacing:.46em;text-transform:uppercase;color:var(--gold);margin-bottom:.65rem;font-weight:500}
+.sec-title{font-family:'Poppins',sans-serif;font-size:clamp(1.3rem,3vw,2rem);font-weight:700;color:var(--ink);line-height:1.2;letter-spacing:-.01em}
+.sec-title em{font-style:italic;color:var(--gold)}
+.sec-head{text-align:center;margin-bottom:3rem}
+
+/* DESCRIPTION SECTION */
+.desc-inner{display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:center}
+@media(max-width:860px){.desc-inner{grid-template-columns:1fr;gap:2.5rem}}
+.desc-quote{font-family:'Poppins',sans-serif;font-size:clamp(1rem,2.2vw,1.35rem);font-weight:300;color:var(--ink);line-height:1.75;font-style:italic;border-left:3px solid var(--gold);padding-left:1.4rem;margin-bottom:1.6rem}
+.desc-body{font-size:.88rem;color:var(--muted);line-height:2.1;font-weight:300;margin-bottom:1.3rem}
+.desc-pills{display:flex;flex-wrap:wrap;gap:.5rem}
+.desc-pill{padding:.38rem .9rem;border:1px solid var(--border);background:var(--white);font-size:.52rem;letter-spacing:.22em;text-transform:uppercase;color:var(--muted)}
+.desc-pill.hl{border-color:var(--border-gold);background:var(--gold-pale);color:var(--gold)}
+.desc-stats{background:var(--white);border:1px solid var(--border);padding:2.2rem;display:flex;flex-direction:column;gap:1.4rem}
+.dv-stat{display:flex;align-items:center;gap:1.2rem}
+.dv-icon{width:44px;height:44px;border:1px solid var(--border-gold);background:var(--gold-pale);display:flex;align-items:center;justify-content:center;font-size:1.2rem;flex-shrink:0}
+.dv-val{font-family:'Poppins',sans-serif;font-size:1rem;font-weight:700;color:var(--ink)}
+.dv-lbl{font-size:.52rem;letter-spacing:.22em;text-transform:uppercase;color:var(--dim);margin-top:.1rem}
+
+/* BENEFITS STRIP */
+.strip{background:var(--ink);padding:3.5rem 4rem;margin-top:5rem}
+@media(max-width:640px){.strip{padding:2.5rem 1.2rem;margin-top:3rem}}
+.strip-inner{max-width:1240px;margin:0 auto;display:grid;grid-template-columns:repeat(4,1fr);gap:2rem;text-align:center}
+@media(max-width:760px){.strip-inner{grid-template-columns:repeat(2,1fr);gap:1.5rem}}
+.strip-icon{font-size:1.8rem;margin-bottom:.7rem}
+.strip-title{font-size:.56rem;letter-spacing:.3em;text-transform:uppercase;color:#fff;margin-bottom:.35rem;font-weight:500}
+.strip-sub{font-size:.72rem;color:rgba(255,255,255,.45);line-height:1.6}
+
+/* ASTROLOGY SECTION */
+.astro-bg{background:var(--ink);padding:5rem 4rem;margin-top:5rem}
+@media(max-width:640px){.astro-bg{padding:3rem 1.2rem;margin-top:3rem}}
+.astro-inner{max-width:1240px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:start}
+@media(max-width:860px){.astro-inner{grid-template-columns:1fr;gap:3rem}}
+.astro-label{font-size:.5rem;letter-spacing:.46em;text-transform:uppercase;color:var(--gold2);margin-bottom:.7rem}
+.astro-title{font-family:'Poppins',sans-serif;font-size:clamp(1.3rem,3vw,1.9rem);font-weight:700;color:#fff;line-height:1.25;margin-bottom:1rem}
+.astro-body{font-size:.86rem;color:rgba(255,255,255,.5);line-height:2.1;font-weight:300;margin-bottom:2rem}
+.astro-points{list-style:none;display:flex;flex-direction:column;gap:.9rem}
+.astro-points li{display:flex;align-items:flex-start;gap:.8rem;font-size:.83rem;color:rgba(255,255,255,.6);line-height:1.75}
+.ap-icon{font-size:1.1rem;flex-shrink:0;margin-top:.05rem}
+.ap-title{color:#fff;display:block;font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;margin-bottom:.18rem;font-weight:500}
+.astro-grid{display:grid;grid-template-columns:1fr 1fr;gap:.75rem}
+.astro-card{border:1px solid rgba(255,255,255,.08);padding:1.3rem 1.2rem;background:rgba(255,255,255,.03);transition:all .3s}
+.astro-card:hover{border-color:rgba(125,32,53,.4);background:rgba(125,32,53,.08)}
+.astro-card-icon{font-size:1.5rem;margin-bottom:.55rem}
+.astro-card-title{font-size:.58rem;letter-spacing:.22em;text-transform:uppercase;color:rgba(255,255,255,.75);margin-bottom:.3rem;font-weight:500}
+.astro-card-desc{font-size:.72rem;color:rgba(255,255,255,.35);line-height:1.7}
+
+/* SCENT PROFILE */
+.sp-lead{text-align:center;max-width:680px;margin:0 auto 3rem;font-size:.95rem;color:var(--muted);line-height:2;font-weight:300;font-style:italic}
+.sp-layers{display:flex;flex-direction:column}
+.sp-layer{display:grid;grid-template-columns:90px 1fr;align-items:stretch;border:1px solid var(--border);border-bottom:none}
+.sp-layer:last-child{border-bottom:1px solid var(--border)}
+.sp-layer-label{padding:1.4rem 1rem;background:var(--ink);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:.35rem}
+.sp-layer-type{font-size:.44rem;letter-spacing:.36em;text-transform:uppercase;color:rgba(255,255,255,.4)}
+.sp-layer-name{font-size:.68rem;font-weight:600;color:#fff;letter-spacing:.06em}
+.sp-layer-notes{display:flex;align-items:center;gap:.7rem;padding:1.1rem 1.4rem;flex-wrap:wrap;background:var(--white)}
+.sp-note{display:flex;align-items:center;gap:.5rem;padding:.45rem .9rem;border:1px solid var(--border);background:var(--cream)}
+.sp-note-icon{font-size:.95rem}
+.sp-note-name{font-size:.68rem;font-weight:500;color:var(--ink)}
+.sp-note-desc{font-size:.58rem;color:var(--muted);margin-top:.06rem}
+.sp-descriptors{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-top:2rem}
+.sp-desc-card{border:1px solid var(--border);background:var(--white);padding:2rem;text-align:center}
+.sp-desc-text{font-family:'Poppins',sans-serif;font-size:1.2rem;font-weight:300;color:var(--ink);line-height:1.6;font-style:italic;margin-bottom:.6rem}
+.sp-desc-sub{font-size:.52rem;letter-spacing:.3em;text-transform:uppercase;color:var(--gold);font-weight:500}
+
+/* 11-DAY SECTION */
+.eleven-bg{background:var(--cream2);padding:5rem 4rem;margin-top:5rem;border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+@media(max-width:640px){.eleven-bg{padding:3rem 1.2rem;margin-top:3rem}}
+.eleven-inner{max-width:1240px;margin:0 auto}
+.eleven-intro{max-width:560px;font-size:.88rem;color:var(--muted);line-height:2;font-weight:300;margin-top:.9rem}
+.eleven-timeline{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border);margin-top:3rem;border:1px solid var(--border)}
+@media(max-width:760px){.eleven-timeline{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:480px){.eleven-timeline{grid-template-columns:1fr}}
+.et-cell{background:var(--white);padding:2rem 1.5rem}
+.et-num{font-family:'Poppins',sans-serif;font-size:2.5rem;font-weight:700;color:var(--cream3);line-height:1;margin-bottom:.8rem}
+.et-phase{font-size:.5rem;letter-spacing:.36em;text-transform:uppercase;color:var(--gold);margin-bottom:.4rem;font-weight:600}
+.et-title{font-size:.8rem;font-weight:600;color:var(--ink);margin-bottom:.5rem}
+.et-desc{font-size:.73rem;color:var(--muted);line-height:1.75}
+.eleven-callouts{display:grid;grid-template-columns:1fr 1fr;gap:.75rem;margin-top:2rem}
+@media(max-width:640px){.eleven-callouts{grid-template-columns:1fr}}
+.ec{background:var(--ink);padding:1.8rem;display:flex;gap:1rem;align-items:flex-start}
+.ec-icon{font-size:1.8rem;flex-shrink:0}
+.ec-title{font-family:'Poppins',sans-serif;font-size:.85rem;font-weight:600;color:#fff;margin-bottom:.35rem}
+.ec-desc{font-size:.76rem;color:rgba(255,255,255,.45);line-height:1.75}
+
+/* DAILY RITUAL */
+.daily-inner{display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:start}
+@media(max-width:860px){.daily-inner{grid-template-columns:1fr;gap:2.5rem}}
+.daily-steps{display:flex;flex-direction:column}
+.ds-row{display:flex;gap:1.4rem;padding:1.3rem 0;border-bottom:1px solid var(--border)}
+.ds-row:first-child{border-top:1px solid var(--border)}
+.ds-left{display:flex;flex-direction:column;align-items:center;gap:.4rem;flex-shrink:0;width:34px}
+.ds-num{width:34px;height:34px;border:1px solid var(--border-gold);color:var(--gold);font-size:.6rem;display:flex;align-items:center;justify-content:center;font-weight:600}
+.ds-line{width:1px;flex:1;background:var(--border);margin:0 auto}
+.ds-row:last-child .ds-line{display:none}
+.ds-time{font-size:.48rem;letter-spacing:.32em;text-transform:uppercase;color:var(--gold);margin-bottom:.28rem;font-weight:500}
+.ds-title{font-size:.8rem;font-weight:600;color:var(--ink);margin-bottom:.3rem}
+.ds-desc{font-size:.76rem;color:var(--muted);line-height:1.8}
+.daily-card{background:var(--ink);padding:2.5rem;position:relative;overflow:hidden}
+.dc-glow{position:absolute;width:250px;height:250px;border-radius:50%;background:radial-gradient(circle,rgba(125,32,53,.3),transparent 70%);top:-60px;right:-60px;pointer-events:none}
+.dc-label{font-size:.46rem;letter-spacing:.42em;text-transform:uppercase;color:var(--gold2);margin-bottom:.6rem;position:relative}
+.dc-title{font-family:'Poppins',sans-serif;font-size:1.05rem;font-weight:600;color:#fff;margin-bottom:1rem;position:relative;line-height:1.4}
+.dc-body{font-size:.8rem;color:rgba(255,255,255,.45);line-height:1.9;position:relative;margin-bottom:1.5rem}
+.dc-divider{border-top:1px solid rgba(255,255,255,.08);padding-top:1.2rem;margin-top:.5rem;position:relative}
+.dc-aff-lbl{font-size:.46rem;letter-spacing:.38em;text-transform:uppercase;color:rgba(255,255,255,.28);margin-bottom:.5rem}
+.dc-aff{font-family:'Poppins',sans-serif;font-size:.92rem;font-style:italic;color:rgba(255,255,255,.65);line-height:1.75}
+.dc-mantra{margin-top:1.5rem;position:relative}
+.dc-mantra-lbl{font-size:.44rem;letter-spacing:.38em;text-transform:uppercase;color:rgba(255,255,255,.22);margin-bottom:.4rem}
+.dc-mantra-text{font-family:'Poppins',sans-serif;font-size:1.5rem;color:rgba(125,32,53,.45);letter-spacing:.1em}
+.dc-mantra-roman{font-size:.55rem;color:rgba(255,255,255,.18);margin-top:.25rem;letter-spacing:.14em}
 
 /* RELATED */
-.related-section{max-width:1200px;margin:0 auto;padding:0 4rem 7rem;border-top:1px solid var(--border)}
-@media(max-width:960px){.related-section{padding:0 2.5rem 5rem}}
-@media(max-width:640px){.related-section{padding:0 1.2rem 4rem}}
-.related-title{font-family:'Inter',sans-serif;font-size:1.5rem;color:var(--ink);text-align:center;padding:3.5rem 0 2rem;font-weight:700}
-.related-title em{font-style:italic;color:var(--gold)}
-.related-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:1rem}
+.related-section{max-width:1240px;margin:5rem auto 0;padding:0 4rem 6rem;border-top:1px solid var(--border)}
+@media(max-width:640px){.related-section{padding:0 1.2rem 4rem;margin-top:3rem}}
+.related-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:1rem;margin-top:2.5rem}
 .rel-card{background:var(--white);border:1px solid var(--border);cursor:pointer;transition:all .35s;box-shadow:var(--shadow)}
 .rel-card:hover{transform:translateY(-4px);box-shadow:var(--shadow2);border-color:var(--border-gold)}
 .rel-img{aspect-ratio:1/1;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
 .rel-img img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
 .rel-body{padding:1rem 1.1rem;border-top:1px solid var(--border)}
-.rel-name{font-family:'Inter',sans-serif;font-size:.9rem;font-weight:700;color:var(--ink);margin-bottom:.15rem}
-.rel-intent{font-size:.55rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:.5rem}
-.rel-price{font-family:'Inter',sans-serif;font-size:.9rem;font-weight:600;color:var(--ink)}
+.rel-name{font-size:.88rem;font-weight:700;color:var(--ink);margin-bottom:.15rem}
+.rel-intent{font-size:.5rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:.5rem}
+.rel-price{font-size:.88rem;font-weight:600;color:var(--ink)}
 
 /* CART DRAWER */
 #cart-drawer{position:fixed;right:0;top:0;bottom:0;width:390px;background:var(--white);border-left:1px solid var(--border);z-index:2000;transform:translateX(100%);transition:transform .5s cubic-bezier(.4,0,.2,1);display:flex;flex-direction:column;box-shadow:-4px 0 40px rgba(28,25,20,.1)}
 #cart-drawer.open{transform:translateX(0)}
 .cd-head{padding:1.3rem 1.8rem;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
-.cd-title{font-family:'Inter',sans-serif;font-size:1rem;font-weight:600;color:var(--ink)}
+.cd-title{font-family:'Poppins',sans-serif;font-size:.95rem;font-weight:600;color:var(--ink)}
 .cd-close{background:none;border:none;color:var(--dim);cursor:pointer;font-size:1rem;transition:color .3s}
 .cd-close:hover{color:var(--ink)}
 .cd-items{flex:1;overflow-y:auto;padding:1.3rem 1.8rem;display:flex;flex-direction:column;gap:.8rem}
@@ -134,25 +288,103 @@ nav{position:fixed;top:0;left:0;right:0;z-index:1000;background:rgba(250,248,244
 .cd-thumb{width:54px;height:68px;flex-shrink:0;background:var(--cream2);display:flex;align-items:center;justify-content:center;font-size:1.4rem;overflow:hidden}
 .cd-thumb img{width:100%;height:100%;object-fit:cover}
 .cd-info{flex:1}
-.cd-iname{font-family:'Inter',sans-serif;font-size:1.05rem;color:var(--ink);margin-bottom:.12rem}
-.cd-ifor{font-size:.62rem;color:var(--muted);margin-bottom:.35rem}
-.cd-iprice{font-family:'Inter',sans-serif;font-size:1.05rem;color:var(--ink)}
-.cd-empty{text-align:center;padding:3rem 1rem;color:var(--muted);font-size:.88rem}
-.cd-empty em{display:block;font-family:'Inter',sans-serif;font-size:1.35rem;color:var(--ink);font-style:italic;margin-bottom:.4rem}
+.cd-iname{font-size:.92rem;font-weight:500;color:var(--ink);margin-bottom:.1rem}
+.cd-ifor{font-size:.6rem;color:var(--muted);margin-bottom:.3rem}
+.cd-iprice{font-size:.92rem;color:var(--ink);font-weight:600}
+.cd-empty{text-align:center;padding:3rem 1rem;color:var(--muted);font-size:.85rem}
+.cd-empty em{display:block;font-size:1.2rem;color:var(--ink);font-style:italic;margin-bottom:.4rem}
 .cd-foot{padding:1.3rem 1.8rem;border-top:1px solid var(--border)}
-.cd-total{display:flex;justify-content:space-between;margin-bottom:1rem;font-size:.88rem;color:var(--muted)}
-.cd-total strong{color:var(--ink);font-family:'Inter',sans-serif;font-size:1.3rem;font-weight:300}
-.cd-checkout{width:100%;padding:1rem;background:var(--ink);border:none;color:var(--white);font-family:'Inter',sans-serif;font-size:.7rem;letter-spacing:.38em;text-transform:uppercase;cursor:pointer;transition:all .4s;font-weight:500}
+.cd-total{display:flex;justify-content:space-between;margin-bottom:1rem;font-size:.85rem;color:var(--muted)}
+.cd-total strong{color:var(--ink);font-size:1.2rem;font-weight:600}
+.cd-checkout{width:100%;padding:1rem;background:var(--ink);border:none;color:#fff;font-family:'Poppins',sans-serif;font-size:.62rem;letter-spacing:.42em;text-transform:uppercase;cursor:pointer;transition:all .4s;font-weight:500}
 .cd-checkout:hover{background:var(--gold)}
 #overlay-bg{position:fixed;inset:0;background:rgba(28,25,20,.5);z-index:1999;opacity:0;visibility:hidden;transition:all .4s;backdrop-filter:blur(4px)}
 #overlay-bg.show{opacity:1;visibility:visible}
 @media(max-width:640px){#cart-drawer{width:100%}}
 
 /* TOAST */
-#toast{position:fixed;bottom:2rem;right:2rem;background:var(--ink);border:1px solid rgba(125,32,53,.3);padding:1rem 1.4rem;z-index:9998;transform:translateX(110%);transition:transform .5s cubic-bezier(.4,0,.2,1);max-width:270px}
+#toast{position:fixed;bottom:2rem;right:2rem;background:var(--ink);border:1px solid rgba(125,32,53,.3);padding:1rem 1.4rem;z-index:9998;transform:translateX(110%);transition:transform .5s cubic-bezier(.4,0,.2,1);max-width:280px}
 #toast.show{transform:translateX(0)}
-.tt{font-family:'Inter',sans-serif;font-size:.95rem;color:var(--gold2);margin-bottom:.18rem}
-.tm2{font-size:.75rem;color:rgba(255,255,255,.4);line-height:1.5}
+.tt{font-size:.9rem;color:var(--gold2);margin-bottom:.15rem;font-weight:500}
+.tm2{font-size:.72rem;color:rgba(255,255,255,.45);line-height:1.55}
+
+/* ── MOBILE FIXES ── */
+@media(max-width:640px){
+  /* Nav — hide back text, keep arrow only */
+  .nav-back-text{display:none}
+  .nav-back{padding:.4rem;min-width:32px;justify-content:center}
+  .nav-back svg{width:18px;height:18px}
+
+  /* Breadcrumb */
+  .breadcrumb{flex-wrap:wrap;gap:.3rem .5rem}
+
+  /* Product hero — remove sticky on single-column */
+  .prod-media{position:static}
+
+  /* Product name and tagline */
+  .pd-tagline{font-size:.82rem;line-height:1.8}
+
+  /* Price row — wrap cleanly */
+  .pd-price{font-size:1.6rem}
+  .pd-price-row{gap:.6rem}
+
+  /* CTA buttons — full width stacked on mobile */
+  .pd-cta-row{flex-direction:column;gap:.6rem}
+  .btn-add-cart,.btn-buy-now{min-width:0;width:100%;flex:none;padding:.95rem 1rem}
+
+  /* Highlights — keep 2 cols but smaller text */
+  .pd-hl{font-size:.7rem;padding:.55rem .6rem}
+
+  /* Section head */
+  .sec-head{margin-bottom:2rem}
+
+  /* Description stats — 2×2 grid on mobile */
+  .desc-stats{display:grid;grid-template-columns:1fr 1fr;padding:1.4rem;gap:1rem}
+  .dv-stat{flex-direction:column;align-items:flex-start;gap:.4rem}
+  .dv-icon{width:36px;height:36px;font-size:1rem}
+  .dv-val{font-size:.9rem}
+
+  /* Astrology grid — single column */
+  .astro-grid{grid-template-columns:1fr}
+
+  /* Scent layer — tighten note pills */
+  .sp-layer-notes{padding:.9rem 1rem;gap:.4rem}
+  .sp-note{padding:.35rem .65rem}
+  .sp-note-name{font-size:.64rem}
+  .sp-note-desc{font-size:.54rem}
+
+  /* Scent descriptors — stack vertically */
+  .sp-descriptors{grid-template-columns:1fr;gap:.75rem}
+  .sp-desc-text{font-size:1rem}
+
+  /* 11-day callout cells */
+  .et-cell{padding:1.4rem 1.2rem}
+
+  /* Daily ritual card */
+  .daily-card{padding:1.8rem 1.4rem}
+  .dc-title{font-size:.95rem}
+  .dc-mantra-text{font-size:1.2rem}
+
+  /* Related — 2 columns on mobile */
+  .related-grid{grid-template-columns:1fr 1fr;gap:.75rem}
+  .rel-name{font-size:.8rem}
+  .rel-body{padding:.8rem .9rem}
+
+  /* Cart drawer — full width */
+  #cart-drawer{width:100%}
+
+  /* Toast — full width pinned to bottom */
+  #toast{left:1rem;right:1rem;bottom:1rem;max-width:none;transform:translateY(120%)}
+  #toast.show{transform:translateY(0)}
+}
+
+@media(max-width:400px){
+  /* Very small screens */
+  .pd-name{font-size:1.4rem}
+  .pd-highlights{grid-template-columns:1fr}
+  .strip-inner{grid-template-columns:1fr 1fr}
+  .acc-title{font-size:.5rem;letter-spacing:.3em}
+}
 </style>
 </head>
 <body>
@@ -161,10 +393,46 @@ nav{position:fixed;top:0;left:0;right:0;z-index:1000;background:rgba(250,248,244
 
 <!-- NAV -->
 <nav>
-  <a href="index.html" class="nav-back">
+  <a href="index.html#store" class="nav-back">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="15 18 9 12 15 6"/></svg>
-    Back to Store
+    <span class="nav-back-text">Back to Store</span>
   </a>
+
+  <div class="cat-wrap" id="cat-wrap">
+    <button class="cat-trigger" onclick="toggleCat(event)">
+      <span>Collections</span>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+    </button>
+    <div class="cat-menu" id="cat-menu">
+      <div class="cat-section-label">Shop by Type</div>
+      <a href="index.html?category=for-him" class="cat-item" onclick="closeCat()">
+        <span class="cat-item-name">For Him</span><span class="cat-chevron">›</span>
+      </a>
+      <a href="index.html?category=for-her" class="cat-item" onclick="closeCat()">
+        <span class="cat-item-name">For Her</span><span class="cat-chevron">›</span>
+      </a>
+      <a href="index.html?category=combo" class="cat-item" onclick="closeCat()">
+        <span class="cat-item-name">Combo Sets</span><span class="cat-chevron">›</span>
+      </a>
+      <div class="cat-section-label">Shop by Intention</div>
+      <a href="index.html?intent=love" class="cat-item" onclick="closeCat()">
+        <span class="cat-item-name">Love &amp; Attraction</span><span class="cat-chevron">›</span>
+      </a>
+      <a href="index.html?intent=success" class="cat-item" onclick="closeCat()">
+        <span class="cat-item-name">Success &amp; Abundance</span><span class="cat-chevron">›</span>
+      </a>
+      <a href="index.html?intent=calm" class="cat-item" onclick="closeCat()">
+        <span class="cat-item-name">Relaxation &amp; Calm</span><span class="cat-chevron">›</span>
+      </a>
+      <a href="index.html?intent=balance" class="cat-item" onclick="closeCat()">
+        <span class="cat-item-name">Balance &amp; Clarity</span><span class="cat-chevron">›</span>
+      </a>
+      <a href="index.html" class="cat-item" onclick="closeCat()">
+        <span class="cat-item-name">All Collections</span><span class="cat-chevron">›</span>
+      </a>
+    </div>
+  </div>
+
   <a href="index.html" class="nav-logo">
     <span class="nav-logo-main">11:11:11</span>
     <span class="nav-logo-sub">Manifestation Oils</span>
@@ -187,20 +455,20 @@ nav{position:fixed;top:0;left:0;right:0;z-index:1000;background:rgba(250,248,244
 
 <!-- BREADCRUMB -->
 <div class="breadcrumb">
-  <a href="index.html">Home</a>
+  <a href="index.html#store">Home</a>
   <span>›</span>
   <a href="index.html#collections">Collections</a>
   <span>›</span>
-  <span id="bc-name">Product</span>
+  <span class="bc-active" id="bc-name">Product</span>
 </div>
 
-<!-- PRODUCT -->
-<div class="product-wrap" id="product-wrap">
-  <!-- LEFT -->
+<!-- PRODUCT HERO -->
+<div class="product-wrap">
   <div class="prod-media" id="prod-media">
     <div class="prod-img-main" id="prod-img-main">
       <div class="prod-glow-bg"><div class="prod-glow-orb" id="prod-glow"></div></div>
       <div class="prod-emoji-fallback" id="prod-emoji">✦</div>
+      <div class="prod-tag" id="prod-tag"></div>
     </div>
     <div id="prod-video-wrap" style="display:none" class="prod-video-wrap">
       <video id="prod-video" controls playsinline></video>
@@ -213,29 +481,27 @@ nav{position:fixed;top:0;left:0;right:0;z-index:1000;background:rgba(250,248,244
     </div>
   </div>
 
-  <!-- RIGHT -->
   <div class="prod-detail" id="prod-detail">
-    <div class="pd-category" id="pd-category">For Him · Sacred Oil</div>
+    <div class="pd-category" id="pd-category">For Him · Sacred Ritual Oil</div>
     <h1 class="pd-name" id="pd-name">Loading…</h1>
     <div class="pd-intent" id="pd-intent"></div>
-
-    <!-- PRICE -->
+    <div class="pd-tagline" id="pd-tagline"></div>
+    <div class="pd-rating">
+      <div class="pd-stars">★★★★★</div>
+      <div class="pd-rcount">5.0 · <a href="#reviews">16 reviews</a></div>
+    </div>
     <div class="pd-price-row">
       <span class="pd-price" id="pd-price">₹—</span>
       <span class="pd-mrp" id="pd-mrp"></span>
       <span class="pd-off" id="pd-off" style="display:none"></span>
     </div>
-    <div class="pd-tax">Inclusive of all taxes · Free shipping above ₹5,000</div>
-
-    <!-- OFFERS -->
+    <div class="pd-tax">Inclusive of all taxes · Free shipping above ₹999</div>
     <div class="pd-offers">
       <div class="pd-offers-title">Available Offers</div>
-      <div class="pd-offer-item">Free Shipping on orders above ₹5,000</div>
-      <div class="pd-offer-item">10% off your first order — use code <strong>FIRST10</strong></div>
-      <div class="pd-offer-item">Includes 11-Day Activation Ritual Card + Beej Mantra guide</div>
+      <div class="pd-offer-item">20% off your first order — use code <strong>NEWUSER20</strong></div>
+      <div class="pd-offer-item">Free shipping on orders above ₹999</div>
+      <div class="pd-offer-item">Includes 11-Day Activation Ritual Card + Beej Mantra Guide</div>
     </div>
-
-    <!-- QTY + CTA -->
     <div class="pd-qty-row">
       <span class="qty-label">Quantity</span>
       <div class="qty-control">
@@ -246,256 +512,502 @@ nav{position:fixed;top:0;left:0;right:0;z-index:1000;background:rgba(250,248,244
     </div>
     <div class="pd-cta-row">
       <button class="btn-add-cart" id="btn-add" onclick="addCurrentToCart()">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
         Add to Cart
       </button>
       <button class="btn-buy-now" id="btn-buy" onclick="buyNow()">Buy Now</button>
     </div>
 
-    <!-- DESCRIPTION -->
-    <div class="pd-section">
-      <div class="pd-section-title">About This Oil</div>
-      <p class="pd-desc" id="pd-desc"></p>
+    <!-- ACCORDION: ABOUT -->
+    <div class="acc-section open">
+      <div class="acc-head" onclick="toggleAcc(this)"><span class="acc-title">About This Oil</span><span class="acc-arrow">▾</span></div>
+      <div class="acc-body"><p class="pd-desc" id="pd-desc"></p></div>
     </div>
-
-    <!-- NOTES -->
-    <div class="pd-section" id="pd-notes-section">
-      <div class="pd-section-title">Fragrance Notes</div>
-      <ul class="pd-notes-list" id="pd-notes-list"></ul>
+    <!-- ACCORDION: SCENT NOTES -->
+    <div class="acc-section open">
+      <div class="acc-head" onclick="toggleAcc(this)"><span class="acc-title">Fragrance Notes</span><span class="acc-arrow">▾</span></div>
+      <div class="acc-body"><ul class="pd-notes-list" id="pd-notes-list"></ul></div>
     </div>
+    <!-- ACCORDION: HIGHLIGHTS -->
+    <div class="acc-section open">
+      <div class="acc-head" onclick="toggleAcc(this)"><span class="acc-title">Highlights</span><span class="acc-arrow">▾</span></div>
+      <div class="acc-body">
+        <div class="pd-highlights">
+          <div class="pd-hl"><span>🔥</span> Sacred Fire Ritual</div>
+          <div class="pd-hl"><span>📿</span> Beej Mantra Included</div>
+          <div class="pd-hl"><span>🚫</span> Alcohol-Free Attar</div>
+          <div class="pd-hl"><span>📦</span> 10ml Roll-On Bottle</div>
+          <div class="pd-hl"><span>🌕</span> Lunar Phase Charged</div>
+          <div class="pd-hl"><span>✨</span> 11-Day Activation Ritual</div>
+        </div>
+      </div>
+    </div>
+    <!-- ACCORDION: HOW TO USE -->
+    <div class="acc-section">
+      <div class="acc-head" onclick="toggleAcc(this)"><span class="acc-title">How to Use</span><span class="acc-arrow">▾</span></div>
+      <div class="acc-body">
+        <div class="steps">
+          <div class="step"><div class="step-num">01</div><div class="step-text">Set a clear, heartfelt intention before application.</div></div>
+          <div class="step"><div class="step-num">02</div><div class="step-text">Apply to pulse points: inner wrists, base of neck, behind the ears.</div></div>
+          <div class="step"><div class="step-num">03</div><div class="step-text">Gently press (do not rub) to warm the oil and release the fragrance.</div></div>
+          <div class="step"><div class="step-num">04</div><div class="step-text">Use daily as part of your morning ritual for cumulative alignment.</div></div>
+          <div class="step"><div class="step-num">05</div><div class="step-text">Follow the included 11-Day Activation Ritual Card for deepest results.</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
-    <!-- HIGHLIGHTS -->
-    <div class="pd-section">
-      <div class="pd-section-title">Highlights</div>
-      <div class="pd-highlights">
-        <div class="pd-hl"><span>🔥</span> Sacred Fire Ritual</div>
-        <div class="pd-hl"><span>📿</span> Beej Mantra Included</div>
-        <div class="pd-hl"><span>🌿</span> Alcohol-Free Attar</div>
-        <div class="pd-hl"><span>📦</span> 10ml Roll-On Bottle</div>
-        <div class="pd-hl"><span>🪵</span> Artisan Wooden Vessel</div>
-        <div class="pd-hl"><span>✨</span> 11-Day Activation Ritual</div>
+<!-- 1. DESCRIPTION -->
+<div class="sec-wrap sec-gap" id="sec-description">
+  <div class="desc-inner">
+    <div>
+      <div class="sec-label" id="desc-label">About This Oil</div>
+      <h2 class="sec-title" style="margin-bottom:1.4rem" id="desc-title">A Premium Attar<br>for <em id="desc-em">Sacred Intention</em></h2>
+      <p class="desc-quote" id="desc-quote"></p>
+      <p class="desc-body" id="desc-body1"></p>
+      <p class="desc-body" id="desc-body2"></p>
+      <div class="desc-pills" id="desc-pills"></div>
+    </div>
+    <div class="desc-stats" id="desc-stats"></div>
+  </div>
+</div>
+
+<!-- BENEFITS STRIP -->
+<div class="strip" id="strip-section">
+  <div class="strip-inner" id="strip-inner"></div>
+</div>
+
+<!-- 2. ASTROLOGY RITUAL INFUSED -->
+<div class="astro-bg" id="sec-astro">
+  <div class="astro-inner">
+    <div>
+      <div class="astro-label">Ceremonial Preparation</div>
+      <h2 class="astro-title" id="astro-title">Astrology &amp; Ritual Infused</h2>
+      <p class="astro-body" id="astro-body"></p>
+      <ul class="astro-points" id="astro-points"></ul>
+    </div>
+    <div class="astro-grid" id="astro-grid"></div>
+  </div>
+</div>
+
+<!-- 3. SCENT PROFILE -->
+<div class="sec-wrap sec-gap" id="sec-scent">
+  <div class="sec-head">
+    <div class="sec-label">Fragrance Architecture</div>
+    <h2 class="sec-title">The Scent <em>Profile</em></h2>
+  </div>
+  <div class="sp-lead" id="sp-lead"></div>
+  <div class="sp-layers" id="sp-layers"></div>
+  <div class="sp-descriptors" id="sp-descriptors"></div>
+</div>
+
+<!-- 4. 11-DAY ACTIVATION RITUAL -->
+<div class="eleven-bg" id="sec-eleven">
+  <div class="eleven-inner">
+    <div class="sec-label">The Activation Practice</div>
+    <h2 class="sec-title">11-Day Activation <em>Ritual</em></h2>
+    <p class="eleven-intro" id="eleven-intro"></p>
+    <div class="eleven-timeline" id="eleven-timeline"></div>
+    <div class="eleven-callouts" id="eleven-callouts"></div>
+  </div>
+</div>
+
+<!-- 5. DAILY RITUAL -->
+<div class="sec-wrap sec-gap" id="sec-daily">
+  <div class="daily-inner">
+    <div>
+      <div class="sec-label">How to Wear It</div>
+      <h2 class="sec-title" style="margin-bottom:1.4rem">Your Daily <em>Ritual</em></h2>
+      <p style="font-size:.86rem;color:var(--muted);line-height:2;font-weight:300;margin-bottom:1.8rem">Refer to the ritual card included with the perfume for your complete practice. Below is the foundational daily framework.</p>
+      <div class="daily-steps">
+        <div class="ds-row"><div class="ds-left"><div class="ds-num">01</div><div class="ds-line"></div></div><div><div class="ds-time">Morning · Before leaving home</div><div class="ds-title">Set Your Intention</div><div class="ds-desc">Pause for 11 seconds before applying. Close your eyes and feel your intention as a present reality, not a wish.</div></div></div>
+        <div class="ds-row"><div class="ds-left"><div class="ds-num">02</div><div class="ds-line"></div></div><div><div class="ds-time">Application</div><div class="ds-title">Apply to Pulse Points</div><div class="ds-desc">Inner wrists, base of neck, behind the ears. Press gently — do not rub — to warm the oil without disrupting its structure.</div></div></div>
+        <div class="ds-row"><div class="ds-left"><div class="ds-num">03</div><div class="ds-line"></div></div><div><div class="ds-time">Activation</div><div class="ds-title">Chant Your Mantra</div><div class="ds-desc">Recite the included Beej mantra 21 times, silently or aloud. This anchors your intention into the fragrance.</div></div></div>
+        <div class="ds-row"><div class="ds-left"><div class="ds-num">04</div><div class="ds-line"></div></div><div><div class="ds-time">Throughout the Day</div><div class="ds-title">Stay Present &amp; Open</div><div class="ds-desc">When you catch the scent, use it as a mindfulness cue — return to your intention and remain open.</div></div></div>
+        <div class="ds-row"><div class="ds-left"><div class="ds-num">05</div><div class="ds-line"></div></div><div><div class="ds-time">Evening · Before sleep</div><div class="ds-title">Journal One Observation</div><div class="ds-desc">Write one moment where you felt more aligned than usual. This practice accelerates the 18-week transformation.</div></div></div>
+      </div>
+    </div>
+    <div class="daily-card">
+      <div class="dc-glow"></div>
+      <div class="dc-label">Daily Affirmation</div>
+      <div class="dc-title" id="dc-title">The Intention That Wears This Oil</div>
+      <div class="dc-body" id="dc-body">Wear this oil as a daily vow to yourself — to show up open, present, and fully aligned with what you seek. Your consistent intention is the real ritual.</div>
+      <div class="dc-divider">
+        <div class="dc-aff-lbl">Morning Affirmation</div>
+        <div class="dc-aff" id="dc-aff"></div>
+      </div>
+      <div class="dc-mantra">
+        <div class="dc-mantra-lbl">Beej Mantra</div>
+        <div class="dc-mantra-text" id="dc-mantra-text"></div>
+        <div class="dc-mantra-roman" id="dc-mantra-roman"></div>
       </div>
     </div>
   </div>
 </div>
 
 <!-- RELATED -->
-<div class="related-section">
-  <div class="related-title">You May Also <em>Resonate</em> With</div>
+<div class="related-section" id="sec-related">
+  <div class="sec-head" style="margin-top:3rem;margin-bottom:0">
+    <div class="sec-label">Complete Your Ritual</div>
+    <h2 class="sec-title">You May Also <em>Resonate</em> With</h2>
+  </div>
   <div class="related-grid" id="related-grid"></div>
 </div>
 
 <div id="toast"><div class="tt" id="t-ttl"></div><div class="tm2" id="t-msg"></div></div>
 
 <script>
-/* ── PRODUCT DATA (visual metadata) ── */
+/* ── VISUAL META ── */
 const PRODUCT_VISUAL={
-  1:{glow:'#e879b0',bg:'#fdf2f8',emoji:'🌹',notes:['Rose','Ylang Ylang','Musk','Amber','Spice'],image:'images/products/kleoma.jpeg'},
-  2:{glow:'#93c5fd',bg:'#eff6ff',emoji:'🌿',notes:['Lavender','Lemon','Caraway','Saffron','Oud','Amber'],image:'images/products/klinfon-male.jpeg'},
-  3:{glow:'#fbbf24',bg:'#fffbeb',emoji:'⚖️',notes:['Citrus','Saffron','Cinnamon','Vetiver','Oud','Leather'],image:'images/products/mystra.jpeg'},
-  4:{glow:'#c9a84c',bg:'#fdf8ee',emoji:'👑',notes:['Golden Saffron','Cinnamon','Smoky Musk','Patchouli','Sacred Resins'],image:'images/products/shreemsri.jpeg'},
-  5:{glow:'#a78bfa',bg:'#f5f3ff',emoji:'🏆',notes:['Lavender','Lemon','Saffron','Jasmine','Oud','Warm Amber'],image:'images/products/sukce.png'},
-  6:{glow:'#f472b6',bg:'#fdf2f8',emoji:'🌸',notes:['Sweet Almond','Jasmine Sambac','Crystal Tuberose','Tonka Bean','Cocoa'],image:'images/products/kamavya.jpeg'},
-  7:{glow:'#6ee7b7',bg:'#ecfdf5',emoji:'🌙',notes:['Lavender','Lemon','Caraway','Saffron','Jasmine','Oud','Amber'],image:'images/products/klinfon-female.jpeg'},
-  8:{glow:'#fbbf24',bg:'#fffbeb',emoji:'✨',notes:['Lavender','Lemon','Caraway','Saffron','Jasmine','Oud','Warm Amber'],image:'images/products/hremaan.jpeg'},
-  9:{glow:'#c9a84c',bg:'#fdf8ee',emoji:'💛',notes:['Golden Saffron','Cinnamon','Smoky Musk','Patchouli','Sacred Resins'],image:'images/products/shrivaa.jpeg'},
-  10:{glow:'#c084fc',bg:'#faf5ff',emoji:'⭐',notes:['Citrus','Saffron','Cinnamon','Florals','Vetiver','Sandalwood','Oud'],image:'images/products/ycnex.jpeg'},
-  11:{glow:'#93c5fd',bg:'#eff6ff',emoji:'🤍',notes:['Male Formula','Female Formula','Two 10ml Roll-Ons'],image:'images/products/klinfon-combo.png'},
-  12:{glow:'#f472b6',bg:'#fdf2f8',emoji:'💕',notes:['KLEOMA (Male)','KAMAVYA (Female)','Two 10ml Roll-Ons'],image:'images/products/love-combo.png'},
+  1:{glow:'#e879b0',bg:'#fdf2f8',emoji:'🌹',image:'images/products/kleoma.jpeg'},
+  2:{glow:'#93c5fd',bg:'#eff6ff',emoji:'🌿',image:'images/products/klinfon-male.jpeg'},
+  3:{glow:'#fbbf24',bg:'#fffbeb',emoji:'⚖️',image:'images/products/mystra.jpeg'},
+  4:{glow:'#c9a84c',bg:'#fdf8ee',emoji:'👑',image:'images/products/shreemsri.jpeg'},
+  5:{glow:'#a78bfa',bg:'#f5f3ff',emoji:'🏆',image:'images/products/sukce.png'},
+  6:{glow:'#f472b6',bg:'#fdf2f8',emoji:'🌸',image:'images/products/kamavya.jpeg'},
+  7:{glow:'#6ee7b7',bg:'#ecfdf5',emoji:'🌙',image:'images/products/klinfon-female.jpeg'},
+  8:{glow:'#fbbf24',bg:'#fffbeb',emoji:'✨',image:'images/products/hremaan.jpeg'},
+  9:{glow:'#c9a84c',bg:'#fdf8ee',emoji:'💛',image:'images/products/shrivaa.jpeg'},
+  10:{glow:'#c084fc',bg:'#faf5ff',emoji:'⭐',image:'images/products/ycnex.jpeg'},
+  11:{glow:'#93c5fd',bg:'#eff6ff',emoji:'🤍',image:'images/products/klinfon-combo.png'},
+  12:{glow:'#f472b6',bg:'#fdf2f8',emoji:'💕',image:'images/products/love-combo.png'},
 };
 
-/* MRP map: single → ₹1,599, combo → ₹2,999 */
+/* ── RICH CONTENT PER PRODUCT ── */
+const RICH={
+  1:{
+    tag:'Love & Attraction',
+    tagline:'A ritual-infused attar roll-on for soulful love, deep connection, and conscious presence.',
+    descLabel:'About KLEOMA', descEm:'Soulful Connection',
+    descTitle:'A Long-Lasting Perfume Oil<br>for',
+    descQuote:'"A premium attar roll-on, infused with ritual and mantra to support emotional connection, attraction, and presence."',
+    descBody1:'KLEOMA is a sensory anchor — crafted for those who seek not fleeting attraction, but deep, conscious love. It serves partners, seekers, and open hearts who value spiritual ritual, presence, and meaningful intention.',
+    descBody2:'Worn daily as part of a mindful practice, KLEOMA supports emotional openness, natural attraction, and the kind of presence that draws meaningful connection into your life.',
+    descPills:[{t:'Emotional Openness',hl:true},{t:'Natural Attraction',hl:true},{t:'Conscious Presence',hl:true},{t:'Alcohol-Free'},{t:'10ml Roll-On'},{t:'8–12 Hr Wear'}],
+    descStats:[{icon:'⏱',val:'8 – 12 Hours',lbl:'Fragrance Longevity'},{icon:'📿',val:'108 ×',lbl:'Mantra Chants Per Batch'},{icon:'🌕',val:'18 Weeks',lbl:'Full Transformation Timeline'},{icon:'🚫',val:'Zero Alcohol',lbl:'Pure Attar Formulation'}],
+    benefits:[{icon:'💞',t:'Emotional Openness',s:'Supports a naturally open, receptive heart energy'},{icon:'🌹',t:'Natural Attraction',s:'Enhances warmth, presence, and magnetism'},{icon:'🗣',t:'Mindful Communication',s:'Encourages clarity and depth in expression'},{icon:'⏱',t:'8–12 Hour Wear',s:'Long-lasting, skin-safe attar formula'}],
+    astroBody:'Each bottle of KLEOMA is prepared through sacred fire rituals and mantra-led ceremonial practices. The infusion is carried out with intention and traditional spiritual discipline centered on the heart space.',
+    astroPoints:[
+      {icon:'🔥',title:'Sacred Fire Ceremony (Havan)',text:'A traditional fire ritual performed with heart-centered mantras, preparing the energetic field into which the oil is introduced.'},
+      {icon:'📿',title:'Love Beej Mantra Infusion',text:'The Kleem Beej mantra chanted 108 times per batch, encoding the oil with the vibrational frequency of attraction.'},
+      {icon:'🌕',title:'Lunar Phase Charging',text:'Crystalline energy charging under specific lunar phases chosen for their resonance with love, openness, and harmony.'},
+      {icon:'⭐',title:'Auspicious Sealing',text:'Each bottle is sealed at a muhurta — an auspicious time selected by a Vedic astrologer — for maximum potency.'},
+    ],
+    astroCards:[
+      {icon:'♀',t:'Venus Energy',d:'Formulated to align with Venus — the planet governing love, beauty, and heart-centred connection.'},
+      {icon:'🌹',t:'Heart Chakra',d:'Rose and ylang ylang are traditional Anahata (heart chakra) activators used in Vedic healing.'},
+      {icon:'ॐ',t:'Kleem Beej',d:'The Kleem Beej mantra — the seed sound of attraction — is chanted into every batch.'},
+      {icon:'🌕',t:'Lunar Alignment',d:'Prepared during Shukla Paksha (waxing moon) — the phase of growth, abundance, and love.'},
+      {icon:'🕯',t:'Muhurta Sealing',d:'Sealed at a Vedic auspicious time chosen for love and attraction energy amplification.'},
+      {icon:'🧿',t:'Protection Layer',d:'Nazar-protection mantra layered in to keep the wearer energetically clear and grounded.'},
+    ],
+    scentLead:'"Velvety, warm, and floral. A blooming heart of rose and ylang ylang over a base of soft musk, amber, and a whisper of spice. Romantic, inviting, and deeply magnetic."',
+    scentLayers:[
+      {type:'Top',name:'Opening',notes:[{icon:'🌹',name:'Rose',desc:'Blooming, romantic, heart-opening'},{icon:'🌸',name:'Ylang Ylang',desc:'Sensual, exotic, magnetic'}]},
+      {type:'Heart',name:'Soul',dark:true,notes:[{icon:'🌫',name:'Soft Musk',desc:'Warm, skin-close, intimate'},{icon:'🍯',name:'Warm Amber',desc:'Golden, comforting, enveloping'}]},
+      {type:'Base',name:'Depth',darker:true,notes:[{icon:'🌶',name:'Spice',desc:'Mysterious, grounding, alluring'}]},
+    ],
+    scentDesc:[{text:'"Romantic, inviting,<br>and deeply magnetic"',sub:'Overall Character'},{text:'"Velvety, warm,<br>and floral"',sub:'Texture & Feel'}],
+    elevenIntro:'To see results in 18 weeks, follow the ritual instructions inside the perfume box consistently. Each day of the practice compounds the one before.',
+    elevenPhases:[
+      {days:'01–03',phase:'Days 1 – 3',title:'Intention Setting',desc:'Apply KLEOMA and write your love intention clearly. Hold it in mind for 11 minutes at the same time each morning.'},
+      {days:'04–06',phase:'Days 4 – 6',title:'Mantra Activation',desc:'Begin chanting the included Kleem Beej mantra 21 times after application. Feel the vibration settle into your skin.'},
+      {days:'07–09',phase:'Days 7 – 9',title:'Energetic Anchoring',desc:'Notice shifts in how people respond to you. Journal one observation per day. Continue mantra and application.'},
+      {days:'10–11',phase:'Days 10 – 11',title:'Completion & Seal',desc:'Dedicate your practice — release the intention fully and trust. The energetic channel is now open and active.'},
+    ],
+    elevenCallouts:[
+      {icon:'🃏',t:'Ritual Card Included',d:'Every KLEOMA comes with a printed Activation Ritual Card with full daily instructions and mantra pronunciation guide.'},
+      {icon:'📅',t:'18-Week Results Timeline',d:'The full transformation unfolds over 18 weeks of consistent daily use. Most wearers report noticeable shifts within 3 weeks.'},
+    ],
+    affirmation:'"I am open. I am warm. I am magnetic. Love finds me because I am present."',
+    dcTitle:'The Intention That Wears KLEOMA',
+    dcBody:'Wear this oil as a daily vow — to show up open, present, and worthy of the love you seek. The fragrance is not the magic. Your consistent intention is.',
+    mantraDevanagari:'ॐ क्लीं नमः',
+    mantraRoman:'Om Kleem Namah',
+  },
+  2:{
+    tag:'Relaxation & Calm',tagline:'A ritual-infused attar for ease, softness, and balanced rhythm.',
+    descLabel:'About KLINFON',descEm:'Inner Calm',descTitle:'A Sacred Oil for',
+    descQuote:'"A premium attar roll-on infused with ritual and mantra to support deep relaxation, emotional ease, and balanced presence."',
+    descBody1:'KLINFON (Male) is formulated for those who seek calm presence over restless striving — a sensory anchor that encourages ease, softness, and the balanced rhythm needed for conscious living.',
+    descBody2:'Worn daily, KLINFON supports a naturally grounded state, reduces mental noise, and creates the internal conditions for clarity and rest.',
+    descPills:[{t:'Deep Relaxation',hl:true},{t:'Emotional Ease',hl:true},{t:'Balanced Rhythm',hl:true},{t:'Alcohol-Free'},{t:'10ml Roll-On'},{t:'8–12 Hr Wear'}],
+    descStats:[{icon:'⏱',val:'8 – 12 Hours',lbl:'Fragrance Longevity'},{icon:'📿',val:'108 ×',lbl:'Mantra Chants Per Batch'},{icon:'🌕',val:'18 Weeks',lbl:'Full Transformation Timeline'},{icon:'🚫',val:'Zero Alcohol',lbl:'Pure Attar Formulation'}],
+    benefits:[{icon:'🌿',t:'Deep Relaxation',s:'Supports a naturally calm and grounded state'},{icon:'🧘',t:'Mental Clarity',s:'Quiets mental noise and supports focus'},{icon:'🌙',t:'Restful Sleep',s:'Creates internal conditions for deep rest'},{icon:'⏱',t:'8–12 Hour Wear',s:'Long-lasting, skin-safe attar formula'}],
+    astroBody:'KLINFON is prepared through ancient relaxation-focused ceremonial practices, with mantras and lunar timing chosen to support the nervous system and inner calm.',
+    astroPoints:[
+      {icon:'🔥',title:'Sacred Fire Ceremony',text:'Ritual fire preparation with calming Vedic mantras, setting a tranquil energetic foundation for the oil.'},
+      {icon:'📿',title:'Shanti Mantra Infusion',text:'Peace-oriented Shanti mantras chanted 108 times per batch to embed tranquility into the formulation.'},
+      {icon:'🌕',title:'Waning Moon Charging',text:'Charged under the waning moon — the lunar phase associated with release, calm, and letting go.'},
+      {icon:'⭐',title:'Auspicious Sealing',text:'Sealed at a muhurta aligned with Mercury and Moon for mental clarity and emotional balance.'},
+    ],
+    astroCards:[
+      {icon:'☿',t:'Mercury Energy',d:'Aligned with Mercury — governing the mind, nervous system, and capacity for clear, calm communication.'},
+      {icon:'🌙',t:'Moon Influence',d:'Lunar timing chosen to amplify the Moon\'s natural affinity with emotion, rhythm, and inner peace.'},
+      {icon:'ॐ',t:'Shanti Mantra',d:'The Shanti peace mantra is chanted into every batch for deep relaxation encoding.'},
+      {icon:'🌿',t:'Throat Chakra',d:'Lavender and lemon support Vishuddha (throat chakra) — clarity, ease, and honest expression.'},
+      {icon:'🕯',t:'Muhurta Sealing',d:'Sealed at a time chosen for rest, release, and internal harmony.'},
+      {icon:'🧿',t:'Grounding Layer',d:'Oud and amber base notes provide a Muladhara (root chakra) grounding effect.'},
+    ],
+    scentLead:'"Clean, cool, and quietly grounding. Lavender and lemon uplift the mind while saffron, oud, and amber settle the spirit into deep ease."',
+    scentLayers:[
+      {type:'Top',name:'Opening',notes:[{icon:'💜',name:'Lavender',desc:'Calming, herbaceous, familiar'},{icon:'🍋',name:'Lemon',desc:'Bright, clear, uplifting'}]},
+      {type:'Heart',name:'Soul',dark:true,notes:[{icon:'🌸',name:'Caraway',desc:'Spiced, warm, grounding'},{icon:'🌾',name:'Saffron',desc:'Rich, precious, steadying'}]},
+      {type:'Base',name:'Depth',darker:true,notes:[{icon:'🪵',name:'Oud',desc:'Deep, woody, ancient'},{icon:'🍯',name:'Amber',desc:'Warm, resinous, enveloping'}]},
+    ],
+    scentDesc:[{text:'"Calm, clean,<br>and quietly grounding"',sub:'Overall Character'},{text:'"Cool lift with<br>warm depth"',sub:'Texture & Feel'}],
+    elevenIntro:'To see results in 18 weeks, follow the ritual instructions inside the perfume box consistently. Calm deepens with each day of practice.',
+    elevenPhases:[
+      {days:'01–03',phase:'Days 1 – 3',title:'Intention Setting',desc:'Apply KLINFON and set your intention for calm, ease, and balanced presence. Breathe deeply for 11 counts.'},
+      {days:'04–06',phase:'Days 4 – 6',title:'Mantra Activation',desc:'Recite the included Shanti mantra 21 times after application to anchor the calming vibration.'},
+      {days:'07–09',phase:'Days 7 – 9',title:'Pattern Observation',desc:'Notice shifts in your stress response. Journal one moment of unexpected calm each day.'},
+      {days:'10–11',phase:'Days 10 – 11',title:'Integration',desc:'Seal the practice by dedicating your calm state to all those you interact with. The channel is now open.'},
+    ],
+    elevenCallouts:[
+      {icon:'🃏',t:'Ritual Card Included',d:'Activation Ritual Card with full daily instructions and Shanti mantra pronunciation guide included in every box.'},
+      {icon:'📅',t:'18-Week Results Timeline',d:'Most wearers report noticeable shifts in stress resilience and emotional ease within the first 3 weeks of consistent use.'},
+    ],
+    affirmation:'"I am at ease. I move with flow. I create from a place of calm certainty."',
+    dcTitle:'The Intention That Wears KLINFON',
+    dcBody:'Wear this oil as permission to slow down — to respond rather than react, to rest without guilt, to move with the quiet confidence of someone at peace.',
+    mantraDevanagari:'ॐ शान्ति शान्ति',mantraRoman:'Om Shanti Shanti',
+  },
+};
+
+/* Default rich content for products without specific data */
+function getRich(id,p){
+  if(RICH[id])return RICH[id];
+  const gender=p.for_gender==='male'?'Him':p.for_gender==='female'?'Her':'Combo';
+  const notes=(p.notes?p.notes.split('·').map(s=>s.trim()):[]);
+  return{
+    tag:p.intent,tagline:`A ritual-infused attar for ${p.intent.toLowerCase()}.`,
+    descLabel:`About ${p.name}`,descEm:p.intent,descTitle:'A Sacred Attar for',
+    descQuote:`"A premium attar roll-on, infused with ritual and mantra to support ${p.intent.toLowerCase()}."`,
+    descBody1:`${p.name} is a sensory anchor crafted for those who seek ${p.intent.toLowerCase()} through conscious intention and sacred ritual practice.`,
+    descBody2:'Worn daily as part of a mindful morning practice, this oil supports alignment, clarity, and the energetic state needed to attract what you seek.',
+    descPills:[{t:p.intent,hl:true},{t:'Alcohol-Free'},{t:'10ml Roll-On'},{t:'8–12 Hr Wear'}],
+    descStats:[{icon:'⏱',val:'8 – 12 Hours',lbl:'Fragrance Longevity'},{icon:'📿',val:'108 ×',lbl:'Mantra Chants Per Batch'},{icon:'🌕',val:'18 Weeks',lbl:'Full Transformation Timeline'},{icon:'🚫',val:'Zero Alcohol',lbl:'Pure Attar Formulation'}],
+    benefits:[{icon:'✨',t:p.intent,s:`Energetically aligned for ${p.intent.toLowerCase()}`},{icon:'🔥',t:'Sacred Ritual',s:'Prepared through traditional Vedic ceremony'},{icon:'🚫',t:'Alcohol-Free',s:'Pure attar formulation'},{icon:'⏱',t:'8–12 Hour Wear',s:'Long-lasting, skin-safe formula'}],
+    astroBody:`${p.name} is prepared through sacred fire rituals and mantra-led ceremonial practices aligned with the intention of ${p.intent.toLowerCase()}.`,
+    astroPoints:[
+      {icon:'🔥',title:'Sacred Fire Ceremony (Havan)',text:'Traditional fire ritual with intention-specific mantras, establishing the energetic foundation of the oil.'},
+      {icon:'📿',title:'Beej Mantra Infusion',text:'Relevant Beej mantra chanted 108 times per batch, encoding the vibrational frequency of the intention into every molecule.'},
+      {icon:'🌕',title:'Lunar Phase Charging',text:'Crystalline energy charging under lunar phases chosen for their alignment with this oil\'s specific intention.'},
+      {icon:'⭐',title:'Auspicious Sealing',text:'Each bottle sealed at a Vedic muhurta chosen by an astrologer to maximise the oil\'s energetic potency.'},
+    ],
+    astroCards:[
+      {icon:'🪐',t:'Planetary Alignment',d:`Formulated to align with the planetary energy most supportive of ${p.intent.toLowerCase()}.`},
+      {icon:'ॐ',t:'Beej Mantra',d:'The relevant seed sound mantra is chanted into every batch during ceremonial preparation.'},
+      {icon:'🌕',t:'Lunar Timing',d:'Prepared during the lunar phase that best amplifies this oil\'s specific intention.'},
+      {icon:'🕯',t:'Muhurta Sealing',d:'Sealed at a Vedic auspicious time for maximum energetic potency and alignment.'},
+      {icon:'🧿',t:'Protection Layer',d:'Nazar-protection mantra layered in to keep the wearer energetically clear and grounded.'},
+      {icon:'🌸',t:'Chakra Activation',d:'Scent notes chosen to activate the specific chakra associated with this oil\'s intention.'},
+    ],
+    scentLead:`"${notes.slice(0,2).join(' and ')} form the opening, grounding into a warm base of ${notes.slice(-2).join(' and ')}. Sacred, purposeful, and deeply aligned."`,
+    scentLayers:[
+      {type:'Top',name:'Opening',notes:notes.slice(0,2).map(n=>({icon:'✦',name:n,desc:'Opening note'}))},
+      {type:'Heart',name:'Soul',dark:true,notes:notes.slice(2,4).map(n=>({icon:'✦',name:n,desc:'Heart note'}))},
+      {type:'Base',name:'Depth',darker:true,notes:notes.slice(4).map(n=>({icon:'✦',name:n,desc:'Base note'}))},
+    ].filter(l=>l.notes.length),
+    scentDesc:[{text:`"Sacred, purposeful,<br>and deeply aligned"`,sub:'Overall Character'},{text:`"Warm, grounding,<br>and intentional"`,sub:'Texture & Feel'}],
+    elevenIntro:'To see results in 18 weeks, follow the ritual instructions inside the perfume box consistently. Each day of practice compounds the one before.',
+    elevenPhases:[
+      {days:'01–03',phase:'Days 1 – 3',title:'Intention Setting',desc:`Apply ${p.name} and clearly write your intention for ${p.intent.toLowerCase()}. Hold it in mind for 11 minutes each morning.`},
+      {days:'04–06',phase:'Days 4 – 6',title:'Mantra Activation',desc:'Begin chanting the included Beej mantra 21 times after application. Feel the vibration settle into your body.'},
+      {days:'07–09',phase:'Days 7 – 9',title:'Energetic Anchoring',desc:'Notice shifts in your energy and environment. Journal one observation per day. Continue mantra and application.'},
+      {days:'10–11',phase:'Days 10 – 11',title:'Completion & Seal',desc:'Dedicate your practice — release the intention fully and trust. The energetic channel is now open.'},
+    ],
+    elevenCallouts:[
+      {icon:'🃏',t:'Ritual Card Included',d:'Every bottle comes with a printed Activation Ritual Card with full daily instructions and mantra pronunciation guide.'},
+      {icon:'📅',t:'18-Week Results Timeline',d:'The full transformation unfolds over 18 weeks. Most wearers report noticeable shifts within the first 3 weeks of consistent use.'},
+    ],
+    affirmation:`"I am aligned. I am open. ${p.intent} flows to me naturally and effortlessly."`,
+    dcTitle:`The Intention That Wears ${p.name}`,
+    dcBody:'Wear this oil as a daily vow to yourself — to show up aligned, present, and receptive. Your consistent intention is the real ritual.',
+    mantraDevanagari:'ॐ नमः',mantraRoman:'Om Namah',
+  };
+}
+
+/* ── CATEGORY DROPDOWN ── */
+function toggleCat(e){e.stopPropagation();document.getElementById('cat-wrap').classList.toggle('open');}
+function closeCat(){document.getElementById('cat-wrap').classList.remove('open');}
+document.addEventListener('click',function(e){if(!document.getElementById('cat-wrap').contains(e.target))closeCat();});
+
+/* ── STATE ── */
+let currentProduct=null,qty=1,cart=[],toastTm;
 function getMRP(price){return price>=2000?2999:1599;}
-function getDiscount(price,mrp){return Math.round((mrp-price)/mrp*100);}
+function getDiscount(p,m){return Math.round((m-p)/m*100);}
 
-let currentProduct=null;
-let qty=1;
-let cart=[];
-let toastTm;
+/* ── ACCORDION ── */
+function toggleAcc(head){head.parentElement.classList.toggle('open');}
 
-function toast(icon,msg){if(toastTm)clearTimeout(toastTm);document.getElementById('t-ttl').textContent=icon+' 11:11:11';document.getElementById('t-msg').textContent=msg;document.getElementById('toast').classList.add('show');toastTm=setTimeout(()=>document.getElementById('toast').classList.remove('show'),4000);}
-
+/* ── CART ── */
 function changeQty(d){qty=Math.max(1,qty+d);document.getElementById('qty-display').textContent=qty;}
-
 function addCurrentToCart(){
   if(!currentProduct||currentProduct.outOfStock)return;
-  const suffix=new URLSearchParams(window.location.search).get('suffix')||'';
-  const dn=suffix?`${currentProduct.name}-${suffix}`:currentProduct.name;
   const vis=PRODUCT_VISUAL[currentProduct.id]||{};
+  const suffix=new URLSearchParams(location.search).get('suffix')||'';
+  const dn=suffix?`${currentProduct.name}-${suffix}`:currentProduct.name;
   for(let i=0;i<qty;i++){
     const ex=cart.find(x=>x.id===currentProduct.id);
     if(ex)ex.qty++;
-    else cart.push({...currentProduct,name:dn,qty:1,emoji:vis.emoji||currentProduct.emoji,bg:vis.bg||'#faf8f4',image_url:currentProduct.image_url});
+    else cart.push({...currentProduct,name:dn,qty:1,emoji:vis.emoji||'✦',bg:vis.bg||'#faf8f4',image_url:currentProduct.image_url});
   }
   updateCart();
   toast(vis.emoji||'✦',`${dn} ×${qty} added to your ritual cart.`);
   qty=1;document.getElementById('qty-display').textContent='1';
 }
-
 function buyNow(){
   if(!currentProduct||currentProduct.outOfStock)return;
-  const suffix=new URLSearchParams(window.location.search).get('suffix')||'';
-  const dn=suffix?`${currentProduct.name}-${suffix}`:currentProduct.name;
   const vis=PRODUCT_VISUAL[currentProduct.id]||{};
-  const directItem={...currentProduct,name:dn,qty:qty,emoji:vis.emoji||currentProduct.emoji,bg:vis.bg||'#faf8f4',image_url:currentProduct.image_url};
-  /* Buy Now checks out only this product, leaving the shared cart untouched */
-  localStorage.setItem('111_cart',JSON.stringify([directItem]));
-  window.location.href='checkout.html';
+  const suffix=new URLSearchParams(location.search).get('suffix')||'';
+  const dn=suffix?`${currentProduct.name}-${suffix}`:currentProduct.name;
+  localStorage.setItem('111_cart',JSON.stringify([{...currentProduct,name:dn,qty,emoji:vis.emoji||'✦',bg:vis.bg||'#faf8f4',image_url:currentProduct.image_url}]));
+  location.href='checkout.html';
 }
-
 function updateCart(){
   document.getElementById('cart-count').textContent=cart.reduce((a,i)=>a+i.qty,0);
-  const total=cart.reduce((a,i)=>a+(i.price*i.qty),0);
-  document.getElementById('cart-total').textContent='₹'+total.toLocaleString('en-IN');
+  document.getElementById('cart-total').textContent='₹'+cart.reduce((a,i)=>a+i.price*i.qty,0).toLocaleString('en-IN');
   const el=document.getElementById('cart-items');
   if(!cart.length){el.innerHTML='<div class="cd-empty"><em>Your cart is empty</em>Add ritual oils to begin your manifestation journey.</div>';return;}
-  el.innerHTML=cart.map((item,i)=>`
-    <div class="cd-item">
-      <div class="cd-thumb" style="background:${item.bg||'#faf8f4'}">
-        ${item.image_url?`<img src="${item.image_url}" alt="${item.name}">`:`<span style="font-size:1.4rem">${item.emoji||'✦'}</span>`}
-      </div>
-      <div class="cd-info">
-        <div class="cd-iname">${item.name}</div>
-        <div class="cd-ifor">${item.intent||''} · 10ml</div>
-        <div style="display:flex;align-items:center;justify-content:space-between;margin-top:.35rem">
-          <div class="cd-iprice">₹${item.price.toLocaleString('en-IN')}</div>
-          <div style="display:flex;align-items:center;gap:.4rem">
-            <button onclick="changeCartQty(${i},-1)" style="background:none;border:1px solid rgba(28,25,20,.09);color:rgba(28,25,20,.45);width:22px;height:22px;cursor:pointer;font-size:.9rem;display:flex;align-items:center;justify-content:center">-</button>
-            <span style="font-size:.88rem;min-width:14px;text-align:center">${item.qty}</span>
-            <button onclick="changeCartQty(${i},1)" style="background:none;border:1px solid rgba(28,25,20,.09);color:rgba(28,25,20,.45);width:22px;height:22px;cursor:pointer;font-size:.9rem;display:flex;align-items:center;justify-content:center">+</button>
-          </div>
+  el.innerHTML=cart.map((item,i)=>`<div class="cd-item">
+    <div class="cd-thumb" style="background:${item.bg||'#faf8f4'}">${item.image_url?`<img src="${item.image_url}" alt="${item.name}">`:`<span style="font-size:1.4rem">${item.emoji||'✦'}</span>`}</div>
+    <div class="cd-info">
+      <div class="cd-iname">${item.name}</div><div class="cd-ifor">${item.intent||''} · 10ml</div>
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-top:.35rem">
+        <div class="cd-iprice">₹${item.price.toLocaleString('en-IN')}</div>
+        <div style="display:flex;align-items:center;gap:.4rem">
+          <button onclick="ccq(${i},-1)" style="background:none;border:1px solid rgba(28,25,20,.09);color:rgba(28,25,20,.45);width:22px;height:22px;cursor:pointer;font-size:.9rem;display:flex;align-items:center;justify-content:center">-</button>
+          <span style="font-size:.88rem;min-width:14px;text-align:center">${item.qty}</span>
+          <button onclick="ccq(${i},1)" style="background:none;border:1px solid rgba(28,25,20,.09);color:rgba(28,25,20,.45);width:22px;height:22px;cursor:pointer;font-size:.9rem;display:flex;align-items:center;justify-content:center">+</button>
         </div>
       </div>
     </div>
-  `).join('');
+  </div>`).join('');
 }
-
-function changeCartQty(i,d){cart[i].qty+=d;if(cart[i].qty<=0)cart.splice(i,1);updateCart();}
+function ccq(i,d){cart[i].qty+=d;if(cart[i].qty<=0)cart.splice(i,1);updateCart();}
 function openCart(){document.getElementById('cart-drawer').classList.add('open');document.getElementById('overlay-bg').classList.add('show');}
 function closeCart(){document.getElementById('cart-drawer').classList.remove('open');document.getElementById('overlay-bg').classList.remove('show');}
-function proceedToCheckout(){
-  if(!cart.length){toast('✦','Your cart is empty.');return;}
-  localStorage.setItem('111_cart',JSON.stringify(cart));
-  window.location.href='checkout.html';
-}
+function proceedToCheckout(){if(!cart.length){toast('✦','Your cart is empty.');return;}localStorage.setItem('111_cart',JSON.stringify(cart));location.href='checkout.html';}
+function toast(icon,msg){if(toastTm)clearTimeout(toastTm);document.getElementById('t-ttl').textContent=icon+' 11:11:11';document.getElementById('t-msg').textContent=msg;document.getElementById('toast').classList.add('show');toastTm=setTimeout(()=>document.getElementById('toast').classList.remove('show'),4000);}
 
-function loadCartFromStorage(){
-  try{const c=JSON.parse(localStorage.getItem('111_cart')||'[]');cart=c;}catch(e){}
-  updateCart();
-}
-
+/* ── RENDER ── */
 function renderProduct(p){
   currentProduct=p;
-  const vis=PRODUCT_VISUAL[p.id]||{glow:'#c9a84c',bg:'#fdf8ee',emoji:'✦',notes:[]};
-  const suffix=new URLSearchParams(window.location.search).get('suffix')||'';
+  const vis=PRODUCT_VISUAL[p.id]||{glow:'#c9a84c',bg:'#fdf8ee',emoji:'✦'};
+  const r=getRich(p.id,p);
+  const suffix=new URLSearchParams(location.search).get('suffix')||'';
   const dn=suffix?`${p.name}-${suffix}`:p.name;
+  const price=parseFloat(p.price),mrp=getMRP(price),off=getDiscount(price,mrp);
 
+  /* HEAD */
   document.title=`${dn} — 11:11:11 | EVOXU`;
   document.getElementById('bc-name').textContent=dn;
   document.getElementById('pd-name').textContent=dn;
   document.getElementById('pd-intent').textContent=p.intent;
+  document.getElementById('pd-tagline').textContent=r.tagline;
   document.getElementById('pd-category').textContent=(p.for_gender==='male'?'For Him':p.for_gender==='female'?'For Her':'Combo Set')+' · Sacred Ritual Oil';
   document.getElementById('badge-gender').textContent=p.for_gender==='male'?'For Him':p.for_gender==='female'?'For Her':'Combo Set';
-  document.getElementById('pd-desc').textContent=p.description||p.desc||'';
-
-  // Price + MRP
-  const price=parseFloat(p.price);
-  const mrp=getMRP(price);
-  const offPct=getDiscount(price,mrp);
+  document.getElementById('prod-tag').textContent=p.intent;
+  document.getElementById('pd-desc').textContent=p.description||p.desc||r.descQuote.replace(/['"]/g,'')||'';
   document.getElementById('pd-price').textContent='₹'+price.toLocaleString('en-IN');
   document.getElementById('pd-mrp').textContent='₹'+mrp.toLocaleString('en-IN');
-  document.getElementById('pd-off').textContent=offPct+'% off';
+  document.getElementById('pd-off').textContent=off+'% off';
   document.getElementById('pd-off').style.display='inline';
 
-  // Image
+  /* IMAGE */
   const imgMain=document.getElementById('prod-img-main');
   imgMain.style.background=vis.bg;
   document.getElementById('prod-glow').style.background=vis.glow;
   document.getElementById('prod-emoji').textContent=vis.emoji||p.emoji||'✦';
-  if(p.image_url){
-    const img=document.createElement('img');
-    img.src=p.image_url;img.alt=dn;img.style.cssText='position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:2';
-    imgMain.appendChild(img);
-  }
+  if(p.image_url){const img=document.createElement('img');img.src=p.image_url;img.alt=dn;img.style.cssText='position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:2';imgMain.appendChild(img);}
+  if(p.video_url){document.getElementById('prod-video-wrap').style.display='block';document.getElementById('prod-video').src=p.video_url;}
 
-  // Video
-  if(p.video_url){
-    const vw=document.getElementById('prod-video-wrap');
-    vw.style.display='block';
-    document.getElementById('prod-video').src=p.video_url;
-  }
+  /* NOTES accordion */
+  const notes=(p.notes?p.notes.split('·').map(s=>s.trim()):[]);
+  document.getElementById('pd-notes-list').innerHTML=notes.map(n=>`<li>${n}</li>`).join('');
 
-  // Notes
-  const notesList=document.getElementById('pd-notes-list');
-  const notes=(vis.notes&&vis.notes.length)?vis.notes:(p.notes?(p.notes.split('·').map(s=>s.trim())):['Ritual-Infused Attar','Sacred Formulation']);
-  notesList.innerHTML=notes.map(n=>`<li>${n}</li>`).join('');
+  /* STOCK */
+  const oos=p.in_stock===false||p.outOfStock===true;
+  document.getElementById('btn-add').disabled=oos;
+  document.getElementById('btn-buy').disabled=oos;
+  if(oos){document.getElementById('btn-add').textContent='Out of Stock';document.getElementById('btn-buy').textContent='Out of Stock';}
 
-  // Out of stock
-  const outOfStock=p.in_stock===false||p.outOfStock===true;
-  document.getElementById('btn-add').disabled=outOfStock;
-  document.getElementById('btn-buy').disabled=outOfStock;
-  if(outOfStock){
-    document.getElementById('btn-add').textContent='Out of Stock';
-    document.getElementById('btn-buy').textContent='Out of Stock';
-  }
+  /* 1. DESCRIPTION */
+  document.getElementById('desc-label').textContent=r.descLabel;
+  document.getElementById('desc-em').textContent=r.descEm;
+  document.getElementById('desc-title').innerHTML=r.descTitle+'<br><em id="desc-em">'+r.descEm+'</em>';
+  document.getElementById('desc-quote').textContent=r.descQuote;
+  document.getElementById('desc-body1').textContent=r.descBody1;
+  document.getElementById('desc-body2').textContent=r.descBody2;
+  document.getElementById('desc-pills').innerHTML=r.descPills.map(pill=>`<span class="desc-pill${pill.hl?' hl':''}">${pill.t}</span>`).join('');
+  document.getElementById('desc-stats').innerHTML=r.descStats.map(s=>`<div class="dv-stat"><div class="dv-icon">${s.icon}</div><div><div class="dv-val">${s.val}</div><div class="dv-lbl">${s.lbl}</div></div></div>`).join('');
 
-  // Related
+  /* BENEFITS STRIP */
+  document.getElementById('strip-inner').innerHTML=r.benefits.map(b=>`<div><div class="strip-icon">${b.icon}</div><div class="strip-title">${b.t}</div><div class="strip-sub">${b.s}</div></div>`).join('');
+
+  /* 2. ASTROLOGY */
+  document.getElementById('astro-body').textContent=r.astroBody;
+  document.getElementById('astro-points').innerHTML=r.astroPoints.map(pt=>`<li><span class="ap-icon">${pt.icon}</span><div><strong class="ap-title">${pt.title}</strong>${pt.text}</div></li>`).join('');
+  document.getElementById('astro-grid').innerHTML=r.astroCards.map(c=>`<div class="astro-card"><div class="astro-card-icon">${c.icon}</div><div class="astro-card-title">${c.t}</div><div class="astro-card-desc">${c.d}</div></div>`).join('');
+
+  /* 3. SCENT PROFILE */
+  document.getElementById('sp-lead').textContent=r.scentLead;
+  document.getElementById('sp-layers').innerHTML=r.scentLayers.map(l=>`
+    <div class="sp-layer">
+      <div class="sp-layer-label" style="${l.darker?'background:#0f1a2d':l.dark?'background:var(--gold-dim)':''}">
+        <div class="sp-layer-type">${l.type}</div>
+        <div class="sp-layer-name">${l.name}</div>
+      </div>
+      <div class="sp-layer-notes">
+        ${l.notes.map(n=>`<div class="sp-note"><span class="sp-note-icon">${n.icon}</span><div><div class="sp-note-name">${n.name}</div><div class="sp-note-desc">${n.desc}</div></div></div>`).join('')}
+      </div>
+    </div>`).join('');
+  document.getElementById('sp-descriptors').innerHTML=r.scentDesc.map(d=>`<div class="sp-desc-card"><div class="sp-desc-text">${d.text}</div><div class="sp-desc-sub">${d.sub}</div></div>`).join('');
+
+  /* 4. 11-DAY */
+  document.getElementById('eleven-intro').textContent=r.elevenIntro;
+  document.getElementById('eleven-timeline').innerHTML=r.elevenPhases.map(ph=>`<div class="et-cell"><div class="et-num">${ph.days}</div><div class="et-phase">${ph.phase}</div><div class="et-title">${ph.title}</div><div class="et-desc">${ph.desc}</div></div>`).join('');
+  document.getElementById('eleven-callouts').innerHTML=r.elevenCallouts.map(c=>`<div class="ec"><div class="ec-icon">${c.icon}</div><div><div class="ec-title">${c.t}</div><div class="ec-desc">${c.d}</div></div></div>`).join('');
+
+  /* 5. DAILY RITUAL */
+  document.getElementById('dc-title').textContent=r.dcTitle;
+  document.getElementById('dc-body').textContent=r.dcBody;
+  document.getElementById('dc-aff').textContent=r.affirmation;
+  document.getElementById('dc-mantra-text').textContent=r.mantraDevanagari;
+  document.getElementById('dc-mantra-roman').textContent=r.mantraRoman;
+
   renderRelated(p);
 }
 
 function renderRelated(current){
-  // Try to get from localStorage product list first, then fallback
   let all=[];
-  try{
-    const raw=localStorage.getItem('111_all_products');
-    if(raw)all=JSON.parse(raw);
-  }catch(e){}
-
-  // If no stored list, use placeholder cards
-  if(!all.length){
-    document.getElementById('related-grid').innerHTML='<div style="grid-column:1/-1;text-align:center;font-size:.78rem;color:var(--muted);padding:2rem;letter-spacing:.1em">Browse more oils on the <a href="index.html#collections" style="color:var(--gold);text-decoration:none">Collections page</a>.</div>';
-    return;
-  }
-
+  try{const raw=localStorage.getItem('111_all_products');if(raw)all=JSON.parse(raw);}catch(e){}
+  if(!all.length){document.getElementById('related-grid').innerHTML='<div style="grid-column:1/-1;text-align:center;font-size:.78rem;color:var(--muted);padding:2rem">Browse more oils on the <a href="index.html#collections" style="color:var(--gold);text-decoration:none">Collections page</a>.</div>';return;}
+  const suffix=new URLSearchParams(location.search).get('suffix')||'';
   const related=all.filter(p=>p.id!==current.id&&p.for_gender===current.for_gender).slice(0,4);
-  if(!related.length){
-    document.getElementById('related-grid').innerHTML='<div style="grid-column:1/-1;text-align:center;font-size:.78rem;color:var(--muted);padding:2rem;letter-spacing:.1em"><a href="index.html#collections" style="color:var(--gold);text-decoration:none">View all oils →</a></div>';
-    return;
-  }
-  const suffix=new URLSearchParams(window.location.search).get('suffix')||'';
+  if(!related.length){document.getElementById('related-grid').innerHTML='<div style="grid-column:1/-1;text-align:center;font-size:.78rem;color:var(--muted);padding:2rem"><a href="index.html#collections" style="color:var(--gold);text-decoration:none">View all oils →</a></div>';return;}
   document.getElementById('related-grid').innerHTML=related.map(p=>{
     const vis=PRODUCT_VISUAL[p.id]||{bg:'#fdf8ee',emoji:'✦',glow:'#c9a84c'};
     const imgUrl=p.image_url||vis.image;
     const dn=suffix?`${p.name}-${suffix}`:p.name;
-    const stored={...p,image_url:imgUrl,activeSuffix:suffix};
-    return`<div class="rel-card" onclick="window.location.href='product.html?id=${p.id}${suffix?'&suffix='+suffix:''}';localStorage.setItem('111_viewed_product',JSON.stringify(${JSON.stringify(stored)}))">
+    return`<div class="rel-card" onclick="location.href='product.html?id=${p.id}${suffix?'&suffix='+suffix:''}';localStorage.setItem('111_viewed_product',JSON.stringify(${JSON.stringify({...p,image_url:imgUrl})}))">
       <div class="rel-img" style="background:${vis.bg}">
         ${imgUrl?`<img src="${imgUrl}" alt="${dn}">`:`<div style="position:relative;z-index:1;font-size:2.4rem">${vis.emoji}</div>`}
         <div style="position:absolute;width:100px;height:100px;border-radius:50%;filter:blur(40px);opacity:.25;background:${vis.glow};top:50%;left:50%;transform:translate(-50%,-50%)"></div>
       </div>
-      <div class="rel-body">
-        <div class="rel-name">${dn}</div>
-        <div class="rel-intent">${p.intent}</div>
-        <div class="rel-price">₹${parseFloat(p.price).toLocaleString('en-IN')}</div>
-      </div>
+      <div class="rel-body"><div class="rel-name">${dn}</div><div class="rel-intent">${p.intent}</div><div class="rel-price">₹${parseFloat(p.price).toLocaleString('en-IN')}</div></div>
     </div>`;
   }).join('');
 }
 
 async function init(){
-  loadCartFromStorage();
-
-  const params=new URLSearchParams(window.location.search);
-  const id=parseInt(params.get('id'));
-
-  // Try localStorage first (fast)
+  try{const c=JSON.parse(localStorage.getItem('111_cart')||'[]');cart=c;}catch(e){}
+  updateCart();
+  const id=parseInt(new URLSearchParams(location.search).get('id'));
   let p=null;
-  try{
-    const stored=JSON.parse(localStorage.getItem('111_viewed_product')||'{}');
-    if(stored.id===id)p=stored;
-  }catch(e){}
-
-  // Fetch from API for fresh data (image_url etc.)
+  try{const s=JSON.parse(localStorage.getItem('111_viewed_product')||'{}');if(s.id===id)p=s;}catch(e){}
   try{
     const res=await fetch('/api/store/products/');
     if(res.ok){
@@ -505,16 +1017,9 @@ async function init(){
       if(fresh)p={...p,...fresh,image_url:fresh.image_url||(p&&p.image_url)||(PRODUCT_VISUAL[id]&&PRODUCT_VISUAL[id].image),video_url:fresh.video_url||(p&&p.video_url)};
     }
   }catch(e){}
-
-  if(p){
-    renderProduct(p);
-  }else{
-    document.getElementById('pd-name').textContent='Product not found';
-    document.getElementById('btn-add').disabled=true;
-    document.getElementById('btn-buy').disabled=true;
-  }
+  if(p){renderProduct(p);}
+  else{document.getElementById('pd-name').textContent='Product not found';document.getElementById('btn-add').disabled=true;document.getElementById('btn-buy').disabled=true;}
 }
-
 document.addEventListener('DOMContentLoaded',init);
 </script>
 </body>

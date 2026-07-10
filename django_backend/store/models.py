@@ -21,6 +21,18 @@ class Product(models.Model):
         ordering = ['for_gender', 'name']
 
 
+class ProductImage(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='images')
+    image = models.ImageField(upload_to='products/gallery/')
+    position = models.PositiveIntegerField(default=0)
+
+    class Meta:
+        ordering = ['position', 'id']
+
+    def __str__(self):
+        return f"Image #{self.id} for {self.product.name}"
+
+
 class Customer(models.Model):
     name = models.CharField(max_length=200)
     email = models.EmailField(unique=True)

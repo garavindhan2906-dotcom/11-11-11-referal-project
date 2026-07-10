@@ -999,7 +999,7 @@ function toggleIntroVideo(){
     wrap.classList.remove('playing');
   }
 }
-function enterSite(){clearInterval(iIv);document.getElementById('intro').classList.add('gone');document.body.style.overflow='';setTimeout(initAI,800);setTimeout(initNewsletterPopup,1800);}
+function enterSite(){clearInterval(iIv);document.getElementById('intro').classList.add('gone');document.body.style.overflow='';sessionStorage.setItem('111_site_entered','1');setTimeout(initAI,800);setTimeout(initNewsletterPopup,1800);}
 function initNav(){const nav=document.getElementById('navbar');window.addEventListener('scroll',()=>nav.classList.toggle('scrolled',window.scrollY>60));}
 function initScrollObs(){const obs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('vis');});},{threshold:.1});document.querySelectorAll('.fade-up').forEach(el=>obs.observe(el));}
 
@@ -1230,8 +1230,18 @@ function submitNewsletter(){
 }
 
 document.addEventListener('DOMContentLoaded',()=>{
-  document.body.style.overflow='hidden';
-  initStars();initNav();initRefBadge();renderTrinity();renderProducts();renderAffirmations();startIntro();initScrollObs();
+  initStars();initNav();initRefBadge();renderTrinity();renderProducts();renderAffirmations();initScrollObs();
+  const skipIntro=sessionStorage.getItem('111_site_entered')||location.hash==='#store'||location.hash==='#collections'||new URLSearchParams(location.search).get('skip');
+  if(skipIntro){
+    const intro=document.getElementById('intro');
+    if(intro){intro.classList.add('gone');}
+    document.body.style.overflow='';
+    setTimeout(initAI,200);
+    if(location.hash==='#collections')setTimeout(()=>document.getElementById('collections')?.scrollIntoView({behavior:'smooth'}),300);
+  }else{
+    document.body.style.overflow='hidden';
+    startIntro();
+  }
 });
 </script>
 
