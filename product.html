@@ -332,7 +332,16 @@ function addCurrentToCart(){
   qty=1;document.getElementById('qty-display').textContent='1';
 }
 
-function buyNow(){addCurrentToCart();proceedToCheckout();}
+function buyNow(){
+  if(!currentProduct||currentProduct.outOfStock)return;
+  const suffix=new URLSearchParams(window.location.search).get('suffix')||'';
+  const dn=suffix?`${currentProduct.name}-${suffix}`:currentProduct.name;
+  const vis=PRODUCT_VISUAL[currentProduct.id]||{};
+  const directItem={...currentProduct,name:dn,qty:qty,emoji:vis.emoji||currentProduct.emoji,bg:vis.bg||'#faf8f4',image_url:currentProduct.image_url};
+  /* Buy Now checks out only this product, leaving the shared cart untouched */
+  localStorage.setItem('111_cart',JSON.stringify([directItem]));
+  window.location.href='checkout.html';
+}
 
 function updateCart(){
   document.getElementById('cart-count').textContent=cart.reduce((a,i)=>a+i.qty,0);
