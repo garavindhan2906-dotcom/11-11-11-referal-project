@@ -13,6 +13,9 @@ def serve_frontend(request, path='index.html'):
 def ref_redirect(request, ref_code):
     return HttpResponseRedirect(f'/?ref={ref_code.upper()}')
 
+def serve_product_page(request, slug):
+    return file_serve(request, f'products/{slug}.html', document_root=FRONTEND)
+
 from resellers.views import AdminLoginView
 
 urlpatterns = [
@@ -22,6 +25,7 @@ urlpatterns = [
     path('api/store/', include('store.urls')),
     *static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT),
     re_path(r'^(?P<ref_code>[A-Za-z0-9]{3,15})-ref/?$', ref_redirect),
+    re_path(r'^products/(?P<slug>[a-z0-9-]+)$', serve_product_page),
     path('', serve_frontend),
     re_path(r'^(?P<path>.+)$', serve_frontend),
 ]
