@@ -1125,6 +1125,8 @@ function initRefBadge(){
   localStorage.setItem('111_ref',urlRef);
   ACTIVE_SUFFIX=getResellerSuffix(urlRef);
   showRefChip(REF_NAME_MAP[urlRef.toUpperCase()]||urlRef.replace(/[-_]/g,' ').replace(/\b\w/g,l=>l.toUpperCase()));
+  /* clean the ?ref= param out of the visible URL — keep the referral tracked internally */
+  history.replaceState(null,'',window.location.pathname);
   fetch(`/api/reseller/track-scan/?ref=${encodeURIComponent(urlRef)}`)
     .then(r=>r.ok?r.json():null)
     .then(d=>{if(d&&d.reseller)showRefChip(d.reseller);})
