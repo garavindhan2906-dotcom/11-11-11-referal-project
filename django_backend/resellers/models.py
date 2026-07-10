@@ -48,13 +48,19 @@ class Reseller(models.Model):
 
 class ResellerPayout(models.Model):
     STATUS_CHOICES = [('pending', 'Pending'), ('paid', 'Paid'), ('processing', 'Processing')]
-    reseller = models.ForeignKey(Reseller, on_delete=models.CASCADE, related_name='payouts')
-    amount = models.DecimalField(max_digits=10, decimal_places=2)
-    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='pending')
-    period = models.CharField(max_length=50)
-    dates = models.CharField(max_length=100, blank=True)
-    requested_at = models.DateTimeField(default=timezone.now)
-    paid_at = models.DateTimeField(null=True, blank=True)
+    MODE_CHOICES   = [('upi', 'UPI'), ('bank_transfer', 'Bank Transfer'), ('cash', 'Cash')]
+
+    reseller          = models.ForeignKey(Reseller, on_delete=models.CASCADE, related_name='payouts')
+    amount            = models.DecimalField(max_digits=10, decimal_places=2)
+    status            = models.CharField(max_length=20, choices=STATUS_CHOICES, default='pending')
+    period            = models.CharField(max_length=50, blank=True)
+    dates             = models.CharField(max_length=100, blank=True)
+    payment_mode      = models.CharField(max_length=20, choices=MODE_CHOICES, blank=True)
+    payment_reference = models.CharField(max_length=200, blank=True)
+    screenshot        = models.ImageField(upload_to='payout_proofs/', blank=True, null=True)
+    notes             = models.TextField(blank=True)
+    requested_at      = models.DateTimeField(default=timezone.now)
+    paid_at           = models.DateTimeField(null=True, blank=True)
 
     def __str__(self):
         return f"{self.reseller.name} — ₹{self.amount} ({self.period})"

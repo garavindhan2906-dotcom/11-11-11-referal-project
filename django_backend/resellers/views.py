@@ -865,6 +865,112 @@ class ApplyView(APIView):
         }, status=201)
 
 
+class AdminPayoutsView(APIView):
+    permission_classes = [AllowAny]
+    parser_classes = [MultiPartParser, FormParser, JSONParser]
+
+    def get(self, request):
+        """List all resellers with their cumulative earnings, paid, and pending."""
+        if not _check_admin(request):
+            return Response({'error': 'Unauthorized.'}, status=401)
+        from store.models import Order
+        from django.db.models import Sum as DSum
+
+        resellers = Reseller.objects.filter(is_active=True).order_by('name')
+        result = []
+        for r in resellers:
+            total_earned = float(
+                Order.objects.filter(reseller=r)
+                .aggregate(v=DSum('commission_amount'))['v'] or 0
+            )
+            total_paid = float(
+                ResellerPayout.objects.filter(reseller=r, status='paid')
+                .aggregate(v=DSum('amount'))['v'] or 0
+            )
+            pending = round(total_earned - total_paid, 2)
+
+            history = []
+            for p in ResellerPayout.objects.filter(reseller=r, status='paid').order_by('-paid_at')[:10]:
+                history.append({
+                    'id':          p.id,
+                    'amount':      float(p.amount),
+                    'period':      p.period,
+                    'payment_mode': p.payment_mode,
+                    'payment_reference': p.payment_reference,
+                    'screenshot_url': request.build_absolute_uri(p.screenshot.url) if p.screenshot else None,
+                    'notes':       p.notes,
+                    'paid_at':     p.paid_at.strftime('%d %b %Y, %I:%M %p') if p.paid_at else '—',
+                })
+
+            result.append({
+                'id':           r.id,
+                'name':         r.name,
+                'phone':        r.phone,
+                'reseller_code': r.reseller_code,
+                'reseller_id':  r.reseller_id,
+                'total_earned': total_earned,
+                'total_paid':   total_paid,
+                'pending':      pending,
+                'color':        AVATAR_COLORS[list(resellers).index(r) % len(AVATAR_COLORS)],
+                'history':      history,
+            })
+        return Response({'resellers': result})
+
+    def post(self, request, pk):
+        """Record a payment for a reseller."""
+        if not _check_admin(request):
+            return Response({'error': 'Unauthorized.'}, status=401)
+        try:
+            reseller = Reseller.objects.get(pk=pk, is_active=True)
+        except Reseller.DoesNotExist:
+            return Response({'error': 'Reseller not found.'}, status=404)
+
+        amount = request.data.get('amount')
+        payment_mode = request.data.get('payment_mode', '').strip()
+        payment_reference = request.data.get('payment_reference', '').strip()
+        period = request.data.get('period', '').strip()
+        notes = request.data.get('notes', '').strip()
+        screenshot = request.FILES.get('screenshot')
+
+        try:
+            amount = float(amount)
+            if amount <= 0:
+                raise ValueError
+        except (TypeError, ValueError):
+            return Response({'error': 'Invalid amount.'}, status=400)
+        if payment_mode not in ('upi', 'bank_transfer', 'cash'):
+            return Response({'error': 'payment_mode must be upi, bank_transfer, or cash.'}, status=400)
+
+        payout = ResellerPayout.objects.create(
+            reseller=reseller,
+            amount=amount,
+            status='paid',
+            period=period,
+            payment_mode=payment_mode,
+            payment_reference=payment_reference,
+            notes=notes,
+            paid_at=timezone.now(),
+        )
+        if screenshot:
+            payout.screenshot = screenshot
+            payout.save(update_fields=['screenshot'])
+
+        screenshot_url = request.build_absolute_uri(payout.screenshot.url) if payout.screenshot else None
+        return Response({
+            'success': True,
+            'payout': {
+                'id': payout.id,
+                'amount': float(payout.amount),
+                'period': payout.period,
+                'payment_mode': payout.payment_mode,
+                'payment_reference': payout.payment_reference,
+                'screenshot_url': screenshot_url,
+                'notes': payout.notes,
+                'paid_at': payout.paid_at.strftime('%d %b %Y, %I:%M %p'),
+            },
+        }, status=201)
+
+
 class AdminApplicationsView(APIView):
     permission_classes = [AllowAny]
 
