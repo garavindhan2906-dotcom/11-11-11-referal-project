@@ -161,6 +161,12 @@ body{background:var(--cream);color:var(--ink);font-family:'Inter',sans-serif;fon
 .ci-product{font-size:.82rem;color:var(--ink);margin-bottom:.15rem}
 .ci-date{font-size:.64rem;color:var(--muted);letter-spacing:.08em}
 .ci-amount{font-family:'Inter',sans-serif;font-size:1.1rem;color:var(--gold);text-align:right}
+.psale-row{display:flex;align-items:center;gap:.8rem;padding:.75rem 1rem;background:var(--cream);border:1px solid var(--border);margin-bottom:.6rem}
+.psale-row:last-child{margin-bottom:0}
+.psale-icon{width:36px;height:36px;border-radius:2px;display:flex;align-items:center;justify-content:center;font-size:.9rem;flex-shrink:0;background:var(--gold-pale)}
+.psale-name{flex:1;font-size:.82rem;color:var(--ink)}
+.psale-qty{font-size:.7rem;color:var(--muted);letter-spacing:.06em;white-space:nowrap}
+.psale-rev{font-family:'Inter',sans-serif;font-size:1rem;color:var(--gold);text-align:right;min-width:80px}
 .ci-pct{font-size:.6rem;color:var(--dim);text-align:right}
 
 /* ── CUSTOMERS ── */
@@ -477,6 +483,10 @@ body{background:var(--cream);color:var(--ink);font-family:'Inter',sans-serif;fon
         <div class="panel"><div class="panel-title">Commission History</div><div class="commission-list" id="commission-list"></div></div>
         <div class="panel"><div class="panel-title">Payout History</div><div id="payout-list"></div></div>
       </div>
+      <div class="panel" style="margin-top:1.5rem">
+        <div class="panel-title">Products You've Sold</div>
+        <div id="product-sales-list"></div>
+      </div>
     </div>
 
     <!-- CUSTOMERS -->
@@ -613,6 +623,19 @@ function renderOrders(){
   `).join('');
 }
 
+let PRODUCT_SALES=[];
+function renderProductSales(){
+  const el=document.getElementById('product-sales-list');
+  if(!el)return;
+  el.innerHTML=PRODUCT_SALES.length?PRODUCT_SALES.map(p=>`
+    <div class="psale-row">
+      <div class="psale-icon">${p.emoji||'✦'}</div>
+      <div class="psale-name">${p.name}</div>
+      <div class="psale-qty">${p.qty} sold</div>
+      <div class="psale-rev">₹${p.revenue.toLocaleString('en-IN')}</div>
+    </div>
+  `).join(''):'<div style="padding:1rem;text-align:center;font-size:.78rem;color:var(--dim)">No products sold yet.</div>';
+}
 function renderCommissions(){
   document.getElementById('commission-list').innerHTML=COMMISSIONS.map(c=>`
     <div class="commission-item">
@@ -814,7 +837,9 @@ async function loadEarnings(){
     /* update data arrays */
     COMMISSIONS.length=0;d.commissions.forEach(c=>COMMISSIONS.push(c));
     PAYOUTS.length=0;d.payouts.forEach(p=>PAYOUTS.push(p));
+    PRODUCT_SALES.length=0;(d.product_sales||[]).forEach(p=>PRODUCT_SALES.push(p));
     renderCommissions();
+    renderProductSales();
   }catch(_){}
 }
 

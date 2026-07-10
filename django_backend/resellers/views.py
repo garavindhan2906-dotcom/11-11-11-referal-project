@@ -258,6 +258,15 @@ class EarningsView(APIView):
         payouts = ResellerPayout.objects.filter(reseller=reseller).order_by('-requested_at')[:10]
         recent_commissions = orders[:6]
 
+        from store.models import OrderItem
+        product_sales = (
+            OrderItem.objects
+            .filter(order__reseller=reseller)
+            .values('product__name', 'product__emoji')
+            .annotate(qty=Sum('quantity'), revenue=Sum('unit_price'))
+            .order_by('-qty')
+        )
+
         return Response({
             'stats': {
                 'total_earnings': f"₹{total_earnings:,.0f}",
@@ -284,6 +293,15 @@ class EarningsView(APIView):
                     'status': p.status,
                 }
                 for p in payouts
+            ],
+            'product_sales': [
+                {
+                    'name': p['product__name'],
+                    'emoji': p['product__emoji'],
+                    'qty': p['qty'],
+                    'revenue': float(p['revenue']),
+                }
+                for p in product_sales
             ],
         })
 
