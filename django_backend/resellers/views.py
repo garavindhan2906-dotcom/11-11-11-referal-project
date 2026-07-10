@@ -700,6 +700,45 @@ class AdminDeleteResellerView(APIView):
         return Response({'success': True})
 
 
+class AdminUpdateCommissionView(APIView):
+    permission_classes = [AllowAny]
+
+    def post(self, request):
+        if not _check_admin(request):
+            return Response({'error': 'Unauthorized.'}, status=401)
+        rate = request.data.get('commission_rate')
+        try:
+            rate = float(rate)
+            if rate < 0:
+                raise ValueError
+        except (TypeError, ValueError):
+            return Response({'error': 'Invalid commission rate.'}, status=400)
+        updated = Reseller.objects.filter(is_active=True).update(commission_rate=rate)
+        return Response({'success': True, 'updated_resellers': updated, 'commission_rate': rate})
+
+
+class AdminChangePasswordView(APIView):
+    permission_classes = [AllowAny]
+
+    def post(self, request):
+        if not _check_admin(request):
+            return Response({'error': 'Unauthorized.'}, status=401)
+        new_password = request.data.get('new_password', '').strip()
+        confirm = request.data.get('confirm_password', '').strip()
+        if not new_password:
+            return Response({'error': 'New password is required.'}, status=400)
+        if new_password != confirm:
+            return Response({'error': 'Passwords do not match.'}, status=400)
+        if len(new_password) < 6:
+            return Response({'error': 'Password must be at least 6 characters.'}, status=400)
+        from decouple import config as env
+        admin_user = env('ADMIN_USERNAME', default='111111.admin')
+        user, _ = User.objects.get_or_create(username=admin_user, defaults={'email': ''})
+        user.set_password(new_password)
+        user.save()
+        return Response({'success': True, 'message': 'Password updated. Restart server to also update .env.'})
+
+
 class AdminLoginView(APIView):
     permission_classes = [AllowAny]
 

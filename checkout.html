@@ -488,7 +488,7 @@ function initRefChip() {
 ───────────────────────────────────────────── */
 function renderSummary() {
   const sub  = cart.reduce((a,i) => a + i.price * i.qty, 0);
-  const ship = sub >= 999 ? 0 : 99;
+  const ship = sub >= _getFreeShip() ? 0 : 99;
   const total = sub + ship - discount;
 
   document.getElementById('oc-cnt').textContent = cart.reduce((a,i) => a + i.qty, 0) + ' items';
@@ -748,12 +748,23 @@ function editStep2() {
 /* ─────────────────────────────────────────────
    PROMO CODE
 ───────────────────────────────────────────── */
-const PROMOS = { 'NEWUSER20':0.20, 'SACRED10':0.10, 'EVOXU15':0.15 };
+const PROMOS_DEFAULT = { 'NEWUSER20':0.20, 'SACRED10':0.10, 'EVOXU15':0.15 };
+function _getPromos(){
+  const as=JSON.parse(localStorage.getItem('111_announcement_settings')||'{}');
+  const promos=Object.assign({},PROMOS_DEFAULT);
+  if(as.promo&&as.pct>0) promos[as.promo.toUpperCase()]=as.pct/100;
+  return promos;
+}
+function _getFreeShip(){
+  const as=JSON.parse(localStorage.getItem('111_announcement_settings')||'{}');
+  return as.freeship!==undefined?as.freeship:999;
+}
 
 function applyPromo() {
   const code = document.getElementById('promo-in').value.trim().toUpperCase();
   if (!code) return;
   const sub = cart.reduce((a,i) => a + i.price * i.qty, 0);
+  const PROMOS=_getPromos();
   if (PROMOS[code] && !promoApplied) {
     discount = Math.round(sub * PROMOS[code]);
     promoApplied = true;
@@ -792,7 +803,7 @@ async function placeOrder() {
 
   const ref_code = localStorage.getItem('111_ref') || '';
   const sub = cart.reduce((a, i) => a + i.price * i.qty, 0);
-  const ship = sub >= 999 ? 0 : 99;
+  const ship = sub >= _getFreeShip() ? 0 : 99;
   const total = sub + ship - discount;
   const items = cart.map(i => ({product_id: i.id, product_name: i.name, quantity: i.qty}));
 

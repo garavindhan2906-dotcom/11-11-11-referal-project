@@ -391,33 +391,33 @@ body{background:var(--cream);color:var(--ink);font-family:'Inter',sans-serif;fon
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem">
         <div class="panel" style="margin-bottom:0">
           <div class="panel-head"><div class="panel-title">Store Settings</div></div>
-          <div class="setting-group"><label class="setting-lbl">Brand Name</label><input class="setting-input" value="11:11:11"></div>
-          <div class="setting-group"><label class="setting-lbl">Tagline</label><input class="setting-input" value="Ritual-Infused Manifestation Perfume Oils"></div>
-          <div class="setting-group"><label class="setting-lbl">Support Email</label><input class="setting-input" placeholder="support@yourdomain.com"></div>
-          <div class="setting-group"><label class="setting-lbl">WhatsApp Number</label><input class="setting-input" placeholder="+91 XXXXX XXXXX"></div>
-          <button class="setting-save" onclick="toast('✦','Store settings saved.')">Save Changes</button>
+          <div class="setting-group"><label class="setting-lbl">Brand Name</label><input class="setting-input" id="s-brand" value="11:11:11"></div>
+          <div class="setting-group"><label class="setting-lbl">Tagline</label><input class="setting-input" id="s-tagline" value="Ritual-Infused Manifestation Perfume Oils"></div>
+          <div class="setting-group"><label class="setting-lbl">Support Email</label><input class="setting-input" id="s-email" placeholder="support@yourdomain.com" type="email"></div>
+          <div class="setting-group"><label class="setting-lbl">WhatsApp Number</label><input class="setting-input" id="s-whatsapp" placeholder="+91 XXXXX XXXXX"></div>
+          <button class="setting-save" onclick="saveStoreSettings()">Save Changes</button>
         </div>
         <div class="panel" style="margin-bottom:0">
           <div class="panel-head"><div class="panel-title">Commission Settings</div></div>
-          <div class="setting-group"><label class="setting-lbl">Base Commission (₹ per order)</label><input class="setting-input" value="100" type="number"></div>
-          <div class="setting-group"><label class="setting-lbl">Silver Ambassador Commission (₹)</label><input class="setting-input" value="120" type="number"></div>
-          <div class="setting-group"><label class="setting-lbl">Gold Ambassador Commission (₹)</label><input class="setting-input" value="150" type="number"></div>
-          <div class="setting-group"><label class="setting-lbl">Payout Day of Month</label><input class="setting-input" value="1" type="number"></div>
-          <button class="setting-save" onclick="toast('₹','Commission settings saved.')">Save Changes</button>
+          <div class="setting-group"><label class="setting-lbl">Base Commission (₹ per product sold)</label><input class="setting-input" id="s-commission" value="100" type="number" min="0"></div>
+          <div class="setting-group"><label class="setting-lbl">Payout Day of Month</label><input class="setting-input" id="s-payday" value="1" type="number" min="1" max="28"></div>
+          <div id="s-comm-err" style="display:none;font-size:.72rem;color:var(--red);margin-top:.4rem"></div>
+          <button class="setting-save" id="s-comm-btn" onclick="saveCommission()">Save &amp; Apply to All Resellers</button>
         </div>
         <div class="panel" style="margin-bottom:0">
           <div class="panel-head"><div class="panel-title">Announcement Bar</div></div>
-          <div class="setting-group"><label class="setting-lbl">Message</label><input class="setting-input" value="Get 20% OFF on your first order — Use code: NEWUSER20"></div>
-          <div class="setting-group"><label class="setting-lbl">Promo Code</label><input class="setting-input" value="NEWUSER20"></div>
-          <div class="setting-group"><label class="setting-lbl">Free Shipping Above (₹)</label><input class="setting-input" value="999" type="number"></div>
-          <button class="setting-save" onclick="toast('📢','Announcement settings saved.')">Save Changes</button>
+          <div class="setting-group"><label class="setting-lbl">Message</label><input class="setting-input" id="s-ann-msg" value="Get 20% OFF on your first order — Use code: NEWUSER20"></div>
+          <div class="setting-group"><label class="setting-lbl">Active Promo Code</label><input class="setting-input" id="s-promo" value="NEWUSER20" style="text-transform:uppercase"></div>
+          <div class="setting-group"><label class="setting-lbl">Promo Discount (%)</label><input class="setting-input" id="s-promo-pct" value="20" type="number" min="1" max="90"></div>
+          <div class="setting-group"><label class="setting-lbl">Free Shipping Above (₹)</label><input class="setting-input" id="s-freeship" value="999" type="number" min="0"></div>
+          <button class="setting-save" onclick="saveAnnouncement()">Save Changes</button>
         </div>
         <div class="panel" style="margin-bottom:0">
           <div class="panel-head"><div class="panel-title">Admin Access</div></div>
-          <div class="setting-group"><label class="setting-lbl">Admin Email</label><input class="setting-input" placeholder="admin@yourdomain.com"></div>
-          <div class="setting-group"><label class="setting-lbl">New Password</label><input class="setting-input" placeholder="Leave blank to keep current" type="password"></div>
-          <div class="setting-group"><label class="setting-lbl">Confirm Password</label><input class="setting-input" placeholder="Confirm new password" type="password"></div>
-          <button class="setting-save" onclick="toast('🔑','Admin credentials updated.')">Update Credentials</button>
+          <div class="setting-group"><label class="setting-lbl">New Password</label><input class="setting-input" id="s-newpw" placeholder="Enter new password" type="password" autocomplete="new-password"></div>
+          <div class="setting-group"><label class="setting-lbl">Confirm Password</label><input class="setting-input" id="s-confpw" placeholder="Confirm new password" type="password" autocomplete="new-password"></div>
+          <div id="s-pw-err" style="display:none;font-size:.72rem;color:var(--red);margin-top:.4rem"></div>
+          <button class="setting-save" id="s-pw-btn" onclick="saveAdminPassword()">Update Password</button>
         </div>
       </div>
     </div>
@@ -1261,6 +1261,95 @@ function renderOrders(){
   `).join(''):'<tr><td colspan="8" style="padding:1.5rem;text-align:center;font-size:.82rem;color:var(--dim)">No orders yet.</td></tr>';
 }
 
+/* ── SETTINGS ── */
+function loadSettings(){
+  const ss=JSON.parse(localStorage.getItem('111_store_settings')||'{}');
+  if(ss.brand)   document.getElementById('s-brand').value=ss.brand;
+  if(ss.tagline) document.getElementById('s-tagline').value=ss.tagline;
+  if(ss.email)   document.getElementById('s-email').value=ss.email;
+  if(ss.whatsapp)document.getElementById('s-whatsapp').value=ss.whatsapp;
+
+  const cs=JSON.parse(localStorage.getItem('111_commission_settings')||'{}');
+  if(cs.commission!==undefined) document.getElementById('s-commission').value=cs.commission;
+  if(cs.payday!==undefined)     document.getElementById('s-payday').value=cs.payday;
+
+  const as=JSON.parse(localStorage.getItem('111_announcement_settings')||'{}');
+  if(as.msg)     document.getElementById('s-ann-msg').value=as.msg;
+  if(as.promo)   document.getElementById('s-promo').value=as.promo;
+  if(as.pct!==undefined) document.getElementById('s-promo-pct').value=as.pct;
+  if(as.freeship!==undefined) document.getElementById('s-freeship').value=as.freeship;
+}
+
+function saveStoreSettings(){
+  const ss={
+    brand:    document.getElementById('s-brand').value.trim()||'11:11:11',
+    tagline:  document.getElementById('s-tagline').value.trim(),
+    email:    document.getElementById('s-email').value.trim(),
+    whatsapp: document.getElementById('s-whatsapp').value.trim(),
+  };
+  localStorage.setItem('111_store_settings',JSON.stringify(ss));
+  toast('✦','Store settings saved.');
+}
+
+async function saveCommission(){
+  const rate=parseFloat(document.getElementById('s-commission').value);
+  const payday=parseInt(document.getElementById('s-payday').value)||1;
+  const errEl=document.getElementById('s-comm-err');
+  errEl.style.display='none';
+  if(isNaN(rate)||rate<0){errEl.textContent='Commission must be 0 or more.';errEl.style.display='block';return;}
+  if(payday<1||payday>28){errEl.textContent='Payout day must be between 1 and 28.';errEl.style.display='block';return;}
+  const btn=document.getElementById('s-comm-btn');
+  btn.textContent='Saving…';btn.disabled=true;
+  try{
+    const res=await fetch(`${API}/api/reseller/admin-commission/`,{
+      method:'POST',headers:{'Content-Type':'application/json','X-Admin-Key':ADMIN_KEY},
+      body:JSON.stringify({commission_rate:rate}),
+    });
+    const data=await res.json();
+    if(!res.ok){errEl.textContent=data.error||'Save failed.';errEl.style.display='block';return;}
+    localStorage.setItem('111_commission_settings',JSON.stringify({commission:rate,payday}));
+    toast('₹',`Commission updated to ₹${rate} per product. Applied to ${data.updated_resellers} reseller(s).`);
+  }catch(_){errEl.textContent='Server error. Make sure Django is running.';errEl.style.display='block';}
+  finally{btn.textContent='Save & Apply to All Resellers';btn.disabled=false;}
+}
+
+function saveAnnouncement(){
+  const as={
+    msg:     document.getElementById('s-ann-msg').value.trim(),
+    promo:   document.getElementById('s-promo').value.trim().toUpperCase(),
+    pct:     parseFloat(document.getElementById('s-promo-pct').value)||20,
+    freeship:parseFloat(document.getElementById('s-freeship').value)||999,
+  };
+  if(as.pct<1||as.pct>90){toast('⚠️','Discount % must be between 1 and 90.');return;}
+  if(as.freeship<0){toast('⚠️','Free shipping threshold cannot be negative.');return;}
+  localStorage.setItem('111_announcement_settings',JSON.stringify(as));
+  toast('📢','Announcement settings saved. Checkout will use new promo code and free shipping threshold.');
+}
+
+async function saveAdminPassword(){
+  const np=document.getElementById('s-newpw').value;
+  const cp=document.getElementById('s-confpw').value;
+  const errEl=document.getElementById('s-pw-err');
+  errEl.style.display='none';
+  if(!np){errEl.textContent='Please enter a new password.';errEl.style.display='block';return;}
+  if(np!==cp){errEl.textContent='Passwords do not match.';errEl.style.display='block';return;}
+  if(np.length<6){errEl.textContent='Password must be at least 6 characters.';errEl.style.display='block';return;}
+  const btn=document.getElementById('s-pw-btn');
+  btn.textContent='Updating…';btn.disabled=true;
+  try{
+    const res=await fetch(`${API}/api/reseller/admin-change-password/`,{
+      method:'POST',headers:{'Content-Type':'application/json','X-Admin-Key':ADMIN_KEY},
+      body:JSON.stringify({new_password:np,confirm_password:cp}),
+    });
+    const data=await res.json();
+    if(!res.ok){errEl.textContent=data.error||'Update failed.';errEl.style.display='block';return;}
+    document.getElementById('s-newpw').value='';
+    document.getElementById('s-confpw').value='';
+    toast('🔑','Password updated successfully.');
+  }catch(_){errEl.textContent='Server error. Make sure Django is running.';errEl.style.display='block';}
+  finally{btn.textContent='Update Password';btn.disabled=false;}
+}
+
 /* ── RESELLER SALES ── */
 const RS_COLORS=['#be185d','#7D2035','#5b21b6','#065f46','#1d4ed8','#c2410c','#0f766e'];
 async function loadResellerSales(){
@@ -1350,7 +1439,7 @@ async function loadProducts(){
 
 /* ── INIT ── */
 document.addEventListener('DOMContentLoaded',()=>{
-  loadProducts();loadResellers();loadApplications();renderOrders();
+  loadProducts();loadResellers();loadApplications();renderOrders();loadSettings();
   // Wire drag-drop on upload zones
   [['img','image'],['vid','video']].forEach(([prefix,type])=>{
     const zone=document.getElementById(prefix+'-drop-zone');

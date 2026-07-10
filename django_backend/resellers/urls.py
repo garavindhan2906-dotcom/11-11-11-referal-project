@@ -18,4 +18,6 @@ urlpatterns = [
     path('admin-applications/<int:pk>/action/', views.AdminApplicationActionView.as_view(), name='admin-application-action'),
     path('admin-applications/<int:pk>/approve-create/', views.AdminApproveApplicationView.as_view(), name='admin-approve-application'),
     path('admin-delete/<int:pk>/', views.AdminDeleteResellerView.as_view(), name='admin-delete-reseller'),
+    path('admin-commission/', views.AdminUpdateCommissionView.as_view(), name='admin-commission'),
+    path('admin-change-password/', views.AdminChangePasswordView.as_view(), name='admin-change-password'),
 ]
