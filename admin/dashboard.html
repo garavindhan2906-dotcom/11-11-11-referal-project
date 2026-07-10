@@ -1056,9 +1056,15 @@ async function rejectPending(id){
   renderResellers();
   toast('✕',`${p.name}'s application rejected.`);
 }
-function removeReseller(id){
+async function removeReseller(id){
   const r=RESELLERS.find(x=>x.id===id);
   if(!r||!confirm(`Remove ${r.name} as reseller? This cannot be undone.`))return;
+  try{
+    const res=await fetch(`${API}/api/reseller/admin-delete/${id}/`,{
+      method:'DELETE',headers:{'X-Admin-Key':ADMIN_KEY},
+    });
+    if(!res.ok){const d=await res.json();toast('⚠️',d.error||'Delete failed.');return;}
+  }catch(_){toast('⚠️','Server error. Make sure Django is running.');return;}
   RESELLERS.splice(RESELLERS.findIndex(x=>x.id===id),1);
   renderResellers();
   toast('✕',`${r.name} removed.`);

@@ -681,6 +681,22 @@ class RegisterView(APIView):
         }, status=201)
 
 
+class AdminDeleteResellerView(APIView):
+    permission_classes = [AllowAny]
+
+    def delete(self, request, pk):
+        if not _check_admin(request):
+            return Response({'error': 'Unauthorized.'}, status=401)
+        try:
+            reseller = Reseller.objects.select_related('user').get(pk=pk)
+        except Reseller.DoesNotExist:
+            return Response({'error': 'Reseller not found.'}, status=404)
+        user = reseller.user
+        reseller.delete()
+        user.delete()
+        return Response({'success': True})
+
+
 class AdminLoginView(APIView):
     permission_classes = [AllowAny]
 

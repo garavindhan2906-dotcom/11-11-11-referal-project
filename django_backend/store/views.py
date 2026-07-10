@@ -151,13 +151,16 @@ class PlaceOrderView(APIView):
             customer.phone = phone
             customer.save()
 
+        total_qty = sum(int(i.get("quantity", 1)) for i in items)
+        commission_amount = total_qty * float(reseller.commission_rate) if reseller else 0
+
         prefix = reseller.reseller_code if reseller else "ORD"
         order = Order.objects.create(
             order_number=_order_number(prefix),
             customer=customer,
             reseller=reseller,
             total_amount=total,
-            commission_amount=float(reseller.commission_rate) if reseller else 0,
+            commission_amount=commission_amount,
             status="pending",
         )
 
