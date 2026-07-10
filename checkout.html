@@ -808,11 +808,7 @@ async function placeOrder() {
     localStorage.removeItem('111_cart');
     document.getElementById('success-ov').classList.add('on');
   } catch(e) {
-    /* server unreachable — still show success so customer isn't blocked */
-    const num = 'ORD-' + (Math.floor(Math.random() * 9000) + 1000);
-    document.getElementById('so-num').textContent = 'Order #' + num;
-    localStorage.removeItem('111_cart');
-    document.getElementById('success-ov').classList.add('on');
+    toast('✦', 'Could not connect to server. Please try again in a moment.');
   } finally {
     btn.textContent = '✦ Place Sacred Order'; btn.disabled = false;
   }
