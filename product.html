@@ -290,18 +290,18 @@ nav{position:fixed;top:0;left:0;right:0;z-index:1000;background:rgba(250,248,244
 <script>
 /* ── PRODUCT DATA (visual metadata) ── */
 const PRODUCT_VISUAL={
-  1:{glow:'#e879b0',bg:'#fdf2f8',emoji:'🌹',notes:['Rose','Ylang Ylang','Musk','Amber','Spice']},
-  2:{glow:'#93c5fd',bg:'#eff6ff',emoji:'🌿',notes:['Lavender','Lemon','Caraway','Saffron','Oud','Amber']},
-  3:{glow:'#fbbf24',bg:'#fffbeb',emoji:'⚖️',notes:['Citrus','Saffron','Cinnamon','Vetiver','Oud','Leather']},
-  4:{glow:'#c9a84c',bg:'#fdf8ee',emoji:'👑',notes:['Golden Saffron','Cinnamon','Smoky Musk','Patchouli','Sacred Resins']},
-  5:{glow:'#a78bfa',bg:'#f5f3ff',emoji:'🏆',notes:['Lavender','Lemon','Saffron','Jasmine','Oud','Warm Amber']},
-  6:{glow:'#f472b6',bg:'#fdf2f8',emoji:'🌸',notes:['Sweet Almond','Jasmine Sambac','Crystal Tuberose','Tonka Bean','Cocoa']},
-  7:{glow:'#6ee7b7',bg:'#ecfdf5',emoji:'🌙',notes:['Lavender','Lemon','Caraway','Saffron','Jasmine','Oud','Amber']},
-  8:{glow:'#fbbf24',bg:'#fffbeb',emoji:'✨',notes:['Lavender','Lemon','Caraway','Saffron','Jasmine','Oud','Warm Amber']},
-  9:{glow:'#c9a84c',bg:'#fdf8ee',emoji:'💛',notes:['Golden Saffron','Cinnamon','Smoky Musk','Patchouli','Sacred Resins']},
-  10:{glow:'#c084fc',bg:'#faf5ff',emoji:'⭐',notes:['Citrus','Saffron','Cinnamon','Florals','Vetiver','Sandalwood','Oud']},
-  11:{glow:'#93c5fd',bg:'#eff6ff',emoji:'🤍',notes:['Male Formula','Female Formula','Two 10ml Roll-Ons']},
-  12:{glow:'#f472b6',bg:'#fdf2f8',emoji:'💕',notes:['KLEOMA (Male)','KAMAVYA (Female)','Two 10ml Roll-Ons']},
+  1:{glow:'#e879b0',bg:'#fdf2f8',emoji:'🌹',notes:['Rose','Ylang Ylang','Musk','Amber','Spice'],image:'images/products/kleoma.jpeg'},
+  2:{glow:'#93c5fd',bg:'#eff6ff',emoji:'🌿',notes:['Lavender','Lemon','Caraway','Saffron','Oud','Amber'],image:'images/products/klinfon-male.jpeg'},
+  3:{glow:'#fbbf24',bg:'#fffbeb',emoji:'⚖️',notes:['Citrus','Saffron','Cinnamon','Vetiver','Oud','Leather'],image:'images/products/mystra.jpeg'},
+  4:{glow:'#c9a84c',bg:'#fdf8ee',emoji:'👑',notes:['Golden Saffron','Cinnamon','Smoky Musk','Patchouli','Sacred Resins'],image:'images/products/shreemsri.jpeg'},
+  5:{glow:'#a78bfa',bg:'#f5f3ff',emoji:'🏆',notes:['Lavender','Lemon','Saffron','Jasmine','Oud','Warm Amber'],image:'images/products/sukce.png'},
+  6:{glow:'#f472b6',bg:'#fdf2f8',emoji:'🌸',notes:['Sweet Almond','Jasmine Sambac','Crystal Tuberose','Tonka Bean','Cocoa'],image:'images/products/kamavya.jpeg'},
+  7:{glow:'#6ee7b7',bg:'#ecfdf5',emoji:'🌙',notes:['Lavender','Lemon','Caraway','Saffron','Jasmine','Oud','Amber'],image:'images/products/klinfon-female.jpeg'},
+  8:{glow:'#fbbf24',bg:'#fffbeb',emoji:'✨',notes:['Lavender','Lemon','Caraway','Saffron','Jasmine','Oud','Warm Amber'],image:'images/products/hremaan.jpeg'},
+  9:{glow:'#c9a84c',bg:'#fdf8ee',emoji:'💛',notes:['Golden Saffron','Cinnamon','Smoky Musk','Patchouli','Sacred Resins'],image:'images/products/shrivaa.jpeg'},
+  10:{glow:'#c084fc',bg:'#faf5ff',emoji:'⭐',notes:['Citrus','Saffron','Cinnamon','Florals','Vetiver','Sandalwood','Oud'],image:'images/products/ycnex.jpeg'},
+  11:{glow:'#93c5fd',bg:'#eff6ff',emoji:'🤍',notes:['Male Formula','Female Formula','Two 10ml Roll-Ons'],image:'images/products/klinfon-combo.png'},
+  12:{glow:'#f472b6',bg:'#fdf2f8',emoji:'💕',notes:['KLEOMA (Male)','KAMAVYA (Female)','Two 10ml Roll-Ons'],image:'images/products/love-combo.png'},
 };
 
 /* MRP map: single → ₹1,599, combo → ₹2,999 */
@@ -465,10 +465,12 @@ function renderRelated(current){
   const suffix=new URLSearchParams(window.location.search).get('suffix')||'';
   document.getElementById('related-grid').innerHTML=related.map(p=>{
     const vis=PRODUCT_VISUAL[p.id]||{bg:'#fdf8ee',emoji:'✦',glow:'#c9a84c'};
+    const imgUrl=p.image_url||vis.image;
     const dn=suffix?`${p.name}-${suffix}`:p.name;
-    return`<div class="rel-card" onclick="window.location.href='product.html?id=${p.id}${suffix?'&suffix='+suffix:''}';localStorage.setItem('111_viewed_product',JSON.stringify({...${JSON.stringify(p)},activeSuffix:'${suffix}'}))">
+    const stored={...p,image_url:imgUrl,activeSuffix:suffix};
+    return`<div class="rel-card" onclick="window.location.href='product.html?id=${p.id}${suffix?'&suffix='+suffix:''}';localStorage.setItem('111_viewed_product',JSON.stringify(${JSON.stringify(stored)}))">
       <div class="rel-img" style="background:${vis.bg}">
-        ${p.image_url?`<img src="${p.image_url}" alt="${dn}">`:`<div style="position:relative;z-index:1;font-size:2.4rem">${vis.emoji}</div>`}
+        ${imgUrl?`<img src="${imgUrl}" alt="${dn}">`:`<div style="position:relative;z-index:1;font-size:2.4rem">${vis.emoji}</div>`}
         <div style="position:absolute;width:100px;height:100px;border-radius:50%;filter:blur(40px);opacity:.25;background:${vis.glow};top:50%;left:50%;transform:translate(-50%,-50%)"></div>
       </div>
       <div class="rel-body">
@@ -500,7 +502,7 @@ async function init(){
       const all=await res.json();
       localStorage.setItem('111_all_products',JSON.stringify(all));
       const fresh=all.find(x=>x.id===id);
-      if(fresh)p={...p,...fresh};
+      if(fresh)p={...p,...fresh,image_url:fresh.image_url||(p&&p.image_url)||(PRODUCT_VISUAL[id]&&PRODUCT_VISUAL[id].image),video_url:fresh.video_url||(p&&p.video_url)};
     }
   }catch(e){}
 
