@@ -125,6 +125,7 @@ class PlaceOrderView(APIView):
         data = request.data
         ref_code = data.get("ref_code", "").strip().upper()
         email = data.get("email", "").strip()
+        phone = data.get("phone", "").strip()
         name = data.get("name", "").strip()
         items = data.get("items", [])
         total = data.get("total", 0)
@@ -141,10 +142,13 @@ class PlaceOrderView(APIView):
 
         customer, _ = Customer.objects.get_or_create(
             email=email,
-            defaults={"name": name, "referred_by": reseller},
+            defaults={"name": name, "phone": phone, "referred_by": reseller},
         )
         if not customer.referred_by and reseller:
             customer.referred_by = reseller
+            customer.save()
+        if phone and not customer.phone:
+            customer.phone = phone
             customer.save()
 
         prefix = reseller.reseller_code if reseller else "ORD"
