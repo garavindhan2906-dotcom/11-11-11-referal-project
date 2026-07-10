@@ -229,6 +229,109 @@ nav{position:fixed;top:0;left:0;right:0;z-index:1000;background:rgba(246,248,252
 .box-name{font-size:.68rem;font-weight:600;color:var(--ink);margin-bottom:.2rem;letter-spacing:.04em}
 .box-sub{font-size:.62rem;color:var(--muted);line-height:1.6}
 
+/* ── DESCRIPTION SECTION ── */
+.desc-section{max-width:1240px;margin:5rem auto 0;padding:0 4rem}
+@media(max-width:640px){.desc-section{padding:0 1.2rem;margin-top:3rem}}
+.desc-inner{display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:center}
+@media(max-width:860px){.desc-inner{grid-template-columns:1fr;gap:2.5rem}}
+.desc-quote{font-family:'Poppins',sans-serif;font-size:clamp(1.1rem,2.5vw,1.5rem);font-weight:300;color:var(--ink);line-height:1.7;font-style:italic;border-left:3px solid var(--burg);padding-left:1.5rem;margin-bottom:2rem}
+.desc-body{font-size:.9rem;color:var(--muted);line-height:2.1;font-weight:300;margin-bottom:1.5rem}
+.desc-pills{display:flex;flex-wrap:wrap;gap:.5rem}
+.desc-pill{padding:.4rem 1rem;border:1px solid var(--border);background:var(--white);font-size:.55rem;letter-spacing:.24em;text-transform:uppercase;color:var(--muted)}
+.desc-pill.active{border-color:var(--border-burg);background:var(--burg-pale);color:var(--burg)}
+.desc-visual{background:var(--white);border:1px solid var(--border);padding:2.5rem;display:flex;flex-direction:column;gap:1.4rem}
+.dv-stat{display:flex;align-items:center;gap:1.2rem}
+.dv-stat-icon{width:44px;height:44px;border:1px solid var(--border-burg);background:var(--burg-pale);display:flex;align-items:center;justify-content:center;font-size:1.2rem;flex-shrink:0}
+.dv-stat-text{}
+.dv-stat-val{font-family:'Poppins',sans-serif;font-size:1rem;font-weight:700;color:var(--ink)}
+.dv-stat-lbl{font-size:.55rem;letter-spacing:.24em;text-transform:uppercase;color:var(--dim);margin-top:.1rem}
+
+/* ── ASTROLOGY SECTION ── */
+.astro-section{background:var(--ink);padding:5rem 4rem;margin-top:5rem}
+@media(max-width:640px){.astro-section{padding:3rem 1.2rem;margin-top:3rem}}
+.astro-inner{max-width:1240px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:start}
+@media(max-width:860px){.astro-inner{grid-template-columns:1fr;gap:3rem}}
+.astro-label{font-size:.5rem;letter-spacing:.46em;text-transform:uppercase;color:var(--burg2);margin-bottom:.7rem}
+.astro-title{font-family:'Poppins',sans-serif;font-size:clamp(1.4rem,3vw,2rem);font-weight:700;color:#fff;line-height:1.25;margin-bottom:1rem;letter-spacing:-.01em}
+.astro-body{font-size:.88rem;color:rgba(255,255,255,.55);line-height:2.1;font-weight:300;margin-bottom:2rem}
+.astro-points{list-style:none;display:flex;flex-direction:column;gap:.9rem}
+.astro-points li{display:flex;align-items:flex-start;gap:.8rem;font-size:.84rem;color:rgba(255,255,255,.65);line-height:1.75}
+.astro-points li .ap-icon{font-size:1.1rem;flex-shrink:0;margin-top:.05rem}
+.astro-points li .ap-text{}
+.astro-points li .ap-text strong{color:#fff;display:block;font-size:.65rem;letter-spacing:.2em;text-transform:uppercase;margin-bottom:.18rem;font-weight:500}
+.astro-grid{display:grid;grid-template-columns:1fr 1fr;gap:.75rem}
+.astro-card{border:1px solid rgba(255,255,255,.08);padding:1.3rem 1.2rem;background:rgba(255,255,255,.03);transition:all .3s}
+.astro-card:hover{border-color:rgba(125,32,53,.4);background:rgba(125,32,53,.07)}
+.astro-card-icon{font-size:1.6rem;margin-bottom:.6rem}
+.astro-card-title{font-size:.6rem;letter-spacing:.24em;text-transform:uppercase;color:rgba(255,255,255,.8);margin-bottom:.3rem;font-weight:500}
+.astro-card-desc{font-size:.74rem;color:rgba(255,255,255,.4);line-height:1.7}
+
+/* ── SCENT PROFILE SECTION ── */
+.scentprofile-section{max-width:1240px;margin:5rem auto 0;padding:0 4rem}
+@media(max-width:640px){.scentprofile-section{padding:0 1.2rem;margin-top:3rem}}
+.sp-lead{text-align:center;max-width:680px;margin:0 auto 3.5rem;font-size:1rem;color:var(--muted);line-height:2;font-weight:300;font-style:italic}
+.sp-layers{display:flex;flex-direction:column;gap:0}
+.sp-layer{display:grid;grid-template-columns:100px 1fr;align-items:stretch;border:1px solid var(--border);border-bottom:none}
+.sp-layer:last-child{border-bottom:1px solid var(--border)}
+.sp-layer-label{padding:1.5rem 1.2rem;background:var(--ink);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:.4rem}
+.sp-layer-type{font-size:.48rem;letter-spacing:.36em;text-transform:uppercase;color:rgba(255,255,255,.4)}
+.sp-layer-name{font-size:.72rem;font-weight:600;color:#fff;letter-spacing:.06em}
+.sp-layer-notes{display:flex;align-items:center;gap:.8rem;padding:1.2rem 1.6rem;flex-wrap:wrap;background:var(--white)}
+.sp-note{display:flex;align-items:center;gap:.5rem;padding:.5rem 1rem;border:1px solid var(--border);background:var(--cream)}
+.sp-note-icon{font-size:1rem}
+.sp-note-name{font-size:.7rem;font-weight:500;color:var(--ink)}
+.sp-note-desc{font-size:.6rem;color:var(--muted);margin-top:.08rem}
+.sp-wheel{display:flex;align-items:center;justify-content:center;padding:2.5rem;background:linear-gradient(145deg,#fdf2f8,#fff0f5);border:1px solid var(--border);margin-top:2rem;position:relative;overflow:hidden}
+.sp-wheel-glow{position:absolute;width:300px;height:300px;border-radius:50%;background:radial-gradient(circle,rgba(228,93,126,.15),transparent 70%);pointer-events:none}
+.sp-descriptor{text-align:center;padding:2rem}
+.sp-descriptor-text{font-family:'Poppins',sans-serif;font-size:1.4rem;font-weight:300;color:var(--ink);line-height:1.6;font-style:italic;margin-bottom:.8rem}
+.sp-descriptor-sub{font-size:.62rem;letter-spacing:.3em;text-transform:uppercase;color:var(--burg);font-weight:500}
+
+/* ── 11-DAY RITUAL SECTION ── */
+.eleven-section{background:var(--cream2);padding:5rem 4rem;margin-top:5rem;border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+@media(max-width:640px){.eleven-section{padding:3rem 1.2rem;margin-top:3rem}}
+.eleven-inner{max-width:1240px;margin:0 auto}
+.eleven-timeline{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border);margin-top:3rem;border:1px solid var(--border)}
+@media(max-width:760px){.eleven-timeline{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:480px){.eleven-timeline{grid-template-columns:1fr}}
+.et-cell{background:var(--white);padding:2rem 1.5rem;position:relative}
+.et-num{font-family:'Poppins',sans-serif;font-size:2.5rem;font-weight:700;color:var(--cream3);line-height:1;margin-bottom:.8rem}
+.et-phase{font-size:.52rem;letter-spacing:.36em;text-transform:uppercase;color:var(--burg);margin-bottom:.4rem;font-weight:600}
+.et-title{font-size:.82rem;font-weight:600;color:var(--ink);margin-bottom:.5rem}
+.et-desc{font-size:.74rem;color:var(--muted);line-height:1.75}
+.eleven-bottom{display:grid;grid-template-columns:1fr 1fr;gap:3rem;margin-top:3rem;align-items:center}
+@media(max-width:640px){.eleven-bottom{grid-template-columns:1fr;gap:2rem}}
+.eleven-callout{background:var(--ink);padding:2rem;display:flex;gap:1.2rem;align-items:flex-start}
+.ec-icon{font-size:2rem;flex-shrink:0}
+.ec-text{}
+.ec-title{font-family:'Poppins',sans-serif;font-size:.9rem;font-weight:600;color:#fff;margin-bottom:.4rem}
+.ec-desc{font-size:.78rem;color:rgba(255,255,255,.5);line-height:1.75}
+
+/* ── DAILY RITUAL SECTION ── */
+.daily-section{max-width:1240px;margin:5rem auto 0;padding:0 4rem}
+@media(max-width:640px){.daily-section{padding:0 1.2rem;margin-top:3rem}}
+.daily-inner{display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:start}
+@media(max-width:860px){.daily-inner{grid-template-columns:1fr;gap:2.5rem}}
+.daily-steps{display:flex;flex-direction:column;gap:0}
+.ds-row{display:flex;gap:1.5rem;align-items:stretch;padding:1.4rem 0;border-bottom:1px solid var(--border)}
+.ds-row:first-child{border-top:1px solid var(--border)}
+.ds-left{display:flex;flex-direction:column;align-items:center;gap:.4rem;flex-shrink:0;width:36px}
+.ds-num{width:36px;height:36px;border:1px solid var(--border-burg);color:var(--burg);font-size:.62rem;display:flex;align-items:center;justify-content:center;font-weight:600;flex-shrink:0}
+.ds-line{width:1px;flex:1;background:var(--border);margin:0 auto}
+.ds-row:last-child .ds-line{display:none}
+.ds-content{flex:1;padding-top:.2rem}
+.ds-time{font-size:.5rem;letter-spacing:.32em;text-transform:uppercase;color:var(--burg);margin-bottom:.3rem;font-weight:500}
+.ds-title{font-size:.82rem;font-weight:600;color:var(--ink);margin-bottom:.35rem}
+.ds-desc{font-size:.78rem;color:var(--muted);line-height:1.8}
+.daily-card{background:var(--ink);padding:2.5rem;position:relative;overflow:hidden}
+.dc-glow{position:absolute;width:250px;height:250px;border-radius:50%;background:radial-gradient(circle,rgba(125,32,53,.3),transparent 70%);top:-60px;right:-60px;pointer-events:none}
+.dc-label{font-size:.48rem;letter-spacing:.42em;text-transform:uppercase;color:var(--burg2);margin-bottom:.6rem;position:relative}
+.dc-title{font-family:'Poppins',sans-serif;font-size:1.1rem;font-weight:600;color:#fff;margin-bottom:1rem;position:relative;line-height:1.4}
+.dc-body{font-size:.82rem;color:rgba(255,255,255,.5);line-height:1.9;position:relative;margin-bottom:1.5rem}
+.dc-affirmation{border-top:1px solid rgba(255,255,255,.08);padding-top:1.2rem;margin-top:.5rem;position:relative}
+.dc-aff-label{font-size:.48rem;letter-spacing:.38em;text-transform:uppercase;color:rgba(255,255,255,.3);margin-bottom:.5rem}
+.dc-aff-text{font-family:'Poppins',sans-serif;font-size:.95rem;font-style:italic;color:rgba(255,255,255,.7);line-height:1.7}
+
 /* ── RELATED ── */
 .related-section{max-width:1240px;margin:5rem auto 0;padding:0 4rem 6rem;border-top:1px solid var(--border)}
 @media(max-width:640px){.related-section{padding:0 1.2rem 4rem;margin-top:3rem}}
@@ -513,6 +616,316 @@ nav{position:fixed;top:0;left:0;right:0;z-index:1000;background:rgba(246,248,252
       <div class="strip-item-icon">⏱</div>
       <div class="strip-item-title">8–12 Hour Wear</div>
       <div class="strip-item-sub">Long-lasting, skin-safe attar formula</div>
+    </div>
+  </div>
+</div>
+
+<!-- 1. DESCRIPTION -->
+<div class="desc-section">
+  <div class="desc-inner">
+    <div>
+      <div class="sec-label">About KLEOMA</div>
+      <h2 class="sec-title" style="margin-bottom:1.5rem">A Long-Lasting Perfume Oil<br>for <em>Soulful Connection</em></h2>
+      <p class="desc-quote">"A premium attar roll-on, infused with ritual and mantra to support emotional connection, attraction, and presence."</p>
+      <p class="desc-body">KLEOMA is a sensory anchor — crafted for those who seek not fleeting attraction, but deep, conscious love. It serves partners, seekers, and open hearts who value spiritual ritual, presence, and meaningful intention.</p>
+      <p class="desc-body">Worn daily as part of a mindful practice, KLEOMA supports emotional openness, natural attraction, and the kind of presence that draws meaningful connection into your life.</p>
+      <div class="desc-pills">
+        <span class="desc-pill active">Emotional Openness</span>
+        <span class="desc-pill active">Natural Attraction</span>
+        <span class="desc-pill active">Conscious Presence</span>
+        <span class="desc-pill">Alcohol-Free</span>
+        <span class="desc-pill">10ml Roll-On</span>
+        <span class="desc-pill">8–12 Hr Wear</span>
+      </div>
+    </div>
+    <div class="desc-visual">
+      <div class="dv-stat">
+        <div class="dv-stat-icon">⏱</div>
+        <div class="dv-stat-text">
+          <div class="dv-stat-val">8 – 12 Hours</div>
+          <div class="dv-stat-lbl">Fragrance Longevity</div>
+        </div>
+      </div>
+      <div class="dv-stat">
+        <div class="dv-stat-icon">📿</div>
+        <div class="dv-stat-text">
+          <div class="dv-stat-val">108 ×</div>
+          <div class="dv-stat-lbl">Mantra Chants Per Batch</div>
+        </div>
+      </div>
+      <div class="dv-stat">
+        <div class="dv-stat-icon">🌕</div>
+        <div class="dv-stat-text">
+          <div class="dv-stat-val">18 Weeks</div>
+          <div class="dv-stat-lbl">Full Transformation Timeline</div>
+        </div>
+      </div>
+      <div class="dv-stat">
+        <div class="dv-stat-icon">🚫</div>
+        <div class="dv-stat-text">
+          <div class="dv-stat-val">Zero Alcohol</div>
+          <div class="dv-stat-lbl">Pure Attar Formulation</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 2. ASTROLOGY RITUAL INFUSED -->
+<div class="astro-section">
+  <div class="astro-inner">
+    <div>
+      <div class="astro-label">Ceremonial Preparation</div>
+      <h2 class="astro-title">Astrology &amp; Ritual Infused</h2>
+      <p class="astro-body">Each bottle of KLEOMA is prepared through sacred fire rituals and mantra-led ceremonial practices. The infusion is carried out with intention and traditional spiritual discipline centered on the heart space.</p>
+      <ul class="astro-points">
+        <li>
+          <span class="ap-icon">🔥</span>
+          <div class="ap-text">
+            <strong>Sacred Fire Ceremony (Havan)</strong>
+            A traditional fire ritual performed with heart-centered mantras, preparing the energetic field into which the oil is introduced.
+          </div>
+        </li>
+        <li>
+          <span class="ap-icon">📿</span>
+          <div class="ap-text">
+            <strong>Love Beej Mantra Infusion</strong>
+            A love-oriented Beej mantra chanted 108 times per batch, encoding the oil with the vibrational frequency of attraction and connection.
+          </div>
+        </li>
+        <li>
+          <span class="ap-icon">🌕</span>
+          <div class="ap-text">
+            <strong>Lunar Phase Charging</strong>
+            The oil undergoes crystalline energy charging under specific lunar phases chosen for their resonance with love, openness, and harmony.
+          </div>
+        </li>
+        <li>
+          <span class="ap-icon">⭐</span>
+          <div class="ap-text">
+            <strong>Auspicious Sealing</strong>
+            Each bottle is sealed at a muhurta — an auspicious time selected by a Vedic astrologer — for maximum energetic potency.
+          </div>
+        </li>
+      </ul>
+    </div>
+    <div class="astro-grid">
+      <div class="astro-card">
+        <div class="astro-card-icon">♀</div>
+        <div class="astro-card-title">Venus Energy</div>
+        <div class="astro-card-desc">Formulated to align with Venus — the planet governing love, beauty, and heart-centred connection.</div>
+      </div>
+      <div class="astro-card">
+        <div class="astro-card-icon">🌹</div>
+        <div class="astro-card-title">Heart Chakra</div>
+        <div class="astro-card-desc">Rose and ylang ylang are traditional Anahata (heart chakra) activators used in Vedic healing.</div>
+      </div>
+      <div class="astro-card">
+        <div class="astro-card-icon">ॐ</div>
+        <div class="astro-card-title">Kleem Beej</div>
+        <div class="astro-card-desc">The Kleem Beej mantra — the seed sound of attraction — is chanted into every batch during preparation.</div>
+      </div>
+      <div class="astro-card">
+        <div class="astro-card-icon">🌕</div>
+        <div class="astro-card-title">Lunar Alignment</div>
+        <div class="astro-card-desc">Prepared during Shukla Paksha (waxing moon) — the phase associated with growth, abundance, and love.</div>
+      </div>
+      <div class="astro-card">
+        <div class="astro-card-icon">🕯</div>
+        <div class="astro-card-title">Muhurta Sealing</div>
+        <div class="astro-card-desc">Sealed at a Vedic auspicious time chosen for love and attraction energy amplification.</div>
+      </div>
+      <div class="astro-card">
+        <div class="astro-card-icon">🧿</div>
+        <div class="astro-card-title">Protection Layer</div>
+        <div class="astro-card-desc">Nazar-protection mantra layered in to keep the wearer energetically clear and grounded.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 3. SCENT PROFILE -->
+<div class="scentprofile-section">
+  <div class="sec-head">
+    <div class="sec-label">Fragrance Architecture</div>
+    <h2 class="sec-title">The Scent <em>Profile</em></h2>
+  </div>
+  <div class="sp-lead">"Velvety, warm, and floral. A blooming heart of rose and ylang ylang over a base of soft musk, amber, and a whisper of spice. Romantic, inviting, and deeply magnetic."</div>
+  <div class="sp-layers">
+    <div class="sp-layer">
+      <div class="sp-layer-label">
+        <div class="sp-layer-type">Top</div>
+        <div class="sp-layer-name">Opening</div>
+      </div>
+      <div class="sp-layer-notes">
+        <div class="sp-note">
+          <span class="sp-note-icon">🌹</span>
+          <div><div class="sp-note-name">Rose</div><div class="sp-note-desc">Blooming, romantic, heart-opening</div></div>
+        </div>
+        <div class="sp-note">
+          <span class="sp-note-icon">🌸</span>
+          <div><div class="sp-note-name">Ylang Ylang</div><div class="sp-note-desc">Sensual, exotic, magnetic</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="sp-layer">
+      <div class="sp-layer-label" style="background:var(--burg-dim)">
+        <div class="sp-layer-type">Heart</div>
+        <div class="sp-layer-name">Soul</div>
+      </div>
+      <div class="sp-layer-notes">
+        <div class="sp-note">
+          <span class="sp-note-icon">🌫</span>
+          <div><div class="sp-note-name">Soft Musk</div><div class="sp-note-desc">Warm, skin-close, intimate</div></div>
+        </div>
+        <div class="sp-note">
+          <span class="sp-note-icon">🍯</span>
+          <div><div class="sp-note-name">Warm Amber</div><div class="sp-note-desc">Golden, comforting, enveloping</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="sp-layer">
+      <div class="sp-layer-label" style="background:#0f1a2d">
+        <div class="sp-layer-type">Base</div>
+        <div class="sp-layer-name">Depth</div>
+      </div>
+      <div class="sp-layer-notes">
+        <div class="sp-note">
+          <span class="sp-note-icon">🌶</span>
+          <div><div class="sp-note-name">Spice</div><div class="sp-note-desc">Mysterious, grounding, alluring</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-top:2rem">
+    <div class="sp-descriptor" style="border:1px solid var(--border);background:var(--white)">
+      <div class="sp-descriptor-text">"Romantic, inviting,<br>and deeply magnetic"</div>
+      <div class="sp-descriptor-sub">Overall Character</div>
+    </div>
+    <div class="sp-descriptor" style="border:1px solid var(--border);background:var(--white)">
+      <div class="sp-descriptor-text">"Velvety, warm,<br>and floral"</div>
+      <div class="sp-descriptor-sub">Texture &amp; Feel</div>
+    </div>
+  </div>
+</div>
+
+<!-- 4. 11-DAY ACTIVATION RITUAL -->
+<div class="eleven-section">
+  <div class="eleven-inner">
+    <div class="sec-head" style="text-align:left;margin-bottom:0">
+      <div class="sec-label">The Activation Practice</div>
+      <h2 class="sec-title">11-Day Activation <em>Ritual</em></h2>
+      <p style="font-size:.88rem;color:var(--muted);line-height:2;margin-top:1rem;font-weight:300;max-width:560px">To see results in 18 weeks, follow the ritual instructions inside the perfume box consistently. The activation works through repetition and energetic imprinting — each day compounds the one before it.</p>
+    </div>
+    <div class="eleven-timeline">
+      <div class="et-cell">
+        <div class="et-num">01–03</div>
+        <div class="et-phase">Days 1 – 3</div>
+        <div class="et-title">Intention Setting</div>
+        <div class="et-desc">Apply KLEOMA and write your love intention clearly. Hold it in mind for 11 minutes at the same time each morning.</div>
+      </div>
+      <div class="et-cell">
+        <div class="et-num">04–06</div>
+        <div class="et-phase">Days 4 – 6</div>
+        <div class="et-title">Mantra Activation</div>
+        <div class="et-desc">Begin chanting the included Kleem Beej mantra 21 times after application. Feel the vibration settling into your skin.</div>
+      </div>
+      <div class="et-cell">
+        <div class="et-num">07–09</div>
+        <div class="et-phase">Days 7 – 9</div>
+        <div class="et-title">Energetic Anchoring</div>
+        <div class="et-desc">Notice shifts in how people respond to you. Journal one observation per day. Continue mantra + application.</div>
+      </div>
+      <div class="et-cell">
+        <div class="et-num">10–11</div>
+        <div class="et-phase">Days 10 – 11</div>
+        <div class="et-title">Completion &amp; Seal</div>
+        <div class="et-desc">Dedicate your practice — release the intention fully and trust. The energetic channel is now open and active.</div>
+      </div>
+    </div>
+    <div class="eleven-bottom">
+      <div class="eleven-callout">
+        <div class="ec-icon">🃏</div>
+        <div class="ec-text">
+          <div class="ec-title">Ritual Card Included</div>
+          <div class="ec-desc">Every KLEOMA comes with a printed Activation Ritual Card with the full daily instructions, mantra pronunciation guide, and intention prompts.</div>
+        </div>
+      </div>
+      <div class="eleven-callout">
+        <div class="ec-icon">📅</div>
+        <div class="ec-text">
+          <div class="ec-title">18-Week Results Timeline</div>
+          <div class="ec-desc">The full transformation unfolds over 18 weeks of consistent daily use. Most wearers report noticeable shifts in presence and connection within the first 3 weeks.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 5. DAILY RITUAL -->
+<div class="daily-section">
+  <div class="daily-inner">
+    <div>
+      <div class="sec-label">How to Wear It</div>
+      <h2 class="sec-title" style="margin-bottom:1.5rem">Your Daily <em>Ritual</em></h2>
+      <p style="font-size:.88rem;color:var(--muted);line-height:2;font-weight:300;margin-bottom:2rem">Refer to the ritual card that comes with the perfume for your complete practice. Below is the foundational daily framework.</p>
+      <div class="daily-steps">
+        <div class="ds-row">
+          <div class="ds-left"><div class="ds-num">01</div><div class="ds-line"></div></div>
+          <div class="ds-content">
+            <div class="ds-time">Morning · Before leaving home</div>
+            <div class="ds-title">Set Your Intention</div>
+            <div class="ds-desc">Before applying, pause for 11 seconds. Close your eyes and feel your intention for love and connection — not as a wish, but as a present reality.</div>
+          </div>
+        </div>
+        <div class="ds-row">
+          <div class="ds-left"><div class="ds-num">02</div><div class="ds-line"></div></div>
+          <div class="ds-content">
+            <div class="ds-time">Application</div>
+            <div class="ds-title">Apply to Pulse Points</div>
+            <div class="ds-desc">Roll KLEOMA onto inner wrists, base of neck, and behind the ears. Press gently — never rub — to warm the oil without breaking the molecular structure.</div>
+          </div>
+        </div>
+        <div class="ds-row">
+          <div class="ds-left"><div class="ds-num">03</div><div class="ds-line"></div></div>
+          <div class="ds-content">
+            <div class="ds-time">Activation</div>
+            <div class="ds-title">Chant Your Mantra</div>
+            <div class="ds-desc">Silently or aloud, recite the included Kleem Beej mantra 21 times. This anchors your intention into the fragrance and sets the energetic tone for the day.</div>
+          </div>
+        </div>
+        <div class="ds-row">
+          <div class="ds-left"><div class="ds-num">04</div><div class="ds-line"></div></div>
+          <div class="ds-content">
+            <div class="ds-time">Throughout the Day</div>
+            <div class="ds-title">Stay Present &amp; Open</div>
+            <div class="ds-desc">When you catch the scent on yourself, use it as a mindfulness cue — return to your intention, soften your heart, and remain open to connection in every interaction.</div>
+          </div>
+        </div>
+        <div class="ds-row">
+          <div class="ds-left"><div class="ds-num">05</div><div class="ds-line"></div></div>
+          <div class="ds-content">
+            <div class="ds-time">Evening · Before sleep</div>
+            <div class="ds-title">Journal One Observation</div>
+            <div class="ds-desc">Write one interaction or moment where you felt more open, present, or connected than usual. This practice accelerates the 18-week transformation.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="daily-card">
+      <div class="dc-glow"></div>
+      <div class="dc-label">Daily Affirmation</div>
+      <div class="dc-title">The Intention That Wears KLEOMA</div>
+      <div class="dc-body">Wear this oil as a daily vow to yourself — to show up open, present, and worthy of the love you seek. The fragrance is not the magic. Your consistent intention is.</div>
+      <div class="dc-affirmation">
+        <div class="dc-aff-label">Morning Affirmation</div>
+        <div class="dc-aff-text">"I am open. I am warm. I am magnetic. Love finds me because I am present."</div>
+      </div>
+      <div style="margin-top:1.8rem;position:relative">
+        <div style="font-size:.48rem;letter-spacing:.38em;text-transform:uppercase;color:rgba(255,255,255,.25);margin-bottom:.5rem">Beej Mantra</div>
+        <div style="font-family:'Poppins',sans-serif;font-size:1.6rem;color:rgba(125,32,53,.4);letter-spacing:.12em">ॐ क्लीं नमः</div>
+        <div style="font-size:.58rem;color:rgba(255,255,255,.2);margin-top:.3rem;letter-spacing:.15em">Om Kleem Namah</div>
+      </div>
     </div>
   </div>
 </div>
