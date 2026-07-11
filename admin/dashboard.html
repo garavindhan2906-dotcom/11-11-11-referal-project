@@ -370,6 +370,9 @@ body{background:var(--cream);color:var(--ink);font-family:'Inter',sans-serif;fon
     <a class="sb-item" data-page="reels" onclick="nav('reels',this)">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="2.18" ry="2.18"/><line x1="7" y1="2" x2="7" y2="22"/><line x1="17" y1="2" x2="17" y2="22"/><line x1="2" y1="12" x2="22" y2="12"/><line x1="2" y1="7" x2="7" y2="7"/><line x1="2" y1="17" x2="7" y2="17"/><line x1="17" y1="17" x2="22" y2="17"/><line x1="17" y1="7" x2="22" y2="7"/></svg>Reels
     </a>
+    <a class="sb-item" data-page="analytics" onclick="nav('analytics',this)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 3v18h18"/><path d="M18.7 8l-5.1 5.1-2.8-2.8L7 14.1"/></svg>Analytics
+    </a>
     <a class="sb-item" data-page="resellers" onclick="nav('resellers',this)">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>Resellers
       <span class="sb-badge" style="background:var(--amber-bg);border-color:rgba(217,119,6,.3);color:var(--amber)" id="sb-pending-count">2</span>
@@ -502,6 +505,31 @@ body{background:var(--cream);color:var(--ink);font-family:'Inter',sans-serif;fon
       <div class="panel">
         <div class="panel-head"><div class="panel-title">All Reels</div></div>
         <div id="reels-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:1rem"></div>
+      </div>
+    </div>
+
+    <!-- ANALYTICS -->
+    <div class="page" id="page-analytics">
+      <div class="stats-grid" style="margin-bottom:1.5rem">
+        <div class="stat-card"><div class="stat-icon">👁️</div><div class="stat-val" id="an-views">—</div><div class="stat-lbl">Total Page Views</div></div>
+        <div class="stat-card"><div class="stat-icon">👥</div><div class="stat-val" id="an-visitors">—</div><div class="stat-lbl">Unique Visitors</div></div>
+        <div class="stat-card"><div class="stat-icon">⏱️</div><div class="stat-val" id="an-avgtime">—</div><div class="stat-lbl">Avg. Time on Page</div></div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem">
+        <div class="panel" style="margin-bottom:0">
+          <div class="panel-head"><div class="panel-title">Views by Page</div></div>
+          <table class="tbl">
+            <thead><tr><th>Page</th><th>Views</th><th>Avg. Time</th></tr></thead>
+            <tbody id="an-pages-tbody"></tbody>
+          </table>
+        </div>
+        <div class="panel" style="margin-bottom:0">
+          <div class="panel-head"><div class="panel-title">Most Clicked Products</div></div>
+          <table class="tbl">
+            <thead><tr><th>Product</th><th>Clicks</th></tr></thead>
+            <tbody id="an-products-tbody"></tbody>
+          </table>
+        </div>
       </div>
     </div>
 
@@ -1068,7 +1096,7 @@ function nav(name,el){
   document.querySelectorAll('.sb-item').forEach(i=>i.classList.remove('on'));
   document.getElementById('page-'+name).classList.add('on');
   if(el)el.classList.add('on');
-  const titles={overview:'Overview',products:'Products',reels:'Reels',resellers:'Resellers',orders:'Orders',sales:'Reseller Sales',calendar:'Calendar',payouts:'Payouts',settings:'Settings'};
+  const titles={overview:'Overview',products:'Products',reels:'Reels',analytics:'Analytics',resellers:'Resellers',orders:'Orders',sales:'Reseller Sales',calendar:'Calendar',payouts:'Payouts',settings:'Settings'};
   document.getElementById('tb-title').textContent=titles[name]||name;
   document.getElementById('tb-crumb').textContent=titles[name]||name;
   if(name==='sales')loadResellerSales();
@@ -1076,6 +1104,7 @@ function nav(name,el){
   if(name==='calendar')loadCalendar(calYear,calMonth);
   if(name==='payouts')loadPayouts();
   if(name==='reels')loadReels();
+  if(name==='analytics')loadAnalytics();
   closeSidebar();
 }
 function openSidebar(){document.getElementById('sidebar').classList.add('open');document.getElementById('sb-overlay').classList.add('show');}
@@ -1251,6 +1280,24 @@ async function deleteReel(id){
     renderReels();
     toast('✕','Reel removed.');
   }catch(_){toast('⚠️','Server error.');}
+}
+
+/* ── ANALYTICS ── */
+async function loadAnalytics(){
+  try{
+    const res=await fetch(`${API}/api/store/analytics/`,{headers:{'X-Admin-Key':ADMIN_KEY}});
+    if(!res.ok){toast('⚠️','Could not load analytics.');return;}
+    const d=await res.json();
+    document.getElementById('an-views').textContent=d.total_views.toLocaleString('en-IN');
+    document.getElementById('an-visitors').textContent=d.unique_visitors.toLocaleString('en-IN');
+    document.getElementById('an-avgtime').textContent=d.avg_duration_seconds?`${d.avg_duration_seconds}s`:'—';
+    document.getElementById('an-pages-tbody').innerHTML=d.pages.length?d.pages.map(p=>`
+      <tr><td style="font-size:.8rem">${p.path}</td><td>${p.views}</td><td>${p.avg_time?p.avg_time+'s':'—'}</td></tr>
+    `).join(''):'<tr><td colspan="3" style="padding:1.5rem;text-align:center;color:var(--dim)">No page views yet.</td></tr>';
+    document.getElementById('an-products-tbody').innerHTML=d.products.length?d.products.map(p=>`
+      <tr><td style="font-size:.8rem">${p.product_name||'Unknown'}</td><td>${p.clicks}</td></tr>
+    `).join(''):'<tr><td colspan="2" style="padding:1.5rem;text-align:center;color:var(--dim)">No product clicks yet.</td></tr>';
+  }catch(_){toast('⚠️','Server error. Make sure Django is running.');}
 }
 
 function openModal(id){

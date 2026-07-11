@@ -1,13 +1,13 @@
 ﻿import random
 import string
 from django.utils import timezone
-from django.db.models import Sum, Count
+from django.db.models import Sum, Count, Avg
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny
 from rest_framework.parsers import MultiPartParser, FormParser, JSONParser
 
-from .models import Product, ProductImage, Reel, Customer, Order, OrderItem
+from .models import Product, ProductImage, Reel, Customer, Order, OrderItem, PageView, ProductClick
 from resellers.models import Reseller
 
 
@@ -450,3 +450,89 @@ class ReelDeleteView(APIView):
             reel.thumbnail.delete(save=False)
         reel.delete()
         return Response({"success": True})
+
+
+class TrackPageViewView(APIView):
+    permission_classes = [AllowAny]
+
+    def post(self, request):
+        path = request.data.get("path", "").strip()[:300]
+        visitor_id = request.data.get("visitor_id", "").strip()[:64]
+        if not path or not visitor_id:
+            return Response({"error": "Missing path or visitor_id."}, status=400)
+        pv = PageView.objects.create(path=path, visitor_id=visitor_id)
+        return Response({"id": pv.id}, status=201)
+
+
+class TrackPageDurationView(APIView):
+    permission_classes = [AllowAny]
+
+    def post(self, request, pk):
+        try:
+            pv = PageView.objects.get(pk=pk)
+        except PageView.DoesNotExist:
+            return Response({"error": "Not found."}, status=404)
+        try:
+            pv.duration_seconds = max(0, int(request.data.get("duration", 0)))
+            pv.save(update_fields=["duration_seconds"])
+        except (TypeError, ValueError):
+            pass
+        return Response({"success": True})
+
+
+class TrackProductClickView(APIView):
+    permission_classes = [AllowAny]
+
+    def post(self, request):
+        product_id = request.data.get("product_id")
+        product_name = request.data.get("product_name", "").strip()[:200]
+        visitor_id = request.data.get("visitor_id", "").strip()[:64]
+        product = None
+        if product_id:
+            try:
+                product = Product.objects.filter(id=int(product_id)).first()
+            except (TypeError, ValueError):
+                pass
+        ProductClick.objects.create(
+            product=product,
+            product_name=product_name or (product.name if product else ""),
+            visitor_id=visitor_id,
+        )
+        return Response({"success": True}, status=201)
+
+
+class AnalyticsView(APIView):
+    permission_classes = [AllowAny]
+
+    def get(self, request):
+        from resellers.views import ADMIN_SECRET
+        if request.headers.get("X-Admin-Key") != ADMIN_SECRET:
+            return Response({"error": "Unauthorized."}, status=401)
+
+        total_views = PageView.objects.count()
+        unique_visitors = PageView.objects.values("visitor_id").distinct().count()
+        avg_duration = PageView.objects.filter(duration_seconds__isnull=False).aggregate(
+            v=Avg("duration_seconds")
+        )["v"] or 0
+
+        pages = list(
+            PageView.objects.values("path")
+            .annotate(views=Count("id"), avg_time=Avg("duration_seconds"))
+            .order_by("-views")[:20]
+        )
+        for p in pages:
+            p["avg_time"] = round(p["avg_time"], 1) if p["avg_time"] else 0
+
+        products = list(
+            ProductClick.objects.values("product_name")
+            .annotate(clicks=Count("id"))
+            .order_by("-clicks")[:20]
+        )
+
+        return Response({
+            "total_views": total_views,
+            "unique_visitors": unique_visitors,
+            "avg_duration_seconds": round(avg_duration, 1),
+            "pages": pages,
+            "products": products,
+        })

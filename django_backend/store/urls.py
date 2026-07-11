@@ -14,4 +14,8 @@ urlpatterns = [
     path("reels/create/", views.ReelCreateView.as_view(), name="reel-create"),
     path("reels/admin-list/", views.ReelAdminListView.as_view(), name="reel-admin-list"),
     path("reels/<int:pk>/delete/", views.ReelDeleteView.as_view(), name="reel-delete"),
+    path("track-pageview/", views.TrackPageViewView.as_view(), name="track-pageview"),
+    path("track-pageview/<int:pk>/duration/", views.TrackPageDurationView.as_view(), name="track-pageview-duration"),
+    path("track-product-click/", views.TrackProductClickView.as_view(), name="track-product-click"),
+    path("analytics/", views.AnalyticsView.as_view(), name="analytics"),
 ]

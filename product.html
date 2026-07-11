@@ -892,6 +892,33 @@ function closeCart(){document.getElementById('cart-drawer').classList.remove('op
 function proceedToCheckout(){if(!cart.length){toast('✦','Your cart is empty.');return;}localStorage.setItem('111_cart',JSON.stringify(cart));location.href='checkout.html';}
 function toast(icon,msg){if(toastTm)clearTimeout(toastTm);document.getElementById('t-ttl').textContent=icon+' 11:11:11';document.getElementById('t-msg').textContent=msg;document.getElementById('toast').classList.add('show');toastTm=setTimeout(()=>document.getElementById('toast').classList.remove('show'),4000);}
 
+/* ── ANALYTICS TRACKING ── */
+function _visitorId(){
+  let id=localStorage.getItem('111_visitor_id');
+  if(!id){id='v_'+Date.now()+'_'+Math.random().toString(36).slice(2,10);localStorage.setItem('111_visitor_id',id);}
+  return id;
+}
+let _pageViewId=null,_pageStart=Date.now();
+function trackPageView(){
+  fetch('/api/store/track-pageview/',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({path:location.pathname,visitor_id:_visitorId()})})
+    .then(r=>r.ok?r.json():null).then(d=>{if(d)_pageViewId=d.id;}).catch(()=>{});
+}
+function _sendPageDuration(){
+  if(!_pageViewId)return;
+  const duration=Math.round((Date.now()-_pageStart)/1000);
+  const url='/api/store/track-pageview/'+_pageViewId+'/duration/';
+  const data=JSON.stringify({duration});
+  if(navigator.sendBeacon)navigator.sendBeacon(url,new Blob([data],{type:'application/json'}));
+  else fetch(url,{method:'POST',headers:{'Content-Type':'application/json'},body:data,keepalive:true}).catch(()=>{});
+}
+document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='hidden')_sendPageDuration();});
+window.addEventListener('pagehide',_sendPageDuration);
+function trackProductClick(id,name){
+  const data=JSON.stringify({product_id:id,product_name:name,visitor_id:_visitorId()});
+  if(navigator.sendBeacon)navigator.sendBeacon('/api/store/track-product-click/',new Blob([data],{type:'application/json'}));
+  else fetch('/api/store/track-product-click/',{method:'POST',headers:{'Content-Type':'application/json'},body:data}).catch(()=>{});
+}
+
 /* ── RENDER ── */
 function renderProduct(p){
   currentProduct=p;
@@ -992,7 +1019,7 @@ function renderRelated(current){
     const vis=PRODUCT_VISUAL[p.id]||{bg:'#fdf8ee',emoji:'✦',glow:'#c9a84c'};
     const imgUrl=p.image_url||vis.image;
     const dn=suffix?`${p.name}-${suffix}`:p.name;
-    return`<div class="rel-card" onclick="location.href='product.html?id=${p.id}${suffix?'&suffix='+suffix:''}';localStorage.setItem('111_viewed_product',JSON.stringify(${JSON.stringify({...p,image_url:imgUrl})}))">
+    return`<div class="rel-card" onclick="trackProductClick(${p.id},'${dn.replace(/'/g,"\\'")}');location.href='product.html?id=${p.id}${suffix?'&suffix='+suffix:''}';localStorage.setItem('111_viewed_product',JSON.stringify(${JSON.stringify({...p,image_url:imgUrl})}))">
       <div class="rel-img" style="background:${vis.bg}">
         ${imgUrl?`<img src="${imgUrl}" alt="${dn}">`:`<div style="position:relative;z-index:1;font-size:2.4rem">${vis.emoji}</div>`}
         <div style="position:absolute;width:100px;height:100px;border-radius:50%;filter:blur(40px);opacity:.25;background:${vis.glow};top:50%;left:50%;transform:translate(-50%,-50%)"></div>
@@ -1019,6 +1046,7 @@ async function init(){
   }catch(e){}
   if(p){renderProduct(p);}
   else{document.getElementById('pd-name').textContent='Product not found';document.getElementById('btn-add').disabled=true;document.getElementById('btn-buy').disabled=true;}
+  trackPageView();
 }
 document.addEventListener('DOMContentLoaded',init);
 </script>
