@@ -33,6 +33,20 @@ class ProductImage(models.Model):
         return f"Image #{self.id} for {self.product.name}"
 
 
+class Reel(models.Model):
+    video = models.FileField(upload_to='reels/')
+    thumbnail = models.ImageField(upload_to='reels/thumbnails/', null=True, blank=True)
+    caption = models.CharField(max_length=200, blank=True)
+    is_active = models.BooleanField(default=True)
+    created_at = models.DateTimeField(default=timezone.now)
+
+    class Meta:
+        ordering = ['-created_at']
+
+    def __str__(self):
+        return self.caption or f"Reel #{self.id}"
+
+
 class Customer(models.Model):
     name = models.CharField(max_length=200)
     email = models.EmailField(unique=True)

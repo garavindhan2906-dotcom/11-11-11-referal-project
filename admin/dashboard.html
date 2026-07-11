@@ -367,6 +367,9 @@ body{background:var(--cream);color:var(--ink);font-family:'Inter',sans-serif;fon
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/></svg>Products
       <span class="sb-badge" id="sb-prod-count">12</span>
     </a>
+    <a class="sb-item" data-page="reels" onclick="nav('reels',this)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="2.18" ry="2.18"/><line x1="7" y1="2" x2="7" y2="22"/><line x1="17" y1="2" x2="17" y2="22"/><line x1="2" y1="12" x2="22" y2="12"/><line x1="2" y1="7" x2="7" y2="7"/><line x1="2" y1="17" x2="7" y2="17"/><line x1="17" y1="17" x2="22" y2="17"/><line x1="17" y1="7" x2="22" y2="7"/></svg>Reels
+    </a>
     <a class="sb-item" data-page="resellers" onclick="nav('resellers',this)">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>Resellers
       <span class="sb-badge" style="background:var(--amber-bg);border-color:rgba(217,119,6,.3);color:var(--amber)" id="sb-pending-count">2</span>
@@ -464,6 +467,41 @@ body{background:var(--cream);color:var(--ink);font-family:'Inter',sans-serif;fon
           </thead>
           <tbody id="products-tbody"></tbody>
         </table>
+      </div>
+    </div>
+
+    <!-- REELS -->
+    <div class="page" id="page-reels">
+      <div class="panel">
+        <div class="panel-head">
+          <div>
+            <div class="panel-title">Upload a Reel</div>
+            <div style="font-size:.72rem;color:var(--muted);margin-top:.2rem">Short vertical videos shown to visitors on the homepage.</div>
+          </div>
+        </div>
+        <div style="max-width:480px">
+          <div class="form-group" style="margin-bottom:1rem">
+            <label class="flbl" style="font-weight:600;color:var(--ink)">Video <span style="font-weight:400;color:var(--dim)">(MP4 / MOV / WebM · Max 100 MB)</span></label>
+            <div id="reel-drop-zone" onclick="document.getElementById('f-reel-video').click()" style="border:2px dashed var(--border);border-radius:2px;padding:1.6rem 1.5rem;text-align:center;cursor:pointer;transition:all .25s;position:relative;margin-top:.5rem;background:var(--white)">
+              <div id="reel-vid-placeholder">
+                <div style="font-size:2rem;margin-bottom:.5rem">🎬</div>
+                <div style="font-size:.8rem;font-weight:600;color:var(--ink);margin-bottom:.2rem">Click to upload a reel video</div>
+                <div style="font-size:.68rem;color:var(--dim)">MP4, MOV, WebM · Max 100 MB</div>
+              </div>
+              <video id="reel-vid-preview" style="display:none;max-height:200px;max-width:100%;border-radius:2px" controls></video>
+            </div>
+            <input type="file" id="f-reel-video" accept="video/mp4,video/quicktime,video/webm,video/x-msvideo" style="display:none" onchange="handleReelVideo(this)">
+          </div>
+          <div class="form-group" style="margin-bottom:1.2rem">
+            <label class="flbl">Caption <span style="font-weight:400;color:var(--dim)">(optional)</span></label>
+            <input type="text" class="finput" id="reel-caption" placeholder="e.g. How to apply your ritual oil">
+          </div>
+          <button class="btn-sm btn-ink" id="reel-upload-btn" onclick="uploadReel()" style="padding:.85rem 1.8rem">Upload Reel</button>
+        </div>
+      </div>
+      <div class="panel">
+        <div class="panel-head"><div class="panel-title">All Reels</div></div>
+        <div id="reels-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:1rem"></div>
       </div>
     </div>
 
@@ -1030,13 +1068,14 @@ function nav(name,el){
   document.querySelectorAll('.sb-item').forEach(i=>i.classList.remove('on'));
   document.getElementById('page-'+name).classList.add('on');
   if(el)el.classList.add('on');
-  const titles={overview:'Overview',products:'Products',resellers:'Resellers',orders:'Orders',sales:'Reseller Sales',calendar:'Calendar',payouts:'Payouts',settings:'Settings'};
+  const titles={overview:'Overview',products:'Products',reels:'Reels',resellers:'Resellers',orders:'Orders',sales:'Reseller Sales',calendar:'Calendar',payouts:'Payouts',settings:'Settings'};
   document.getElementById('tb-title').textContent=titles[name]||name;
   document.getElementById('tb-crumb').textContent=titles[name]||name;
   if(name==='sales')loadResellerSales();
   if(name==='resellers')loadApplications();
   if(name==='calendar')loadCalendar(calYear,calMonth);
   if(name==='payouts')loadPayouts();
+  if(name==='reels')loadReels();
   closeSidebar();
 }
 function openSidebar(){document.getElementById('sidebar').classList.add('open');document.getElementById('sb-overlay').classList.add('show');}
@@ -1151,6 +1190,68 @@ function handleMedia(input,type){
 }
 function clearMedia(type){}
 function _resetMediaUI(){_resetGallery();}
+
+/* ── REELS ── */
+let REELS=[];
+function handleReelVideo(input){
+  const file=input.files[0];
+  if(!file)return;
+  if(file.size>100*1024*1024){toast('⚠️','File exceeds 100 MB limit.');input.value='';return;}
+  const url=URL.createObjectURL(file);
+  document.getElementById('reel-vid-placeholder').style.display='none';
+  const vid=document.getElementById('reel-vid-preview');
+  vid.src=url;vid.style.display='block';
+}
+async function uploadReel(){
+  const fileInput=document.getElementById('f-reel-video');
+  const file=fileInput.files[0];
+  if(!file){toast('⚠️','Please choose a video first.');return;}
+  const btn=document.getElementById('reel-upload-btn');
+  btn.textContent='Uploading…';btn.disabled=true;
+  const fd=new FormData();
+  fd.append('video',file);
+  fd.append('caption',document.getElementById('reel-caption').value.trim());
+  try{
+    const res=await fetch(`${API}/api/store/reels/create/`,{method:'POST',headers:{'X-Admin-Key':ADMIN_KEY},body:fd});
+    const data=await res.json();
+    if(!res.ok){toast('⚠️',data.error||'Upload failed.');return;}
+    toast('✦','Reel uploaded.');
+    fileInput.value='';
+    document.getElementById('reel-caption').value='';
+    document.getElementById('reel-vid-preview').style.display='none';
+    document.getElementById('reel-vid-placeholder').style.display='block';
+    loadReels();
+  }catch(_){toast('⚠️','Server error. Make sure Django is running.');}
+  finally{btn.textContent='Upload Reel';btn.disabled=false;}
+}
+async function loadReels(){
+  const el=document.getElementById('reels-grid');
+  try{
+    const res=await fetch(`${API}/api/store/reels/admin-list/`,{headers:{'X-Admin-Key':ADMIN_KEY}});
+    if(res.ok){REELS=await res.json();}
+  }catch(_){}
+  renderReels();
+}
+function renderReels(){
+  const el=document.getElementById('reels-grid');
+  el.innerHTML=REELS.length?REELS.map(r=>`
+    <div style="position:relative;border:1px solid var(--border);border-radius:2px;overflow:hidden;background:var(--cream2)">
+      <video src="${r.video_url}" style="width:100%;aspect-ratio:9/16;object-fit:cover;display:block" muted></video>
+      <button onclick="deleteReel(${r.id})" style="position:absolute;top:.4rem;right:.4rem;background:rgba(0,0,0,.55);border:none;color:#fff;width:24px;height:24px;border-radius:50%;cursor:pointer;font-size:.7rem">✕</button>
+      ${r.caption?`<div style="padding:.5rem;font-size:.68rem;color:var(--muted)">${r.caption}</div>`:''}
+    </div>
+  `).join(''):'<div style="padding:2rem;text-align:center;font-size:.8rem;color:var(--dim);grid-column:1/-1">No reels uploaded yet.</div>';
+}
+async function deleteReel(id){
+  if(!confirm('Delete this reel? This cannot be undone.'))return;
+  try{
+    const res=await fetch(`${API}/api/store/reels/${id}/delete/`,{method:'DELETE',headers:{'X-Admin-Key':ADMIN_KEY}});
+    if(!res.ok){const d=await res.json();toast('⚠️',d.error||'Delete failed.');return;}
+    REELS=REELS.filter(r=>r.id!==id);
+    renderReels();
+    toast('✕','Reel removed.');
+  }catch(_){toast('⚠️','Server error.');}
+}
 
 function openModal(id){
   editingId=id||null;

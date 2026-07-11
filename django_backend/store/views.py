@@ -7,7 +7,7 @@ from rest_framework.response import Response
 from rest_framework.permissions import AllowAny
 from rest_framework.parsers import MultiPartParser, FormParser, JSONParser
 
-from .models import Product, ProductImage, Customer, Order, OrderItem
+from .models import Product, ProductImage, Reel, Customer, Order, OrderItem
 from resellers.models import Reseller
 
 
@@ -382,3 +382,71 @@ class CalendarView(APIView):
                 "new_resellers":    total_resellers,
             },
         })
+
+
+def _reel_data(r, request):
+    return {
+        "id": r.id,
+        "video_url": request.build_absolute_uri(r.video.url) if r.video else None,
+        "thumbnail_url": request.build_absolute_uri(r.thumbnail.url) if r.thumbnail else None,
+        "caption": r.caption,
+        "is_active": r.is_active,
+    }
+
+
+class ReelsView(APIView):
+    permission_classes = [AllowAny]
+
+    def get(self, request):
+        reels = Reel.objects.filter(is_active=True)
+        return Response([_reel_data(r, request) for r in reels])
+
+
+class ReelCreateView(APIView):
+    permission_classes = [AllowAny]
+    parser_classes = [MultiPartParser, FormParser, JSONParser]
+
+    def post(self, request):
+        from resellers.views import ADMIN_SECRET
+        if request.headers.get("X-Admin-Key") != ADMIN_SECRET:
+            return Response({"error": "Unauthorized."}, status=401)
+        if "video" not in request.FILES:
+            return Response({"error": "A video file is required."}, status=400)
+        reel = Reel(
+            video=request.FILES["video"],
+            caption=request.data.get("caption", "").strip(),
+        )
+        if "thumbnail" in request.FILES:
+            reel.thumbnail = request.FILES["thumbnail"]
+        reel.save()
+        return Response({"success": True, **_reel_data(reel, request)}, status=201)
+
+
+class ReelAdminListView(APIView):
+    permission_classes = [AllowAny]
+
+    def get(self, request):
+        from resellers.views import ADMIN_SECRET
+        if request.headers.get("X-Admin-Key") != ADMIN_SECRET:
+            return Response({"error": "Unauthorized."}, status=401)
+        reels = Reel.objects.all()
+        return Response([_reel_data(r, request) for r in reels])
+
+
+class ReelDeleteView(APIView):
+    permission_classes = [AllowAny]
+
+    def delete(self, request, pk):
+        from resellers.views import ADMIN_SECRET
+        if request.headers.get("X-Admin-Key") != ADMIN_SECRET:
+            return Response({"error": "Unauthorized."}, status=401)
+        try:
+            reel = Reel.objects.get(pk=pk)
+        except Reel.DoesNotExist:
+            return Response({"error": "Not found."}, status=404)
+        if reel.video:
+            reel.video.delete(save=False)
+        if reel.thumbnail:
+            reel.thumbnail.delete(save=False)
+        reel.delete()
+        return Response({"success": True})

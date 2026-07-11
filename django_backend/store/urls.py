@@ -10,4 +10,8 @@ urlpatterns = [
     path("place-order/", views.PlaceOrderView.as_view(), name="place-order"),
     path("reseller-sales/", views.ResellerSalesView.as_view(), name="reseller-sales"),
     path("calendar/", views.CalendarView.as_view(), name="calendar"),
+    path("reels/", views.ReelsView.as_view(), name="reels"),
+    path("reels/create/", views.ReelCreateView.as_view(), name="reel-create"),
+    path("reels/admin-list/", views.ReelAdminListView.as_view(), name="reel-admin-list"),
+    path("reels/<int:pk>/delete/", views.ReelDeleteView.as_view(), name="reel-delete"),
 ]

@@ -242,6 +242,19 @@ section{position:relative;z-index:1}
 @media(max-width:900px){.gallery-grid{grid-template-columns:repeat(2,1fr);padding:0 2.5rem}.gallery-item:nth-child(1),.gallery-item:nth-child(6){grid-column:span 1;grid-row:span 1}}
 @media(max-width:640px){.gallery-grid{padding:0 1.2rem;gap:.6rem}}
 
+/* REELS */
+#reels-section{padding:7rem 0;background:var(--cream2)}
+.reels-row{display:flex;gap:1.2rem;overflow-x:auto;padding:0 4rem 1rem;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch}
+.reels-row::-webkit-scrollbar{height:6px}
+.reels-row::-webkit-scrollbar-thumb{background:var(--border-gold);border-radius:4px}
+.reel-card{position:relative;flex:0 0 220px;aspect-ratio:9/16;background:#000;border-radius:6px;overflow:hidden;cursor:pointer;scroll-snap-align:start;box-shadow:var(--shadow2)}
+.reel-card video{width:100%;height:100%;object-fit:cover;display:block}
+.reel-play{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.25);transition:opacity .3s}
+.reel-card.playing .reel-play{opacity:0;pointer-events:none}
+.reel-play svg{width:44px;height:44px;fill:#fff;filter:drop-shadow(0 2px 8px rgba(0,0,0,.4))}
+.reel-caption{position:absolute;left:0;right:0;bottom:0;padding:.8rem .7rem;font-size:.72rem;color:#fff;background:linear-gradient(to top,rgba(0,0,0,.7),transparent);line-height:1.4}
+@media(max-width:640px){.reels-row{padding:0 1.2rem 1rem}.reel-card{flex-basis:150px}}
+
 /* BLOG */
 #blog{padding:7rem 0;background:var(--cream2)}
 .blog-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2rem;max-width:1200px;margin:0 auto;padding:0 4rem}
@@ -828,6 +841,18 @@ footer{padding:5rem 4rem 2.5rem;background:var(--ink);border-top:1px solid rgba(
 
 <div class="divider"></div>
 
+<!-- REELS -->
+<section id="reels-section">
+  <div class="sec-wrap">
+    <div class="sec-label">Watch &amp; Learn</div>
+    <h2 class="sec-h2">Sacred <em>Reels</em></h2>
+    <p class="sec-p">Quick rituals, application tips, and behind-the-scenes moments — tap to watch.</p>
+  </div>
+  <div class="reels-row" id="reels-row"></div>
+</section>
+
+<div class="divider"></div>
+
 <!-- BLOG -->
 <section id="blog">
   <div class="sec-wrap">
@@ -1340,6 +1365,32 @@ function toggleFAQ(el){
   if(!wasOpen)item.classList.add('open');
 }
 
+async function loadReels(){
+  const row=document.getElementById('reels-row');
+  if(!row)return;
+  try{
+    const res=await fetch('/api/store/reels/');
+    if(!res.ok)throw new Error();
+    const reels=await res.json();
+    if(!reels.length){row.parentElement.style.display='none';return;}
+    row.innerHTML=reels.map(r=>`
+      <div class="reel-card" onclick="toggleReel(this)">
+        <video src="${r.video_url}" loop playsinline muted></video>
+        <div class="reel-play"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+        ${r.caption?`<div class="reel-caption">${r.caption}</div>`:''}
+      </div>
+    `).join('');
+  }catch(e){row.parentElement.style.display='none';}
+}
+function toggleReel(card){
+  const video=card.querySelector('video');
+  document.querySelectorAll('.reel-card.playing').forEach(c=>{
+    if(c!==card){c.classList.remove('playing');c.querySelector('video').pause();}
+  });
+  if(video.paused){video.muted=false;video.play();card.classList.add('playing');}
+  else{video.pause();card.classList.remove('playing');}
+}
+
 function toggleMobileMenu(){
   const menu=document.getElementById('mob-menu');
   const overlay=document.getElementById('mob-overlay');
@@ -1373,7 +1424,7 @@ function submitNewsletter(){
 }
 
 document.addEventListener('DOMContentLoaded',()=>{
-  initStars();initNav();initRefBadge();renderTrinity();renderProducts();renderAffirmations();initScrollObs();
+  initStars();initNav();initRefBadge();renderTrinity();renderProducts();renderAffirmations();initScrollObs();loadReels();
   const skipIntro=sessionStorage.getItem('111_site_entered')||location.hash==='#store'||location.hash==='#collections'||new URLSearchParams(location.search).get('skip');
   if(skipIntro){
     const intro=document.getElementById('intro');
