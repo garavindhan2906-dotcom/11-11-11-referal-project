@@ -232,6 +232,41 @@ section{position:relative;z-index:1}
 .sec-p{text-align:center;color:var(--muted);font-size:1.1rem;line-height:1.95;max-width:540px;margin:0 auto 3.5rem}
 .divider{height:1px;background:linear-gradient(90deg,transparent,var(--border),transparent)}
 
+/* GALLERY */
+#gallery{padding:7rem 0;background:var(--white)}
+.gallery-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;max-width:1200px;margin:0 auto;padding:0 4rem}
+.gallery-item{aspect-ratio:1/1;overflow:hidden;position:relative;cursor:pointer;background:var(--cream2)}
+.gallery-item img{width:100%;height:100%;object-fit:cover;transition:transform .5s ease}
+.gallery-item:hover img{transform:scale(1.08)}
+.gallery-item:nth-child(1),.gallery-item:nth-child(6){grid-column:span 2;grid-row:span 2}
+@media(max-width:900px){.gallery-grid{grid-template-columns:repeat(2,1fr);padding:0 2.5rem}.gallery-item:nth-child(1),.gallery-item:nth-child(6){grid-column:span 1;grid-row:span 1}}
+@media(max-width:640px){.gallery-grid{padding:0 1.2rem;gap:.6rem}}
+
+/* BLOG */
+#blog{padding:7rem 0;background:var(--cream2)}
+.blog-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2rem;max-width:1200px;margin:0 auto;padding:0 4rem}
+.blog-card{background:var(--white);border:1px solid var(--border);box-shadow:var(--shadow);cursor:pointer;transition:all .3s}
+.blog-card:hover{box-shadow:var(--shadow2);transform:translateY(-3px)}
+.blog-img{aspect-ratio:16/10;background:var(--cream2);display:flex;align-items:center;justify-content:center;font-size:2.4rem}
+.blog-body{padding:1.5rem}
+.blog-tag{font-size:.62rem;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);margin-bottom:.6rem;display:block}
+.blog-title{font-family:'Inter',sans-serif;font-size:1.1rem;font-weight:700;color:var(--ink);margin-bottom:.6rem;line-height:1.35}
+.blog-excerpt{font-size:.85rem;color:var(--muted);line-height:1.7}
+@media(max-width:900px){.blog-grid{grid-template-columns:1fr;padding:0 2.5rem}}
+@media(max-width:640px){.blog-grid{padding:0 1.2rem}}
+
+/* FAQ */
+#faq{padding:7rem 0;background:var(--white)}
+.faq-list{max-width:800px;margin:0 auto;padding:0 4rem}
+.faq-item{border-bottom:1px solid var(--border)}
+.faq-q{padding:1.3rem 0;display:flex;align-items:center;justify-content:space-between;gap:1rem;cursor:pointer;font-size:.95rem;color:var(--ink);font-weight:500}
+.faq-q svg{width:16px;height:16px;flex-shrink:0;color:var(--gold);transition:transform .3s}
+.faq-item.open .faq-q svg{transform:rotate(45deg)}
+.faq-a{max-height:0;overflow:hidden;transition:max-height .35s ease}
+.faq-item.open .faq-a{max-height:220px}
+.faq-a p{padding:0 0 1.3rem;font-size:.85rem;color:var(--muted);line-height:1.8}
+@media(max-width:640px){.faq-list{padding:0 1.2rem}}
+
 /* ── TRINITY ── */
 #trinity{padding:7rem 0;background:var(--white)}
 .trinity-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2rem;max-width:1200px;margin:0 auto;padding:0 4rem}
@@ -548,8 +583,11 @@ footer{padding:5rem 4rem 2.5rem;background:var(--ink);border-top:1px solid rgba(
   <nav class="mob-nav">
     <a href="#trinity" onclick="closeMobileMenu()">Collections</a>
     <a href="#ai-guide" onclick="closeMobileMenu()">Find My Scent</a>
+    <a href="#gallery" onclick="closeMobileMenu()">Gallery</a>
+    <a href="#blog" onclick="closeMobileMenu()">Blog</a>
     <a href="#affirmations" onclick="closeMobileMenu()">Affirmations</a>
     <a href="#journey" onclick="closeMobileMenu()">Our Journey</a>
+    <a href="#faq" onclick="closeMobileMenu()">FAQs</a>
     <a href="#resellers" onclick="closeMobileMenu()">Become a Reseller</a>
   </nav>
   <a href="reseller/login.html" class="mob-portal">Reseller Portal Login →</a>
@@ -769,6 +807,64 @@ footer{padding:5rem 4rem 2.5rem;background:var(--ink);border-top:1px solid rgba(
 
 <div class="divider"></div>
 
+<!-- GALLERY -->
+<section id="gallery">
+  <div class="sec-wrap">
+    <div class="sec-label">Sacred Moments</div>
+    <h2 class="sec-h2">Our <em>Gallery</em></h2>
+    <p class="sec-p">A glimpse into the ritual — from hand-turned bottles to the moments our oils become part of your story.</p>
+  </div>
+  <div class="gallery-grid">
+    <div class="gallery-item"><img src="images/sacred.png" alt="Sacred ritual moment" loading="lazy"></div>
+    <div class="gallery-item"><img src="images/products/kleoma.jpeg" alt="KLEOMA ritual oil" loading="lazy"></div>
+    <div class="gallery-item"><img src="images/products/kamavya.jpeg" alt="KAMAVYA ritual oil" loading="lazy"></div>
+    <div class="gallery-item"><img src="images/sacred-practice.png" alt="Applying the sacred oil" loading="lazy"></div>
+    <div class="gallery-item"><img src="images/products/shreemsri.jpeg" alt="SHREEMSRI ritual oil" loading="lazy"></div>
+    <div class="gallery-item"><img src="images/hero2.jpeg" alt="11:11:11 hero moment" loading="lazy"></div>
+    <div class="gallery-item"><img src="images/products/mystra.jpeg" alt="MYSTRA ritual oil" loading="lazy"></div>
+    <div class="gallery-item"><img src="images/products/love-combo.png" alt="Love Combo ritual set" loading="lazy"></div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- BLOG -->
+<section id="blog">
+  <div class="sec-wrap">
+    <div class="sec-label">From The Journal</div>
+    <h2 class="sec-h2">Sacred <em>Updates</em></h2>
+    <p class="sec-p">Notes on ritual, fragrance, and intention — from our journal to yours.</p>
+  </div>
+  <div class="blog-grid">
+    <div class="blog-card" onclick="toast('✦','Full article — opens in live version.')">
+      <div class="blog-img">🌹</div>
+      <div class="blog-body">
+        <span class="blog-tag">Guide</span>
+        <div class="blog-title">Top 5 Long Lasting Perfume Oils in India</div>
+        <div class="blog-excerpt">Why alcohol-free attars outlast conventional sprays — and which of our ritual oils hold their fragrance longest through the day.</div>
+      </div>
+    </div>
+    <div class="blog-card" onclick="toast('✦','Full article — opens in live version.')">
+      <div class="blog-img">✨</div>
+      <div class="blog-body">
+        <span class="blog-tag">Wellness</span>
+        <div class="blog-title">Choosing a Scent for Your Personality</div>
+        <div class="blog-excerpt">A guide to matching your intention — love, wealth, clarity, or success — to the fragrance notes that support it.</div>
+      </div>
+    </div>
+    <div class="blog-card" onclick="toast('✦','Full article — opens in live version.')">
+      <div class="blog-img">🕯️</div>
+      <div class="blog-body">
+        <span class="blog-tag">Ritual</span>
+        <div class="blog-title">Attar vs. Perfume: What's the Difference?</div>
+        <div class="blog-excerpt">Traditional attars are oil-based, alcohol-free, and ceremonially prepared — here's how that changes the way a fragrance wears on you.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
 <!-- AFFIRMATIONS -->
 <section id="affirmations">
   <div class="sec-label">Daily Practice</div>
@@ -883,6 +979,43 @@ footer{padding:5rem 4rem 2.5rem;background:var(--ink);border-top:1px solid rgba(
 
 <div class="divider"></div>
 
+<!-- FAQ -->
+<section id="faq">
+  <div class="sec-wrap">
+    <div class="sec-label">Have Questions?</div>
+    <h2 class="sec-h2">Frequently <em>Asked</em></h2>
+    <p class="sec-p">Everything you need to know before you begin your ritual.</p>
+    <div class="faq-list">
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFAQ(this)">Are your oils alcohol-free?<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
+        <div class="faq-a"><p>Yes. Every 11:11:11 oil is a pure, alcohol-free attar — long-lasting (8–12 hours) and safe for daily use directly on pulse points.</p></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFAQ(this)">How does the 11-Day Activation Ritual work?<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
+        <div class="faq-a"><p>Every bottle includes a Beej mantra and ritual card. Apply your oil each morning for 11 consecutive days while setting your intention and reciting the mantra to activate the oil's vibrational frequency.</p></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFAQ(this)">How long does shipping take?<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
+        <div class="faq-a"><p>Orders are ceremonially prepared and dispatched within 24 hours. Delivery typically takes 3–7 business days across India. Free shipping on orders above ₹999.</p></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFAQ(this)">Can I return or exchange a product?<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
+        <div class="faq-a"><p>Due to the personal nature of fragrance oils, we accept returns only for damaged or incorrect items. See our Refund Policy for full details.</p></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFAQ(this)">How do I become a reseller?<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
+        <div class="faq-a"><p>Apply through our "Become a Sacred Ambassador" section above. Once approved, you'll get a unique QR code, referral link, and commission on every sale.</p></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFAQ(this)">Which oil is right for me?<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
+        <div class="faq-a"><p>Use our "Find My Scent" guide above — answer a few questions about your intention (love, wealth, clarity, or success) and we'll recommend the right ritual oil for you.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
 <!-- FOOTER -->
 <footer>
   <div class="ft-top">
@@ -893,7 +1026,7 @@ footer{padding:5rem 4rem 2.5rem;background:var(--ink);border-top:1px solid rgba(
       <div class="ft-socials">
         <a href="https://instagram.com/111111manifesting" class="ft-soc" target="_blank">IG</a>
         <a href="https://youtube.com/@manifest.growth.prosperity" class="ft-soc" target="_blank">YT</a>
-        <a href="#" class="ft-soc">FB</a>
+        <a href="https://www.facebook.com/111111manifesting/" class="ft-soc" target="_blank">FB</a>
         <a href="#" class="ft-soc">WA</a>
       </div>
     </div>
@@ -911,9 +1044,12 @@ footer{padding:5rem 4rem 2.5rem;background:var(--ink);border-top:1px solid rgba(
       <ul class="ft-links">
         <li><a href="#ai-guide">Find My Scent (AI)</a></li>
         <li><a href="#ritual">11-Day Ritual</a></li>
+        <li><a href="#gallery">Gallery</a></li>
+        <li><a href="#blog">Blog</a></li>
         <li><a href="#affirmations">Affirmations</a></li>
         <li><a href="#journey">Our Sacred Journey</a></li>
         <li><a href="#holistic">Holistic Care</a></li>
+        <li><a href="#faq">FAQs</a></li>
         <li><a href="#resellers">Become a Reseller</a></li>
       </ul>
     </div>
@@ -929,7 +1065,7 @@ footer{padding:5rem 4rem 2.5rem;background:var(--ink);border-top:1px solid rgba(
   </div>
   <div class="ft-bottom">
     <span>© 2025 11:11:11 · EVOXU PVT LTD. All rights reserved.</span>
-    <div style="display:flex;gap:1.1rem"><a href="#">Privacy</a><a href="#">Terms</a><a href="#">Refund Policy</a><a href="#">Shipping</a></div>
+    <div style="display:flex;gap:1.1rem"><a href="privacy.html">Privacy</a><a href="terms.html">Terms</a><a href="refund-policy.html">Refund Policy</a><a href="shipping.html">Shipping</a></div>
     <div style="display:flex;align-items:center;gap:1.5rem">
       <span style="font-size:0.78rem;letter-spacing:0.13em;color:rgba(255,248,242,.45)">EVOXU PVT LTD · India</span>
       <a href="admin/index.html" style="font-size:0.71rem;letter-spacing:0.163em;text-transform:uppercase;color:rgba(255,248,242,.28);text-decoration:none;border:1px solid rgba(255,248,242,.12);padding:.22rem .6rem;transition:all .3s" onmouseover="this.style.color='rgba(255,248,242,.65)'" onmouseout="this.style.color='rgba(255,248,242,.28)'">Admin</a>
@@ -1196,6 +1332,13 @@ async function submitForm(e){
   finally{btn.disabled=false;btn.textContent=orig;}
 }
 function toast(icon,msg){if(toastTm)clearTimeout(toastTm);document.getElementById('t-ttl').textContent=icon+' 11:11:11';document.getElementById('t-msg').textContent=msg;document.getElementById('toast').classList.add('show');toastTm=setTimeout(()=>document.getElementById('toast').classList.remove('show'),4000);}
+
+function toggleFAQ(el){
+  const item=el.closest('.faq-item');
+  const wasOpen=item.classList.contains('open');
+  document.querySelectorAll('.faq-item.open').forEach(i=>i.classList.remove('open'));
+  if(!wasOpen)item.classList.add('open');
+}
 
 function toggleMobileMenu(){
   const menu=document.getElementById('mob-menu');
