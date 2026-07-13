@@ -1173,6 +1173,7 @@ const AFFIRMATIONS=[
   {for:'KLINFON',text:'"I release the busyness of the day. My mind is calm, my body is at rest. I allow peace to flow through every cell."',intent:'Relaxation & Calm'},
 ];
 let cart=[],toastTm;
+try{cart=JSON.parse(localStorage.getItem('111_cart')||'[]');}catch(e){cart=[];}
 
 function initStars(){
   const c=document.getElementById('hero-stars');
@@ -1269,6 +1270,7 @@ function filterAndScroll(type){document.getElementById('collections').scrollInto
 
 function addToCart(idx){const p=PRODUCTS[idx];const dn=ACTIVE_SUFFIX?`${p.name}-${ACTIVE_SUFFIX}`:p.name;const ex=cart.find(i=>i.id===p.id);if(ex)ex.qty++;else cart.push({...p,name:dn,qty:1});updateCart();toast(p.emoji,`${dn} added to your ritual cart.`);}
 function updateCart(){
+  localStorage.setItem('111_cart',JSON.stringify(cart));
   const _cartQty=cart.reduce((a,i)=>a+i.qty,0);
   document.getElementById('cart-count').textContent=_cartQty;
   const bnCount=document.getElementById('bn-cart-count');
@@ -1628,7 +1630,7 @@ function submitNewsletter(){
 }
 
 document.addEventListener('DOMContentLoaded',()=>{
-  initStars();initNav();initRefBadge();renderTrinity();renderProducts();renderAffirmations();initScrollObs();trackPageView();
+  initStars();initNav();initRefBadge();renderTrinity();renderProducts();renderAffirmations();initScrollObs();trackPageView();updateCart();
   loadReels().then(()=>{
     if(new URLSearchParams(location.search).get('openreels')){
       history.replaceState(null,'',location.pathname);

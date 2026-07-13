@@ -901,6 +901,7 @@ function buyNow(){
   location.href='checkout.html';
 }
 function updateCart(){
+  localStorage.setItem('111_cart',JSON.stringify(cart));
   const _cartQty=cart.reduce((a,i)=>a+i.qty,0);
   document.getElementById('cart-count').textContent=_cartQty;
   const bnCount=document.getElementById('bn-cart-count');
