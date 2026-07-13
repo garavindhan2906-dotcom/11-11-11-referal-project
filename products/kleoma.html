@@ -36,6 +36,16 @@ nav{position:fixed;top:0;left:0;right:0;z-index:1000;background:rgba(246,248,252
 .cart-badge{position:absolute;top:-5px;right:-5px;width:16px;height:16px;background:var(--burg);border-radius:50%;font-size:.45rem;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700}
 @media(max-width:640px){nav{padding:.85rem 1.2rem}}
 
+/* BOTTOM NAV (mobile) */
+.bottom-nav{display:none;position:fixed;left:0;right:0;bottom:0;z-index:900;background:rgba(250,248,244,.97);backdrop-filter:blur(20px);border-top:1px solid var(--border);box-shadow:0 -4px 20px rgba(30,42,62,.06)}
+.bn-row{display:flex;align-items:center;justify-content:space-around;padding:.5rem 0 calc(.5rem + env(safe-area-inset-bottom))}
+.bn-item{display:flex;flex-direction:column;align-items:center;gap:.25rem;background:none;border:none;cursor:pointer;color:var(--muted);flex:1;padding:.3rem 0;position:relative;transition:color .25s;text-decoration:none}
+.bn-item:hover,.bn-item.active{color:var(--burg)}
+.bn-item svg{width:20px;height:20px;display:block}
+.bn-item span{font-size:.56rem;letter-spacing:.08em;text-transform:uppercase}
+.bn-cart-badge{position:absolute;top:-2px;right:calc(50% - 18px);width:14px;height:14px;background:var(--burg);border-radius:50%;font-size:.5rem;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700}
+@media(max-width:640px){.bottom-nav{display:block}body{padding-bottom:56px}}
+
 /* ── BREADCRUMB ── */
 .breadcrumb{max-width:1240px;margin:0 auto;padding:6.5rem 4rem 0;display:flex;align-items:center;gap:.5rem;font-size:.58rem;letter-spacing:.18em;text-transform:uppercase;color:var(--dim)}
 .breadcrumb a{color:var(--dim);text-decoration:none;transition:color .3s}
@@ -1178,6 +1188,29 @@ nav{position:fixed;top:0;left:0;right:0;z-index:1000;background:rgba(246,248,252
 
 <div id="toast"><div class="tt" id="t-ttl"></div><div class="tm" id="t-msg"></div></div>
 
+<!-- BOTTOM NAV -->
+<nav class="bottom-nav">
+  <div class="bn-row">
+    <a class="bn-item" href="../index.html">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      <span>Home</span>
+    </a>
+    <a class="bn-item" href="../index.html#reels-section">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="2" width="20" height="20" rx="2.18"/><line x1="7" y1="2" x2="7" y2="22"/><line x1="17" y1="2" x2="17" y2="22"/><line x1="2" y1="12" x2="22" y2="12"/><line x1="2" y1="7" x2="7" y2="7"/><line x1="2" y1="17" x2="7" y2="17"/><line x1="17" y1="17" x2="22" y2="17"/><line x1="17" y1="7" x2="22" y2="7"/></svg>
+      <span>Reels</span>
+    </a>
+    <a class="bn-item" href="../index.html#trinity">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/></svg>
+      <span>Collections</span>
+    </a>
+    <button class="bn-item" onclick="openCart()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 002-1.61L23 6H6"/></svg>
+      <span class="bn-cart-badge" id="bn-cart-count">0</span>
+      <span>Cart</span>
+    </button>
+  </div>
+</nav>
+
 <script>
 /* ── KLEOMA PRODUCT DATA ── */
 const KLEOMA = {
@@ -1229,7 +1262,10 @@ function buyNow() {
 }
 
 function updateCart() {
-  document.getElementById('cart-count').textContent = cart.reduce((a, i) => a + i.qty, 0);
+  const _cartQty = cart.reduce((a, i) => a + i.qty, 0);
+  document.getElementById('cart-count').textContent = _cartQty;
+  const bnCount = document.getElementById('bn-cart-count');
+  if (bnCount) bnCount.textContent = _cartQty;
   const total = cart.reduce((a, i) => a + (i.price * i.qty), 0);
   document.getElementById('cart-total').textContent = '₹' + total.toLocaleString('en-IN');
   const el = document.getElementById('cart-items');
