@@ -1159,7 +1159,7 @@ footer{padding:5rem 4rem 2.5rem;background:var(--ink);border-top:1px solid rgba(
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
       <span>Home</span>
     </button>
-    <button class="bn-item" onclick="document.getElementById('reels-section').scrollIntoView({behavior:'smooth'})">
+    <button class="bn-item" onclick="openReelsFromNav()">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="2" width="20" height="20" rx="2.18"/><line x1="7" y1="2" x2="7" y2="22"/><line x1="17" y1="2" x2="17" y2="22"/><line x1="2" y1="12" x2="22" y2="12"/><line x1="2" y1="7" x2="7" y2="7"/><line x1="2" y1="17" x2="7" y2="17"/><line x1="17" y1="17" x2="22" y2="17"/><line x1="17" y1="7" x2="22" y2="7"/></svg>
       <span>Reels</span>
     </button>
@@ -1489,6 +1489,11 @@ async function loadReels(){
     `).join('');
   }catch(e){row.parentElement.style.display='none';}
 }
+async function openReelsFromNav(){
+  if(!REELS_DATA.length)await loadReels();
+  if(!REELS_DATA.length){toast('✦','No reels yet — check back soon!');return;}
+  openReelsViewer(0);
+}
 
 /* ── FULL-SCREEN REELS VIEWER ── */
 let _likedReels=JSON.parse(localStorage.getItem('111_liked_reels')||'[]');
@@ -1633,7 +1638,13 @@ function submitNewsletter(){
 }
 
 document.addEventListener('DOMContentLoaded',()=>{
-  initStars();initNav();initRefBadge();renderTrinity();renderProducts();renderAffirmations();initScrollObs();loadReels();trackPageView();
+  initStars();initNav();initRefBadge();renderTrinity();renderProducts();renderAffirmations();initScrollObs();trackPageView();
+  loadReels().then(()=>{
+    if(new URLSearchParams(location.search).get('openreels')){
+      history.replaceState(null,'',location.pathname);
+      openReelsFromNav();
+    }
+  });
   const skipIntro=sessionStorage.getItem('111_site_entered')||location.hash==='#store'||location.hash==='#collections'||new URLSearchParams(location.search).get('skip');
   if(skipIntro){
     const intro=document.getElementById('intro');
