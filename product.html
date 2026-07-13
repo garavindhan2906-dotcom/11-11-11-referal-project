@@ -83,7 +83,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:1000;background:rgba(246,248,252
 /* LEFT — MEDIA */
 .prod-media{position:sticky;top:6rem}
 .prod-img-main{aspect-ratio:4/5;background:var(--cream2);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;overflow:hidden;position:relative;box-shadow:var(--shadow2)}
-.prod-img-main img{width:100%;height:100%;object-fit:cover;transition:transform .6s ease}
+.prod-img-main img{width:100%;height:100%;object-fit:contain;transition:transform .6s ease}
 .prod-img-main:hover img{transform:scale(1.03)}
 .prod-emoji-fallback{font-size:7rem;filter:drop-shadow(0 4px 20px rgba(125,32,53,.25));position:relative;z-index:1}
 .prod-glow-bg{position:absolute;inset:0;display:flex;align-items:center;justify-content:center}
@@ -281,7 +281,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:1000;background:rgba(246,248,252
 .rel-card{background:var(--white);border:1px solid var(--border);cursor:pointer;transition:all .35s;box-shadow:var(--shadow)}
 .rel-card:hover{transform:translateY(-4px);box-shadow:var(--shadow2);border-color:var(--border-gold)}
 .rel-img{aspect-ratio:1/1;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
-.rel-img img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.rel-img img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain}
 .rel-body{padding:1rem 1.1rem;border-top:1px solid var(--border)}
 .rel-name{font-size:.88rem;font-weight:700;color:var(--ink);margin-bottom:.15rem}
 .rel-intent{font-size:.5rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:.5rem}
@@ -985,7 +985,7 @@ function renderProduct(p){
   imgMain.style.background=vis.bg;
   document.getElementById('prod-glow').style.background=vis.glow;
   document.getElementById('prod-emoji').textContent=vis.emoji||p.emoji||'✦';
-  if(p.image_url){const img=document.createElement('img');img.src=p.image_url;img.alt=dn;img.style.cssText='position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:2';imgMain.appendChild(img);}
+  if(p.image_url){const img=document.createElement('img');img.src=p.image_url;img.alt=dn;img.style.cssText='position:absolute;inset:0;width:100%;height:100%;object-fit:contain;z-index:2';imgMain.appendChild(img);}
   if(p.video_url){document.getElementById('prod-video-wrap').style.display='block';document.getElementById('prod-video').src=p.video_url;}
 
   /* NOTES accordion */

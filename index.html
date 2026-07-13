@@ -34,35 +34,6 @@
 html{scroll-behavior:smooth}
 body{background:var(--cream);color:var(--ink);font-family:'Inter',sans-serif;font-weight:400;overflow-x:hidden}
 
-/* ── ANNOUNCE (breaking-news ticker) ── */
-#announce{
-  background:var(--ink);color:rgba(255,255,255,.6);
-  display:flex;align-items:center;gap:.7rem;
-  padding:.55rem 1rem;
-  font-size:0.78rem;letter-spacing:0.1em;text-transform:uppercase;
-  position:relative;z-index:1002;cursor:pointer;overflow:hidden
-}
-.announce-tag{
-  background:var(--gold2);color:#fff;font-weight:700;letter-spacing:.18em;
-  padding:.3rem .8rem;flex-shrink:0;font-size:.66rem;white-space:nowrap;
-  animation:announceBlink 1.6s ease-in-out infinite
-}
-.announce-track{
-  overflow:hidden;flex:1;white-space:nowrap;
-  -webkit-mask-image:linear-gradient(90deg,transparent,#000 4%,#000 96%,transparent);
-  mask-image:linear-gradient(90deg,transparent,#000 4%,#000 96%,transparent)
-}
-.announce-track-inner{display:inline-flex;animation:announceTicker 15s linear infinite}
-#announce:hover .announce-track-inner{animation-play-state:paused}
-.announce-item{padding-right:4rem;color:rgba(255,255,255,.65)}
-.announce-item b{color:var(--gold2);font-weight:600}
-@keyframes announceTicker{from{transform:translateX(0)}to{transform:translateX(-50%)}}
-@keyframes announceBlink{0%,100%{opacity:1}50%{opacity:.55}}
-@media(max-width:640px){
-  #announce{font-size:0.68rem;padding:.5rem .8rem;gap:.5rem}
-  .announce-tag{font-size:.56rem;padding:.24rem .6rem}
-  .announce-item{padding-right:3rem}
-}
 
 /* ── INTRO ── */
 #intro{
@@ -96,7 +67,7 @@ body{background:var(--cream);color:var(--ink);font-family:'Inter',sans-serif;fon
 
 /* ── NAV ── */
 nav{
-  position:fixed;top:33px;left:0;right:0;z-index:1000;
+  position:fixed;top:0;left:0;right:0;z-index:1000;
   padding:1.4rem 4rem;display:flex;align-items:center;
   justify-content:space-between;transition:all .4s cubic-bezier(.4,0,.2,1);gap:1rem
 }
@@ -293,9 +264,12 @@ section{position:relative;z-index:1}
 #rv-scroll{height:100vh;overflow-y:auto;scroll-snap-type:y mandatory;-webkit-overflow-scrolling:touch}
 .rv-slide{height:100vh;width:100%;position:relative;scroll-snap-align:start;display:flex;align-items:center;justify-content:center;background:#000}
 .rv-video{width:100%;height:100%;object-fit:contain;background:#000}
+.rv-tap{position:absolute;inset:0;z-index:1;display:flex;align-items:center;justify-content:center;cursor:pointer}
+.rv-play-icon{width:72px;height:72px;color:#fff;opacity:0;transition:opacity .2s ease;filter:drop-shadow(0 2px 12px rgba(0,0,0,.45));pointer-events:none}
+.rv-play-icon.show{opacity:.9}
 .rv-close{position:absolute;top:1.2rem;left:1.2rem;z-index:2;width:38px;height:38px;border-radius:50%;background:rgba(0,0,0,.5);border:none;color:#fff;font-size:1rem;cursor:pointer;display:flex;align-items:center;justify-content:center}
-.rv-caption{position:absolute;left:1.2rem;right:5rem;bottom:2.2rem;color:#fff;font-size:.85rem;line-height:1.6;text-shadow:0 1px 4px rgba(0,0,0,.5)}
-.rv-actions{position:absolute;right:.8rem;bottom:2rem;display:flex;flex-direction:column;align-items:center;gap:1.4rem}
+.rv-caption{position:absolute;left:1.2rem;right:5rem;bottom:2.2rem;color:#fff;font-size:.85rem;line-height:1.6;text-shadow:0 1px 4px rgba(0,0,0,.5);z-index:2}
+.rv-actions{position:absolute;right:.8rem;bottom:2rem;display:flex;flex-direction:column;align-items:center;gap:1.4rem;z-index:2}
 .rv-action{background:none;border:none;color:#fff;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:.3rem;filter:drop-shadow(0 1px 4px rgba(0,0,0,.5))}
 .rv-action svg{width:28px;height:28px}
 .rv-count{font-size:.68rem;font-weight:600}
@@ -672,17 +646,6 @@ footer{padding:5rem 4rem 2.5rem;background:var(--ink);border-top:1px solid rgba(
   </div>
 </div>
 
-<!-- ANNOUNCEMENT -->
-<div id="announce" onclick="toast('🎁','Use NEWUSER20 at checkout for 20% off!')">
-  <span class="announce-tag">✦ Offer</span>
-  <div class="announce-track">
-    <div class="announce-track-inner">
-      <span class="announce-item">Get <b>20% OFF</b> on your first order — Use code: <b>NEWUSER20</b> &nbsp;·&nbsp; Free shipping above ₹999 &nbsp;·&nbsp; Shop Now</span>
-      <span class="announce-item">Get <b>20% OFF</b> on your first order — Use code: <b>NEWUSER20</b> &nbsp;·&nbsp; Free shipping above ₹999 &nbsp;·&nbsp; Shop Now</span>
-    </div>
-  </div>
-</div>
-
 <!-- INTRO -->
 <div id="intro">
   <div class="i-pre">EVOXU PVT LTD presents</div>
@@ -774,6 +737,22 @@ footer{padding:5rem 4rem 2.5rem;background:var(--ink);border-top:1px solid rgba(
   <h2 class="sec-h2">Most <em>Beloved</em> Ritual Oils</h2>
   <p class="sec-p">Three of our most powerfully manifested fragrances — ceremonially infused and loved by thousands of seekers across India.</p>
   <div class="trinity-grid" id="trinity-grid"></div>
+</section>
+
+<div class="divider"></div>
+
+<!-- HOLISTIC -->
+<section id="holistic">
+  <div class="sec-label">Holistic Care</div>
+  <h2 class="sec-h2">Complete Your <em>Practice</em></h2>
+  <p class="sec-p">Everything included to support your full manifestation journey — beyond the fragrance.</p>
+  <div class="holistic-grid">
+    <div class="hc fade-up"><span class="hc-icon">🔥</span><div class="hc-title">Sacred Fire Preparation</div><p class="hc-desc">Every oil is ceremonially prepared through sacred fire rituals — a Vedic tradition ensuring each bottle carries intentional vibrational energy.</p></div>
+    <div class="hc fade-up" style="transition-delay:.08s"><span class="hc-icon">📜</span><div class="hc-title">Ritual Cards Included</div><p class="hc-desc">Each box includes your oil's Beej mantra, 11-day activation instructions, and a daily practice ritual card.</p></div>
+    <div class="hc fade-up" style="transition-delay:.16s"><span class="hc-icon">🪵</span><div class="hc-title">Artisan Wooden Bottles</div><p class="hc-desc">Hand-turned by Channapatna master craftsmen using traditional techniques — a UNESCO-recognised sustainable craft from Karnataka.</p></div>
+    <div class="hc fade-up" style="transition-delay:.24s"><span class="hc-icon">✦</span><div class="hc-title">Alcohol-Free Attar</div><p class="hc-desc">Pure, skin-kind attar formulations. Long-lasting 8–12 hours. No alcohol, no parabens. Safe for daily ritual use on pulse points.</p></div>
+    <div class="hc fade-up" style="transition-delay:.32s"><span class="hc-icon">🧘</span><div class="hc-title">Mantra Integration</div><p class="hc-desc">Each oil is aligned to a specific Beej mantra. When applied during mantra recitation, the scent deepens the vibrational imprint in your nervous system.</p></div>
+  </div>
 </section>
 
 <div class="divider"></div>
@@ -1000,22 +979,6 @@ footer{padding:5rem 4rem 2.5rem;background:var(--ink);border-top:1px solid rgba(
       <div class="cf"><div class="cf-ic">🌙</div><div><div class="cf-title">Moon Cycle Rituals</div><p class="cf-desc">Special rituals aligned to new moon and full moon — amplify your manifestation with cosmic timing.</p></div></div>
       <div class="cf"><div class="cf-ic">💫</div><div><div class="cf-title">Manifestation Journal</div><p class="cf-desc">Log your intentions, wins, and breakthroughs. Ara helps you recognise synchronicities and celebrate your journey.</p></div></div>
     </div>
-  </div>
-</section>
-
-<div class="divider"></div>
-
-<!-- HOLISTIC -->
-<section id="holistic">
-  <div class="sec-label">Holistic Care</div>
-  <h2 class="sec-h2">Complete Your <em>Practice</em></h2>
-  <p class="sec-p">Everything included to support your full manifestation journey — beyond the fragrance.</p>
-  <div class="holistic-grid">
-    <div class="hc fade-up"><span class="hc-icon">🔥</span><div class="hc-title">Sacred Fire Preparation</div><p class="hc-desc">Every oil is ceremonially prepared through sacred fire rituals — a Vedic tradition ensuring each bottle carries intentional vibrational energy.</p></div>
-    <div class="hc fade-up" style="transition-delay:.08s"><span class="hc-icon">📜</span><div class="hc-title">Ritual Cards Included</div><p class="hc-desc">Each box includes your oil's Beej mantra, 11-day activation instructions, and a daily practice ritual card.</p></div>
-    <div class="hc fade-up" style="transition-delay:.16s"><span class="hc-icon">🪵</span><div class="hc-title">Artisan Wooden Bottles</div><p class="hc-desc">Hand-turned by Channapatna master craftsmen using traditional techniques — a UNESCO-recognised sustainable craft from Karnataka.</p></div>
-    <div class="hc fade-up" style="transition-delay:.24s"><span class="hc-icon">✦</span><div class="hc-title">Alcohol-Free Attar</div><p class="hc-desc">Pure, skin-kind attar formulations. Long-lasting 8–12 hours. No alcohol, no parabens. Safe for daily ritual use on pulse points.</p></div>
-    <div class="hc fade-up" style="transition-delay:.32s"><span class="hc-icon">🧘</span><div class="hc-title">Mantra Integration</div><p class="hc-desc">Each oil is aligned to a specific Beej mantra. When applied during mantra recitation, the scent deepens the vibrational imprint in your nervous system.</p></div>
   </div>
 </section>
 
@@ -1249,7 +1212,7 @@ function renderTrinity(){
   document.getElementById('trinity-grid').innerHTML=featured.map((p,i)=>`
     <div class="tc fade-up" style="transition-delay:${i*.12}s" onclick="goToProduct(${p.id})">
       <div class="tc-img" style="background:${p.bg}">
-        ${p.image_url?`<img src="${p.image_url}" alt="${p.name}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:2">`:''}
+        ${p.image_url?`<img src="${p.image_url}" alt="${p.name}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:contain;z-index:2">`:''}
         <div class="tc-glow" style="background:${p.glow};top:40%;left:50%;transform:translate(-50%,-50%)"></div>
         <div class="tc-num" style="z-index:3">0${i+1}</div>
         <div class="tc-for-badge" style="z-index:3">${p.for==='male'?'For Him':'For Her'}</div>
@@ -1272,7 +1235,7 @@ function renderProducts(){
     const dn=ACTIVE_SUFFIX?`${p.name}-${ACTIVE_SUFFIX}`:p.name;
     return`<div class="p-card fade-up ${p.for}${p.outOfStock?' oos':''}" data-for="${p.for}" style="transition-delay:${(i%4)*.08}s" onclick="goToProduct(${p.id})">
       <div class="p-img" style="background:${p.bg}">
-        ${p.image_url?`<img src="${p.image_url}" alt="${dn}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:2">`:''}
+        ${p.image_url?`<img src="${p.image_url}" alt="${dn}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:contain;z-index:2">`:''}
         <div class="p-glow" style="background:${p.glow};top:50%;left:50%;transform:translate(-50%,-50%)"></div>
         <div style="position:relative;z-index:${p.image_url?0:1};font-size:3.4rem;filter:drop-shadow(0 2px 10px ${p.glow}50)">${p.emoji}</div>
         <div class="p-for-badge" style="z-index:3">${p.for==='male'?'For Him':p.for==='female'?'For Her':'Combo'}</div>
@@ -1507,7 +1470,10 @@ function openReelsViewer(startIndex){
   const scroll=document.getElementById('rv-scroll');
   scroll.innerHTML=REELS_DATA.map(r=>`
     <div class="rv-slide" data-id="${r.id}">
-      <video class="rv-video" src="${r.video_url}" loop playsinline></video>
+      <video class="rv-video" src="${r.video_url}" playsinline onended="_reelEnded(this)"></video>
+      <div class="rv-tap" onclick="toggleReelPause(this)">
+        <svg class="rv-play-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+      </div>
       <button class="rv-close" onclick="closeReelsViewer()">✕</button>
       ${r.caption?`<div class="rv-caption">${r.caption}</div>`:''}
       <div class="rv-actions">
@@ -1555,8 +1521,28 @@ function _setupReelObserver(){
 function playReelSlide(slide){
   document.querySelectorAll('#rv-scroll video').forEach(v=>{if(v!==slide.querySelector('.rv-video'))v.pause();});
   const video=slide.querySelector('.rv-video');
+  const icon=slide.querySelector('.rv-play-icon');
+  if(icon)icon.classList.remove('show');
   video.muted=false;
   video.play().catch(()=>{video.muted=true;video.play();});
+}
+function toggleReelPause(tapEl){
+  const slide=tapEl.closest('.rv-slide');
+  const video=slide.querySelector('.rv-video');
+  const icon=slide.querySelector('.rv-play-icon');
+  if(video.paused){
+    video.play();
+    icon.classList.remove('show');
+  }else{
+    video.pause();
+    icon.classList.add('show');
+  }
+}
+function _reelEnded(video){
+  const slide=video.closest('.rv-slide');
+  const next=slide.nextElementSibling;
+  if(next)next.scrollIntoView({behavior:'smooth'});
+  else{video.currentTime=0;video.play();}
 }
 function likeReel(id,btn){
   if(_likedReels.includes(id))return;
