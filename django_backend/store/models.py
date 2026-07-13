@@ -38,6 +38,7 @@ class Reel(models.Model):
     thumbnail = models.ImageField(upload_to='reels/thumbnails/', null=True, blank=True)
     caption = models.CharField(max_length=200, blank=True)
     is_active = models.BooleanField(default=True)
+    likes_count = models.PositiveIntegerField(default=0)
     created_at = models.DateTimeField(default=timezone.now)
 
     class Meta:
@@ -45,6 +46,19 @@ class Reel(models.Model):
 
     def __str__(self):
         return self.caption or f"Reel #{self.id}"
+
+
+class ReelComment(models.Model):
+    reel = models.ForeignKey(Reel, on_delete=models.CASCADE, related_name='comments')
+    name = models.CharField(max_length=100, blank=True)
+    text = models.CharField(max_length=500)
+    created_at = models.DateTimeField(default=timezone.now)
+
+    class Meta:
+        ordering = ['-created_at']
+
+    def __str__(self):
+        return f"{self.name or 'Anonymous'}: {self.text[:40]}"
 
 
 class Customer(models.Model):

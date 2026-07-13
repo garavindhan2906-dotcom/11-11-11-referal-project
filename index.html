@@ -265,6 +265,31 @@ section{position:relative;z-index:1}
 .reel-caption{position:absolute;left:0;right:0;bottom:0;padding:.8rem .7rem;font-size:.72rem;color:#fff;background:linear-gradient(to top,rgba(0,0,0,.7),transparent);line-height:1.4}
 @media(max-width:640px){.reels-row{padding:0 1.2rem 1rem}.reel-card{flex-basis:150px}}
 
+/* FULL-SCREEN REELS VIEWER */
+#reels-viewer{display:none;position:fixed;inset:0;z-index:5000;background:#000}
+#reels-viewer.open{display:block}
+#rv-scroll{height:100vh;overflow-y:auto;scroll-snap-type:y mandatory;-webkit-overflow-scrolling:touch}
+.rv-slide{height:100vh;width:100%;position:relative;scroll-snap-align:start;display:flex;align-items:center;justify-content:center;background:#000}
+.rv-video{width:100%;height:100%;object-fit:contain;background:#000}
+.rv-close{position:absolute;top:1.2rem;left:1.2rem;z-index:2;width:38px;height:38px;border-radius:50%;background:rgba(0,0,0,.5);border:none;color:#fff;font-size:1rem;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.rv-caption{position:absolute;left:1.2rem;right:5rem;bottom:2.2rem;color:#fff;font-size:.85rem;line-height:1.6;text-shadow:0 1px 4px rgba(0,0,0,.5)}
+.rv-actions{position:absolute;right:.8rem;bottom:2rem;display:flex;flex-direction:column;align-items:center;gap:1.4rem}
+.rv-action{background:none;border:none;color:#fff;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:.3rem;filter:drop-shadow(0 1px 4px rgba(0,0,0,.5))}
+.rv-action svg{width:28px;height:28px}
+.rv-count{font-size:.68rem;font-weight:600}
+#rv-comments-panel{position:fixed;left:0;right:0;bottom:0;z-index:5100;background:var(--white);border-radius:16px 16px 0 0;max-height:60vh;display:flex;flex-direction:column;transform:translateY(100%);transition:transform .35s ease}
+#rv-comments-panel.open{transform:translateY(0)}
+.rv-cp-head{display:flex;align-items:center;justify-content:space-between;padding:1rem 1.2rem;border-bottom:1px solid var(--border)}
+.rv-cp-title{font-size:.85rem;font-weight:700;color:var(--ink)}
+.rv-cp-close{background:none;border:none;font-size:1rem;cursor:pointer;color:var(--muted)}
+#rv-comments-list{flex:1;overflow-y:auto;padding:1rem 1.2rem;background:var(--white)}
+.rv-comment{padding:.6rem 0;border-bottom:1px solid var(--border);font-size:.8rem;color:var(--muted)}
+.rv-comment strong{color:var(--ink);margin-right:.5rem}
+.rv-cp-form{display:flex;gap:.5rem;padding:.8rem 1.2rem;border-top:1px solid var(--border);background:var(--white)}
+.rv-cp-form input{flex:1;border:1px solid var(--border);padding:.6rem .8rem;font-family:'Inter',sans-serif;font-size:.82rem;outline:none}
+.rv-cp-form input:focus{border-color:var(--gold)}
+.rv-cp-form button{background:var(--ink);color:#fff;border:none;padding:.6rem 1.1rem;font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;cursor:pointer}
+
 /* BLOG */
 #blog{padding:7rem 0;background:var(--cream2)}
 .blog-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2rem;max-width:1200px;margin:0 auto;padding:0 4rem}
@@ -1110,6 +1135,23 @@ footer{padding:5rem 4rem 2.5rem;background:var(--ink);border-top:1px solid rgba(
 
 <div id="toast"><div class="tt" id="t-ttl"></div><div class="tm2" id="t-msg"></div></div>
 
+<!-- REELS VIEWER (full-screen) -->
+<div id="reels-viewer">
+  <div id="rv-scroll"></div>
+</div>
+<div id="rv-comments-panel">
+  <div class="rv-cp-head">
+    <div class="rv-cp-title">Comments</div>
+    <button class="rv-cp-close" onclick="closeReelComments()">✕</button>
+  </div>
+  <div id="rv-comments-list"></div>
+  <div class="rv-cp-form">
+    <input type="text" id="rv-comment-name" placeholder="Your name (optional)" style="max-width:120px">
+    <input type="text" id="rv-comment-text" placeholder="Add a comment…" onkeydown="if(event.key==='Enter')postReelComment()">
+    <button onclick="postReelComment()">Post</button>
+  </div>
+</div>
+
 <!-- BOTTOM NAV -->
 <div class="bottom-nav">
   <div class="bn-row">
@@ -1429,30 +1471,133 @@ function trackProductClick(id,name){
   else fetch('/api/store/track-product-click/',{method:'POST',headers:{'Content-Type':'application/json'},body:data}).catch(()=>{});
 }
 
+let REELS_DATA=[];
 async function loadReels(){
   const row=document.getElementById('reels-row');
   if(!row)return;
   try{
     const res=await fetch('/api/store/reels/');
     if(!res.ok)throw new Error();
-    const reels=await res.json();
-    if(!reels.length){row.parentElement.style.display='none';return;}
-    row.innerHTML=reels.map(r=>`
-      <div class="reel-card" onclick="toggleReel(this)">
-        <video src="${r.video_url}" loop playsinline muted></video>
+    REELS_DATA=await res.json();
+    if(!REELS_DATA.length){row.parentElement.style.display='none';return;}
+    row.innerHTML=REELS_DATA.map((r,i)=>`
+      <div class="reel-card" onclick="openReelsViewer(${i})">
+        <video src="${r.video_url}" loop playsinline muted preload="metadata"></video>
         <div class="reel-play"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
         ${r.caption?`<div class="reel-caption">${r.caption}</div>`:''}
       </div>
     `).join('');
   }catch(e){row.parentElement.style.display='none';}
 }
-function toggleReel(card){
-  const video=card.querySelector('video');
-  document.querySelectorAll('.reel-card.playing').forEach(c=>{
-    if(c!==card){c.classList.remove('playing');c.querySelector('video').pause();}
-  });
-  if(video.paused){video.muted=false;video.play();card.classList.add('playing');}
-  else{video.pause();card.classList.remove('playing');}
+
+/* ── FULL-SCREEN REELS VIEWER ── */
+let _likedReels=JSON.parse(localStorage.getItem('111_liked_reels')||'[]');
+function openReelsViewer(startIndex){
+  const viewer=document.getElementById('reels-viewer');
+  const scroll=document.getElementById('rv-scroll');
+  scroll.innerHTML=REELS_DATA.map(r=>`
+    <div class="rv-slide" data-id="${r.id}">
+      <video class="rv-video" src="${r.video_url}" loop playsinline></video>
+      <button class="rv-close" onclick="closeReelsViewer()">✕</button>
+      ${r.caption?`<div class="rv-caption">${r.caption}</div>`:''}
+      <div class="rv-actions">
+        <button class="rv-action" onclick="likeReel(${r.id},this)">
+          <svg viewBox="0 0 24 24" fill="${_likedReels.includes(r.id)?'currentColor':'none'}" stroke="currentColor" stroke-width="1.8"><path d="M20.8 4.6c-1.7-1.7-4.5-1.7-6.2 0L12 7.2 9.4 4.6c-1.7-1.7-4.5-1.7-6.2 0-1.7 1.7-1.7 4.5 0 6.2L12 19.4l8.8-8.6c1.7-1.7 1.7-4.5 0-6.2z"/></svg>
+          <span class="rv-count">${r.likes_count}</span>
+        </button>
+        <button class="rv-action" onclick="openReelComments(${r.id})">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"/></svg>
+          <span class="rv-count" id="rv-cc-${r.id}">${r.comments_count}</span>
+        </button>
+        <button class="rv-action" onclick="shareReel(${r.id})">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.6" y1="13.5" x2="15.4" y2="17.5"/><line x1="15.4" y1="6.5" x2="8.6" y2="10.5"/></svg>
+          <span>Share</span>
+        </button>
+      </div>
+    </div>
+  `).join('');
+  viewer.classList.add('open');
+  document.body.style.overflow='hidden';
+  const slides=scroll.querySelectorAll('.rv-slide');
+  slides[startIndex].scrollIntoView({behavior:'instant'});
+  _setupReelObserver();
+  playReelSlide(slides[startIndex]);
+}
+function closeReelsViewer(){
+  const viewer=document.getElementById('reels-viewer');
+  viewer.classList.remove('open');
+  document.body.style.overflow='';
+  document.querySelectorAll('#rv-scroll video').forEach(v=>v.pause());
+  if(_reelObserver)_reelObserver.disconnect();
+}
+let _reelObserver=null;
+function _setupReelObserver(){
+  if(_reelObserver)_reelObserver.disconnect();
+  _reelObserver=new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{
+      const video=e.target.querySelector('.rv-video');
+      if(e.isIntersecting&&e.intersectionRatio>0.6)playReelSlide(e.target);
+      else{video.pause();}
+    });
+  },{threshold:[0,0.6,1]});
+  document.querySelectorAll('.rv-slide').forEach(s=>_reelObserver.observe(s));
+}
+function playReelSlide(slide){
+  document.querySelectorAll('#rv-scroll video').forEach(v=>{if(v!==slide.querySelector('.rv-video'))v.pause();});
+  const video=slide.querySelector('.rv-video');
+  video.muted=false;
+  video.play().catch(()=>{video.muted=true;video.play();});
+}
+function likeReel(id,btn){
+  if(_likedReels.includes(id))return;
+  _likedReels.push(id);
+  localStorage.setItem('111_liked_reels',JSON.stringify(_likedReels));
+  btn.querySelector('svg').setAttribute('fill','currentColor');
+  const countEl=btn.querySelector('.rv-count');
+  countEl.textContent=parseInt(countEl.textContent)+1;
+  fetch(`/api/store/reels/${id}/like/`,{method:'POST'}).catch(()=>{});
+}
+function shareReel(id){
+  const url=window.location.origin+'/#reels-section';
+  if(navigator.share){navigator.share({title:'11:11:11 — Sacred Reels',url}).catch(()=>{});}
+  else{navigator.clipboard.writeText(url).then(()=>toast('✦','Link copied to clipboard.'));}
+}
+async function openReelComments(id){
+  const panel=document.getElementById('rv-comments-panel');
+  panel.dataset.reelId=id;
+  panel.classList.add('open');
+  const list=document.getElementById('rv-comments-list');
+  list.innerHTML='<div style="text-align:center;color:rgba(255,255,255,.4);font-size:.8rem;padding:1rem">Loading…</div>';
+  try{
+    const res=await fetch(`/api/store/reels/${id}/comments/`);
+    const comments=await res.json();
+    list.innerHTML=comments.length?comments.map(c=>`
+      <div class="rv-comment"><strong>${c.name}</strong><span>${c.text}</span></div>
+    `).join(''):'<div style="text-align:center;color:rgba(255,255,255,.4);font-size:.8rem;padding:1rem">No comments yet. Be the first!</div>';
+  }catch(e){list.innerHTML='<div style="text-align:center;color:rgba(255,255,255,.4);font-size:.8rem;padding:1rem">Could not load comments.</div>';}
+}
+function closeReelComments(){document.getElementById('rv-comments-panel').classList.remove('open');}
+async function postReelComment(){
+  const panel=document.getElementById('rv-comments-panel');
+  const id=panel.dataset.reelId;
+  const nameInput=document.getElementById('rv-comment-name');
+  const textInput=document.getElementById('rv-comment-text');
+  const text=textInput.value.trim();
+  if(!text)return;
+  try{
+    const res=await fetch(`/api/store/reels/${id}/comments/`,{
+      method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({name:nameInput.value.trim(),text})
+    });
+    const data=await res.json();
+    if(!res.ok)return;
+    const list=document.getElementById('rv-comments-list');
+    if(list.querySelector('div[style*="No comments"]'))list.innerHTML='';
+    list.insertAdjacentHTML('afterbegin',`<div class="rv-comment"><strong>${data.name}</strong><span>${data.text}</span></div>`);
+    textInput.value='';
+    const cc=document.getElementById('rv-cc-'+id);
+    if(cc)cc.textContent=parseInt(cc.textContent)+1;
+  }catch(e){}
 }
 
 function toggleMobileMenu(){

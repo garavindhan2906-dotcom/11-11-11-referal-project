@@ -1,13 +1,13 @@
 ﻿import random
 import string
 from django.utils import timezone
-from django.db.models import Sum, Count, Avg
+from django.db.models import Sum, Count, Avg, F
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny
 from rest_framework.parsers import MultiPartParser, FormParser, JSONParser
 
-from .models import Product, ProductImage, Reel, Customer, Order, OrderItem, PageView, ProductClick
+from .models import Product, ProductImage, Reel, ReelComment, Customer, Order, OrderItem, PageView, ProductClick
 from resellers.models import Reseller
 
 
@@ -391,6 +391,8 @@ def _reel_data(r, request):
         "thumbnail_url": request.build_absolute_uri(r.thumbnail.url) if r.thumbnail else None,
         "caption": r.caption,
         "is_active": r.is_active,
+        "likes_count": r.likes_count,
+        "comments_count": r.comments.count(),
     }
 
 
@@ -450,6 +452,54 @@ class ReelDeleteView(APIView):
             reel.thumbnail.delete(save=False)
         reel.delete()
         return Response({"success": True})
+
+
+class ReelLikeView(APIView):
+    permission_classes = [AllowAny]
+
+    def post(self, request, pk):
+        try:
+            reel = Reel.objects.get(pk=pk)
+        except Reel.DoesNotExist:
+            return Response({"error": "Not found."}, status=404)
+        reel.likes_count = F("likes_count") + 1
+        reel.save(update_fields=["likes_count"])
+        reel.refresh_from_db()
+        return Response({"success": True, "likes_count": reel.likes_count})
+
+
+class ReelCommentsView(APIView):
+    permission_classes = [AllowAny]
+
+    def get(self, request, pk):
+        comments = ReelComment.objects.filter(reel_id=pk)
+        return Response([
+            {
+                "id": c.id,
+                "name": c.name or "Guest",
+                "text": c.text,
+                "created_at": c.created_at.strftime("%d %b %Y, %I:%M %p"),
+            }
+            for c in comments
+        ])
+
+    def post(self, request, pk):
+        try:
+            reel = Reel.objects.get(pk=pk)
+        except Reel.DoesNotExist:
+            return Response({"error": "Not found."}, status=404)
+        text = request.data.get("text", "").strip()[:500]
+        name = request.data.get("name", "").strip()[:100]
+        if not text:
+            return Response({"error": "Comment cannot be empty."}, status=400)
+        comment = ReelComment.objects.create(reel=reel, name=name, text=text)
+        return Response({
+            "success": True,
+            "id": comment.id,
+            "name": comment.name or "Guest",
+            "text": comment.text,
+            "created_at": comment.created_at.strftime("%d %b %Y, %I:%M %p"),
+        }, status=201)
 
 
 class TrackPageViewView(APIView):
