@@ -34,21 +34,42 @@
 html{scroll-behavior:smooth}
 body{background:var(--cream);color:var(--ink);font-family:'Inter',sans-serif;font-weight:400;overflow-x:hidden}
 
-/* ── ANNOUNCE ── */
+/* ── ANNOUNCE (breaking-news ticker) ── */
 #announce{
-  background:var(--ink);color:rgba(255,255,255,.5);
-  text-align:center;padding:.6rem 1rem;
-  font-size:0.8rem;letter-spacing:0.16em;text-transform:uppercase;
-  position:relative;z-index:1002
+  background:var(--ink);color:rgba(255,255,255,.6);
+  display:flex;align-items:center;gap:.7rem;
+  padding:.55rem 1rem;
+  font-size:0.78rem;letter-spacing:0.1em;text-transform:uppercase;
+  position:relative;z-index:1002;cursor:pointer;overflow:hidden
 }
-#announce span{color:var(--gold2);font-weight:500}
-#announce a{color:var(--gold2);text-decoration:none;border-bottom:1px solid rgba(168,65,90,.35);margin-left:.5rem;cursor:pointer}
+.announce-tag{
+  background:var(--gold2);color:#fff;font-weight:700;letter-spacing:.18em;
+  padding:.3rem .8rem;flex-shrink:0;font-size:.66rem;white-space:nowrap;
+  animation:announceBlink 1.6s ease-in-out infinite
+}
+.announce-track{
+  overflow:hidden;flex:1;white-space:nowrap;
+  -webkit-mask-image:linear-gradient(90deg,transparent,#000 4%,#000 96%,transparent);
+  mask-image:linear-gradient(90deg,transparent,#000 4%,#000 96%,transparent)
+}
+.announce-track-inner{display:inline-flex;animation:announceTicker 15s linear infinite}
+#announce:hover .announce-track-inner{animation-play-state:paused}
+.announce-item{padding-right:4rem;color:rgba(255,255,255,.65)}
+.announce-item b{color:var(--gold2);font-weight:600}
+@keyframes announceTicker{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+@keyframes announceBlink{0%,100%{opacity:1}50%{opacity:.55}}
+@media(max-width:640px){
+  #announce{font-size:0.68rem;padding:.5rem .8rem;gap:.5rem}
+  .announce-tag{font-size:.56rem;padding:.24rem .6rem}
+  .announce-item{padding-right:3rem}
+}
 
 /* ── INTRO ── */
 #intro{
   position:fixed;inset:0;background:var(--cream);
   z-index:9999;display:flex;flex-direction:column;
   align-items:center;justify-content:center;
+  overflow-y:auto;padding:2rem 0;
   transition:opacity 1.2s ease,visibility 1.2s ease
 }
 #intro.gone{opacity:0;visibility:hidden;pointer-events:none}
@@ -56,7 +77,7 @@ body{background:var(--cream);color:var(--ink);font-family:'Inter',sans-serif;fon
 .i-num{font-family:'Inter',sans-serif;font-size:clamp(3rem,9vw,6.5rem);font-weight:700;letter-spacing:0.04em;color:var(--ink);animation:fadeUp 1.5s .3s ease forwards;opacity:0;line-height:1}
 .i-tag{font-size:0.78rem;letter-spacing:0.202em;text-transform:uppercase;color:var(--muted);margin-top:.9rem;animation:fadeUp 1.5s .6s ease forwards;opacity:0}
 .i-div{width:1px;height:55px;background:linear-gradient(to bottom,var(--gold),transparent);margin:2.2rem auto;animation:fadeUp 1.5s .9s ease forwards;opacity:0}
-.i-video{width:min(760px,92vw);height:min(72vh,560px);background:var(--cream2);border:1px solid var(--border);position:relative;overflow:hidden;animation:fadeUp 1.5s 1.1s ease forwards;opacity:0;cursor:pointer}
+.i-video{width:min(760px,92vw);height:min(80vh,640px);background:var(--cream2);border:1px solid var(--border);position:relative;overflow:hidden;animation:fadeUp 1.5s 1.1s ease forwards;opacity:0;cursor:pointer}
 .i-video video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
 .i-vid-in{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.9rem;background:rgba(0,0,0,.28);transition:opacity .3s}
 .i-video.playing .i-vid-in{opacity:0;pointer-events:none}
@@ -86,14 +107,12 @@ nav.scrolled{
 nav.scrolled .nav-logo-main{color:#FFF8F2}
 nav.scrolled .nav-logo-sub{color:rgba(255,248,242,.45)}
 nav.scrolled .nav-links a{color:rgba(255,248,242,.72)}
-nav.scrolled .nav-links a:hover{color:#FFF8F2}
+nav.scrolled .nav-links a:hover{color:#FFF8F2;background:rgba(255,248,242,.12)}
 nav.scrolled .nav-links .hl{color:#FFF8F2 !important;border-color:rgba(255,248,242,.32);background:rgba(255,248,242,.1)}
 nav.scrolled .nav-links .hl:hover{background:rgba(255,248,242,.18)}
 nav.scrolled .icon-btn{color:rgba(255,248,242,.65)}
-nav.scrolled .icon-btn:hover{color:#FFF8F2}
+nav.scrolled .icon-btn:hover{color:#FFF8F2;background:rgba(255,248,242,.15)}
 nav.scrolled .hamburger span{background:rgba(255,248,242,.65)}
-nav.scrolled .nav-portal-btn{color:rgba(255,248,242,.8);border-color:rgba(255,248,242,.32)}
-nav.scrolled .nav-portal-btn:hover{background:rgba(255,248,242,.12)}
 /* ── CONGRATS REF STRIP ── */
 .nav-ref-congrats{
   width:150px;display:none;flex-direction:column;gap:.15rem;
@@ -108,14 +127,25 @@ nav.scrolled .nav-ref-congrats{border-left-color:rgba(255,248,242,.22)}
 .nav-logo{text-align:center;text-decoration:none}
 .nav-logo-main{font-family:'Inter',sans-serif;font-size:1.4rem;font-weight:700;letter-spacing:0.05em;color:var(--ink);display:block;line-height:1}
 .nav-logo-sub{font-size:0.68rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--dim);display:block;margin-top:.2rem}
-.nav-links{display:flex;gap:2.2rem;list-style:none;align-items:center}
-.nav-links a{color:var(--muted);text-decoration:none;font-size:0.82rem;letter-spacing:0.14em;text-transform:uppercase;transition:color .3s;white-space:nowrap}
-.nav-links a:hover{color:var(--ink)}
-.nav-links .hl{color:var(--gold) !important;border:1px solid var(--border-gold);padding:.3rem .9rem}
-.nav-links .hl:hover{background:var(--gold-pale)}
-.nav-right{display:flex;align-items:center;gap:1rem}
-.icon-btn{background:none;border:none;cursor:pointer;color:var(--muted);transition:color .3s;position:relative;padding:3px}
-.icon-btn:hover{color:var(--ink)}
+.nav-links{display:flex;gap:.3rem;list-style:none;align-items:center}
+.nav-links a{color:var(--muted);text-decoration:none;font-size:0.79rem;letter-spacing:0.12em;text-transform:uppercase;transition:all .25s;white-space:nowrap;display:inline-flex;align-items:center;padding:.6rem 1.05rem;border-radius:999px}
+.nav-links a:hover{color:var(--ink);background:rgba(30,42,62,.06)}
+.nav-links .hl{color:var(--gold) !important;border:1px solid var(--border-gold);padding:.56rem 1.15rem;margin-left:.5rem;border-radius:999px}
+.nav-links .hl:hover{background:var(--gold-pale);border-color:var(--gold)}
+/* colour-coded nav chips */
+.nav-links a.nc-1{background:#F6DCE2 !important;color:#8C2A44 !important}
+.nav-links a.nc-1:hover{background:#EFC3CE !important}
+.nav-links a.nc-2{background:#E6DBF5 !important;color:#5B3E8C !important}
+.nav-links a.nc-2:hover{background:#D8C7F0 !important}
+.nav-links a.nc-3{background:#F7ECC8 !important;color:#8A6A1E !important}
+.nav-links a.nc-3:hover{background:#F1E0A6 !important}
+.nav-links a.nc-4{background:#DBF0E3 !important;color:#2E6B47 !important}
+.nav-links a.nc-4:hover{background:#C4E7D0 !important}
+.nav-links a.nc-5{background:#DCE9F6 !important;color:#2A5A85 !important}
+.nav-links a.nc-5:hover{background:#C4DDF1 !important}
+.nav-right{display:flex;align-items:center;gap:.5rem}
+.icon-btn{background:none;border:none;cursor:pointer;color:var(--muted);transition:all .25s;position:relative;width:38px;height:38px;display:flex;align-items:center;justify-content:center;border-radius:50%;flex-shrink:0}
+.icon-btn:hover{color:var(--ink);background:rgba(30,42,62,.07)}
 .icon-btn svg{width:18px;height:18px;display:block}
 .cart-badge{position:absolute;top:-5px;right:-5px;width:14px;height:14px;background:var(--gold);border-radius:50%;font-size:0.5rem;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700}
 /* ── RESELLER REF CHIP ── */
@@ -156,8 +186,11 @@ nav.scrolled .rc-name{color:#FFF8F2}
 .nl-success-msg{font-family:'Inter',sans-serif;font-size:1.6rem;font-weight:600;color:var(--gold);margin-bottom:.5rem}
 .nl-success-code{display:inline-block;font-size:0.88rem;letter-spacing:0.189em;color:var(--ink);text-transform:uppercase;border:1px solid var(--border-gold);padding:.4rem 1.1rem;margin-bottom:.7rem}
 .nl-success-sub{font-size:0.77rem;color:var(--muted);line-height:1.75}
-.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;background:none;border:none}
-.hamburger span{display:block;width:22px;height:1px;background:var(--muted);transition:all .35s}
+.hamburger{display:none;flex-direction:column;justify-content:center;align-items:center;gap:5px;cursor:pointer;background:none;border:none;width:38px;height:38px;border-radius:50%;transition:background .25s}
+.hamburger:hover{background:rgba(30,42,62,.07)}
+.hamburger span{display:block;width:20px;height:1px;background:var(--muted);transition:all .35s}
+nav:not(.scrolled) .hamburger:hover{background:rgba(255,248,242,.13)}
+nav.scrolled .hamburger:hover{background:rgba(255,248,242,.15)}
 
 /* BOTTOM NAV (mobile) */
 .bottom-nav{display:none;position:fixed;left:0;right:0;bottom:0;z-index:900;background:rgba(250,248,244,.97);backdrop-filter:blur(20px);border-top:1px solid var(--border);box-shadow:0 -4px 20px rgba(30,42,62,.06)}
@@ -168,19 +201,15 @@ nav.scrolled .rc-name{color:#FFF8F2}
 .bn-item span{font-size:.56rem;letter-spacing:.08em;text-transform:uppercase}
 .bn-cart-badge{position:absolute;top:-2px;right:calc(50% - 18px);width:14px;height:14px;background:var(--gold);border-radius:50%;font-size:.5rem;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700}
 @media(max-width:640px){.bottom-nav{display:block}body{padding-bottom:56px}}
-.nav-portal-btn{display:none;font-size:0.76rem;letter-spacing:0.143em;text-transform:uppercase;color:var(--gold);border:1px solid var(--border-gold);padding:.32rem .75rem;text-decoration:none;transition:all .3s;white-space:nowrap;font-family:'Inter',sans-serif;font-weight:500}
-.nav-portal-btn:hover{background:var(--gold-pale)}
-@media(max-width:640px){.nav-portal-btn{display:inline-flex;align-items:center}}
 /* nav over dark hero — before scroll */
 nav:not(.scrolled) .nav-logo-main{color:#FFF8F2}
 nav:not(.scrolled) .nav-logo-sub{color:rgba(255,248,242,.32)}
 nav:not(.scrolled) .nav-links a{color:rgba(255,248,242,.5)}
-nav:not(.scrolled) .nav-links a:hover{color:#FFF8F2}
+nav:not(.scrolled) .nav-links a:hover{color:#FFF8F2;background:rgba(255,248,242,.1)}
 nav:not(.scrolled) .nav-links .hl{color:var(--gold2) !important;border-color:rgba(168,65,90,.35)}
 nav:not(.scrolled) .icon-btn{color:rgba(255,248,242,.45)}
-nav:not(.scrolled) .icon-btn:hover{color:#FFF8F2}
+nav:not(.scrolled) .icon-btn:hover{color:#FFF8F2;background:rgba(255,248,242,.13)}
 nav:not(.scrolled) .hamburger span{background:rgba(255,248,242,.55)}
-nav:not(.scrolled) .nav-portal-btn{color:var(--gold2);border-color:rgba(168,65,90,.32)}
 /* ── MOBILE MENU ── */
 .mob-overlay{position:fixed;inset:0;background:rgba(28,25,20,.45);z-index:1500;opacity:0;visibility:hidden;transition:all .4s;backdrop-filter:blur(4px)}
 .mob-overlay.show{opacity:1;visibility:visible}
@@ -244,14 +273,6 @@ section{position:relative;z-index:1}
 .divider{height:1px;background:linear-gradient(90deg,transparent,var(--border),transparent)}
 
 /* GALLERY */
-#gallery{padding:7rem 0;background:var(--white)}
-.gallery-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;max-width:1200px;margin:0 auto;padding:0 4rem}
-.gallery-item{aspect-ratio:1/1;overflow:hidden;position:relative;cursor:pointer;background:var(--cream2)}
-.gallery-item img{width:100%;height:100%;object-fit:cover;transition:transform .5s ease}
-.gallery-item:hover img{transform:scale(1.08)}
-.gallery-item:nth-child(1),.gallery-item:nth-child(6){grid-column:span 2;grid-row:span 2}
-@media(max-width:900px){.gallery-grid{grid-template-columns:repeat(2,1fr);padding:0 2.5rem}.gallery-item:nth-child(1),.gallery-item:nth-child(6){grid-column:span 1;grid-row:span 1}}
-@media(max-width:640px){.gallery-grid{padding:0 1.2rem;gap:.6rem}}
 
 /* REELS */
 #reels-section{padding:7rem 0;background:var(--cream2)}
@@ -630,9 +651,8 @@ footer{padding:5rem 4rem 2.5rem;background:var(--ink);border-top:1px solid rgba(
     <button class="mob-close" onclick="closeMobileMenu()">✕</button>
   </div>
   <nav class="mob-nav">
-    <a href="#trinity" onclick="closeMobileMenu()">Collections</a>
+    <a href="#collections" onclick="closeMobileMenu()">Collections</a>
     <a href="#ai-guide" onclick="closeMobileMenu()">Find My Scent</a>
-    <a href="#gallery" onclick="closeMobileMenu()">Gallery</a>
     <a href="#blog" onclick="closeMobileMenu()">Blog</a>
     <a href="#affirmations" onclick="closeMobileMenu()">Affirmations</a>
     <a href="#journey" onclick="closeMobileMenu()">Our Journey</a>
@@ -653,7 +673,15 @@ footer{padding:5rem 4rem 2.5rem;background:var(--ink);border-top:1px solid rgba(
 </div>
 
 <!-- ANNOUNCEMENT -->
-<div id="announce">✦ Get <span>20% OFF</span> on your first order — Use code: <span>NEWUSER20</span> &nbsp;·&nbsp; Free shipping above ₹999 <a onclick="toast('🎁','Use NEWUSER20 at checkout for 20% off!')">Shop Now</a></div>
+<div id="announce" onclick="toast('🎁','Use NEWUSER20 at checkout for 20% off!')">
+  <span class="announce-tag">✦ Offer</span>
+  <div class="announce-track">
+    <div class="announce-track-inner">
+      <span class="announce-item">Get <b>20% OFF</b> on your first order — Use code: <b>NEWUSER20</b> &nbsp;·&nbsp; Free shipping above ₹999 &nbsp;·&nbsp; Shop Now</span>
+      <span class="announce-item">Get <b>20% OFF</b> on your first order — Use code: <b>NEWUSER20</b> &nbsp;·&nbsp; Free shipping above ₹999 &nbsp;·&nbsp; Shop Now</span>
+    </div>
+  </div>
+</div>
 
 <!-- INTRO -->
 <div id="intro">
@@ -687,11 +715,11 @@ footer{padding:5rem 4rem 2.5rem;background:var(--ink);border-top:1px solid rgba(
     <span class="nav-logo-sub">Manifestation Perfume Oils</span>
   </a>
   <ul class="nav-links">
-    <li><a href="#trinity">Collections</a></li>
-    <li><a href="#ai-guide">Manifest</a></li>
-    <li><a href="#affirmations">Affirmations</a></li>
-    <li><a href="#journey">Our Journey</a></li>
-    <li><a href="#resellers">Resellers</a></li>
+    <li><a href="#collections" class="nc-1">Collections</a></li>
+    <li><a href="#ai-guide" class="nc-2">Manifest</a></li>
+    <li><a href="#affirmations" class="nc-3">Affirmations</a></li>
+    <li><a href="#journey" class="nc-4">Our Journey</a></li>
+    <li><a href="#resellers" class="nc-5">Resellers</a></li>
     <li><a href="reseller/login.html" class="hl">Reseller Login</a></li>
   </ul>
   <div class="nav-right">
@@ -709,7 +737,6 @@ footer{padding:5rem 4rem 2.5rem;background:var(--ink);border-top:1px solid rgba(
     <button class="icon-btn" onclick="document.getElementById('ai-guide').scrollIntoView({behavior:'smooth'})">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></svg>
     </button>
-    <a href="reseller/login.html" class="nav-portal-btn">Reseller</a>
     <button class="hamburger" id="hamburger-btn" onclick="toggleMobileMenu()"><span></span><span></span><span></span></button>
   </div>
 </nav>
@@ -747,31 +774,6 @@ footer{padding:5rem 4rem 2.5rem;background:var(--ink);border-top:1px solid rgba(
   <h2 class="sec-h2">Most <em>Beloved</em> Ritual Oils</h2>
   <p class="sec-p">Three of our most powerfully manifested fragrances — ceremonially infused and loved by thousands of seekers across India.</p>
   <div class="trinity-grid" id="trinity-grid"></div>
-</section>
-
-<div class="divider"></div>
-
-<!-- AI GUIDE -->
-<section id="ai-guide">
-  <div class="sec-label">AI Powered</div>
-  <h2 class="sec-h2">Find Your <em>Sacred</em> Scent</h2>
-  <p class="sec-p">Meet Ara — your 11:11:11 manifestation guide. Share your deepest intention and she will reveal the oil perfectly attuned to your energy.</p>
-  <div class="sec-wrap">
-    <div class="ai-wrap fade-up">
-      <div class="ai-top">
-        <div class="ai-orb">✦</div>
-        <div>
-          <div class="ai-name">Ara · 11:11:11 Guide</div>
-          <div class="ai-status"><span class="live-dot"></span>Attuned to your frequency</div>
-        </div>
-      </div>
-      <div class="ai-chat" id="ai-chat"></div>
-      <div class="ai-input-row">
-        <input type="text" class="ai-text" id="ai-input" placeholder="Share your intention with Ara…" onkeydown="if(event.key==='Enter')sendMsg()">
-        <button class="send-btn" onclick="sendMsg()"><svg viewBox="0 0 24 24"><path d="M22 2L11 13M22 2L15 22l-4-9-9-4 20-7z"/></svg></button>
-      </div>
-    </div>
-  </div>
 </section>
 
 <div class="divider"></div>
@@ -851,27 +853,6 @@ footer{padding:5rem 4rem 2.5rem;background:var(--ink);border-top:1px solid rgba(
         </div>
       </div>
     </div>
-  </div>
-</section>
-
-<div class="divider"></div>
-
-<!-- GALLERY -->
-<section id="gallery">
-  <div class="sec-wrap">
-    <div class="sec-label">Sacred Moments</div>
-    <h2 class="sec-h2">Our <em>Gallery</em></h2>
-    <p class="sec-p">A glimpse into the ritual — from hand-turned bottles to the moments our oils become part of your story.</p>
-  </div>
-  <div class="gallery-grid">
-    <div class="gallery-item"><img src="images/sacred.png" alt="Sacred ritual moment" loading="lazy"></div>
-    <div class="gallery-item"><img src="images/products/kleoma.jpeg" alt="KLEOMA ritual oil" loading="lazy"></div>
-    <div class="gallery-item"><img src="images/products/kamavya.jpeg" alt="KAMAVYA ritual oil" loading="lazy"></div>
-    <div class="gallery-item"><img src="images/sacred-practice.png" alt="Applying the sacred oil" loading="lazy"></div>
-    <div class="gallery-item"><img src="images/products/shreemsri.jpeg" alt="SHREEMSRI ritual oil" loading="lazy"></div>
-    <div class="gallery-item"><img src="images/hero2.jpeg" alt="11:11:11 hero moment" loading="lazy"></div>
-    <div class="gallery-item"><img src="images/products/mystra.jpeg" alt="MYSTRA ritual oil" loading="lazy"></div>
-    <div class="gallery-item"><img src="images/products/love-combo.png" alt="Love Combo ritual set" loading="lazy"></div>
   </div>
 </section>
 
@@ -1069,7 +1050,32 @@ footer{padding:5rem 4rem 2.5rem;background:var(--ink);border-top:1px solid rgba(
       </div>
       <div class="faq-item">
         <div class="faq-q" onclick="toggleFAQ(this)">Which oil is right for me?<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
-        <div class="faq-a"><p>Use our "Find My Scent" guide above — answer a few questions about your intention (love, wealth, clarity, or success) and we'll recommend the right ritual oil for you.</p></div>
+        <div class="faq-a"><p>Use our "Find My Scent" guide below — answer a few questions about your intention (love, wealth, clarity, or success) and we'll recommend the right ritual oil for you.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- AI GUIDE -->
+<section id="ai-guide">
+  <div class="sec-label">AI Powered</div>
+  <h2 class="sec-h2">Find Your <em>Sacred</em> Scent</h2>
+  <p class="sec-p">Meet Ara — your 11:11:11 manifestation guide. Share your deepest intention and she will reveal the oil perfectly attuned to your energy.</p>
+  <div class="sec-wrap">
+    <div class="ai-wrap fade-up">
+      <div class="ai-top">
+        <div class="ai-orb">✦</div>
+        <div>
+          <div class="ai-name">Ara · 11:11:11 Guide</div>
+          <div class="ai-status"><span class="live-dot"></span>Attuned to your frequency</div>
+        </div>
+      </div>
+      <div class="ai-chat" id="ai-chat"></div>
+      <div class="ai-input-row">
+        <input type="text" class="ai-text" id="ai-input" placeholder="Share your intention with Ara…" onkeydown="if(event.key==='Enter')sendMsg()">
+        <button class="send-btn" onclick="sendMsg()"><svg viewBox="0 0 24 24"><path d="M22 2L11 13M22 2L15 22l-4-9-9-4 20-7z"/></svg></button>
       </div>
     </div>
   </div>
@@ -1105,7 +1111,6 @@ footer{padding:5rem 4rem 2.5rem;background:var(--ink);border-top:1px solid rgba(
       <ul class="ft-links">
         <li><a href="#ai-guide">Find My Scent (AI)</a></li>
         <li><a href="#ritual">11-Day Ritual</a></li>
-        <li><a href="#gallery">Gallery</a></li>
         <li><a href="#blog">Blog</a></li>
         <li><a href="#affirmations">Affirmations</a></li>
         <li><a href="#journey">Our Sacred Journey</a></li>
@@ -1164,14 +1169,13 @@ footer{padding:5rem 4rem 2.5rem;background:var(--ink);border-top:1px solid rgba(
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="2" width="20" height="20" rx="2.18"/><line x1="7" y1="2" x2="7" y2="22"/><line x1="17" y1="2" x2="17" y2="22"/><line x1="2" y1="12" x2="22" y2="12"/><line x1="2" y1="7" x2="7" y2="7"/><line x1="2" y1="17" x2="7" y2="17"/><line x1="17" y1="17" x2="22" y2="17"/><line x1="17" y1="7" x2="22" y2="7"/></svg>
       <span>Reels</span>
     </button>
-    <button class="bn-item" onclick="document.getElementById('trinity').scrollIntoView({behavior:'smooth'})">
+    <button class="bn-item" onclick="document.getElementById('collections').scrollIntoView({behavior:'smooth'})">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/></svg>
       <span>Collections</span>
     </button>
-    <button class="bn-item" onclick="openCart()">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 002-1.61L23 6H6"/></svg>
-      <span class="bn-cart-badge" id="bn-cart-count">0</span>
-      <span>Cart</span>
+    <button class="bn-item" onclick="document.getElementById('ai-guide').scrollIntoView({behavior:'smooth'})">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M12 3v4M12 17v4M3 12h4M17 12h4M5.6 5.6l2.8 2.8M15.6 15.6l2.8 2.8M18.4 5.6l-2.8 2.8M8.4 15.6l-2.8 2.8"/></svg>
+      <span>AI Scent</span>
     </button>
   </div>
 </div>
