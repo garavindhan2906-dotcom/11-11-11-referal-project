@@ -5,6 +5,7 @@ import qrcode
 from django.conf import settings
 from django.contrib.auth import authenticate
 from django.core.files.base import ContentFile
+from django.db import transaction
 from django.db.models import Sum, Count
 from django.utils import timezone
 from datetime import timedelta
@@ -782,33 +783,34 @@ class AdminApproveApplicationView(APIView):
             n += 1
             code = f"{initials}{n:03d}"
 
-        user = User.objects.create_user(
-            username=email, email=email, password=password, first_name=app.name,
-        )
-
         base_url = getattr(settings, 'BASE_STORE_URL', 'http://127.0.0.1:8000')
         referral_link = f"{base_url}/{code}-ref"
 
-        reseller = Reseller(
-            user=user,
-            name=app.name,
-            phone=app.phone,
-            reseller_code=code,
-            reseller_type='retail',
-            referral_link=referral_link,
-            commission_rate=100,
-            is_active=True,
-            address=app.store_address,
-            plain_password=password,
-        )
-        reseller.save()
+        with transaction.atomic():
+            user = User.objects.create_user(
+                username=email, email=email, password=password, first_name=app.name,
+            )
 
-        qr_file = _generate_qr(referral_link, code)
-        reseller.qr_image = qr_file
-        reseller.save(update_fields=['qr_image'])
+            reseller = Reseller(
+                user=user,
+                name=app.name,
+                phone=app.phone,
+                reseller_code=code,
+                reseller_type='retail',
+                referral_link=referral_link,
+                commission_rate=100,
+                is_active=True,
+                address=app.store_address,
+                plain_password=password,
+            )
+            reseller.save()
 
-        app.status = 'approved'
-        app.save()
+            qr_file = _generate_qr(referral_link, code)
+            reseller.qr_image = qr_file
+            reseller.save(update_fields=['qr_image'])
+
+            app.status = 'approved'
+            app.save()
 
         qr_url = request.build_absolute_uri(reseller.qr_image.url) if reseller.qr_image else None
         color = AVATAR_COLORS[Reseller.objects.count() % len(AVATAR_COLORS)]

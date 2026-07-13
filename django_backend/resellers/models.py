@@ -36,7 +36,11 @@ class Reseller(models.Model):
         if not self.reseller_id:
             prefix = 'RTSE' if self.reseller_type == 'retail' else 'INSE'
             count = Reseller.objects.filter(reseller_type=self.reseller_type).count() + 1
-            self.reseller_id = f"{prefix}-{count:04d}"
+            candidate = f"{prefix}-{count:04d}"
+            while Reseller.objects.filter(reseller_id=candidate).exists():
+                count += 1
+                candidate = f"{prefix}-{count:04d}"
+            self.reseller_id = candidate
         super().save(*args, **kwargs)
 
     def __str__(self):

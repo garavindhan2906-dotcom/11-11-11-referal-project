@@ -563,8 +563,9 @@ function renderSummary() {
    STEP 1 — EMAIL / OTP
 ───────────────────────────────────────────── */
 function onEmail() {
-  const v = document.getElementById('ei').value.trim();
-  document.getElementById('otp-btn').disabled = !/^\d{10}$/.test(v);
+  const el = document.getElementById('ei');
+  el.value = el.value.replace(/\D/g, '').slice(0, 10);
+  document.getElementById('otp-btn').disabled = !/^\d{10}$/.test(el.value);
 }
 
 function generateDemoOTP() {
