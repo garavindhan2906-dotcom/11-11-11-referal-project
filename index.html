@@ -157,6 +157,16 @@ nav.scrolled .rc-name{color:#FFF8F2}
 .nl-success-sub{font-size:0.77rem;color:var(--muted);line-height:1.75}
 .hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;background:none;border:none}
 .hamburger span{display:block;width:22px;height:1px;background:var(--muted);transition:all .35s}
+
+/* BOTTOM NAV (mobile) */
+.bottom-nav{display:none;position:fixed;left:0;right:0;bottom:0;z-index:900;background:rgba(250,248,244,.97);backdrop-filter:blur(20px);border-top:1px solid var(--border);box-shadow:0 -4px 20px rgba(30,42,62,.06)}
+.bn-row{display:flex;align-items:center;justify-content:space-around;padding:.5rem 0 calc(.5rem + env(safe-area-inset-bottom))}
+.bn-item{display:flex;flex-direction:column;align-items:center;gap:.25rem;background:none;border:none;cursor:pointer;color:var(--muted);flex:1;padding:.3rem 0;position:relative;transition:color .25s}
+.bn-item:hover,.bn-item.active{color:var(--gold)}
+.bn-item svg{width:20px;height:20px;display:block}
+.bn-item span{font-size:.56rem;letter-spacing:.08em;text-transform:uppercase}
+.bn-cart-badge{position:absolute;top:-2px;right:calc(50% - 18px);width:14px;height:14px;background:var(--gold);border-radius:50%;font-size:.5rem;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700}
+@media(max-width:640px){.bottom-nav{display:block}body{padding-bottom:56px}}
 .nav-portal-btn{display:none;font-size:0.76rem;letter-spacing:0.143em;text-transform:uppercase;color:var(--gold);border:1px solid var(--border-gold);padding:.32rem .75rem;text-decoration:none;transition:all .3s;white-space:nowrap;font-family:'Inter',sans-serif;font-weight:500}
 .nav-portal-btn:hover{background:var(--gold-pale)}
 @media(max-width:640px){.nav-portal-btn{display:inline-flex;align-items:center}}
@@ -1100,6 +1110,29 @@ footer{padding:5rem 4rem 2.5rem;background:var(--ink);border-top:1px solid rgba(
 
 <div id="toast"><div class="tt" id="t-ttl"></div><div class="tm2" id="t-msg"></div></div>
 
+<!-- BOTTOM NAV -->
+<nav class="bottom-nav">
+  <div class="bn-row">
+    <button class="bn-item" onclick="window.scrollTo({top:0,behavior:'smooth'})">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      <span>Home</span>
+    </button>
+    <button class="bn-item" onclick="document.getElementById('reels-section').scrollIntoView({behavior:'smooth'})">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="2" width="20" height="20" rx="2.18"/><line x1="7" y1="2" x2="7" y2="22"/><line x1="17" y1="2" x2="17" y2="22"/><line x1="2" y1="12" x2="22" y2="12"/><line x1="2" y1="7" x2="7" y2="7"/><line x1="2" y1="17" x2="7" y2="17"/><line x1="17" y1="17" x2="22" y2="17"/><line x1="17" y1="7" x2="22" y2="7"/></svg>
+      <span>Reels</span>
+    </button>
+    <button class="bn-item" onclick="document.getElementById('trinity').scrollIntoView({behavior:'smooth'})">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/></svg>
+      <span>Collections</span>
+    </button>
+    <button class="bn-item" onclick="openCart()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 002-1.61L23 6H6"/></svg>
+      <span class="bn-cart-badge" id="bn-cart-count">0</span>
+      <span>Cart</span>
+    </button>
+  </div>
+</nav>
+
 <script>
 const PRODUCTS=[
   {id:1,name:'KLEOMA',for:'male',intent:'Love & Attraction',notes:'Rose · Ylang Ylang · Musk · Amber · Spice',desc:'A ritual-infused attar to support emotional connection, attraction, and presence. Velvety, warm, and floral — a blooming heart of rose and ylang ylang over soft musk and amber.',price:1234,glow:'#e879b0',grad:'#be185d',bg:'#fdf2f8',emoji:'🌹',image_url:'images/products/kleoma.jpeg'},
@@ -1227,7 +1260,10 @@ function filterAndScroll(type){document.getElementById('collections').scrollInto
 
 function addToCart(idx){const p=PRODUCTS[idx];const dn=ACTIVE_SUFFIX?`${p.name}-${ACTIVE_SUFFIX}`:p.name;const ex=cart.find(i=>i.id===p.id);if(ex)ex.qty++;else cart.push({...p,name:dn,qty:1});updateCart();toast(p.emoji,`${dn} added to your ritual cart.`);}
 function updateCart(){
-  document.getElementById('cart-count').textContent=cart.reduce((a,i)=>a+i.qty,0);
+  const _cartQty=cart.reduce((a,i)=>a+i.qty,0);
+  document.getElementById('cart-count').textContent=_cartQty;
+  const bnCount=document.getElementById('bn-cart-count');
+  if(bnCount)bnCount.textContent=_cartQty;
   const total=cart.reduce((a,i)=>a+(i.price*i.qty),0);
   document.getElementById('cart-total').textContent='₹'+total.toLocaleString('en-IN');
   const el=document.getElementById('cart-items');
