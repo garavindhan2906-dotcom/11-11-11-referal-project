@@ -427,7 +427,7 @@ section{position:relative;z-index:1}
 .p-card.oos .p-name{color:var(--muted)}
 
 /* ── RITUAL ── */
-#ritual{padding:3.5rem 0 7rem;background:#fff url('images/sacred-practice.png') center/cover no-repeat}
+#ritual{padding:3.5rem 0 7rem;background:#fff url('images/1111.png') center/cover no-repeat}
 .ritual-grid{display:grid;grid-template-columns:1fr 1fr;gap:7rem;max-width:1200px;margin:0 auto;padding:0 4rem;align-items:stretch}
 .ritual-visual{text-align:center;min-height:480px;display:flex;flex-direction:column;align-items:flex-end;justify-content:flex-end;padding:0}
 .ritual-circle{width:auto;max-width:180px;padding:1.4rem 1.6rem;border:1px solid var(--border-gold);margin:0;display:flex;align-items:center;justify-content:center;position:relative;background:var(--cream2);box-shadow:0 8px 40px rgba(0,0,0,.12)}
@@ -459,7 +459,7 @@ section{position:relative;z-index:1}
 .jstat-lbl{font-size:0.74rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--dim)}
 .journey-img-box{background:var(--cream2);border:1px solid var(--border);aspect-ratio:3/4;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;box-shadow:var(--shadow)}
 .artisan-badge{position:absolute;top:1rem;right:1rem;background:rgba(250,248,244,.9);border:1px solid var(--border);padding:.35rem .75rem;font-size:0.74rem;letter-spacing:0.156em;text-transform:uppercase;color:var(--ink)}
-.ji-label{position:absolute;bottom:0;left:0;right:0;padding:1.5rem;background:linear-gradient(to top,rgba(243,237,228,.98),transparent)}
+.ji-label{position:absolute;bottom:0;left:0;right:0;padding:1.5rem;background:linear-gradient(to top,rgba(243,237,228,.98) 0,rgba(243,237,228,.98) calc(100% - 1.5rem),transparent 100%)}
 .ji-label h4{font-family:'Inter',sans-serif;font-size:1.15rem;color:var(--ink);margin-bottom:.3rem}
 .ji-label p{font-size:0.85rem;color:var(--muted);line-height:1.6}
 
@@ -531,6 +531,7 @@ section{position:relative;z-index:1}
 .hc::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:transparent;transition:background .4s}
 .hc:hover{background:var(--cream2)}
 .hc:hover::after{background:var(--gold)}
+.hc-img{max-width:100%;height:auto;object-fit:contain;margin:0 auto 1.1rem;display:block}
 .hc-title{font-family:'Inter',sans-serif;font-size:1.3rem;font-weight:700;color:var(--gold);margin-bottom:.65rem}
 .hc-desc{font-size:0.92rem;color:var(--muted);line-height:1.9;font-weight:600}
 
@@ -786,10 +787,10 @@ footer{padding:5rem 4rem 2.5rem;background:var(--ink);border-top:1px solid rgba(
   <h2 class="sec-h2">Complete Your <em>Practice</em></h2>
   <p class="sec-p">Everything included to support your full manifestation journey, beyond the fragrance.</p>
   <div class="holistic-grid">
-    <div class="hc fade-up"><div class="hc-title">Sacred Fire Preparation</div><p class="hc-desc">Every oil is ceremonially prepared through sacred fire rituals, a Vedic tradition ensuring each bottle carries intentional vibrational energy.</p></div>
-    <div class="hc fade-up" style="transition-delay:.08s"><div class="hc-title">Artisan Wooden Bottles</div><p class="hc-desc">Hand-turned by Channapatna master craftsmen using traditional techniques, a UNESCO-recognised sustainable craft from Karnataka.</p></div>
-    <div class="hc fade-up" style="transition-delay:.16s"><div class="hc-title">Alcohol-Free Attar</div><p class="hc-desc">Pure, skin-kind attar formulations. Long-lasting 8–12 hours. No alcohol, no parabens. Safe for daily ritual use on pulse points.</p></div>
-    <div class="hc fade-up" style="transition-delay:.24s"><div class="hc-title">Mantra Integration</div><p class="hc-desc">Each oil is aligned to a specific Beej mantra. When applied during mantra recitation, the scent deepens the vibrational imprint in your nervous system.</p></div>
+    <div class="hc fade-up"><img class="hc-img" src="images/sacred2.png" alt="Sacred Fire Preparation"><div class="hc-title">Sacred Fire Preparation</div><p class="hc-desc">Every oil is ceremonially prepared through sacred fire rituals, a Vedic tradition ensuring each bottle carries intentional vibrational energy.</p></div>
+    <div class="hc fade-up" style="transition-delay:.08s"><img class="hc-img" src="images/sacred3.png" alt="Artisan Wooden Bottles"><div class="hc-title">Artisan Wooden Bottles</div><p class="hc-desc">Hand-turned by Channapatna master craftsmen using traditional techniques, a UNESCO-recognised sustainable craft from Karnataka.</p></div>
+    <div class="hc fade-up" style="transition-delay:.16s"><img class="hc-img" src="images/1111.png" alt="Alcohol-Free Attar"><div class="hc-title">Alcohol-Free Attar</div><p class="hc-desc">Pure, skin-kind attar formulations. Long-lasting 8–12 hours. No alcohol, no parabens. Safe for daily ritual use on pulse points.</p></div>
+    <div class="hc fade-up" style="transition-delay:.24s"><img class="hc-img" src="images/sacred.png" alt="Mantra Integration"><div class="hc-title">Mantra Integration</div><p class="hc-desc">Each oil is aligned to a specific Beej mantra. When applied during mantra recitation, the scent deepens the vibrational imprint in your nervous system.</p></div>
   </div>
 </section>
 
@@ -895,7 +896,7 @@ footer{padding:5rem 4rem 2.5rem;background:var(--ink);border-top:1px solid rgba(
   </div>
   <div class="blog-grid">
     <div class="blog-card" onclick="toast('✦','Full article opens in live version.')">
-      <div class="blog-img"><img src="images/sacred.png" alt="Top 5 Long Lasting Perfume Oils in India"></div>
+      <div class="blog-img">🌹</div>
       <div class="blog-body">
         <span class="blog-tag">Guide</span>
         <div class="blog-title">Top 5 Long Lasting Perfume Oils in India</div>
@@ -903,7 +904,7 @@ footer{padding:5rem 4rem 2.5rem;background:var(--ink);border-top:1px solid rgba(
       </div>
     </div>
     <div class="blog-card" onclick="toast('✦','Full article opens in live version.')">
-      <div class="blog-img"><img src="images/sacred2.png" alt="Choosing a Scent for Your Personality"></div>
+      <div class="blog-img">✨</div>
       <div class="blog-body">
         <span class="blog-tag">Wellness</span>
         <div class="blog-title">Choosing a Scent for Your Personality</div>
@@ -911,7 +912,7 @@ footer{padding:5rem 4rem 2.5rem;background:var(--ink);border-top:1px solid rgba(
       </div>
     </div>
     <div class="blog-card" onclick="toast('✦','Full article opens in live version.')">
-      <div class="blog-img"><img src="images/sacred3.png" alt="Attar vs. Perfume: What's the Difference?"></div>
+      <div class="blog-img">🕯️</div>
       <div class="blog-body">
         <span class="blog-tag">Ritual</span>
         <div class="blog-title">Attar vs. Perfume: What's the Difference?</div>
