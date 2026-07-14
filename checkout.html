@@ -678,6 +678,7 @@ function completeLogin(wasAuto) {
 }
 
 function editStep1() {
+  localStorage.removeItem('111_session');
   loggedIn = false; addrDone = false;
   document.getElementById('sec1').classList.remove('sec-done');
   document.getElementById('sec1').classList.add('active');
