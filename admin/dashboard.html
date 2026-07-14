@@ -92,6 +92,9 @@ body{background:var(--cream);color:var(--ink);font-family:'Inter',sans-serif;fon
 .tag-active{background:var(--green-bg);color:var(--green);border:1px solid rgba(22,163,74,.22)}
 .tag-inactive{background:rgba(28,25,20,.05);color:var(--muted);border:1px solid var(--border)}
 .tag-pending{background:var(--amber-bg);color:var(--amber);border:1px solid rgba(217,119,6,.22)}
+.tag-processing{background:rgba(29,78,216,.07);color:#1d4ed8;border:1px solid rgba(29,78,216,.18)}
+.tag-delivered{background:var(--green-bg);color:var(--green);border:1px solid rgba(22,163,74,.22)}
+.tag-cancelled{background:rgba(220,38,38,.07);color:#dc2626;border:1px solid rgba(220,38,38,.18)}
 .tag-male{background:rgba(29,78,216,.07);color:#1d4ed8;border:1px solid rgba(29,78,216,.18)}
 .tag-female{background:rgba(157,23,77,.07);color:#9d174d;border:1px solid rgba(157,23,77,.18)}
 .tag-combo{background:var(--burg-pale);color:var(--burg);border:1px solid var(--border-burg)}
@@ -977,7 +980,12 @@ body{background:var(--cream);color:var(--ink);font-family:'Inter',sans-serif;fon
     </div>
     <div style="margin-bottom:1.5rem">
       <div style="font-size:.56rem;letter-spacing:.3em;text-transform:uppercase;color:var(--dim);margin-bottom:.5rem">Referral Link</div>
-      <a id="prof-link" href="#" target="_blank" style="font-size:.78rem;color:var(--burg2);word-break:break-all;text-decoration:none;display:block;padding:.6rem .8rem;background:var(--cream2);border:1px solid var(--border)">—</a>
+      <div style="display:flex;gap:.5rem;align-items:stretch">
+        <a id="prof-link" href="#" target="_blank" style="flex:1;min-width:0;font-size:.78rem;color:var(--burg2);word-break:break-all;text-decoration:none;display:block;padding:.6rem .8rem;background:var(--cream2);border:1px solid var(--border)">—</a>
+        <button onclick="copyProfLink()" title="Copy referral link" style="flex-shrink:0;background:var(--cream2);border:1px solid var(--border);color:var(--muted);cursor:pointer;padding:.6rem .8rem;display:flex;align-items:center;justify-content:center;transition:all .25s" onmouseover="this.style.color='var(--burg)';this.style.borderColor='var(--border-burg)'" onmouseout="this.style.color='var(--muted)';this.style.borderColor='var(--border)'">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+        </button>
+      </div>
     </div>
     <div>
       <div style="font-size:.56rem;letter-spacing:.3em;text-transform:uppercase;color:var(--dim);margin-bottom:.8rem">QR Code</div>
@@ -1086,7 +1094,7 @@ let editingId=null;
 const RESELLERS=[];
 let PENDING=[];
 
-const ORDERS=[];
+let ORDERS=[];
 
 /* ── HELPERS ── */
 let toastTm;
@@ -1105,6 +1113,7 @@ function nav(name,el){
   if(name==='payouts')loadPayouts();
   if(name==='reels')loadReels();
   if(name==='analytics')loadAnalytics();
+  if(name==='orders')loadOrders();
   closeSidebar();
 }
 function openSidebar(){document.getElementById('sidebar').classList.add('open');document.getElementById('sb-overlay').classList.add('show');}
@@ -1536,6 +1545,14 @@ function closeCredModal(){
   document.getElementById('modal-credentials').classList.remove('open');
 }
 
+function copyProfLink(){
+  const link=document.getElementById('prof-link').href;
+  if(!link||link.endsWith('#'))return;
+  navigator.clipboard.writeText(link)
+    .then(()=>toast('✦','Referral link copied to clipboard.'))
+    .catch(()=>toast('⚠️','Could not copy link.'));
+}
+
 let _profPayResellerId=null, _profPayPending=0, _profPayName='';
 async function viewReseller(id){
   const r=RESELLERS.find(x=>x.id===id);
@@ -1744,16 +1761,28 @@ async function saveReseller(){
 function renderOrders(){
   document.getElementById('orders-tbody').innerHTML=ORDERS.length?ORDERS.map(o=>`
     <tr>
-      <td style="font-size:.7rem;color:var(--dim)">${o.id}</td>
+      <td style="font-size:.7rem;color:var(--dim)">${o.order_number}</td>
       <td><span class="reseller-code">${o.product}</span></td>
       <td style="font-size:.8rem">${o.customer}</td>
       <td style="font-size:.75rem;color:var(--muted)">${o.reseller}</td>
       <td style="font-size:.72rem;color:var(--muted)">${o.date}</td>
-      <td><span style="font-family:'Inter',sans-serif;color:var(--burg);font-size:.95rem">${o.amount}</span></td>
-      <td style="color:var(--green);font-size:.78rem;font-weight:500">${o.commission}</td>
+      <td><span style="font-family:'Inter',sans-serif;color:var(--burg);font-size:.95rem">₹${o.amount.toLocaleString('en-IN')}</span></td>
+      <td style="color:var(--green);font-size:.78rem;font-weight:500">₹${o.commission.toLocaleString('en-IN')}</td>
       <td><span class="tag tag-${o.status}">${o.status.charAt(0).toUpperCase()+o.status.slice(1)}</span></td>
     </tr>
   `).join(''):'<tr><td colspan="8" style="padding:1.5rem;text-align:center;font-size:.82rem;color:var(--dim)">No orders yet.</td></tr>';
+}
+
+async function loadOrders(){
+  try{
+    const res=await fetch(`${API}/api/store/admin-orders/`,{headers:{'X-Admin-Key':ADMIN_KEY}});
+    if(!res.ok){toast('⚠️','Could not load orders.');return;}
+    const d=await res.json();
+    ORDERS=d.orders;
+    const statEl=document.getElementById('stat-orders');
+    if(statEl)statEl.textContent=d.total_orders.toLocaleString('en-IN');
+    renderOrders();
+  }catch(_){toast('⚠️','Server error. Make sure Django is running.');}
 }
 
 /* ── SETTINGS ── */
@@ -2228,7 +2257,7 @@ async function submitPayout(){
 
 /* ── INIT ── */
 document.addEventListener('DOMContentLoaded',()=>{
-  loadProducts();loadResellers();loadApplications();renderOrders();loadSettings();
+  loadProducts();loadResellers();loadApplications();loadOrders();loadSettings();
   // Wire drag-drop on video upload zone only (image slots handle their own clicks)
   [['vid','video']].forEach(([prefix,type])=>{
     const zone=document.getElementById(prefix+'-drop-zone');

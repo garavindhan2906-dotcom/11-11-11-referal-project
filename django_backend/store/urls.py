@@ -20,4 +20,5 @@ urlpatterns = [
     path("track-pageview/<int:pk>/duration/", views.TrackPageDurationView.as_view(), name="track-pageview-duration"),
     path("track-product-click/", views.TrackProductClickView.as_view(), name="track-product-click"),
     path("analytics/", views.AnalyticsView.as_view(), name="analytics"),
+    path("admin-orders/", views.AdminOrdersListView.as_view(), name="admin-orders"),
 ]

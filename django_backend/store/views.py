@@ -586,3 +586,40 @@ class AnalyticsView(APIView):
             "pages": pages,
             "products": products,
         })
+
+
+class AdminOrdersListView(APIView):
+    permission_classes = [AllowAny]
+
+    def get(self, request):
+        from resellers.views import ADMIN_SECRET
+        if request.headers.get("X-Admin-Key") != ADMIN_SECRET:
+            return Response({"error": "Unauthorized."}, status=401)
+
+        orders = (
+            Order.objects.select_related("customer", "reseller")
+            .prefetch_related("items", "items__product")
+            .order_by("-created_at")
+        )
+
+        data = []
+        for o in orders:
+            product_names = ", ".join(
+                f"{i.product.name} ×{i.quantity}" for i in o.items.all()
+            ) or "—"
+            data.append({
+                "id": o.id,
+                "order_number": o.order_number,
+                "product": product_names,
+                "customer": o.customer.name if o.customer else "—",
+                "reseller": o.reseller.name if o.reseller else "Direct",
+                "date": o.created_at.strftime("%d %b %Y"),
+                "amount": float(o.total_amount),
+                "commission": float(o.commission_amount),
+                "status": o.status,
+            })
+
+        return Response({
+            "total_orders": len(data),
+            "orders": data,
+        })
