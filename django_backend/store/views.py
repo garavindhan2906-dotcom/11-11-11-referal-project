@@ -705,3 +705,38 @@ class TrackOrderView(APIView):
                 "pincode": order.address_pincode,
             },
         })
+
+
+class MyOrdersView(APIView):
+    permission_classes = [AllowAny]
+
+    def get(self, request):
+        phone = "".join(filter(str.isdigit, request.query_params.get("phone", "")))
+        if not phone:
+            return Response({"error": "Mobile number is required."}, status=400)
+
+        orders = (
+            Order.objects.select_related("customer")
+            .prefetch_related("items", "items__product")
+            .order_by("-created_at")
+        )
+
+        data = []
+        for o in orders:
+            customer_phone = "".join(filter(str.isdigit, o.customer.phone or ""))
+            address_phone = "".join(filter(str.isdigit, o.address_phone or ""))
+            if phone != customer_phone and phone != address_phone:
+                continue
+            items = [
+                {"product": i.product.name, "quantity": i.quantity}
+                for i in o.items.all()
+            ]
+            data.append({
+                "order_number": o.order_number,
+                "date": o.created_at.strftime("%d %b %Y"),
+                "status": o.status,
+                "amount": float(o.total_amount),
+                "items": items,
+            })
+
+        return Response({"orders": data})

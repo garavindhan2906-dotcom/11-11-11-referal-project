@@ -861,7 +861,7 @@ async function placeOrder() {
     const data = await res.json();
     if (!res.ok) { toast('✦', data.error || 'Order failed. Please try again.'); return; }
     document.getElementById('so-num').textContent = 'Order #' + data.order_number;
-    document.getElementById('so-track-link').href = 'track-order.html?order=' + encodeURIComponent(data.order_number) + '&phone=' + encodeURIComponent(userEmail);
+    document.getElementById('so-track-link').href = 'track-order.html?phone=' + encodeURIComponent(userEmail);
     localStorage.removeItem('111_cart');
     document.getElementById('success-ov').classList.add('on');
   } catch(e) {
