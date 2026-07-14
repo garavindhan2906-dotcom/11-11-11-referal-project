@@ -1823,7 +1823,12 @@ function renderOrders(){
       <td colspan="8">
         <div class="ord-detail">
           <div>
-            <div class="ord-addr-title">Delivery Address</div>
+            <div class="ord-addr-title" style="display:flex;align-items:center;justify-content:space-between;gap:.5rem">
+              <span>Delivery Address</span>
+              ${hasAddr?`<button onclick="event.stopPropagation();copyOrderAddress(${o.id})" title="Copy address" style="background:none;border:1px solid var(--border);color:var(--muted);cursor:pointer;padding:.3rem;border-radius:4px;display:flex;align-items:center;justify-content:center;flex-shrink:0" onmouseover="this.style.color='var(--burg)';this.style.borderColor='var(--border-burg)'" onmouseout="this.style.color='var(--muted)';this.style.borderColor='var(--border)'">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+              </button>`:''}
+            </div>
             <div class="ord-addr-body">${addrHtml}</div>
           </div>
           <div>
@@ -1839,6 +1844,22 @@ function renderOrders(){
 function toggleOrderRow(id){
   const row=document.getElementById('ord-detail-'+id);
   if(row)row.classList.toggle('show');
+}
+
+function copyOrderAddress(id){
+  const o=ORDERS.find(x=>x.id===id);
+  if(!o)return;
+  const a=o.address||{};
+  const lines=[
+    a.name||o.customer,
+    a.phone,
+    a.line1,
+    [a.city,a.state,a.pincode].filter(Boolean).join(', '),
+  ].filter(Boolean);
+  if(!lines.length){toast('⚠️','No address on file to copy.');return;}
+  navigator.clipboard.writeText(lines.join('\n'))
+    .then(()=>toast('✦','Delivery address copied to clipboard.'))
+    .catch(()=>toast('⚠️','Could not copy address.'));
 }
 
 async function updateOrderStatus(id,status){
