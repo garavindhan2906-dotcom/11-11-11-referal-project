@@ -92,9 +92,28 @@ body{background:var(--cream);color:var(--ink);font-family:'Inter',sans-serif;fon
 .tag-active{background:var(--green-bg);color:var(--green);border:1px solid rgba(22,163,74,.22)}
 .tag-inactive{background:rgba(28,25,20,.05);color:var(--muted);border:1px solid var(--border)}
 .tag-pending{background:var(--amber-bg);color:var(--amber);border:1px solid rgba(217,119,6,.22)}
-.tag-processing{background:rgba(29,78,216,.07);color:#1d4ed8;border:1px solid rgba(29,78,216,.18)}
+.tag-packed{background:rgba(29,78,216,.07);color:#1d4ed8;border:1px solid rgba(29,78,216,.18)}
+.tag-shipped{background:rgba(124,58,237,.07);color:#7c3aed;border:1px solid rgba(124,58,237,.18)}
 .tag-delivered{background:var(--green-bg);color:var(--green);border:1px solid rgba(22,163,74,.22)}
 .tag-cancelled{background:rgba(220,38,38,.07);color:#dc2626;border:1px solid rgba(220,38,38,.18)}
+.ord-row{cursor:pointer}
+.ord-detail-row{display:none}
+.ord-detail-row.show{display:table-row}
+.ord-detail-row td{padding:0!important}
+.ord-detail{padding:1.3rem 1.6rem;background:var(--cream2);border-top:1px solid var(--border);display:grid;grid-template-columns:1fr 1.6fr;gap:2.5rem}
+@media(max-width:860px){.ord-detail{grid-template-columns:1fr}}
+.ord-addr-title{font-size:.52rem;letter-spacing:.3em;text-transform:uppercase;color:var(--dim);margin-bottom:.6rem}
+.ord-addr-body{font-size:.8rem;color:var(--ink);line-height:1.9}
+.ord-stepper{display:flex;align-items:flex-start}
+.ord-step{display:flex;flex-direction:column;align-items:center;flex:1;position:relative;cursor:pointer}
+.ord-step-line{position:absolute;top:13px;left:-50%;width:100%;height:2px;background:var(--border);z-index:0}
+.ord-step:first-child .ord-step-line{display:none}
+.ord-step.done .ord-step-line{background:var(--green)}
+.ord-step-dot{width:26px;height:26px;border-radius:50%;background:#fff;border:2px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:.68rem;color:var(--dim);z-index:1;transition:all .25s;font-weight:600}
+.ord-step.done .ord-step-dot{background:var(--green);border-color:var(--green);color:#fff}
+.ord-step.current .ord-step-dot{background:var(--burg);border-color:var(--burg);color:#fff}
+.ord-step-label{font-size:.6rem;letter-spacing:.06em;text-transform:uppercase;color:var(--dim);margin-top:.5rem;text-align:center}
+.ord-step.done .ord-step-label,.ord-step.current .ord-step-label{color:var(--ink);font-weight:600}
 .tag-male{background:rgba(29,78,216,.07);color:#1d4ed8;border:1px solid rgba(29,78,216,.18)}
 .tag-female{background:rgba(157,23,77,.07);color:#9d174d;border:1px solid rgba(157,23,77,.18)}
 .tag-combo{background:var(--burg-pale);color:var(--burg);border:1px solid var(--border-burg)}
@@ -1758,9 +1777,39 @@ async function saveReseller(){
 }
 
 /* ── ORDERS ── */
+const ORDER_STAGES=[
+  {key:'pending',label:'Order Placed'},
+  {key:'packed',label:'Packed'},
+  {key:'shipped',label:'Shipped'},
+  {key:'delivered',label:'Delivered'},
+];
+const STATUS_LABELS={pending:'Order Placed',packed:'Packed',shipped:'Shipped',delivered:'Delivered',cancelled:'Cancelled'};
+
+function renderOrderStepper(o){
+  if(o.status==='cancelled')return '<span class="tag tag-cancelled">Cancelled</span>';
+  const curIdx=ORDER_STAGES.findIndex(s=>s.key===o.status);
+  return `<div class="ord-stepper">${ORDER_STAGES.map((s,i)=>{
+    const done=i<curIdx,current=i===curIdx;
+    return `<div class="ord-step ${done?'done':''} ${current?'current':''}" onclick="event.stopPropagation();updateOrderStatus(${o.id},'${s.key}')" title="Mark as ${s.label}">
+      <div class="ord-step-line"></div>
+      <div class="ord-step-dot">${done?'✓':i+1}</div>
+      <div class="ord-step-label">${s.label}</div>
+    </div>`;
+  }).join('')}</div>`;
+}
+
 function renderOrders(){
-  document.getElementById('orders-tbody').innerHTML=ORDERS.length?ORDERS.map(o=>`
-    <tr>
+  document.getElementById('orders-tbody').innerHTML=ORDERS.length?ORDERS.map(o=>{
+    const a=o.address||{};
+    const hasAddr=a.line1||a.city||a.state||a.pincode;
+    const addrHtml=hasAddr?`
+      <div><strong>${a.name||o.customer}</strong></div>
+      <div>${a.phone||'—'}</div>
+      <div>${a.line1||''}</div>
+      <div>${[a.city,a.state,a.pincode].filter(Boolean).join(', ')}</div>
+    `:`<div style="color:var(--dim)">No delivery address on file for this order.</div>`;
+    return `
+    <tr class="ord-row" onclick="toggleOrderRow(${o.id})">
       <td style="font-size:.7rem;color:var(--dim)">${o.order_number}</td>
       <td><span class="reseller-code">${o.product}</span></td>
       <td style="font-size:.8rem">${o.customer}</td>
@@ -1768,9 +1817,40 @@ function renderOrders(){
       <td style="font-size:.72rem;color:var(--muted)">${o.date}</td>
       <td><span style="font-family:'Inter',sans-serif;color:var(--burg);font-size:.95rem">₹${o.amount.toLocaleString('en-IN')}</span></td>
       <td style="color:var(--green);font-size:.78rem;font-weight:500">₹${o.commission.toLocaleString('en-IN')}</td>
-      <td><span class="tag tag-${o.status}">${o.status.charAt(0).toUpperCase()+o.status.slice(1)}</span></td>
+      <td><span class="tag tag-${o.status}">${STATUS_LABELS[o.status]||o.status}</span></td>
     </tr>
-  `).join(''):'<tr><td colspan="8" style="padding:1.5rem;text-align:center;font-size:.82rem;color:var(--dim)">No orders yet.</td></tr>';
+    <tr class="ord-detail-row" id="ord-detail-${o.id}">
+      <td colspan="8">
+        <div class="ord-detail">
+          <div>
+            <div class="ord-addr-title">Delivery Address</div>
+            <div class="ord-addr-body">${addrHtml}</div>
+          </div>
+          <div>
+            <div class="ord-addr-title">Order Status</div>
+            ${renderOrderStepper(o)}
+          </div>
+        </div>
+      </td>
+    </tr>`;
+  }).join(''):'<tr><td colspan="8" style="padding:1.5rem;text-align:center;font-size:.82rem;color:var(--dim)">No orders yet.</td></tr>';
+}
+
+function toggleOrderRow(id){
+  const row=document.getElementById('ord-detail-'+id);
+  if(row)row.classList.toggle('show');
+}
+
+async function updateOrderStatus(id,status){
+  try{
+    const res=await fetch(`${API}/api/store/admin-orders/${id}/status/`,{
+      method:'POST',headers:{'Content-Type':'application/json','X-Admin-Key':ADMIN_KEY},
+      body:JSON.stringify({status}),
+    });
+    if(!res.ok){toast('⚠️','Could not update order status.');return;}
+    toast('✦',`Order marked as ${STATUS_LABELS[status]||status}.`);
+    await loadOrders();
+  }catch(_){toast('⚠️','Server error. Make sure Django is running.');}
 }
 
 async function loadOrders(){

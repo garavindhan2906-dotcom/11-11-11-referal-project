@@ -829,8 +829,9 @@ async function placeOrder() {
   btn.textContent = '✦ Processing…'; btn.disabled = true;
 
   let customerName = userEmail;
+  let addr = {};
   try {
-    const addr = JSON.parse(localStorage.getItem('111_addr_' + userEmail) || '{}');
+    addr = JSON.parse(localStorage.getItem('111_addr_' + userEmail) || '{}');
     if (addr.name) customerName = addr.name;
   } catch(_) {}
 
@@ -839,12 +840,20 @@ async function placeOrder() {
   const ship = sub >= _getFreeShip() ? 0 : 99;
   const total = sub + ship - discount;
   const items = cart.map(i => ({product_id: i.id, product_name: i.name, quantity: i.qty}));
+  const address = {
+    name: addr.name || customerName,
+    phone: addr.phone || userEmail,
+    line1: [addr.line1, addr.line2].filter(Boolean).join(', '),
+    city: addr.city || '',
+    state: addr.state || '',
+    pincode: addr.pin || '',
+  };
 
   try {
     const res = await fetch('/api/store/place-order/', {
       method: 'POST',
       headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({email: userEmail + '@customer.local', phone: userEmail, name: customerName, ref_code, items, total})
+      body: JSON.stringify({email: userEmail + '@customer.local', phone: userEmail, name: customerName, ref_code, items, total, address})
     });
     const data = await res.json();
     if (!res.ok) { toast('✦', data.error || 'Order failed. Please try again.'); return; }

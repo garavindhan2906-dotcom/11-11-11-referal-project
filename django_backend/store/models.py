@@ -82,8 +82,9 @@ class Customer(models.Model):
 
 class Order(models.Model):
     STATUS_CHOICES = [
-        ('pending', 'Pending'),
-        ('processing', 'Processing'),
+        ('pending', 'Order Placed'),
+        ('packed', 'Packed'),
+        ('shipped', 'Shipped'),
         ('delivered', 'Delivered'),
         ('cancelled', 'Cancelled'),
     ]
@@ -99,6 +100,12 @@ class Order(models.Model):
     commission_amount = models.DecimalField(max_digits=10, decimal_places=2, default=100)
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='pending')
     notes = models.TextField(blank=True)
+    address_name = models.CharField(max_length=200, blank=True)
+    address_phone = models.CharField(max_length=20, blank=True)
+    address_line1 = models.CharField(max_length=300, blank=True)
+    address_city = models.CharField(max_length=100, blank=True)
+    address_state = models.CharField(max_length=100, blank=True)
+    address_pincode = models.CharField(max_length=10, blank=True)
     created_at = models.DateTimeField(default=timezone.now)
 
     def __str__(self):

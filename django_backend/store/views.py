@@ -169,6 +169,7 @@ class PlaceOrderView(APIView):
         name = data.get("name", "").strip()
         items = data.get("items", [])
         total = data.get("total", 0)
+        address = data.get("address", {})
 
         if not email or not name or not items:
             return Response({"error": "Missing required fields."}, status=400)
@@ -202,6 +203,12 @@ class PlaceOrderView(APIView):
             total_amount=total,
             commission_amount=commission_amount,
             status="pending",
+            address_name=address.get("name", "").strip(),
+            address_phone=address.get("phone", "").strip(),
+            address_line1=address.get("line1", "").strip(),
+            address_city=address.get("city", "").strip(),
+            address_state=address.get("state", "").strip(),
+            address_pincode=address.get("pincode", "").strip(),
         )
 
         for item in items:
@@ -612,14 +619,46 @@ class AdminOrdersListView(APIView):
                 "order_number": o.order_number,
                 "product": product_names,
                 "customer": o.customer.name if o.customer else "—",
+                "customer_email": o.customer.email if o.customer else "—",
                 "reseller": o.reseller.name if o.reseller else "Direct",
                 "date": o.created_at.strftime("%d %b %Y"),
                 "amount": float(o.total_amount),
                 "commission": float(o.commission_amount),
                 "status": o.status,
+                "address": {
+                    "name": o.address_name,
+                    "phone": o.address_phone,
+                    "line1": o.address_line1,
+                    "city": o.address_city,
+                    "state": o.address_state,
+                    "pincode": o.address_pincode,
+                },
             })
 
         return Response({
             "total_orders": len(data),
             "orders": data,
         })
+
+
+class AdminOrderStatusView(APIView):
+    permission_classes = [AllowAny]
+
+    def post(self, request, pk):
+        from resellers.views import ADMIN_SECRET
+        if request.headers.get("X-Admin-Key") != ADMIN_SECRET:
+            return Response({"error": "Unauthorized."}, status=401)
+
+        status_value = request.data.get("status", "").strip()
+        valid_statuses = [c[0] for c in Order.STATUS_CHOICES]
+        if status_value not in valid_statuses:
+            return Response({"error": "Invalid status."}, status=400)
+
+        try:
+            order = Order.objects.get(pk=pk)
+        except Order.DoesNotExist:
+            return Response({"error": "Order not found."}, status=404)
+
+        order.status = status_value
+        order.save(update_fields=["status"])
+        return Response({"success": True, "status": order.status})
