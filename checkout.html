@@ -36,13 +36,14 @@ body{background:var(--cream);color:var(--ink);font-family:'Inter',sans-serif;fon
 .co-secure svg{width:13px;height:13px}
 
 /* BOTTOM NAV (mobile) */
-.bottom-nav{display:none;position:fixed;left:0;right:0;bottom:0;z-index:900;background:rgba(250,248,244,.97);backdrop-filter:blur(20px);border-top:1px solid var(--border);box-shadow:0 -4px 20px rgba(28,25,20,.06)}
+.bottom-nav{display:block;position:fixed;left:0;right:0;bottom:0;z-index:900;background:rgba(250,248,244,.97);backdrop-filter:blur(20px);border-top:1px solid var(--border);box-shadow:0 -4px 20px rgba(28,25,20,.06)}
 .bn-row{display:flex;align-items:center;justify-content:space-around;padding:.5rem 0 calc(.5rem + env(safe-area-inset-bottom))}
 .bn-item{display:flex;flex-direction:column;align-items:center;gap:.25rem;background:none;border:none;cursor:pointer;color:var(--muted);flex:1;padding:.3rem 0;position:relative;transition:color .25s;text-decoration:none}
 .bn-item:hover,.bn-item.active{color:var(--gold)}
 .bn-item svg{width:20px;height:20px;display:block}
 .bn-item span{font-size:.56rem;letter-spacing:.08em;text-transform:uppercase}
-@media(max-width:640px){.bottom-nav{display:block}body{padding-bottom:56px}}
+body{padding-bottom:64px}
+@media(min-width:641px){.bottom-nav{left:50%;right:auto;transform:translateX(-50%);bottom:1.2rem;width:min(460px,92vw);border-top:none;border:1px solid var(--border);border-radius:100px;box-shadow:0 10px 34px rgba(28,25,20,.14)}}
 
 /* ── STEPS BAR ── */
 .steps-bar{background:var(--white);border-bottom:1px solid var(--border);padding:.88rem 3rem;display:flex;align-items:center;justify-content:center;gap:.5rem}

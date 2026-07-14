@@ -37,14 +37,15 @@ nav{position:fixed;top:0;left:0;right:0;z-index:1000;background:rgba(246,248,252
 @media(max-width:640px){nav{padding:.85rem 1rem;gap:.5rem}}
 
 /* BOTTOM NAV (mobile) */
-.bottom-nav{display:none;position:fixed;left:0;right:0;bottom:0;z-index:900;background:rgba(250,248,244,.97);backdrop-filter:blur(20px);border-top:1px solid var(--border);box-shadow:0 -4px 20px rgba(30,42,62,.06)}
+.bottom-nav{display:block;position:fixed;left:0;right:0;bottom:0;z-index:900;background:rgba(250,248,244,.97);backdrop-filter:blur(20px);border-top:1px solid var(--border);box-shadow:0 -4px 20px rgba(30,42,62,.06)}
 .bn-row{display:flex;align-items:center;justify-content:space-around;padding:.5rem 0 calc(.5rem + env(safe-area-inset-bottom))}
 .bn-item{display:flex;flex-direction:column;align-items:center;gap:.25rem;background:none;border:none;cursor:pointer;color:var(--muted);flex:1;padding:.3rem 0;position:relative;transition:color .25s;text-decoration:none}
 .bn-item:hover,.bn-item.active{color:var(--gold)}
 .bn-item svg{width:20px;height:20px;display:block}
 .bn-item span{font-size:.56rem;letter-spacing:.08em;text-transform:uppercase}
 .bn-cart-badge{position:absolute;top:-2px;right:calc(50% - 18px);width:14px;height:14px;background:var(--gold);border-radius:50%;font-size:.5rem;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700}
-@media(max-width:640px){.bottom-nav{display:block}body{padding-bottom:56px}}
+body{padding-bottom:64px}
+@media(min-width:641px){.bottom-nav{left:50%;right:auto;transform:translateX(-50%);bottom:1.2rem;width:min(460px,92vw);border-top:none;border:1px solid var(--border);border-radius:100px;box-shadow:0 10px 34px rgba(30,42,62,.14)}}
 
 /* CATEGORY DROPDOWN */
 .cat-wrap{position:relative}
@@ -447,6 +448,9 @@ nav{position:fixed;top:0;left:0;right:0;z-index:1000;background:rgba(246,248,252
   <a href="index.html" class="nav-logo">
     <span class="nav-logo-main">11:11:11</span>
     <span class="nav-logo-sub">Manifestation Oils</span>
+  </a>
+  <a class="icon-btn" href="track-order.html" title="My Orders" style="text-decoration:none">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 8l-9-5-9 5v8l9 5 9-5V8z"/><path d="M3 8l9 5 9-5M12 13v8"/></svg>
   </a>
   <button class="icon-btn" onclick="openCart()">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
