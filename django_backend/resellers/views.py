@@ -149,10 +149,10 @@ class DashboardView(APIView):
         )
         recent_orders = []
         for o in recent:
-            first_item = o.items.first()
+            item_count = sum(i.quantity for i in o.items.all())
             recent_orders.append({
                 'id': o.order_number,
-                'product': first_item.product.name if first_item else 'N/A',
+                'item_count': item_count,
                 'customer': o.customer.name,
                 'date': o.created_at.strftime('%d %b %Y'),
                 'amount': f"₹{o.total_amount:,.0f}",
@@ -220,10 +220,10 @@ class OrdersView(APIView):
         )
         result = []
         for o in orders:
-            first_item = o.items.first()
+            item_count = sum(i.quantity for i in o.items.all())
             result.append({
                 'id': o.order_number,
-                'product': first_item.product.name if first_item else 'N/A',
+                'item_count': item_count,
                 'customer': o.customer.name,
                 'date': o.created_at.strftime('%d %b %Y'),
                 'amount': f"₹{o.total_amount:,.0f}",
@@ -280,7 +280,7 @@ class EarningsView(APIView):
             },
             'commissions': [
                 {
-                    'product': (o.items.first().product.name if o.items.exists() else 'N/A'),
+                    'item_count': sum(i.quantity for i in o.items.all()),
                     'customer': o.customer.name,
                     'date': o.created_at.strftime('%d %b %Y'),
                     'amount': f"₹{o.commission_amount:,.0f}",
@@ -332,7 +332,7 @@ class CustomersView(APIView):
                 'joined': f"Joined {c.created_at.strftime('%b %Y')}",
                 'orders': c.order_count,
                 'total_spent': total,
-                'orders_str': f"{c.order_count} orders — ₹{total:,.0f}",
+                'orders_str': f"{c.order_count} orders · ₹{total:,.0f}",
                 'avatar': _initials(c.name),
                 'color': AVATAR_COLORS[i % len(AVATAR_COLORS)],
             })

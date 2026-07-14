@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Product — 11:11:11 | EVOXU</title>
+<title>Product | 11:11:11 | EVOXU</title>
 <link rel="icon" type="image/x-icon" href="favicon.ico">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -19,7 +19,7 @@
   --shadow:0 2px 16px rgba(30,42,62,.06);--shadow2:0 8px 40px rgba(30,42,62,.12);
   --green:#16a34a;--amber:#d97706;
 }
-html{scroll-behavior:smooth;font-size:18px}
+html{scroll-behavior:smooth;font-size:16px}
 body{background:var(--cream);color:var(--ink);font-family:'Poppins',sans-serif;font-weight:400;overflow-x:hidden}
 
 /* NAV */
@@ -315,10 +315,10 @@ body{padding-bottom:64px}
 @media(max-width:640px){#cart-drawer{width:100%}}
 
 /* TOAST */
-#toast{position:fixed;bottom:2rem;right:2rem;background:var(--ink);border:1px solid rgba(125,32,53,.3);padding:1rem 1.4rem;z-index:9998;transform:translateX(110%);transition:transform .5s cubic-bezier(.4,0,.2,1);max-width:280px}
-#toast.show{transform:translateX(0)}
+#toast{position:fixed;top:6rem;right:1.5rem;background:var(--ink);border-radius:10px;border-left:3px solid var(--gold2);padding:1rem 1.4rem;z-index:9998;box-shadow:0 16px 40px rgba(0,0,0,.28);transform:translateY(-140%);opacity:0;transition:transform .5s cubic-bezier(.4,0,.2,1),opacity .4s ease;max-width:280px}
+#toast.show{transform:translateY(0);opacity:1}
 .tt{font-size:.9rem;color:var(--gold2);margin-bottom:.15rem;font-weight:500}
-.tm2{font-size:.72rem;color:rgba(255,255,255,.45);line-height:1.55}
+.tm2{font-size:.72rem;color:rgba(255,255,255,.6);line-height:1.55}
 
 /* ── MOBILE FIXES ── */
 @media(max-width:640px){
@@ -385,8 +385,8 @@ body{padding-bottom:64px}
   /* Cart drawer — full width */
   #cart-drawer{width:100%}
 
-  /* Toast — full width pinned to bottom */
-  #toast{left:1rem;right:1rem;bottom:1rem;max-width:none;transform:translateY(120%)}
+  /* Toast — full width pinned near top */
+  #toast{left:1rem;right:1rem;top:5.5rem;max-width:none;transform:translateY(-140%)}
   #toast.show{transform:translateY(0)}
 }
 
@@ -513,7 +513,7 @@ body{padding-bottom:64px}
     <div class="pd-tax">Inclusive of all taxes · Free shipping above ₹999</div>
     <div class="pd-offers">
       <div class="pd-offers-title">Available Offers</div>
-      <div class="pd-offer-item">20% off your first order — use code <strong>NEWUSER20</strong></div>
+      <div class="pd-offer-item">20% off your first order: use code <strong>NEWUSER20</strong></div>
       <div class="pd-offer-item">Free shipping on orders above ₹999</div>
       <div class="pd-offer-item">Includes 11-Day Activation Ritual Card + Beej Mantra Guide</div>
     </div>
@@ -637,9 +637,9 @@ body{padding-bottom:64px}
       <p style="font-size:.86rem;color:var(--muted);line-height:2;font-weight:300;margin-bottom:1.8rem">Refer to the ritual card included with the perfume for your complete practice. Below is the foundational daily framework.</p>
       <div class="daily-steps">
         <div class="ds-row"><div class="ds-left"><div class="ds-num">01</div><div class="ds-line"></div></div><div><div class="ds-time">Morning · Before leaving home</div><div class="ds-title">Set Your Intention</div><div class="ds-desc">Pause for 11 seconds before applying. Close your eyes and feel your intention as a present reality, not a wish.</div></div></div>
-        <div class="ds-row"><div class="ds-left"><div class="ds-num">02</div><div class="ds-line"></div></div><div><div class="ds-time">Application</div><div class="ds-title">Apply to Pulse Points</div><div class="ds-desc">Inner wrists, base of neck, behind the ears. Press gently — do not rub — to warm the oil without disrupting its structure.</div></div></div>
+        <div class="ds-row"><div class="ds-left"><div class="ds-num">02</div><div class="ds-line"></div></div><div><div class="ds-time">Application</div><div class="ds-title">Apply to Pulse Points</div><div class="ds-desc">Inner wrists, base of neck, behind the ears. Press gently (do not rub) to warm the oil without disrupting its structure.</div></div></div>
         <div class="ds-row"><div class="ds-left"><div class="ds-num">03</div><div class="ds-line"></div></div><div><div class="ds-time">Activation</div><div class="ds-title">Chant Your Mantra</div><div class="ds-desc">Recite the included Beej mantra 21 times, silently or aloud. This anchors your intention into the fragrance.</div></div></div>
-        <div class="ds-row"><div class="ds-left"><div class="ds-num">04</div><div class="ds-line"></div></div><div><div class="ds-time">Throughout the Day</div><div class="ds-title">Stay Present &amp; Open</div><div class="ds-desc">When you catch the scent, use it as a mindfulness cue — return to your intention and remain open.</div></div></div>
+        <div class="ds-row"><div class="ds-left"><div class="ds-num">04</div><div class="ds-line"></div></div><div><div class="ds-time">Throughout the Day</div><div class="ds-title">Stay Present &amp; Open</div><div class="ds-desc">When you catch the scent, use it as a mindfulness cue: return to your intention and remain open.</div></div></div>
         <div class="ds-row"><div class="ds-left"><div class="ds-num">05</div><div class="ds-line"></div></div><div><div class="ds-time">Evening · Before sleep</div><div class="ds-title">Journal One Observation</div><div class="ds-desc">Write one moment where you felt more aligned than usual. This practice accelerates the 18-week transformation.</div></div></div>
       </div>
     </div>
@@ -647,7 +647,7 @@ body{padding-bottom:64px}
       <div class="dc-glow"></div>
       <div class="dc-label">Daily Affirmation</div>
       <div class="dc-title" id="dc-title">The Intention That Wears This Oil</div>
-      <div class="dc-body" id="dc-body">Wear this oil as a daily vow to yourself — to show up open, present, and fully aligned with what you seek. Your consistent intention is the real ritual.</div>
+      <div class="dc-body" id="dc-body">Wear this oil as a daily vow to yourself: to show up open, present, and fully aligned with what you seek. Your consistent intention is the real ritual.</div>
       <div class="dc-divider">
         <div class="dc-aff-lbl">Morning Affirmation</div>
         <div class="dc-aff" id="dc-aff"></div>
@@ -720,7 +720,7 @@ const RICH={
     descLabel:'About KLEOMA', descEm:'Soulful Connection',
     descTitle:'A Long-Lasting Perfume Oil<br>for',
     descQuote:'"A premium attar roll-on, infused with ritual and mantra to support emotional connection, attraction, and presence."',
-    descBody1:'KLEOMA is a sensory anchor — crafted for those who seek not fleeting attraction, but deep, conscious love. It serves partners, seekers, and open hearts who value spiritual ritual, presence, and meaningful intention.',
+    descBody1:'KLEOMA is a sensory anchor, crafted for those who seek not fleeting attraction, but deep, conscious love. It serves partners, seekers, and open hearts who value spiritual ritual, presence, and meaningful intention.',
     descBody2:'Worn daily as part of a mindful practice, KLEOMA supports emotional openness, natural attraction, and the kind of presence that draws meaningful connection into your life.',
     descPills:[{t:'Emotional Openness',hl:true},{t:'Natural Attraction',hl:true},{t:'Conscious Presence',hl:true},{t:'Alcohol-Free'},{t:'10ml Roll-On'},{t:'8–12 Hr Wear'}],
     descStats:[{icon:'⏱',val:'8 – 12 Hours',lbl:'Fragrance Longevity'},{icon:'📿',val:'108 ×',lbl:'Mantra Chants Per Batch'},{icon:'🌕',val:'18 Weeks',lbl:'Full Transformation Timeline'},{icon:'🚫',val:'Zero Alcohol',lbl:'Pure Attar Formulation'}],
@@ -730,13 +730,13 @@ const RICH={
       {icon:'🔥',title:'Sacred Fire Ceremony (Havan)',text:'A traditional fire ritual performed with heart-centered mantras, preparing the energetic field into which the oil is introduced.'},
       {icon:'📿',title:'Love Beej Mantra Infusion',text:'The Kleem Beej mantra chanted 108 times per batch, encoding the oil with the vibrational frequency of attraction.'},
       {icon:'🌕',title:'Lunar Phase Charging',text:'Crystalline energy charging under specific lunar phases chosen for their resonance with love, openness, and harmony.'},
-      {icon:'⭐',title:'Auspicious Sealing',text:'Each bottle is sealed at a muhurta — an auspicious time selected by a Vedic astrologer — for maximum potency.'},
+      {icon:'⭐',title:'Auspicious Sealing',text:'Each bottle is sealed at a muhurta, an auspicious time selected by a Vedic astrologer, for maximum potency.'},
     ],
     astroCards:[
-      {icon:'♀',t:'Venus Energy',d:'Formulated to align with Venus — the planet governing love, beauty, and heart-centred connection.'},
+      {icon:'♀',t:'Venus Energy',d:'Formulated to align with Venus, the planet governing love, beauty, and heart-centred connection.'},
       {icon:'🌹',t:'Heart Chakra',d:'Rose and ylang ylang are traditional Anahata (heart chakra) activators used in Vedic healing.'},
-      {icon:'ॐ',t:'Kleem Beej',d:'The Kleem Beej mantra — the seed sound of attraction — is chanted into every batch.'},
-      {icon:'🌕',t:'Lunar Alignment',d:'Prepared during Shukla Paksha (waxing moon) — the phase of growth, abundance, and love.'},
+      {icon:'ॐ',t:'Kleem Beej',d:'The Kleem Beej mantra, the seed sound of attraction, is chanted into every batch.'},
+      {icon:'🌕',t:'Lunar Alignment',d:'Prepared during Shukla Paksha (waxing moon), the phase of growth, abundance, and love.'},
       {icon:'🕯',t:'Muhurta Sealing',d:'Sealed at a Vedic auspicious time chosen for love and attraction energy amplification.'},
       {icon:'🧿',t:'Protection Layer',d:'Nazar-protection mantra layered in to keep the wearer energetically clear and grounded.'},
     ],
@@ -752,7 +752,7 @@ const RICH={
       {days:'01–03',phase:'Days 1 – 3',title:'Intention Setting',desc:'Apply KLEOMA and write your love intention clearly. Hold it in mind for 11 minutes at the same time each morning.'},
       {days:'04–06',phase:'Days 4 – 6',title:'Mantra Activation',desc:'Begin chanting the included Kleem Beej mantra 21 times after application. Feel the vibration settle into your skin.'},
       {days:'07–09',phase:'Days 7 – 9',title:'Energetic Anchoring',desc:'Notice shifts in how people respond to you. Journal one observation per day. Continue mantra and application.'},
-      {days:'10–11',phase:'Days 10 – 11',title:'Completion & Seal',desc:'Dedicate your practice — release the intention fully and trust. The energetic channel is now open and active.'},
+      {days:'10–11',phase:'Days 10 – 11',title:'Completion & Seal',desc:'Dedicate your practice: release the intention fully and trust. The energetic channel is now open and active.'},
     ],
     elevenCallouts:[
       {icon:'🃏',t:'Ritual Card Included',d:'Every KLEOMA comes with a printed Activation Ritual Card with full daily instructions and mantra pronunciation guide.'},
@@ -760,7 +760,7 @@ const RICH={
     ],
     affirmation:'"I am open. I am warm. I am magnetic. Love finds me because I am present."',
     dcTitle:'The Intention That Wears KLEOMA',
-    dcBody:'Wear this oil as a daily vow — to show up open, present, and worthy of the love you seek. The fragrance is not the magic. Your consistent intention is.',
+    dcBody:'Wear this oil as a daily vow: to show up open, present, and worthy of the love you seek. The fragrance is not the magic. Your consistent intention is.',
     mantraDevanagari:'ॐ क्लीं नमः',
     mantraRoman:'Om Kleem Namah',
   },
@@ -768,7 +768,7 @@ const RICH={
     tag:'Relaxation & Calm',tagline:'A ritual-infused attar for ease, softness, and balanced rhythm.',
     descLabel:'About KLINFON',descEm:'Inner Calm',descTitle:'A Sacred Oil for',
     descQuote:'"A premium attar roll-on infused with ritual and mantra to support deep relaxation, emotional ease, and balanced presence."',
-    descBody1:'KLINFON (Male) is formulated for those who seek calm presence over restless striving — a sensory anchor that encourages ease, softness, and the balanced rhythm needed for conscious living.',
+    descBody1:'KLINFON (Male) is formulated for those who seek calm presence over restless striving, a sensory anchor that encourages ease, softness, and the balanced rhythm needed for conscious living.',
     descBody2:'Worn daily, KLINFON supports a naturally grounded state, reduces mental noise, and creates the internal conditions for clarity and rest.',
     descPills:[{t:'Deep Relaxation',hl:true},{t:'Emotional Ease',hl:true},{t:'Balanced Rhythm',hl:true},{t:'Alcohol-Free'},{t:'10ml Roll-On'},{t:'8–12 Hr Wear'}],
     descStats:[{icon:'⏱',val:'8 – 12 Hours',lbl:'Fragrance Longevity'},{icon:'📿',val:'108 ×',lbl:'Mantra Chants Per Batch'},{icon:'🌕',val:'18 Weeks',lbl:'Full Transformation Timeline'},{icon:'🚫',val:'Zero Alcohol',lbl:'Pure Attar Formulation'}],
@@ -777,14 +777,14 @@ const RICH={
     astroPoints:[
       {icon:'🔥',title:'Sacred Fire Ceremony',text:'Ritual fire preparation with calming Vedic mantras, setting a tranquil energetic foundation for the oil.'},
       {icon:'📿',title:'Shanti Mantra Infusion',text:'Peace-oriented Shanti mantras chanted 108 times per batch to embed tranquility into the formulation.'},
-      {icon:'🌕',title:'Waning Moon Charging',text:'Charged under the waning moon — the lunar phase associated with release, calm, and letting go.'},
+      {icon:'🌕',title:'Waning Moon Charging',text:'Charged under the waning moon, the lunar phase associated with release, calm, and letting go.'},
       {icon:'⭐',title:'Auspicious Sealing',text:'Sealed at a muhurta aligned with Mercury and Moon for mental clarity and emotional balance.'},
     ],
     astroCards:[
-      {icon:'☿',t:'Mercury Energy',d:'Aligned with Mercury — governing the mind, nervous system, and capacity for clear, calm communication.'},
+      {icon:'☿',t:'Mercury Energy',d:'Aligned with Mercury, governing the mind, nervous system, and capacity for clear, calm communication.'},
       {icon:'🌙',t:'Moon Influence',d:'Lunar timing chosen to amplify the Moon\'s natural affinity with emotion, rhythm, and inner peace.'},
       {icon:'ॐ',t:'Shanti Mantra',d:'The Shanti peace mantra is chanted into every batch for deep relaxation encoding.'},
-      {icon:'🌿',t:'Throat Chakra',d:'Lavender and lemon support Vishuddha (throat chakra) — clarity, ease, and honest expression.'},
+      {icon:'🌿',t:'Throat Chakra',d:'Lavender and lemon support Vishuddha (throat chakra): clarity, ease, and honest expression.'},
       {icon:'🕯',t:'Muhurta Sealing',d:'Sealed at a time chosen for rest, release, and internal harmony.'},
       {icon:'🧿',t:'Grounding Layer',d:'Oud and amber base notes provide a Muladhara (root chakra) grounding effect.'},
     ],
@@ -808,7 +808,7 @@ const RICH={
     ],
     affirmation:'"I am at ease. I move with flow. I create from a place of calm certainty."',
     dcTitle:'The Intention That Wears KLINFON',
-    dcBody:'Wear this oil as permission to slow down — to respond rather than react, to rest without guilt, to move with the quiet confidence of someone at peace.',
+    dcBody:'Wear this oil as permission to slow down: to respond rather than react, to rest without guilt, to move with the quiet confidence of someone at peace.',
     mantraDevanagari:'ॐ शान्ति शान्ति',mantraRoman:'Om Shanti Shanti',
   },
 };
@@ -854,7 +854,7 @@ function getRich(id,p){
       {days:'01–03',phase:'Days 1 – 3',title:'Intention Setting',desc:`Apply ${p.name} and clearly write your intention for ${p.intent.toLowerCase()}. Hold it in mind for 11 minutes each morning.`},
       {days:'04–06',phase:'Days 4 – 6',title:'Mantra Activation',desc:'Begin chanting the included Beej mantra 21 times after application. Feel the vibration settle into your body.'},
       {days:'07–09',phase:'Days 7 – 9',title:'Energetic Anchoring',desc:'Notice shifts in your energy and environment. Journal one observation per day. Continue mantra and application.'},
-      {days:'10–11',phase:'Days 10 – 11',title:'Completion & Seal',desc:'Dedicate your practice — release the intention fully and trust. The energetic channel is now open.'},
+      {days:'10–11',phase:'Days 10 – 11',title:'Completion & Seal',desc:'Dedicate your practice: release the intention fully and trust. The energetic channel is now open.'},
     ],
     elevenCallouts:[
       {icon:'🃏',t:'Ritual Card Included',d:'Every bottle comes with a printed Activation Ritual Card with full daily instructions and mantra pronunciation guide.'},
@@ -862,7 +862,7 @@ function getRich(id,p){
     ],
     affirmation:`"I am aligned. I am open. ${p.intent} flows to me naturally and effortlessly."`,
     dcTitle:`The Intention That Wears ${p.name}`,
-    dcBody:'Wear this oil as a daily vow to yourself — to show up aligned, present, and receptive. Your consistent intention is the real ritual.',
+    dcBody:'Wear this oil as a daily vow to yourself: to show up aligned, present, and receptive. Your consistent intention is the real ritual.',
     mantraDevanagari:'ॐ नमः',mantraRoman:'Om Namah',
   };
 }
@@ -971,7 +971,7 @@ function renderProduct(p){
   const price=parseFloat(p.price),mrp=getMRP(price),off=getDiscount(price,mrp);
 
   /* HEAD */
-  document.title=`${dn} — 11:11:11 | EVOXU`;
+  document.title=`${dn} | 11:11:11 | EVOXU`;
   document.getElementById('bc-name').textContent=dn;
   document.getElementById('pd-name').textContent=dn;
   document.getElementById('pd-intent').textContent=p.intent;

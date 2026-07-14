@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>11:11:11 — Ritual-Infused Manifestation Perfume Oils | EVOXU</title>
+<title>11:11:11 | Ritual-Infused Manifestation Perfume Oils | EVOXU</title>
 <link rel="icon" type="image/x-icon" href="favicon.ico">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -39,8 +39,8 @@ body{background:var(--cream);color:var(--ink);font-family:'Inter',sans-serif;fon
 #intro{
   position:fixed;inset:0;background:var(--cream);
   z-index:9999;display:flex;flex-direction:column;
-  align-items:center;justify-content:center;
-  overflow-y:auto;padding:2rem 0;
+  align-items:center;justify-content:center;text-align:center;
+  overflow-y:auto;padding:2rem 1.5rem;
   transition:opacity 1.2s ease,visibility 1.2s ease
 }
 #intro.gone{opacity:0;visibility:hidden;pointer-events:none}
@@ -79,8 +79,6 @@ nav.scrolled .nav-logo-main{color:#FFF8F2}
 nav.scrolled .nav-logo-sub{color:rgba(255,248,242,.45)}
 nav.scrolled .nav-links a{color:rgba(255,248,242,.72)}
 nav.scrolled .nav-links a:hover{color:#FFF8F2;background:rgba(255,248,242,.12)}
-nav.scrolled .nav-links .hl{color:#FFF8F2 !important;border-color:rgba(255,248,242,.32);background:rgba(255,248,242,.1)}
-nav.scrolled .nav-links .hl:hover{background:rgba(255,248,242,.18)}
 nav.scrolled .icon-btn{color:rgba(255,248,242,.65)}
 nav.scrolled .icon-btn:hover{color:#FFF8F2;background:rgba(255,248,242,.15)}
 nav.scrolled .hamburger span{background:rgba(255,248,242,.65)}
@@ -124,8 +122,8 @@ nav.scrolled .nav-ref-congrats{border-left-color:rgba(255,248,242,.22)}
 .nav-links{display:flex;gap:.3rem;list-style:none;align-items:center}
 .nav-links a{color:var(--muted);text-decoration:none;font-size:0.79rem;letter-spacing:0.12em;text-transform:uppercase;transition:all .25s;white-space:nowrap;display:inline-flex;align-items:center;padding:.6rem 1.05rem;border-radius:999px}
 .nav-links a:hover{color:var(--ink);background:rgba(30,42,62,.06)}
-.nav-links .hl{color:var(--gold) !important;border:1px solid var(--border-gold);padding:.56rem 1.15rem;margin-left:.5rem;border-radius:999px}
-.nav-links .hl:hover{background:var(--gold-pale);border-color:var(--gold)}
+.nav-links .hl{color:var(--gold) !important;background:#FFF8F2;border:none;font-weight:600;padding:.6rem 1.3rem;margin-left:.6rem;border-radius:999px;box-shadow:0 4px 14px rgba(30,42,62,.18);transition:all .3s ease}
+.nav-links .hl:hover{background:#fff;box-shadow:0 6px 20px rgba(30,42,62,.26);transform:translateY(-1px)}
 /* colour-coded nav chips */
 .nav-links a.nc-1{background:#F6DCE2 !important;color:#8C2A44 !important}
 .nav-links a.nc-1:hover{background:#EFC3CE !important}
@@ -201,7 +199,6 @@ nav:not(.scrolled) .nav-logo-main{color:#FFF8F2}
 nav:not(.scrolled) .nav-logo-sub{color:rgba(255,248,242,.32)}
 nav:not(.scrolled) .nav-links a{color:rgba(255,248,242,.5)}
 nav:not(.scrolled) .nav-links a:hover{color:#FFF8F2;background:rgba(255,248,242,.1)}
-nav:not(.scrolled) .nav-links .hl{color:var(--gold2) !important;border-color:rgba(168,65,90,.35)}
 nav:not(.scrolled) .icon-btn{color:rgba(255,248,242,.45)}
 nav:not(.scrolled) .icon-btn:hover{color:#FFF8F2;background:rgba(255,248,242,.13)}
 nav:not(.scrolled) .hamburger span{background:rgba(255,248,242,.55)}
@@ -246,7 +243,7 @@ nav:not(.scrolled) .hamburger span{background:rgba(255,248,242,.55)}
 .hero-eyebrow::before,.hero-eyebrow::after{content:'';height:1px;width:32px;background:var(--gold2)}
 .hero-h1{font-family:'Inter',sans-serif;font-size:clamp(2.6rem,6vw,5.2rem);font-weight:700;line-height:1.08;color:#FFF8F2;margin-bottom:.35rem;letter-spacing:-.02em;text-shadow:0 2px 16px rgba(0,0,0,.4)}
 .hero-h1 em{font-style:italic;color:var(--gold2)}
-.hero-num{font-family:'Inter',sans-serif;font-size:clamp(.9rem,2vw,1.3rem);font-weight:300;letter-spacing:0.175em;color:rgba(255,248,242,.55);margin-bottom:2.2rem;display:block}
+.hero-num{font-family:'Inter',sans-serif;font-size:clamp(1.3rem,3vw,2rem);font-weight:400;letter-spacing:0.2em;color:rgba(255,248,242,.65);margin-bottom:2.2rem;display:block}
 .hero-p{font-size:1.1rem;color:rgba(255,248,242,.85);line-height:1.95;max-width:540px;margin:0 0 3rem;letter-spacing:0.02em;text-shadow:0 1px 10px rgba(0,0,0,.35)}
 .hero-btns{display:flex;gap:1.2rem;justify-content:flex-start;flex-wrap:wrap}
 .btn-primary{padding:.95rem 2.8rem;background:var(--ink);color:var(--white);border:none;font-family:'Inter',sans-serif;font-size:0.82rem;letter-spacing:0.185em;text-transform:uppercase;cursor:pointer;transition:all .38s;font-weight:500}
@@ -315,7 +312,8 @@ section{position:relative;z-index:1}
 .blog-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2rem;max-width:1200px;margin:0 auto;padding:0 4rem}
 .blog-card{background:var(--white);border:1px solid var(--border);box-shadow:var(--shadow);cursor:pointer;transition:all .3s}
 .blog-card:hover{box-shadow:var(--shadow2);transform:translateY(-3px)}
-.blog-img{aspect-ratio:16/10;background:var(--cream2);display:flex;align-items:center;justify-content:center;font-size:2.4rem}
+.blog-img{aspect-ratio:16/10;background:var(--cream2);display:flex;align-items:center;justify-content:center;font-size:2.4rem;overflow:hidden}
+.blog-img img{width:100%;height:100%;object-fit:cover}
 .blog-body{padding:1.5rem}
 .blog-tag{font-size:.62rem;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);margin-bottom:.6rem;display:block}
 .blog-title{font-family:'Inter',sans-serif;font-size:1.1rem;font-weight:700;color:var(--ink);margin-bottom:.6rem;line-height:1.35}
@@ -429,7 +427,7 @@ section{position:relative;z-index:1}
 .p-card.oos .p-name{color:var(--muted)}
 
 /* ── RITUAL ── */
-#ritual{padding:3.5rem 0 7rem;background:#fff url('images/sacred.png') center/cover no-repeat}
+#ritual{padding:3.5rem 0 7rem;background:#fff url('images/sacred-practice.png') center/cover no-repeat}
 .ritual-grid{display:grid;grid-template-columns:1fr 1fr;gap:7rem;max-width:1200px;margin:0 auto;padding:0 4rem;align-items:stretch}
 .ritual-visual{text-align:center;min-height:480px;display:flex;flex-direction:column;align-items:flex-end;justify-content:flex-end;padding:0}
 .ritual-circle{width:auto;max-width:180px;padding:1.4rem 1.6rem;border:1px solid var(--border-gold);margin:0;display:flex;align-items:center;justify-content:center;position:relative;background:var(--cream2);box-shadow:0 8px 40px rgba(0,0,0,.12)}
@@ -587,10 +585,11 @@ footer{padding:5rem 4rem 2.5rem;background:var(--ink);border-top:1px solid rgba(
 .fade-up.vis{opacity:1;transform:translateY(0)}
 
 /* ── TOAST ── */
-#toast{position:fixed;bottom:2rem;right:2rem;background:var(--ink);border:1px solid rgba(125,32,53,.3);padding:1rem 1.4rem;z-index:9998;transform:translateX(110%);transition:transform .5s cubic-bezier(.4,0,.2,1);max-width:270px}
-#toast.show{transform:translateX(0)}
+#toast{position:fixed;top:6rem;right:1.5rem;background:var(--ink);border-radius:10px;border-left:3px solid var(--gold2);padding:1rem 1.4rem;z-index:9998;box-shadow:0 16px 40px rgba(0,0,0,.28);transform:translateY(-140%);opacity:0;transition:transform .5s cubic-bezier(.4,0,.2,1),opacity .4s ease;max-width:270px}
+#toast.show{transform:translateY(0);opacity:1}
 .tt{font-family:'Inter',sans-serif;font-size:1.0rem;color:var(--gold2);margin-bottom:.18rem}
-.tm2{font-size:0.85rem;color:rgba(255,255,255,.4);line-height:1.5}
+.tm2{font-size:0.85rem;color:rgba(255,255,255,.55);line-height:1.5}
+@media(max-width:640px){#toast{left:1rem;right:1rem;top:7.4rem;max-width:none}}
 
 /* ── RESPONSIVE ── */
 @media(max-width:1024px){
@@ -606,9 +605,13 @@ footer{padding:5rem 4rem 2.5rem;background:var(--ink);border-top:1px solid rgba(
   .ritual-grid,.journey-grid,.coach-grid,.res-grid{grid-template-columns:1fr;gap:3rem}
   .trinity-grid{grid-template-columns:1fr 1fr}
   .ft-top{grid-template-columns:1fr 1fr;gap:2rem}
-
+  .ritual-visual{min-height:auto;padding:1rem 0;align-items:center}
 }
 @media(max-width:640px){
+  .i-pre{font-size:0.68rem;letter-spacing:0.26em}
+  .i-tag{font-size:0.68rem;letter-spacing:0.14em}
+  .i-num{font-size:clamp(2.4rem,13vw,4rem)}
+  .i-video{height:min(60vh,480px)}
   nav{padding:1rem 1.2rem}
   nav.scrolled{padding:.75rem 1.2rem}
   .nav-links{display:none}
@@ -624,6 +627,7 @@ footer{padding:5rem 4rem 2.5rem;background:var(--ink);border-top:1px solid rgba(
   .sec-wrap{padding:0 1.2rem}
   .holistic-grid{grid-template-columns:1fr 1fr}
   .hc{border-right:1px solid var(--border);border-bottom:1px solid var(--border)}
+  .hc:nth-child(2n){border-right:none}
   .filter-tabs{width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}
   .filter-tabs::-webkit-scrollbar{display:none}
   .ftab{flex:1;min-width:72px;font-size:0.76rem;padding:.65rem .8rem}
@@ -700,7 +704,7 @@ footer{padding:5rem 4rem 2.5rem;background:var(--ink);border-top:1px solid rgba(
   </div>
   <a href="#hero" class="nav-logo">
     <span class="nav-logo-main">11:11:11</span>
-    <span class="nav-logo-sub">Manifestation Perfume Oils</span>
+    <span class="nav-logo-sub">Wear Your Desire</span>
   </a>
   <ul class="nav-links">
     <li><a href="#collections" class="nc-1">Collections</a></li>
@@ -753,9 +757,9 @@ footer{padding:5rem 4rem 2.5rem;background:var(--ink);border-top:1px solid rgba(
   <div class="hero-stars" id="hero-stars"></div>
   <div class="hero-inner">
     <div class="hero-eyebrow">Ritual · Intention · Transformation</div>
-    <h1 class="hero-h1">Wear Your<br><em>Intention.</em></h1>
+    <h1 class="hero-h1">Wear Your<br><em>Desire.</em></h1>
     <span class="hero-num">11 · 11 · 11</span>
-    <p class="hero-p">Ancient wisdom meets modern manifestation. Ceremonially prepared with sacred fire rituals and Beej mantras — alcohol-free attar oils designed to amplify your frequency and transform your reality.</p>
+    <p class="hero-p">Ancient wisdom meets modern manifestation. Ceremonially prepared with sacred fire rituals and Beej mantras, alcohol-free attar oils designed to amplify your frequency and transform your reality.</p>
     <div class="hero-btns">
       <button class="btn-primary" onclick="document.getElementById('collections').scrollIntoView({behavior:'smooth'})">Shop the Collection</button>
       <button class="btn-outline" onclick="document.getElementById('ai-guide').scrollIntoView({behavior:'smooth'})">Find My Scent</button>
@@ -770,7 +774,7 @@ footer{padding:5rem 4rem 2.5rem;background:var(--ink);border-top:1px solid rgba(
 <section id="trinity">
   <div class="sec-label">The Sacred Trinity</div>
   <h2 class="sec-h2">Most <em>Beloved</em> Ritual Oils</h2>
-  <p class="sec-p">Three of our most powerfully manifested fragrances — ceremonially infused and loved by thousands of seekers across India.</p>
+  <p class="sec-p">Three of our most powerfully manifested fragrances, ceremonially infused and loved by thousands of seekers across India.</p>
   <div class="trinity-grid" id="trinity-grid"></div>
 </section>
 
@@ -780,10 +784,10 @@ footer{padding:5rem 4rem 2.5rem;background:var(--ink);border-top:1px solid rgba(
 <section id="holistic">
   <div class="sec-label">Holistic Care</div>
   <h2 class="sec-h2">Complete Your <em>Practice</em></h2>
-  <p class="sec-p">Everything included to support your full manifestation journey — beyond the fragrance.</p>
+  <p class="sec-p">Everything included to support your full manifestation journey, beyond the fragrance.</p>
   <div class="holistic-grid">
-    <div class="hc fade-up"><div class="hc-title">Sacred Fire Preparation</div><p class="hc-desc">Every oil is ceremonially prepared through sacred fire rituals — a Vedic tradition ensuring each bottle carries intentional vibrational energy.</p></div>
-    <div class="hc fade-up" style="transition-delay:.08s"><div class="hc-title">Artisan Wooden Bottles</div><p class="hc-desc">Hand-turned by Channapatna master craftsmen using traditional techniques — a UNESCO-recognised sustainable craft from Karnataka.</p></div>
+    <div class="hc fade-up"><div class="hc-title">Sacred Fire Preparation</div><p class="hc-desc">Every oil is ceremonially prepared through sacred fire rituals, a Vedic tradition ensuring each bottle carries intentional vibrational energy.</p></div>
+    <div class="hc fade-up" style="transition-delay:.08s"><div class="hc-title">Artisan Wooden Bottles</div><p class="hc-desc">Hand-turned by Channapatna master craftsmen using traditional techniques, a UNESCO-recognised sustainable craft from Karnataka.</p></div>
     <div class="hc fade-up" style="transition-delay:.16s"><div class="hc-title">Alcohol-Free Attar</div><p class="hc-desc">Pure, skin-kind attar formulations. Long-lasting 8–12 hours. No alcohol, no parabens. Safe for daily ritual use on pulse points.</p></div>
     <div class="hc fade-up" style="transition-delay:.24s"><div class="hc-title">Mantra Integration</div><p class="hc-desc">Each oil is aligned to a specific Beej mantra. When applied during mantra recitation, the scent deepens the vibrational imprint in your nervous system.</p></div>
   </div>
@@ -817,12 +821,11 @@ footer{padding:5rem 4rem 2.5rem;background:var(--ink);border-top:1px solid rgba(
         <div class="ritual-circle">
           <div><div class="ritual-num-big">11</div><div class="ritual-num-sub">Day Activation</div></div>
         </div>
-        <p style="font-size:0.68rem;color:var(--dim);margin-top:.7rem;letter-spacing:0.06em;text-align:center;background:var(--cream2);display:inline-block;padding:.35rem .8rem;box-shadow:0 4px 20px rgba(0,0,0,.1)">Results within 18 weeks of consistent practice</p>
       </div>
       <div class="ritual-info fade-up" style="transition-delay:.15s">
         <div class="sec-label" style="justify-content:flex-start;margin-bottom:.8rem"><span style="height:1px;width:25px;background:rgba(125,32,53,.3)"></span>The Sacred Practice</div>
         <h3>Your <em>11-Day</em> Activation Ritual</h3>
-        <p>Every 11:11:11 oil comes with a complete 11-Day Activation Ritual — ceremonially prepared by our artisans in Channapatna, Karnataka, a UNESCO-recognised craft tradition.</p>
+        <p>Every 11:11:11 oil comes with a complete 11-Day Activation Ritual, ceremonially prepared by our artisans in Channapatna, Karnataka, a UNESCO-recognised craft tradition.</p>
         <ul class="ritual-steps ritual-steps-top">
           <li class="r-step"><div class="r-num">01</div><div class="r-txt"><strong>Set Your Sacred Intention</strong>Hold your oil between both palms. Close your eyes and speak your intention clearly three times. Feel it as already real.</div></li>
           <li class="r-step"><div class="r-num">02</div><div class="r-txt"><strong>Recite Your Beej Mantra</strong>Each oil comes with its unique Beej mantra. Chant it 11 times to activate the oil's vibrational frequency.</div></li>
@@ -846,8 +849,8 @@ footer{padding:5rem 4rem 2.5rem;background:var(--ink);border-top:1px solid rgba(
       <div class="journey-content fade-up">
         <div class="sec-label" style="justify-content:flex-start;margin-bottom:.8rem"><span style="height:1px;width:25px;background:rgba(125,32,53,.3)"></span>Our Sacred Journey</div>
         <h2>Ancient Wisdom,<br><em>Modern Intention</em></h2>
-        <p>11:11:11 was born from a profound belief: fragrance is not merely cosmetic — it is a tool for transformation. For centuries, ancient civilisations understood the metaphysical power of aroma — from Egyptian temples to Vedic rituals. We revive this sacred knowledge for the modern seeker.</p>
-        <div class="journey-quote">"We don't just sell products — we offer experiences, intentions, and tools that empower your spiritual journey and enrich your everyday life."</div>
+        <p>11:11:11 was born from a profound belief: fragrance is not merely cosmetic. It is a tool for transformation. For centuries, ancient civilisations understood the metaphysical power of aroma, from Egyptian temples to Vedic rituals. We revive this sacred knowledge for the modern seeker.</p>
+        <div class="journey-quote">"We don't just sell products. We offer experiences, intentions, and tools that empower your spiritual journey and enrich your everyday life."</div>
         <p>Our oils are crafted with master artisans in Channapatna, Karnataka, using hand-turned wooden bottles. Each batch passes through sacred fire rituals and mantra-led ceremonies.</p>
         <div class="journey-stats">
           <div class="jstat"><div class="jstat-val">10</div><div class="jstat-lbl">Sacred Oils</div></div>
@@ -876,7 +879,7 @@ footer{padding:5rem 4rem 2.5rem;background:var(--ink);border-top:1px solid rgba(
   <div class="sec-wrap">
     <div class="sec-label">Watch &amp; Learn</div>
     <h2 class="sec-h2">Sacred <em>Reels</em></h2>
-    <p class="sec-p">Quick rituals, application tips, and behind-the-scenes moments — tap to watch.</p>
+    <p class="sec-p">Quick rituals, application tips, and behind-the-scenes moments. Tap to watch.</p>
   </div>
   <div class="reels-row" id="reels-row"></div>
 </section>
@@ -888,31 +891,31 @@ footer{padding:5rem 4rem 2.5rem;background:var(--ink);border-top:1px solid rgba(
   <div class="sec-wrap">
     <div class="sec-label">From The Journal</div>
     <h2 class="sec-h2">Sacred <em>Updates</em></h2>
-    <p class="sec-p">Notes on ritual, fragrance, and intention — from our journal to yours.</p>
+    <p class="sec-p">Notes on ritual, fragrance, and intention, from our journal to yours.</p>
   </div>
   <div class="blog-grid">
-    <div class="blog-card" onclick="toast('✦','Full article — opens in live version.')">
-      <div class="blog-img">🌹</div>
+    <div class="blog-card" onclick="toast('✦','Full article opens in live version.')">
+      <div class="blog-img"><img src="images/sacred.png" alt="Top 5 Long Lasting Perfume Oils in India"></div>
       <div class="blog-body">
         <span class="blog-tag">Guide</span>
         <div class="blog-title">Top 5 Long Lasting Perfume Oils in India</div>
-        <div class="blog-excerpt">Why alcohol-free attars outlast conventional sprays — and which of our ritual oils hold their fragrance longest through the day.</div>
+        <div class="blog-excerpt">Why alcohol-free attars outlast conventional sprays, and which of our ritual oils hold their fragrance longest through the day.</div>
       </div>
     </div>
-    <div class="blog-card" onclick="toast('✦','Full article — opens in live version.')">
-      <div class="blog-img">✨</div>
+    <div class="blog-card" onclick="toast('✦','Full article opens in live version.')">
+      <div class="blog-img"><img src="images/sacred2.png" alt="Choosing a Scent for Your Personality"></div>
       <div class="blog-body">
         <span class="blog-tag">Wellness</span>
         <div class="blog-title">Choosing a Scent for Your Personality</div>
-        <div class="blog-excerpt">A guide to matching your intention — love, wealth, clarity, or success — to the fragrance notes that support it.</div>
+        <div class="blog-excerpt">A guide to matching your intention (love, wealth, clarity, or success) to the fragrance notes that support it.</div>
       </div>
     </div>
-    <div class="blog-card" onclick="toast('✦','Full article — opens in live version.')">
-      <div class="blog-img">🕯️</div>
+    <div class="blog-card" onclick="toast('✦','Full article opens in live version.')">
+      <div class="blog-img"><img src="images/sacred3.png" alt="Attar vs. Perfume: What's the Difference?"></div>
       <div class="blog-body">
         <span class="blog-tag">Ritual</span>
         <div class="blog-title">Attar vs. Perfume: What's the Difference?</div>
-        <div class="blog-excerpt">Traditional attars are oil-based, alcohol-free, and ceremonially prepared — here's how that changes the way a fragrance wears on you.</div>
+        <div class="blog-excerpt">Traditional attars are oil-based, alcohol-free, and ceremonially prepared. Here's how that changes the way a fragrance wears on you.</div>
       </div>
     </div>
   </div>
@@ -937,10 +940,10 @@ footer{padding:5rem 4rem 2.5rem;background:var(--ink);border-top:1px solid rgba(
   <p class="sec-p">Bring the power of 11:11:11 ritual oils to your community and earn commissions on every sale you generate.</p>
   <div class="res-grid">
     <div class="res-info fade-up">
-      <p>As an authorised 11:11:11 reseller, you become a bridge between sacred fragrance and the seekers who need it. Whether you own a wellness store, a spiritual boutique, or operate through social media — our ecosystem empowers you to build meaningful income while spreading conscious living.</p>
+      <p>As an authorised 11:11:11 reseller, you become a bridge between sacred fragrance and the seekers who need it. Whether you own a wellness store, a spiritual boutique, or operate through social media, our ecosystem empowers you to build meaningful income while spreading conscious living.</p>
       <ul class="benefits">
         <li class="benefit"><div class="b-ic">⬡</div><div><strong>Dedicated Reseller Dashboard</strong>Track all activity, earnings, orders, and customer growth in real time from your personal portal.</div></li>
-        <li class="benefit"><div class="b-ic">🔗</div><div><strong>Unique Referral Link</strong>Your personal URL tracks every click and conversion — share on Instagram, WhatsApp, or your website.</div></li>
+        <li class="benefit"><div class="b-ic">🔗</div><div><strong>Unique Referral Link</strong>Your personal URL tracks every click and conversion. Share on Instagram, WhatsApp, or your website.</div></li>
         <li class="benefit"><div class="b-ic">▦</div><div><strong>Personalised QR Code</strong>Display at your store or share digitally. Every scan is automatically tracked to your account.</div></li>
         <li class="benefit"><div class="b-ic">₹</div><div><strong>Commission on Every Sale</strong>Earn ₹100 flat commission on each order, paid directly to your bank or UPI ID.</div></li>
         <li class="benefit"><div class="b-ic">📊</div><div><strong>Live Analytics Dashboard</strong>Monitor referral traffic, orders, commission history, and engagement in real time.</div></li>
@@ -986,7 +989,7 @@ footer{padding:5rem 4rem 2.5rem;background:var(--ink);border-top:1px solid rgba(
 <section id="ai-coach">
   <div class="sec-label">Post-Purchase</div>
   <h2 class="sec-h2">Your <em>Manifestation</em> Coach</h2>
-  <p class="sec-p">Ara guides you after purchase — daily affirmations, ritual tracking, Beej mantra guidance, and spiritual support to keep your 11:11:11 practice aligned.</p>
+  <p class="sec-p">Ara guides you after purchase with daily affirmations, ritual tracking, Beej mantra guidance, and spiritual support to keep your 11:11:11 practice aligned.</p>
   <div class="coach-grid">
     <div class="fade-up">
       <div class="phone-mock">
@@ -1001,7 +1004,7 @@ footer{padding:5rem 4rem 2.5rem;background:var(--ink);border-top:1px solid rgba(
               <button class="c-act">✓ Ritual Done</button>
               <button class="c-act">🔔 Remind Later</button>
             </div>
-            <div class="c-msg" style="margin-top:.2rem">Day 7 of your 11-Day Activation. Stay consistent — you're more than halfway. ✨</div>
+            <div class="c-msg" style="margin-top:.2rem">Day 7 of your 11-Day Activation. Stay consistent, you're more than halfway. ✨</div>
           </div>
         </div>
       </div>
@@ -1009,8 +1012,8 @@ footer{padding:5rem 4rem 2.5rem;background:var(--ink);border-top:1px solid rgba(
     <div class="coach-features fade-up" style="transition-delay:.15s">
       <div class="cf"><div class="cf-ic">🌅</div><div><div class="cf-title">Daily Affirmations</div><p class="cf-desc">Personalised affirmations each morning, matched to your oil's manifestation frequency and personal intention.</p></div></div>
       <div class="cf"><div class="cf-ic">🕯️</div><div><div class="cf-title">11-Day Ritual Tracking</div><p class="cf-desc">Track your activation ritual progress. Ara reminds you each morning and celebrates your consistency streaks.</p></div></div>
-      <div class="cf"><div class="cf-ic">📿</div><div><div class="cf-title">Beej Mantra Guidance</div><p class="cf-desc">Audio and written guidance for your oil's Beej mantra — pronunciation, meaning, and timing for each sacred sound.</p></div></div>
-      <div class="cf"><div class="cf-ic">🌙</div><div><div class="cf-title">Moon Cycle Rituals</div><p class="cf-desc">Special rituals aligned to new moon and full moon — amplify your manifestation with cosmic timing.</p></div></div>
+      <div class="cf"><div class="cf-ic">📿</div><div><div class="cf-title">Beej Mantra Guidance</div><p class="cf-desc">Audio and written guidance for your oil's Beej mantra: pronunciation, meaning, and timing for each sacred sound.</p></div></div>
+      <div class="cf"><div class="cf-ic">🌙</div><div><div class="cf-title">Moon Cycle Rituals</div><p class="cf-desc">Special rituals aligned to new moon and full moon that amplify your manifestation with cosmic timing.</p></div></div>
       <div class="cf"><div class="cf-ic">💫</div><div><div class="cf-title">Manifestation Journal</div><p class="cf-desc">Log your intentions, wins, and breakthroughs. Ara helps you recognise synchronicities and celebrate your journey.</p></div></div>
     </div>
   </div>
@@ -1027,7 +1030,7 @@ footer{padding:5rem 4rem 2.5rem;background:var(--ink);border-top:1px solid rgba(
     <div class="faq-list">
       <div class="faq-item">
         <div class="faq-q" onclick="toggleFAQ(this)">Are your oils alcohol-free?<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
-        <div class="faq-a"><p>Yes. Every 11:11:11 oil is a pure, alcohol-free attar — long-lasting (8–12 hours) and safe for daily use directly on pulse points.</p></div>
+        <div class="faq-a"><p>Yes. Every 11:11:11 oil is a pure, alcohol-free attar, long-lasting (8–12 hours) and safe for daily use directly on pulse points.</p></div>
       </div>
       <div class="faq-item">
         <div class="faq-q" onclick="toggleFAQ(this)">How does the 11-Day Activation Ritual work?<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
@@ -1047,7 +1050,7 @@ footer{padding:5rem 4rem 2.5rem;background:var(--ink);border-top:1px solid rgba(
       </div>
       <div class="faq-item">
         <div class="faq-q" onclick="toggleFAQ(this)">Which oil is right for me?<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
-        <div class="faq-a"><p>Use our "Find My Scent" guide below — answer a few questions about your intention (love, wealth, clarity, or success) and we'll recommend the right ritual oil for you.</p></div>
+        <div class="faq-a"><p>Use our "Find My Scent" guide below: answer a few questions about your intention (love, wealth, clarity, or success) and we'll recommend the right ritual oil for you.</p></div>
       </div>
     </div>
   </div>
@@ -1059,7 +1062,7 @@ footer{padding:5rem 4rem 2.5rem;background:var(--ink);border-top:1px solid rgba(
 <section id="ai-guide">
   <div class="sec-label">AI Powered</div>
   <h2 class="sec-h2">Find Your <em>Sacred</em> Scent</h2>
-  <p class="sec-p">Meet Ara — your 11:11:11 manifestation guide. Share your deepest intention and she will reveal the oil perfectly attuned to your energy.</p>
+  <p class="sec-p">Meet Ara, your 11:11:11 manifestation guide. Share your deepest intention and she will reveal the oil perfectly attuned to your energy.</p>
   <div class="sec-wrap">
     <div class="ai-wrap fade-up">
       <div class="ai-top">
@@ -1179,18 +1182,18 @@ footer{padding:5rem 4rem 2.5rem;background:var(--ink);border-top:1px solid rgba(
 
 <script>
 const PRODUCTS=[
-  {id:1,name:'KLEOMA',for:'male',intent:'Love & Attraction',notes:'Rose · Ylang Ylang · Musk · Amber · Spice',desc:'A ritual-infused attar to support emotional connection, attraction, and presence. Velvety, warm, and floral — a blooming heart of rose and ylang ylang over soft musk and amber.',price:1234,glow:'#e879b0',grad:'#be185d',bg:'#fdf2f8',emoji:'🌹',image_url:'images/products/kleoma.jpeg'},
-  {id:2,name:'KLINFON',for:'male',intent:'Relaxation & Calm',notes:'Lavender · Lemon · Caraway · Saffron · Jasmine · Oud · Amber',desc:'Supports calm presence and smooth transition into rest. Herbal and grounding — a sacred oil for those who need to still the mind and restore balance.',price:1234,glow:'#93c5fd',grad:'#1d4ed8',bg:'#eff6ff',emoji:'🌿',outOfStock:true,image_url:'images/products/klinfon-male.jpeg'},
+  {id:1,name:'KLEOMA',for:'male',intent:'Love & Attraction',notes:'Rose · Ylang Ylang · Musk · Amber · Spice',desc:'A ritual-infused attar to support emotional connection, attraction, and presence. Velvety, warm, and floral, a blooming heart of rose and ylang ylang over soft musk and amber.',price:1234,glow:'#e879b0',grad:'#be185d',bg:'#fdf2f8',emoji:'🌹',image_url:'images/products/kleoma.jpeg'},
+  {id:2,name:'KLINFON',for:'male',intent:'Relaxation & Calm',notes:'Lavender · Lemon · Caraway · Saffron · Jasmine · Oud · Amber',desc:'Supports calm presence and smooth transition into rest. Herbal and grounding, a sacred oil for those who need to still the mind and restore balance.',price:1234,glow:'#93c5fd',grad:'#1d4ed8',bg:'#eff6ff',emoji:'🌿',outOfStock:true,image_url:'images/products/klinfon-male.jpeg'},
   {id:3,name:'MYSTRA',for:'male',intent:'Financial Clarity',notes:'Citrus · Saffron · Cinnamon · Vetiver · Oud · Amber · Leather',desc:'For financial clarity, balance, and mindful decision-making. Opens with zesty citrus and saffron, grounded by oud, amber, and sacred resins.',price:1234,glow:'#fbbf24',grad:'#92400e',bg:'#fffbeb',emoji:'⚖️',image_url:'images/products/mystra.jpeg'},
-  {id:4,name:'SHREEMSRI',for:'male',intent:'Wealth & Prosperity',notes:'Golden Saffron · Cinnamon · Smoky Musk · Patchouli · Sacred Resins',desc:'Earthy, warm, and rich with subtle spice. A sacred oil for those walking the path of meaningful wealth creation — abundance, expansion, conscious prosperity.',price:1234,glow:'#c9a84c',grad:'#78350f',bg:'#fdf8ee',emoji:'👑',image_url:'images/products/shreemsri.jpeg'},
+  {id:4,name:'SHREEMSRI',for:'male',intent:'Wealth & Prosperity',notes:'Golden Saffron · Cinnamon · Smoky Musk · Patchouli · Sacred Resins',desc:'Earthy, warm, and rich with subtle spice. A sacred oil for those walking the path of meaningful wealth creation: abundance, expansion, conscious prosperity.',price:1234,glow:'#c9a84c',grad:'#78350f',bg:'#fdf8ee',emoji:'👑',image_url:'images/products/shreemsri.jpeg'},
   {id:5,name:'SUKCE',for:'male',intent:'Success & Achievement',notes:'Lavender · Lemon · Saffron · Jasmine · Oud · Warm Amber',desc:'A sensory anchor for entrepreneurs, leaders, and creators. Supports focus, discipline, and the unwavering belief that your success is inevitable.',price:1234,glow:'#a78bfa',grad:'#4c1d95',bg:'#f5f3ff',emoji:'🏆',image_url:'images/products/sukce.png'},
   {id:6,name:'KAMAVYA',for:'female',intent:'Attraction & Love',notes:'Sweet Almond · Jasmine Sambac · Crystal Tuberose · Tonka Bean · Cocoa',desc:'Romantic and magnetic. A sweet whisper of almond into lush jasmine and crystal tuberose, settling into tonka bean and cocoa.',price:1234,glow:'#f472b6',grad:'#9d174d',bg:'#fdf2f8',emoji:'🌸',image_url:'images/products/kamavya.jpeg'},
   {id:7,name:'KLINFON',for:'female',intent:'Relaxation & Calm',notes:'Lavender · Lemon · Caraway · Saffron · Jasmine · Oud · Amber',desc:'Encourages ease, softness, and balanced rhythm between activity and restoration. A sacred oil to transition into deep rest and inner stillness.',price:1234,glow:'#6ee7b7',grad:'#065f46',bg:'#ecfdf5',emoji:'🌙',outOfStock:true,image_url:'images/products/klinfon-female.jpeg'},
   {id:8,name:'HREMAAN',for:'female',intent:'Financial Clarity',notes:'Lavender · Lemon · Caraway · Saffron · Jasmine · Oud · Warm Amber',desc:'A sacred anchor for clarity in financial thinking, calm steady awareness, and balanced mindful decisions for women walking with abundance.',price:1234,glow:'#fbbf24',grad:'#78350f',bg:'#fffbeb',emoji:'✨',image_url:'images/products/hremaan.jpeg'},
-  {id:9,name:'SHRIVAA',for:'female',intent:'Wealth & Prosperity',notes:'Golden Saffron · Cinnamon · Smoky Musk · Patchouli · Sacred Resins',desc:'Earthy, warm, and rich. "The scent is soft, but the impact is loud." For those walking the path of conscious prosperity — abundance in every drop.',price:1234,glow:'#c9a84c',grad:'#92400e',bg:'#fdf8ee',emoji:'💛',image_url:'images/products/shrivaa.jpeg'},
+  {id:9,name:'SHRIVAA',for:'female',intent:'Wealth & Prosperity',notes:'Golden Saffron · Cinnamon · Smoky Musk · Patchouli · Sacred Resins',desc:'Earthy, warm, and rich. "The scent is soft, but the impact is loud." For those walking the path of conscious prosperity: abundance in every drop.',price:1234,glow:'#c9a84c',grad:'#92400e',bg:'#fdf8ee',emoji:'💛',image_url:'images/products/shrivaa.jpeg'},
   {id:10,name:'YCNEX',for:'female',intent:'Confidence & Success',notes:'Citrus · Saffron · Cinnamon · Florals · Vetiver · Sandalwood · Oud · Amber',desc:'A sensory anchor for the woman who leads, creates, and rises. Focus, mental clarity, confident personal presence, consistent intentional action.',price:1234,glow:'#c084fc',grad:'#5b21b6',bg:'#faf5ff',emoji:'⭐',image_url:'images/products/ycnex.jpeg'},
-  {id:11,name:'KLINFON Combo',for:'combo',intent:'Relaxation — Him & Her',notes:'Two 10ml Roll-Ons · Male + Female Formulations',desc:'The complete KLINFON ritual set. Two complementary formulations for couples or for those who hold both energies — sacred shared rest.',price:2345,glow:'#93c5fd',grad:'#1d4ed8',bg:'#eff6ff',emoji:'🤍',image_url:'images/products/klinfon-combo.png'},
-  {id:12,name:'Love Combo',for:'combo',intent:'Love & Attraction — Him & Her',notes:'KLEOMA (Male) + KAMAVYA (Female) · Two 10ml Roll-Ons',desc:'The sacred love pairing — KLEOMA for him and KAMAVYA for her. One intention: to draw love closer and magnetise meaningful connections.',price:2345,glow:'#f472b6',grad:'#be185d',bg:'#fdf2f8',emoji:'💕',image_url:'images/products/love-combo.png'},
+  {id:11,name:'KLINFON Combo',for:'combo',intent:'Relaxation for Him & Her',notes:'Two 10ml Roll-Ons · Male + Female Formulations',desc:'The complete KLINFON ritual set. Two complementary formulations for couples or for those who hold both energies: sacred shared rest.',price:2345,glow:'#93c5fd',grad:'#1d4ed8',bg:'#eff6ff',emoji:'🤍',image_url:'images/products/klinfon-combo.png'},
+  {id:12,name:'Love Combo',for:'combo',intent:'Love & Attraction for Him & Her',notes:'KLEOMA (Male) + KAMAVYA (Female) · Two 10ml Roll-Ons',desc:'The sacred love pairing: KLEOMA for him and KAMAVYA for her. One intention: to draw love closer and magnetise meaningful connections.',price:2345,glow:'#f472b6',grad:'#be185d',bg:'#fdf2f8',emoji:'💕',image_url:'images/products/love-combo.png'},
 ];
 const INTENTS=[
   {icon:'🌹',label:'Love & Attraction',p:0},
@@ -1204,7 +1207,7 @@ const AFFIRMATIONS=[
   {for:'KLEOMA & KAMAVYA',text:'"I am a magnet for love. Meaningful connections flow to me naturally and joyfully."',intent:'Love & Attraction'},
   {for:'SHREEMSRI & SHRIVAA',text:'"Abundance is my birthright. Wealth flows to me in expected and unexpected ways. I am open to all forms of prosperity."',intent:'Wealth & Prosperity'},
   {for:'MYSTRA & HREMAAN',text:'"My mind is clear and focused. I make wise, confident decisions that create lasting financial stability."',intent:'Financial Clarity'},
-  {for:'SUKCE & YCNEX',text:'"I am capable of achieving everything I set my mind to. Success is not a destination — it is who I am becoming."',intent:'Success & Achievement'},
+  {for:'SUKCE & YCNEX',text:'"I am capable of achieving everything I set my mind to. Success is not a destination. It is who I am becoming."',intent:'Success & Achievement'},
   {for:'KLINFON',text:'"I release the busyness of the day. My mind is calm, my body is at rest. I allow peace to flow through every cell."',intent:'Relaxation & Calm'},
 ];
 let cart=[],toastTm;
@@ -1241,6 +1244,32 @@ function toggleIntroVideo(){
 function enterSite(){clearInterval(iIv);document.getElementById('intro').classList.add('gone');document.body.style.overflow='';sessionStorage.setItem('111_site_entered','1');setTimeout(initAI,800);setTimeout(initNewsletterPopup,1800);}
 function initNav(){const nav=document.getElementById('navbar');window.addEventListener('scroll',()=>nav.classList.toggle('scrolled',window.scrollY>60));}
 function initScrollObs(){const obs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('vis');});},{threshold:.1});document.querySelectorAll('.fade-up').forEach(el=>obs.observe(el));}
+
+async function syncProductsFromAPI(){
+  try{
+    const res=await fetch('/api/store/products/');
+    if(!res.ok)return;
+    const all=await res.json();
+    let changed=false;
+    all.forEach(fresh=>{
+      const idx=PRODUCTS.findIndex(p=>p.id===fresh.id);
+      if(idx===-1)return;
+      const p=PRODUCTS[idx];
+      PRODUCTS[idx]={
+        ...p,
+        name:fresh.name||p.name,
+        intent:fresh.intent||p.intent,
+        desc:fresh.description||p.desc,
+        price:fresh.price||p.price,
+        for:fresh.for_gender||p.for,
+        outOfStock:fresh.in_stock===false,
+        image_url:fresh.image_url||p.image_url,
+      };
+      changed=true;
+    });
+    if(changed){renderTrinity();renderProducts();}
+  }catch(e){}
+}
 
 function renderTrinity(){
   const featured=[PRODUCTS[3],PRODUCTS[5],PRODUCTS[4]];
@@ -1395,7 +1424,7 @@ function selectIntent(idx){
     appendAI(chat,'A beautiful intention. The universe is already responding. ✦\n\nBased on your energy, I recommend:');
     setTimeout(()=>{
       const p=PRODUCTS[INTENTS[idx].p];const rec=document.createElement('div');rec.className='ai-msg';
-      rec.innerHTML=`<div class="ai-sm-orb">✦</div><div><div class="rec-card"><div class="rec-name">${p.name}</div><div class="rec-intent">${p.intent} · ${p.for==='male'?'For Him':'For Her'} · 10ml Roll-On</div><div class="rec-desc">${p.desc}<br><br><em style="font-size:0.88rem;color:var(--amber)">Includes 11-Day Activation Ritual + Beej Mantra card. Results within 18 weeks of consistent daily practice.</em></div><button class="rec-btn" onclick="addToCart(${INTENTS[idx].p})">Add to Ritual — ₹${p.price.toLocaleString('en-IN')}</button></div></div>`;
+      rec.innerHTML=`<div class="ai-sm-orb">✦</div><div><div class="rec-card"><div class="rec-name">${p.name}</div><div class="rec-intent">${p.intent} · ${p.for==='male'?'For Him':'For Her'} · 10ml Roll-On</div><div class="rec-desc">${p.desc}<br><br><em style="font-size:0.88rem;color:var(--amber)">Includes 11-Day Activation Ritual + Beej Mantra card. Results within 18 weeks of consistent daily practice.</em></div><button class="rec-btn" onclick="addToCart(${INTENTS[idx].p})">Add to Ritual · ₹${p.price.toLocaleString('en-IN')}</button></div></div>`;
       chat.appendChild(rec);chat.scrollTop=chat.scrollHeight;
     },600);
   },2200);
@@ -1497,7 +1526,7 @@ async function loadReels(){
 }
 async function openReelsFromNav(){
   if(!REELS_DATA.length)await loadReels();
-  if(!REELS_DATA.length){toast('✦','No reels yet — check back soon!');return;}
+  if(!REELS_DATA.length){toast('✦','No reels yet. Check back soon!');return;}
   openReelsViewer(0);
 }
 
@@ -1593,7 +1622,7 @@ function likeReel(id,btn){
 }
 function shareReel(id){
   const url=window.location.origin+'/#reels-section';
-  if(navigator.share){navigator.share({title:'11:11:11 — Sacred Reels',url}).catch(()=>{});}
+  if(navigator.share){navigator.share({title:'11:11:11 · Sacred Reels',url}).catch(()=>{});}
   else{navigator.clipboard.writeText(url).then(()=>toast('✦','Link copied to clipboard.'));}
 }
 async function openReelComments(id){
@@ -1667,7 +1696,7 @@ function submitNewsletter(){
 }
 
 document.addEventListener('DOMContentLoaded',()=>{
-  initStars();initNav();initRefBadge();renderTrinity();renderProducts();renderAffirmations();initScrollObs();trackPageView();updateCart();
+  initStars();initNav();initRefBadge();renderTrinity();renderProducts();renderAffirmations();initScrollObs();trackPageView();updateCart();syncProductsFromAPI();
   loadReels().then(()=>{
     if(new URLSearchParams(location.search).get('openreels')){
       history.replaceState(null,'',location.pathname);
@@ -1695,7 +1724,7 @@ document.addEventListener('DOMContentLoaded',()=>{
     <button class="nl-close" onclick="closeNewsletter()">✕</button>
     <div class="nl-eyebrow">✦ Sacred Offer ✦</div>
     <div class="nl-title">Get 10% Off<br>Your First Order</div>
-    <div class="nl-sub">Join our ritual circle — receive your exclusive<br>discount code and first access to new arrivals.</div>
+    <div class="nl-sub">Join our ritual circle and receive your exclusive<br>discount code and first access to new arrivals.</div>
   </div>
   <div class="nl-body">
     <div id="nl-form">

@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Reseller Dashboard — 11:11:11 | EVOXU</title>
+<title>Reseller Dashboard | 11:11:11 | EVOXU</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,600&display=swap" rel="stylesheet">
@@ -117,6 +117,7 @@ body{background:var(--cream);color:var(--ink);font-family:'Inter',sans-serif;fon
 .bar-val{font-size:.72rem;color:var(--gold);width:60px;text-align:right;flex-shrink:0;font-family:'Inter',sans-serif}
 
 /* ── ORDERS TABLE ── */
+.table-wrap{width:100%}
 .orders-table{width:100%;border-collapse:collapse}
 .orders-table thead tr{border-bottom:1px solid var(--border)}
 .orders-table th{font-size:.58rem;letter-spacing:.32em;text-transform:uppercase;color:var(--dim);padding:.7rem .8rem;text-align:left;font-weight:300}
@@ -217,10 +218,11 @@ body{background:var(--cream);color:var(--ink);font-family:'Inter',sans-serif;fon
 .spark-bar{flex:1;background:linear-gradient(to top,rgba(125,32,53,.55),rgba(125,32,53,.15));border-radius:2px 2px 0 0;min-height:4px;transition:height .6s ease}
 
 /* ── TOAST ── */
-#toast{position:fixed;bottom:1.5rem;right:1.5rem;background:var(--ink);border:1px solid rgba(125,32,53,.3);padding:1rem 1.3rem;z-index:9999;transform:translateX(110%);transition:transform .5s cubic-bezier(.4,0,.2,1);max-width:270px}
-#toast.show{transform:translateX(0)}
+#toast{position:fixed;top:5rem;right:1.5rem;background:var(--ink);border-radius:10px;border-left:3px solid var(--gold2);padding:1rem 1.3rem;z-index:9999;box-shadow:0 16px 40px rgba(0,0,0,.28);transform:translateY(-140%);opacity:0;transition:transform .5s cubic-bezier(.4,0,.2,1),opacity .4s ease;max-width:270px}
+#toast.show{transform:translateY(0);opacity:1}
 .tt{font-family:'Inter',sans-serif;font-size:.92rem;color:var(--gold2);margin-bottom:.2rem}
-.tm{font-size:.72rem;color:rgba(255,255,255,.4);line-height:1.5}
+.tm{font-size:.72rem;color:rgba(255,255,255,.55);line-height:1.5}
+@media(max-width:640px){#toast{left:1rem;right:1rem;top:4.5rem;max-width:none}}
 
 /* ── MOBILE ── */
 .sb-toggle{display:none;position:fixed;top:1rem;left:1rem;z-index:300;background:var(--white);border:1px solid var(--border);padding:.55rem;cursor:pointer;color:var(--ink);box-shadow:var(--shadow)}
@@ -238,9 +240,12 @@ body{background:var(--cream);color:var(--ink);font-family:'Inter',sans-serif;fon
   .sb-toggle{display:flex}
   .sidebar-overlay.show{display:block}
   .stats-grid{grid-template-columns:1fr 1fr}
-  .topbar{padding:.8rem 1rem}
+  .topbar{padding:.8rem 1rem .8rem 3.4rem}
   .content{padding:1rem}
   .greeting{flex-direction:column;align-items:flex-start}
+  .qr-section{grid-template-columns:1fr}
+  .table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
+  .orders-table{min-width:560px}
 }
 </style>
 </head>
@@ -415,7 +420,7 @@ body{background:var(--cream);color:var(--ink);font-family:'Inter',sans-serif;fon
       </div>
 
       <div class="panel" style="margin-bottom:0">
-        <div class="panel-title">Revenue — Last 12 Months <span style="font-size:.72rem;color:var(--muted);font-family:'Inter',sans-serif;font-weight:300">Total: ₹34,200</span></div>
+        <div class="panel-title">Revenue · Last 12 Months <span style="font-size:.72rem;color:var(--muted);font-family:'Inter',sans-serif;font-weight:300">Total: ₹34,200</span></div>
         <div class="sparkline" id="sparkline"></div>
         <div style="display:flex;justify-content:space-between;margin-top:.5rem">
           <span style="font-size:.62rem;color:var(--dim)">Jul '24</span>
@@ -428,10 +433,10 @@ body{background:var(--cream);color:var(--ink);font-family:'Inter',sans-serif;fon
     <div class="page" id="page-orders">
       <div class="panel" style="margin-bottom:1.5rem">
         <div class="panel-title">Recent Orders <span style="font-size:.75rem;color:var(--muted);font-family:'Inter',sans-serif;font-weight:300">342 total</span></div>
-        <table class="orders-table">
-          <thead><tr><th>Order ID</th><th>Product</th><th>Customer</th><th>Date</th><th>Amount</th><th>Commission</th><th>Status</th></tr></thead>
+        <div class="table-wrap"><table class="orders-table">
+          <thead><tr><th>Order ID</th><th>Items</th><th>Customer</th><th>Date</th><th>Amount</th><th>Commission</th><th>Status</th></tr></thead>
           <tbody id="orders-tbody"></tbody>
-        </table>
+        </table></div>
       </div>
     </div>
 
@@ -464,8 +469,8 @@ body{background:var(--cream);color:var(--ink);font-family:'Inter',sans-serif;fon
           </div>
           <div style="margin-top:1rem;font-size:.8rem;color:var(--muted);line-height:1.8">Share this link on your social media, WhatsApp groups, and bio links. Every visit and purchase through this URL is tracked to your account and generates commission automatically.</div>
           <div style="display:flex;gap:.7rem;margin-top:1rem;flex-wrap:wrap">
-            <button class="qr-btn qr-btn-outline" onclick="toast('📱','WhatsApp share — opens in live app.')">Share on WhatsApp</button>
-            <button class="qr-btn qr-btn-outline" onclick="toast('📸','Instagram story share — opens in live app.')">Instagram Story</button>
+            <button class="qr-btn qr-btn-outline" onclick="toast('📱','WhatsApp share opens in live app.')">Share on WhatsApp</button>
+            <button class="qr-btn qr-btn-outline" onclick="toast('📸','Instagram story share opens in live app.')">Instagram Story</button>
           </div>
         </div>
       </div>
@@ -506,12 +511,12 @@ body{background:var(--cream);color:var(--ink);font-family:'Inter',sans-serif;fon
             <div class="qr-canvas" id="qr-big"></div>
             <div class="qr-meta">
               <h3>—</h3>
-              <p>This QR code is uniquely linked to your reseller account. Every scan is tracked and attributed to you automatically — even offline.</p>
+              <p>This QR code is uniquely linked to your reseller account. Every scan is tracked and attributed to you automatically, even offline.</p>
               <div class="qr-url">—</div>
               <div class="qr-actions">
                 <button class="qr-btn qr-btn-primary" onclick="downloadQR()">Download PNG</button>
-                <button class="qr-btn qr-btn-outline" onclick="toast('🖨️','QR print dialog — opens in live version.')">Print</button>
-                <button class="qr-btn qr-btn-outline" onclick="toast('📤','QR share sheet — opens in live version.')">Share</button>
+                <button class="qr-btn qr-btn-outline" onclick="toast('🖨️','QR print dialog opens in live version.')">Print</button>
+                <button class="qr-btn qr-btn-outline" onclick="toast('📤','QR share sheet opens in live version.')">Share</button>
               </div>
             </div>
           </div>
@@ -613,7 +618,7 @@ function renderOrders(){
   document.getElementById('orders-tbody').innerHTML=ORDERS_DATA.map(o=>`
     <tr>
       <td><div class="order-id">${o.id}</div></td>
-      <td><div class="order-prod">${o.product}</div></td>
+      <td><div class="order-prod">${o.item_count} item${o.item_count!==1?'s':''}</div></td>
       <td><span style="font-size:.8rem;color:#1C1914">${o.customer}</span></td>
       <td><span style="font-size:.75rem;color:#7A7268">${o.date}</span></td>
       <td><span style="font-family:'Inter',sans-serif;color:#B5924A;font-size:1rem">${o.amount}</span></td>
@@ -641,7 +646,7 @@ function renderCommissions(){
     <div class="commission-item">
       <div class="ci-icon" style="background:${c.color}18">${c.icon}</div>
       <div class="ci-name">
-        <div class="ci-product">${c.product}</div>
+        <div class="ci-product">${c.item_count} item${c.item_count!==1?'s':''}</div>
         <div class="ci-date">${c.customer} · ${c.date}</div>
       </div>
       <div>
@@ -667,7 +672,7 @@ function renderCustomers(){
         <div class="cust-n">${c.name}</div>
         <div class="cust-d">${c.joined}</div>
       </div>
-      <div class="cust-orders">${c.orders.split('—')[0]}<span>₹${c.orders.split('₹')[1]}</span></div>
+      <div class="cust-orders">${c.orders.split('·')[0]}<span>₹${c.orders.split('₹')[1]}</span></div>
     </div>
   `).join('');
 }
