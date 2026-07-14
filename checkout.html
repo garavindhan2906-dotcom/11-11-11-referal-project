@@ -179,6 +179,8 @@ body{background:var(--cream);color:var(--ink);font-family:'Inter',sans-serif;fon
 .so-p{font-size:.85rem;color:var(--muted);line-height:1.9;max-width:460px;margin:0 auto 1.2rem}
 .so-num{display:inline-block;font-size:.65rem;letter-spacing:.3em;text-transform:uppercase;color:var(--gold);border:1px solid var(--border-gold);padding:.38rem 1rem;margin-bottom:1.8rem}
 .so-back{padding:.95rem 3rem;background:var(--ink);border:none;color:#fff;font-family:'Inter',sans-serif;font-size:.68rem;letter-spacing:.4em;text-transform:uppercase;cursor:pointer;transition:background .35s;font-weight:500}
+.so-track{display:inline-block;margin-top:1rem;font-family:'Inter',sans-serif;font-size:.68rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);text-decoration:none;border-bottom:1px solid var(--border-gold);padding-bottom:.2rem;transition:color .3s}
+.so-track:hover{color:var(--gold2)}
 .so-back:hover{background:var(--gold)}
 
 /* ── TOAST ── */
@@ -428,6 +430,7 @@ body{background:var(--cream);color:var(--ink);font-family:'Inter',sans-serif;fon
   <p class="so-p">Your sacred oils are being ceremonially prepared and will be dispatched within 24 hours. A confirmation has been sent to your mobile number.</p>
   <div class="so-num" id="so-num">Order #AV-0000</div>
   <button class="so-back" onclick="window.location.href='index.html'">Return to Sacred Store</button>
+  <a class="so-track" id="so-track-link" href="track-order.html">Track Your Order →</a>
 </div>
 
 <!-- TOAST -->
@@ -858,6 +861,7 @@ async function placeOrder() {
     const data = await res.json();
     if (!res.ok) { toast('✦', data.error || 'Order failed. Please try again.'); return; }
     document.getElementById('so-num').textContent = 'Order #' + data.order_number;
+    document.getElementById('so-track-link').href = 'track-order.html?order=' + encodeURIComponent(data.order_number) + '&phone=' + encodeURIComponent(userEmail);
     localStorage.removeItem('111_cart');
     document.getElementById('success-ov').classList.add('on');
   } catch(e) {

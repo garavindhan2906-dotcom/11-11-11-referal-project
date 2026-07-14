@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Track Your Order — 11:11:11 | EVOXU</title>
+<link rel="icon" type="image/x-icon" href="favicon.ico">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --cream:#F6F8FC;--cream2:#EDF1F7;--white:#FFFFFF;--ink:#1E2A3E;--muted:#60718A;--dim:#8D9BB2;
+  --gold:#7D2035;--gold2:#A8415A;--gold-pale:rgba(125,32,53,.07);
+  --border:rgba(0,0,0,0.08);--border-gold:rgba(125,32,53,.2);
+  --green:#16a34a;--amber:#d97706;
+}
+body{background:var(--cream);color:var(--ink);font-family:'Inter',sans-serif;font-weight:400;line-height:1.75}
+.wrap{max-width:640px;margin:0 auto;padding:5rem 2rem 6rem}
+.back{display:inline-flex;align-items:center;gap:.5rem;font-size:.68rem;letter-spacing:.22em;text-transform:uppercase;color:var(--muted);text-decoration:none;margin-bottom:2.5rem}
+.back:hover{color:var(--gold)}
+h1{font-size:clamp(1.8rem,4vw,2.6rem);font-weight:700;margin-bottom:.5rem}
+.sub{font-size:.88rem;color:var(--muted);margin-bottom:2.5rem}
+
+.tf-card{background:var(--white);border:1px solid var(--border);padding:2rem;margin-bottom:2rem}
+.tf-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1.2rem}
+@media(max-width:560px){.tf-row{grid-template-columns:1fr}}
+.tf-label{display:block;font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);margin-bottom:.5rem}
+.tf-input{width:100%;border:1px solid var(--border);background:var(--cream2);padding:.8rem 1rem;font-family:'Inter',sans-serif;font-size:.92rem;color:var(--ink);outline:none;transition:border-color .3s}
+.tf-input:focus{border-color:var(--gold)}
+.tf-btn{width:100%;background:var(--ink);border:none;color:#fff;padding:.9rem;font-family:'Inter',sans-serif;font-size:.78rem;letter-spacing:.18em;text-transform:uppercase;cursor:pointer;transition:background .3s;font-weight:500}
+.tf-btn:hover{background:var(--gold)}
+.tf-btn:disabled{opacity:.5;cursor:not-allowed}
+.tf-err{display:none;font-size:.82rem;color:#dc2626;margin-top:1rem;padding:.7rem 1rem;background:rgba(220,38,38,.06);border:1px solid rgba(220,38,38,.18)}
+
+#result{display:none}
+.res-card{background:var(--white);border:1px solid var(--border);padding:2rem;margin-bottom:1.5rem}
+.res-head{display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:.6rem;margin-bottom:.4rem}
+.res-num{font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;color:var(--dim)}
+.res-date{font-size:.78rem;color:var(--muted)}
+.res-amount{font-family:'Inter',sans-serif;font-size:1.3rem;font-weight:700;color:var(--gold);margin-top:.3rem}
+
+/* STEPPER */
+.stepper{display:flex;align-items:flex-start;margin:2rem 0 1.5rem}
+.step{display:flex;flex-direction:column;align-items:center;flex:1;position:relative}
+.step-line{position:absolute;top:14px;left:-50%;width:100%;height:2px;background:var(--border);z-index:0}
+.step:first-child .step-line{display:none}
+.step.done .step-line{background:var(--green)}
+.step-dot{width:28px;height:28px;border-radius:50%;background:#fff;border:2px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:.72rem;color:var(--dim);z-index:1;font-weight:600}
+.step.done .step-dot{background:var(--green);border-color:var(--green);color:#fff}
+.step.current .step-dot{background:var(--gold);border-color:var(--gold);color:#fff}
+.step-label{font-size:.62rem;letter-spacing:.06em;text-transform:uppercase;color:var(--dim);margin-top:.5rem;text-align:center}
+.step.done .step-label,.step.current .step-label{color:var(--ink);font-weight:600}
+.cancelled-tag{display:inline-flex;font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;padding:.35rem .9rem;background:rgba(220,38,38,.07);color:#dc2626;border:1px solid rgba(220,38,38,.18);margin:1.5rem 0}
+
+.res-title{font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);margin-bottom:.7rem}
+.res-items{border-top:1px solid var(--border)}
+.res-item{display:flex;justify-content:space-between;padding:.6rem 0;border-bottom:1px solid var(--border);font-size:.86rem;color:var(--muted)}
+.res-addr{font-size:.86rem;color:var(--muted);line-height:1.9}
+
+footer{text-align:center;padding:2rem;font-size:.7rem;color:var(--dim);border-top:1px solid var(--border);margin-top:2rem}
+
+/* BOTTOM NAV (mobile) */
+.bottom-nav{display:none;position:fixed;left:0;right:0;bottom:0;z-index:900;background:rgba(246,248,252,.97);backdrop-filter:blur(20px);border-top:1px solid var(--border);box-shadow:0 -4px 20px rgba(30,42,62,.06)}
+.bn-row{display:flex;align-items:center;justify-content:space-around;padding:.5rem 0 calc(.5rem + env(safe-area-inset-bottom))}
+.bn-item{display:flex;flex-direction:column;align-items:center;gap:.25rem;background:none;border:none;cursor:pointer;color:var(--muted);flex:1;padding:.3rem 0;text-decoration:none}
+.bn-item:hover{color:var(--gold)}
+.bn-item svg{width:20px;height:20px;display:block}
+.bn-item span{font-size:.56rem;letter-spacing:.08em;text-transform:uppercase}
+@media(max-width:640px){.bottom-nav{display:block}body{padding-bottom:56px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a href="index.html" class="back">← Back to 11:11:11</a>
+  <h1>Track Your Order</h1>
+  <div class="sub">Enter your order number and the mobile number used at checkout to see your delivery status.</div>
+
+  <form class="tf-card" id="track-form" onsubmit="return trackOrder(event)">
+    <div class="tf-row">
+      <div>
+        <label class="tf-label">Order Number</label>
+        <input type="text" class="tf-input" id="t-order" placeholder="e.g. ORD-0714-8844" required>
+      </div>
+      <div>
+        <label class="tf-label">Mobile Number</label>
+        <input type="tel" class="tf-input" id="t-phone" placeholder="10-digit mobile number" maxlength="10" inputmode="numeric" oninput="this.value=this.value.replace(/\D/g,'').slice(0,10)" required>
+      </div>
+    </div>
+    <button class="tf-btn" id="t-btn" type="submit">Track Order</button>
+    <div class="tf-err" id="t-err"></div>
+  </form>
+
+  <div id="result">
+    <div class="res-card">
+      <div class="res-head">
+        <div>
+          <div class="res-num" id="r-num">—</div>
+          <div class="res-date" id="r-date">—</div>
+        </div>
+        <div class="res-amount" id="r-amount">₹0</div>
+      </div>
+      <div id="r-stepper"></div>
+    </div>
+    <div class="res-card">
+      <div class="res-title">Items</div>
+      <div class="res-items" id="r-items"></div>
+    </div>
+    <div class="res-card">
+      <div class="res-title">Delivery Address</div>
+      <div class="res-addr" id="r-addr"></div>
+    </div>
+  </div>
+</div>
+<footer>© 2026 11:11:11 · EVOXU PVT LTD. All rights reserved.</footer>
+
+<!-- BOTTOM NAV -->
+<nav class="bottom-nav">
+  <div class="bn-row">
+    <a class="bn-item" href="index.html">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      <span>Home</span>
+    </a>
+    <a class="bn-item" href="index.html?openreels=1">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="2" width="20" height="20" rx="2.18"/><line x1="7" y1="2" x2="7" y2="22"/><line x1="17" y1="2" x2="17" y2="22"/><line x1="2" y1="12" x2="22" y2="12"/><line x1="2" y1="7" x2="7" y2="7"/><line x1="2" y1="17" x2="7" y2="17"/><line x1="17" y1="17" x2="22" y2="17"/><line x1="17" y1="7" x2="22" y2="7"/></svg>
+      <span>Reels</span>
+    </a>
+    <a class="bn-item" href="index.html#collections">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/></svg>
+      <span>Collections</span>
+    </a>
+    <a class="bn-item" href="index.html">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 002-1.61L23 6H6"/></svg>
+      <span>Cart</span>
+    </a>
+  </div>
+</nav>
+
+<script>
+const STAGES=[
+  {key:'pending',label:'Order Placed'},
+  {key:'packed',label:'Packed'},
+  {key:'shipped',label:'Shipped'},
+  {key:'delivered',label:'Delivered'},
+];
+
+function renderStepper(status){
+  if(status==='cancelled')return '<span class="cancelled-tag">Order Cancelled</span>';
+  const curIdx=STAGES.findIndex(s=>s.key===status);
+  return `<div class="stepper">${STAGES.map((s,i)=>{
+    const done=i<curIdx,current=i===curIdx;
+    return `<div class="step ${done?'done':''} ${current?'current':''}">
+      <div class="step-line"></div>
+      <div class="step-dot">${done?'✓':i+1}</div>
+      <div class="step-label">${s.label}</div>
+    </div>`;
+  }).join('')}</div>`;
+}
+
+async function trackOrder(e){
+  e.preventDefault();
+  const orderNumber=document.getElementById('t-order').value.trim();
+  const phone=document.getElementById('t-phone').value.trim();
+  const errEl=document.getElementById('t-err');
+  errEl.style.display='none';
+
+  if(!orderNumber||!/^\d{10}$/.test(phone)){
+    errEl.textContent='Enter your order number and a valid 10-digit mobile number.';
+    errEl.style.display='block';
+    return false;
+  }
+
+  const btn=document.getElementById('t-btn');
+  btn.disabled=true;btn.textContent='Searching…';
+
+  try{
+    const res=await fetch(`/api/store/track-order/?order_number=${encodeURIComponent(orderNumber)}&phone=${encodeURIComponent(phone)}`);
+    const data=await res.json();
+    if(!res.ok){
+      errEl.textContent=data.error||'No order found with those details.';
+      errEl.style.display='block';
+      document.getElementById('result').style.display='none';
+      return false;
+    }
+
+    document.getElementById('r-num').textContent='Order #'+data.order_number;
+    document.getElementById('r-date').textContent=data.date;
+    document.getElementById('r-amount').textContent='₹'+data.amount.toLocaleString('en-IN');
+    document.getElementById('r-stepper').innerHTML=renderStepper(data.status);
+    document.getElementById('r-items').innerHTML=data.items.length?data.items.map(i=>`
+      <div class="res-item"><span>${i.product}</span><span>× ${i.quantity}</span></div>
+    `).join(''):'<div class="res-item">No item details available.</div>';
+
+    const a=data.address||{};
+    const hasAddr=a.line1||a.city||a.state||a.pincode;
+    document.getElementById('r-addr').innerHTML=hasAddr?`
+      <div><strong>${a.name||'—'}</strong></div>
+      <div>${a.line1||''}</div>
+      <div>${[a.city,a.state,a.pincode].filter(Boolean).join(', ')}</div>
+    `:'No delivery address on file for this order.';
+
+    document.getElementById('result').style.display='block';
+    setTimeout(()=>document.getElementById('result').scrollIntoView({behavior:'smooth',block:'start'}),100);
+  }catch(_){
+    errEl.textContent='Server error. Please try again in a moment.';
+    errEl.style.display='block';
+  }finally{
+    btn.disabled=false;btn.textContent='Track Order';
+  }
+  return false;
+}
+
+(function prefill(){
+  const params=new URLSearchParams(location.search);
+  if(params.get('order'))document.getElementById('t-order').value=params.get('order');
+  if(params.get('phone'))document.getElementById('t-phone').value=params.get('phone').replace(/\D/g,'').slice(0,10);
+})();
+</script>
+</body>
+</html>

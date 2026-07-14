@@ -662,3 +662,46 @@ class AdminOrderStatusView(APIView):
         order.status = status_value
         order.save(update_fields=["status"])
         return Response({"success": True, "status": order.status})
+
+
+class TrackOrderView(APIView):
+    permission_classes = [AllowAny]
+
+    def get(self, request):
+        order_number = request.query_params.get("order_number", "").strip()
+        phone = "".join(filter(str.isdigit, request.query_params.get("phone", "")))
+
+        if not order_number or not phone:
+            return Response({"error": "Order number and mobile number are required."}, status=400)
+
+        try:
+            order = Order.objects.select_related("customer").prefetch_related(
+                "items", "items__product"
+            ).get(order_number__iexact=order_number)
+        except Order.DoesNotExist:
+            return Response({"error": "No order found with those details."}, status=404)
+
+        customer_phone = "".join(filter(str.isdigit, order.customer.phone or ""))
+        address_phone = "".join(filter(str.isdigit, order.address_phone or ""))
+        if phone != customer_phone and phone != address_phone:
+            return Response({"error": "No order found with those details."}, status=404)
+
+        items = [
+            {"product": i.product.name, "quantity": i.quantity}
+            for i in order.items.all()
+        ]
+
+        return Response({
+            "order_number": order.order_number,
+            "date": order.created_at.strftime("%d %b %Y"),
+            "status": order.status,
+            "amount": float(order.total_amount),
+            "items": items,
+            "address": {
+                "name": order.address_name,
+                "line1": order.address_line1,
+                "city": order.address_city,
+                "state": order.address_state,
+                "pincode": order.address_pincode,
+            },
+        })
