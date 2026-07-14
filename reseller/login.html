@@ -161,7 +161,7 @@ footer a:hover{color:var(--burg)}
           <div class="fg" id="fg-phone">
             <label class="flabel">Mobile Number</label>
             <div class="fwrap">
-              <input type="tel" class="finput" id="i-phone" placeholder="+91 XXXXX XXXXX" autocomplete="tel">
+              <input type="tel" class="finput" id="i-phone" placeholder="10-digit mobile number" maxlength="10" inputmode="numeric" autocomplete="tel" oninput="digitsOnly10(this)">
               <span class="ficon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.73 9.5 19.79 19.79 0 01.67 4.9 2 2 0 012.66 2.72h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L6.91 9.4a16 16 0 006.64 6.64l1.76-1.76a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"/></svg></span>
             </div>
             <span class="ferr" id="e-phone">Please enter a valid mobile number.</span>
@@ -212,6 +212,7 @@ function togglePw() {
   }
 }
 
+function digitsOnly10(el) { el.value = el.value.replace(/\D/g, '').slice(0, 10); }
 function clearErr() {
   document.getElementById('fg-phone').classList.remove('err');
   document.getElementById('fg-pass').classList.remove('err');
@@ -229,7 +230,7 @@ async function doLogin(e) {
 
   clearErr();
   let ok = true;
-  if (!ph || ph.replace(/[\s\-\+]/g, '').length < 10) { showErr('Please enter a valid mobile number.'); ok = false; }
+  if (!/^\d{10}$/.test(ph)) { showErr('Please enter a valid 10-digit mobile number.'); ok = false; }
   if (!pw) { showErr(null, 'Password is required.'); ok = false; }
   if (!ok) return;
 
