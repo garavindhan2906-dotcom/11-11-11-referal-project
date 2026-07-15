@@ -76,7 +76,7 @@ nav.scrolled{
   top:0;padding:1rem 4rem;border-bottom:1px solid rgba(125,32,53,0.4);box-shadow:0 2px 24px rgba(93,21,37,0.28)
 }
 nav.scrolled .nav-logo-main{color:#FFF8F2}
-nav.scrolled .nav-logo-sub{color:rgba(255,248,242,.45)}
+nav.scrolled .nav-logo-sub{color:rgba(255,248,242,.7)}
 nav.scrolled .nav-links a{color:rgba(255,248,242,.72)}
 nav.scrolled .nav-links a:hover{color:#FFF8F2;background:rgba(255,248,242,.12)}
 nav.scrolled .icon-btn{color:rgba(255,248,242,.65)}
@@ -196,7 +196,7 @@ body{padding-bottom:64px}
 @media(min-width:641px){.bottom-nav{left:50%;right:auto;transform:translateX(-50%);bottom:1.2rem;width:min(460px,92vw);border-top:none;border:1px solid var(--border);border-radius:100px;box-shadow:0 10px 34px rgba(30,42,62,.14)}}
 /* nav over dark hero — before scroll */
 nav:not(.scrolled) .nav-logo-main{color:#FFF8F2}
-nav:not(.scrolled) .nav-logo-sub{color:rgba(255,248,242,.32)}
+nav:not(.scrolled) .nav-logo-sub{color:rgba(255,248,242,.78)}
 nav:not(.scrolled) .nav-links a{color:rgba(255,248,242,.5)}
 nav:not(.scrolled) .nav-links a:hover{color:#FFF8F2;background:rgba(255,248,242,.1)}
 nav:not(.scrolled) .icon-btn{color:rgba(255,248,242,.45)}
@@ -239,8 +239,8 @@ nav:not(.scrolled) .hamburger span{background:rgba(255,248,242,.55)}
 .star{position:absolute;border-radius:50%;background:radial-gradient(circle,rgba(125,32,53,.7),rgba(125,32,53,0));animation:shimmer var(--d,4s) ease-in-out infinite;animation-delay:var(--dl,0s);opacity:var(--o,.15)}
 @keyframes shimmer{0%,100%{opacity:calc(var(--o,.15)*.6);transform:scale(1)}50%{opacity:calc(var(--o,.15)*2.5);transform:scale(1.8)}}
 .hero-inner{position:relative;z-index:1;max-width:880px}
-.hero-eyebrow{display:inline-flex;align-items:center;gap:.9rem;margin-bottom:2rem;font-size:0.77rem;letter-spacing:0.302em;text-transform:uppercase;color:var(--gold2)}
-.hero-eyebrow::before,.hero-eyebrow::after{content:'';height:1px;width:32px;background:var(--gold2)}
+.hero-eyebrow{display:inline-flex;align-items:center;gap:.9rem;margin-bottom:2rem;font-size:0.77rem;letter-spacing:0.302em;text-transform:uppercase;color:#F4A0B5;font-weight:500;text-shadow:0 1px 8px rgba(0,0,0,.4)}
+.hero-eyebrow::before,.hero-eyebrow::after{content:'';height:1px;width:32px;background:#F4A0B5}
 .hero-h1{font-family:'Inter',sans-serif;font-size:clamp(2.6rem,6vw,5.2rem);font-weight:700;line-height:1.08;color:#FFF8F2;margin-bottom:.35rem;letter-spacing:-.02em;text-shadow:0 2px 16px rgba(0,0,0,.4)}
 .hero-h1 em{font-style:italic;color:var(--gold2)}
 .hero-num{font-family:'Inter',sans-serif;font-size:clamp(1.3rem,3vw,2rem);font-weight:400;letter-spacing:0.2em;color:rgba(255,248,242,.65);margin-bottom:2.2rem;display:block}
@@ -531,7 +531,7 @@ section{position:relative;z-index:1}
 .hc::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:transparent;transition:background .4s}
 .hc:hover{background:var(--cream2)}
 .hc:hover::after{background:var(--gold)}
-.hc-img{max-width:100%;height:auto;object-fit:contain;margin:0 auto 1.1rem;display:block}
+.hc-img{max-width:110px;max-height:110px;width:auto;height:auto;object-fit:contain;margin:0 auto 1.1rem;display:block}
 .hc-title{font-family:'Inter',sans-serif;font-size:1.3rem;font-weight:700;color:var(--gold);margin-bottom:.65rem}
 .hc-desc{font-size:0.92rem;color:var(--muted);line-height:1.9;font-weight:600}
 
@@ -897,32 +897,7 @@ footer{padding:5rem 4rem 2.5rem;background:var(--ink);border-top:1px solid rgba(
     <h2 class="sec-h2">Sacred <em>Updates</em></h2>
     <p class="sec-p">Notes on ritual, fragrance, and intention, from our journal to yours.</p>
   </div>
-  <div class="blog-grid">
-    <div class="blog-card" onclick="toast('✦','Full article opens in live version.')">
-      <div class="blog-img">🌹</div>
-      <div class="blog-body">
-        <span class="blog-tag">Guide</span>
-        <div class="blog-title">Top 5 Long Lasting Perfume Oils in India</div>
-        <div class="blog-excerpt">Why alcohol-free attars outlast conventional sprays, and which of our ritual oils hold their fragrance longest through the day.</div>
-      </div>
-    </div>
-    <div class="blog-card" onclick="toast('✦','Full article opens in live version.')">
-      <div class="blog-img">✨</div>
-      <div class="blog-body">
-        <span class="blog-tag">Wellness</span>
-        <div class="blog-title">Choosing a Scent for Your Personality</div>
-        <div class="blog-excerpt">A guide to matching your intention (love, wealth, clarity, or success) to the fragrance notes that support it.</div>
-      </div>
-    </div>
-    <div class="blog-card" onclick="toast('✦','Full article opens in live version.')">
-      <div class="blog-img">🕯️</div>
-      <div class="blog-body">
-        <span class="blog-tag">Ritual</span>
-        <div class="blog-title">Attar vs. Perfume: What's the Difference?</div>
-        <div class="blog-excerpt">Traditional attars are oil-based, alcohol-free, and ceremonially prepared. Here's how that changes the way a fragrance wears on you.</div>
-      </div>
-    </div>
-  </div>
+  <div class="blog-grid" id="blog-grid"></div>
 </section>
 
 <div class="divider"></div>
@@ -1214,6 +1189,11 @@ const AFFIRMATIONS=[
   {for:'SUKCE & YCNEX',text:'"I am capable of achieving everything I set my mind to. Success is not a destination. It is who I am becoming."',intent:'Success & Achievement'},
   {for:'KLINFON',text:'"I release the busyness of the day. My mind is calm, my body is at rest. I allow peace to flow through every cell."',intent:'Relaxation & Calm'},
 ];
+let BLOG_POSTS=[
+  {title:'Top 5 Long Lasting Perfume Oils in India',tag:'Guide',excerpt:'Why alcohol-free attars outlast conventional sprays, and which of our ritual oils hold their fragrance longest through the day.',image_url:'images/longlasting.png'},
+  {title:'Choosing a Scent for Your Personality',tag:'Wellness',excerpt:'A guide to matching your intention (love, wealth, clarity, or success) to the fragrance notes that support it.',image_url:'images/chooseperfumes.png'},
+  {title:"Attar vs. Perfume: What's the Difference?",tag:'Ritual',excerpt:"Traditional attars are oil-based, alcohol-free, and ceremonially prepared. Here's how that changes the way a fragrance wears on you.",image_url:'images/attar.png'},
+];
 let cart=[],toastTm;
 try{cart=JSON.parse(localStorage.getItem('111_cart')||'[]');}catch(e){cart=[];}
 
@@ -1249,6 +1229,12 @@ function enterSite(){clearInterval(iIv);document.getElementById('intro').classLi
 function initNav(){const nav=document.getElementById('navbar');window.addEventListener('scroll',()=>nav.classList.toggle('scrolled',window.scrollY>60));}
 function initScrollObs(){const obs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('vis');});},{threshold:.1});document.querySelectorAll('.fade-up').forEach(el=>obs.observe(el));}
 
+const GENDER_CARD_DEFAULTS={
+  male:{glow:'#93c5fd',grad:'#1d4ed8',bg:'#eff6ff'},
+  female:{glow:'#f472b6',grad:'#9d174d',bg:'#fdf2f8'},
+  combo:{glow:'#c9a84c',grad:'#78350f',bg:'#fdf8ee'},
+};
+
 async function syncProductsFromAPI(){
   try{
     const res=await fetch('/api/store/products/');
@@ -1257,7 +1243,25 @@ async function syncProductsFromAPI(){
     let changed=false;
     all.forEach(fresh=>{
       const idx=PRODUCTS.findIndex(p=>p.id===fresh.id);
-      if(idx===-1)return;
+      if(idx===-1){
+        // Product created via admin after this array was written — add it now.
+        const gender=fresh.for_gender||'male';
+        PRODUCTS.push({
+          id:fresh.id,
+          name:fresh.name,
+          for:gender,
+          intent:fresh.intent||'',
+          notes:'',
+          desc:fresh.description||'',
+          price:fresh.price||0,
+          emoji:fresh.emoji||'✦',
+          outOfStock:fresh.in_stock===false,
+          image_url:fresh.image_url||'',
+          ...(GENDER_CARD_DEFAULTS[gender]||GENDER_CARD_DEFAULTS.male),
+        });
+        changed=true;
+        return;
+      }
       const p=PRODUCTS[idx];
       PRODUCTS[idx]={
         ...p,
@@ -1272,6 +1276,31 @@ async function syncProductsFromAPI(){
       changed=true;
     });
     if(changed){renderTrinity();renderProducts();}
+  }catch(e){}
+}
+
+async function syncBlogPostsFromAPI(){
+  try{
+    const res=await fetch('/api/store/blog-posts/');
+    if(!res.ok)return;
+    const all=await res.json();
+    if(all.length){
+      BLOG_POSTS=all.map(b=>({title:b.title,tag:b.tag,excerpt:b.excerpt,image_url:b.image_url}));
+      renderBlogPosts();
+    }
+  }catch(e){}
+}
+
+async function syncAffirmationsFromAPI(){
+  try{
+    const res=await fetch('/api/store/affirmations/');
+    if(!res.ok)return;
+    const all=await res.json();
+    if(all.length){
+      AFFIRMATIONS.length=0;
+      all.forEach(a=>AFFIRMATIONS.push({for:a.for_products,text:a.text,intent:a.intent}));
+      renderAffirmations();
+    }
   }catch(e){}
 }
 
@@ -1441,6 +1470,18 @@ function renderAffirmations(){
       <div class="aff-for">For ${a.for}</div>
       <div class="aff-text">${a.text}</div>
       <div class="aff-intent">✦ ${a.intent}</div>
+    </div>
+  `).join('');
+}
+function renderBlogPosts(){
+  document.getElementById('blog-grid').innerHTML=BLOG_POSTS.map(b=>`
+    <div class="blog-card" onclick="toast('✦','Full article opens in live version.')">
+      <div class="blog-img">${b.image_url?`<img src="${b.image_url}" alt="${b.title}">`:''}</div>
+      <div class="blog-body">
+        ${b.tag?`<span class="blog-tag">${b.tag}</span>`:''}
+        <div class="blog-title">${b.title}</div>
+        <div class="blog-excerpt">${b.excerpt||''}</div>
+      </div>
     </div>
   `).join('');
 }
@@ -1700,7 +1741,7 @@ function submitNewsletter(){
 }
 
 document.addEventListener('DOMContentLoaded',()=>{
-  initStars();initNav();initRefBadge();renderTrinity();renderProducts();renderAffirmations();initScrollObs();trackPageView();updateCart();syncProductsFromAPI();
+  initStars();initNav();initRefBadge();renderTrinity();renderProducts();renderAffirmations();renderBlogPosts();initScrollObs();trackPageView();updateCart();syncProductsFromAPI();syncBlogPostsFromAPI();syncAffirmationsFromAPI();
   loadReels().then(()=>{
     if(new URLSearchParams(location.search).get('openreels')){
       history.replaceState(null,'',location.pathname);

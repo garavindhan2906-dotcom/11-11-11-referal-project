@@ -33,6 +33,34 @@ class ProductImage(models.Model):
         return f"Image #{self.id} for {self.product.name}"
 
 
+class BlogPost(models.Model):
+    title = models.CharField(max_length=200)
+    tag = models.CharField(max_length=50, blank=True)
+    excerpt = models.TextField(blank=True)
+    image = models.ImageField(upload_to='blog/', null=True, blank=True)
+    order = models.PositiveIntegerField(default=0)
+    created_at = models.DateTimeField(default=timezone.now)
+
+    class Meta:
+        ordering = ['order', '-created_at']
+
+    def __str__(self):
+        return self.title
+
+
+class Affirmation(models.Model):
+    for_products = models.CharField(max_length=200, blank=True)
+    text = models.TextField()
+    intent = models.CharField(max_length=200, blank=True)
+    order = models.PositiveIntegerField(default=0)
+
+    class Meta:
+        ordering = ['order', 'id']
+
+    def __str__(self):
+        return self.text[:50]
+
+
 class Reel(models.Model):
     video = models.FileField(upload_to='reels/')
     thumbnail = models.ImageField(upload_to='reels/thumbnails/', null=True, blank=True)

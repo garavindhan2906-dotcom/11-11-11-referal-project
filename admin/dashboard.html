@@ -403,6 +403,14 @@ body{background:var(--cream);color:var(--ink);font-family:'Inter',sans-serif;fon
     <a class="sb-item" data-page="reels" onclick="nav('reels',this)">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="2.18" ry="2.18"/><line x1="7" y1="2" x2="7" y2="22"/><line x1="17" y1="2" x2="17" y2="22"/><line x1="2" y1="12" x2="22" y2="12"/><line x1="2" y1="7" x2="7" y2="7"/><line x1="2" y1="17" x2="7" y2="17"/><line x1="17" y1="17" x2="22" y2="17"/><line x1="17" y1="7" x2="22" y2="7"/></svg>Reels
     </a>
+    <a class="sb-item" data-page="blogs" onclick="nav('blogs',this)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>Blog Posts
+      <span class="sb-badge" id="sb-blog-count">0</span>
+    </a>
+    <a class="sb-item" data-page="affirmations" onclick="nav('affirmations',this)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>Affirmations
+      <span class="sb-badge" id="sb-aff-count">0</span>
+    </a>
     <a class="sb-item" data-page="analytics" onclick="nav('analytics',this)">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 3v18h18"/><path d="M18.7 8l-5.1 5.1-2.8-2.8L7 14.1"/></svg>Analytics
     </a>
@@ -541,6 +549,44 @@ body{background:var(--cream);color:var(--ink);font-family:'Inter',sans-serif;fon
       <div class="panel">
         <div class="panel-head"><div class="panel-title">All Reels</div></div>
         <div id="reels-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:1rem"></div>
+      </div>
+    </div>
+
+    <!-- BLOG POSTS -->
+    <div class="page" id="page-blogs">
+      <div class="panel">
+        <div class="panel-head">
+          <div>
+            <div class="panel-title">Sacred Updates (Blog)</div>
+            <div style="font-size:.72rem;color:var(--muted);margin-top:.2rem">Shown in the "From The Journal" section on the homepage.</div>
+          </div>
+          <div class="panel-actions">
+            <button class="btn-sm btn-ink" onclick="openBlogModal()">+ Add Blog Post</button>
+          </div>
+        </div>
+        <div class="table-wrap"><table class="tbl" id="blogs-table">
+          <thead><tr><th>#</th><th>Image</th><th>Title</th><th>Tag</th><th>Order</th><th>Actions</th></tr></thead>
+          <tbody id="blogs-tbody"></tbody>
+        </table></div>
+      </div>
+    </div>
+
+    <!-- AFFIRMATIONS -->
+    <div class="page" id="page-affirmations">
+      <div class="panel">
+        <div class="panel-head">
+          <div>
+            <div class="panel-title">Sacred Affirmations</div>
+            <div style="font-size:.72rem;color:var(--muted);margin-top:.2rem">Shown in the "Daily Practice" section on the homepage.</div>
+          </div>
+          <div class="panel-actions">
+            <button class="btn-sm btn-ink" onclick="openAffModal()">+ Add Affirmation</button>
+          </div>
+        </div>
+        <div class="table-wrap"><table class="tbl" id="affirmations-table">
+          <thead><tr><th>#</th><th>For</th><th>Affirmation</th><th>Intent</th><th>Order</th><th>Actions</th></tr></thead>
+          <tbody id="affirmations-tbody"></tbody>
+        </table></div>
       </div>
     </div>
 
@@ -814,6 +860,84 @@ body{background:var(--cream);color:var(--ink);font-family:'Inter',sans-serif;fon
   <div class="modal-foot">
     <button class="modal-cancel" onclick="closeModal()">Cancel</button>
     <button class="modal-save" onclick="saveProduct()">Save Product</button>
+  </div>
+</div>
+
+<!-- BLOG POST MODAL -->
+<div class="modal-overlay" id="blog-modal-overlay" onclick="closeBlogModal()"></div>
+<div class="modal" id="modal-blog">
+  <div class="modal-head">
+    <h3 id="blog-modal-title">Add New Blog Post</h3>
+    <button class="modal-close" onclick="closeBlogModal()">✕</button>
+  </div>
+  <div class="modal-body">
+    <div class="form-group">
+      <label class="flbl">Title *</label>
+      <input class="finput" id="f-blog-title" placeholder="e.g. Top 5 Long Lasting Perfume Oils in India">
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="flbl">Tag</label>
+        <input class="finput" id="f-blog-tag" placeholder="e.g. Guide, Wellness, Ritual">
+      </div>
+      <div class="form-group">
+        <label class="flbl">Display Order</label>
+        <input class="finput" id="f-blog-order" type="number" placeholder="0">
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="flbl">Excerpt</label>
+      <textarea class="ftarea" id="f-blog-excerpt" placeholder="Short summary shown on the card..."></textarea>
+    </div>
+    <div class="form-group">
+      <label class="flbl" style="font-weight:600;color:var(--ink)">Cover Image <span style="font-weight:400;color:var(--dim)">(optional)</span></label>
+      <div id="blog-drop-zone" onclick="document.getElementById('f-blog-image').click()" style="border:2px dashed var(--border);border-radius:2px;padding:1.6rem 1.5rem;text-align:center;cursor:pointer;transition:all .25s;position:relative;margin-top:.5rem;background:var(--white)">
+        <div id="blog-img-placeholder">
+          <div style="font-size:2rem;margin-bottom:.5rem">🖼️</div>
+          <div style="font-size:.8rem;font-weight:600;color:var(--ink);margin-bottom:.2rem">Click to upload a cover image</div>
+          <div style="font-size:.68rem;color:var(--dim)">JPG, PNG, WebP</div>
+        </div>
+        <img id="blog-img-preview" style="display:none;max-height:160px;max-width:100%;border-radius:2px">
+      </div>
+      <input type="file" id="f-blog-image" accept="image/*" style="display:none" onchange="handleBlogImage(this)">
+    </div>
+  </div>
+  <div class="modal-foot">
+    <button class="modal-cancel" onclick="closeBlogModal()">Cancel</button>
+    <button class="modal-save" onclick="saveBlogPost()">Save Blog Post</button>
+  </div>
+</div>
+
+<!-- AFFIRMATION MODAL -->
+<div class="modal-overlay" id="aff-modal-overlay" onclick="closeAffModal()"></div>
+<div class="modal" id="modal-aff">
+  <div class="modal-head">
+    <h3 id="aff-modal-title">Add New Affirmation</h3>
+    <button class="modal-close" onclick="closeAffModal()">✕</button>
+  </div>
+  <div class="modal-body">
+    <div class="form-group">
+      <label class="flbl">For Product(s) *</label>
+      <input class="finput" id="f-aff-for" placeholder="e.g. KLEOMA & KAMAVYA">
+    </div>
+    <div class="form-group">
+      <label class="flbl">Affirmation Text *</label>
+      <textarea class="ftarea" id="f-aff-text" placeholder='"I am a magnet for love..."'></textarea>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="flbl">Intent</label>
+        <input class="finput" id="f-aff-intent" placeholder="e.g. Love & Attraction">
+      </div>
+      <div class="form-group">
+        <label class="flbl">Display Order</label>
+        <input class="finput" id="f-aff-order" type="number" placeholder="0">
+      </div>
+    </div>
+  </div>
+  <div class="modal-foot">
+    <button class="modal-cancel" onclick="closeAffModal()">Cancel</button>
+    <button class="modal-save" onclick="saveAffirmation()">Save Affirmation</button>
   </div>
 </div>
 
@@ -1153,7 +1277,7 @@ function nav(name,el){
   document.querySelectorAll('.sb-item').forEach(i=>i.classList.remove('on'));
   document.getElementById('page-'+name).classList.add('on');
   if(el)el.classList.add('on');
-  const titles={overview:'Overview',products:'Products',reels:'Reels',analytics:'Analytics',resellers:'Resellers',orders:'Orders',sales:'Reseller Sales',calendar:'Calendar',payouts:'Payouts',paidhistory:'Paid History',settings:'Settings'};
+  const titles={overview:'Overview',products:'Products',reels:'Reels',blogs:'Blog Posts',affirmations:'Affirmations',analytics:'Analytics',resellers:'Resellers',orders:'Orders',sales:'Reseller Sales',calendar:'Calendar',payouts:'Payouts',paidhistory:'Paid History',settings:'Settings'};
   document.getElementById('tb-title').textContent=titles[name]||name;
   document.getElementById('tb-crumb').textContent=titles[name]||name;
   if(name==='sales')loadResellerSales();
@@ -1162,6 +1286,8 @@ function nav(name,el){
   if(name==='payouts')loadPayouts();
   if(name==='paidhistory')loadPayouts();
   if(name==='reels')loadReels();
+  if(name==='blogs')loadBlogPosts();
+  if(name==='affirmations')loadAffirmations();
   if(name==='analytics')loadAnalytics();
   if(name==='orders')loadOrders();
   closeSidebar();
@@ -1338,6 +1464,212 @@ async function deleteReel(id){
     REELS=REELS.filter(r=>r.id!==id);
     renderReels();
     toast('✕','Reel removed.');
+  }catch(_){toast('⚠️','Server error.');}
+}
+
+/* ── BLOG POSTS ── */
+let BLOG_POSTS=[];
+let blogEditingId=null;
+let _blogImageFile=null;
+
+async function loadBlogPosts(){
+  try{
+    const res=await fetch(`${API}/api/store/blog-posts/`,{headers:{'X-Admin-Key':ADMIN_KEY}});
+    if(res.ok){BLOG_POSTS=await res.json();}
+  }catch(_){}
+  renderBlogsTable();
+  const badge=document.getElementById('sb-blog-count');
+  if(badge)badge.textContent=BLOG_POSTS.length;
+}
+
+function renderBlogsTable(){
+  const tbody=document.getElementById('blogs-tbody');
+  if(!tbody)return;
+  tbody.innerHTML=BLOG_POSTS.length?BLOG_POSTS.map((b,i)=>`
+    <tr>
+      <td>${i+1}</td>
+      <td>${b.image_url?`<img src="${b.image_url}" style="width:44px;height:44px;object-fit:cover;border-radius:2px;display:block">`:'<span style="color:var(--dim);font-size:.7rem">No image</span>'}</td>
+      <td><strong>${b.title}</strong></td>
+      <td>${b.tag?`<span class="tag tag-active">${b.tag}</span>`:'—'}</td>
+      <td>${b.order}</td>
+      <td><div class="action-btns">
+        <button class="icon-btn-sm" onclick="openBlogModal(${b.id})" title="Edit">✎</button>
+        <button class="icon-btn-sm del" onclick="deleteBlogPost(${b.id})" title="Delete">✕</button>
+      </div></td>
+    </tr>
+  `).join(''):'<tr><td colspan="6" style="text-align:center;padding:2rem;color:var(--dim)">No blog posts yet. Add your first one above.</td></tr>';
+}
+
+function openBlogModal(id){
+  blogEditingId=id||null;
+  _blogImageFile=null;
+  document.getElementById('blog-modal-title').textContent=id?'Edit Blog Post':'Add New Blog Post';
+  document.getElementById('blog-img-preview').style.display='none';
+  document.getElementById('blog-img-placeholder').style.display='block';
+  if(id){
+    const b=BLOG_POSTS.find(x=>x.id===id);
+    document.getElementById('f-blog-title').value=b.title||'';
+    document.getElementById('f-blog-tag').value=b.tag||'';
+    document.getElementById('f-blog-order').value=b.order||0;
+    document.getElementById('f-blog-excerpt').value=b.excerpt||'';
+    if(b.image_url){
+      document.getElementById('blog-img-preview').src=b.image_url;
+      document.getElementById('blog-img-preview').style.display='block';
+      document.getElementById('blog-img-placeholder').style.display='none';
+    }
+  }else{
+    document.getElementById('f-blog-title').value='';
+    document.getElementById('f-blog-tag').value='';
+    document.getElementById('f-blog-order').value=BLOG_POSTS.length;
+    document.getElementById('f-blog-excerpt').value='';
+  }
+  document.getElementById('f-blog-image').value='';
+  document.getElementById('blog-modal-overlay').classList.add('show');
+  document.getElementById('modal-blog').classList.add('open');
+}
+
+function closeBlogModal(){
+  document.getElementById('blog-modal-overlay').classList.remove('show');
+  document.getElementById('modal-blog').classList.remove('open');
+  blogEditingId=null;
+}
+
+function handleBlogImage(input){
+  const file=input.files[0];
+  if(!file)return;
+  _blogImageFile=file;
+  const url=URL.createObjectURL(file);
+  document.getElementById('blog-img-placeholder').style.display='none';
+  const img=document.getElementById('blog-img-preview');
+  img.src=url;img.style.display='block';
+}
+
+async function saveBlogPost(){
+  const title=document.getElementById('f-blog-title').value.trim();
+  if(!title){toast('⚠️','Title is required.');return;}
+  const fd=new FormData();
+  fd.append('title',title);
+  fd.append('tag',document.getElementById('f-blog-tag').value.trim());
+  fd.append('excerpt',document.getElementById('f-blog-excerpt').value.trim());
+  fd.append('order',document.getElementById('f-blog-order').value||0);
+  if(_blogImageFile)fd.append('image',_blogImageFile);
+  try{
+    let res;
+    if(blogEditingId){
+      res=await fetch(`${API}/api/store/blog-posts/${blogEditingId}/update/`,{method:'PUT',headers:{'X-Admin-Key':ADMIN_KEY},body:fd});
+    }else{
+      res=await fetch(`${API}/api/store/blog-posts/create/`,{method:'POST',headers:{'X-Admin-Key':ADMIN_KEY},body:fd});
+    }
+    const data=await res.json();
+    if(!res.ok){toast('⚠️',data.error||'Save failed.');return;}
+    toast('✦',blogEditingId?'Blog post updated.':'Blog post added.');
+    closeBlogModal();
+    loadBlogPosts();
+  }catch(_){toast('⚠️','Server error. Make sure Django is running.');}
+}
+
+async function deleteBlogPost(id){
+  if(!confirm('Delete this blog post? This cannot be undone.'))return;
+  try{
+    const res=await fetch(`${API}/api/store/blog-posts/${id}/delete/`,{method:'DELETE',headers:{'X-Admin-Key':ADMIN_KEY}});
+    if(!res.ok){const d=await res.json();toast('⚠️',d.error||'Delete failed.');return;}
+    BLOG_POSTS=BLOG_POSTS.filter(b=>b.id!==id);
+    renderBlogsTable();
+    document.getElementById('sb-blog-count').textContent=BLOG_POSTS.length;
+    toast('✕','Blog post removed.');
+  }catch(_){toast('⚠️','Server error.');}
+}
+
+/* ── AFFIRMATIONS ── */
+let AFFIRMATIONS_ADMIN=[];
+let affEditingId=null;
+
+async function loadAffirmations(){
+  try{
+    const res=await fetch(`${API}/api/store/affirmations/`,{headers:{'X-Admin-Key':ADMIN_KEY}});
+    if(res.ok){AFFIRMATIONS_ADMIN=await res.json();}
+  }catch(_){}
+  renderAffirmationsTable();
+  const badge=document.getElementById('sb-aff-count');
+  if(badge)badge.textContent=AFFIRMATIONS_ADMIN.length;
+}
+
+function renderAffirmationsTable(){
+  const tbody=document.getElementById('affirmations-tbody');
+  if(!tbody)return;
+  tbody.innerHTML=AFFIRMATIONS_ADMIN.length?AFFIRMATIONS_ADMIN.map((a,i)=>`
+    <tr>
+      <td>${i+1}</td>
+      <td>${a.for_products||'—'}</td>
+      <td style="max-width:320px">${a.text.length>90?a.text.substring(0,90)+'…':a.text}</td>
+      <td>${a.intent||'—'}</td>
+      <td>${a.order}</td>
+      <td><div class="action-btns">
+        <button class="icon-btn-sm" onclick="openAffModal(${a.id})" title="Edit">✎</button>
+        <button class="icon-btn-sm del" onclick="deleteAffirmation(${a.id})" title="Delete">✕</button>
+      </div></td>
+    </tr>
+  `).join(''):'<tr><td colspan="6" style="text-align:center;padding:2rem;color:var(--dim)">No affirmations yet. Add your first one above.</td></tr>';
+}
+
+function openAffModal(id){
+  affEditingId=id||null;
+  document.getElementById('aff-modal-title').textContent=id?'Edit Affirmation':'Add New Affirmation';
+  if(id){
+    const a=AFFIRMATIONS_ADMIN.find(x=>x.id===id);
+    document.getElementById('f-aff-for').value=a.for_products||'';
+    document.getElementById('f-aff-text').value=a.text||'';
+    document.getElementById('f-aff-intent').value=a.intent||'';
+    document.getElementById('f-aff-order').value=a.order||0;
+  }else{
+    document.getElementById('f-aff-for').value='';
+    document.getElementById('f-aff-text').value='';
+    document.getElementById('f-aff-intent').value='';
+    document.getElementById('f-aff-order').value=AFFIRMATIONS_ADMIN.length;
+  }
+  document.getElementById('aff-modal-overlay').classList.add('show');
+  document.getElementById('modal-aff').classList.add('open');
+}
+
+function closeAffModal(){
+  document.getElementById('aff-modal-overlay').classList.remove('show');
+  document.getElementById('modal-aff').classList.remove('open');
+  affEditingId=null;
+}
+
+async function saveAffirmation(){
+  const text=document.getElementById('f-aff-text').value.trim();
+  if(!text){toast('⚠️','Affirmation text is required.');return;}
+  const payload={
+    for_products:document.getElementById('f-aff-for').value.trim(),
+    text,
+    intent:document.getElementById('f-aff-intent').value.trim(),
+    order:document.getElementById('f-aff-order').value||0,
+  };
+  try{
+    let res;
+    if(affEditingId){
+      res=await fetch(`${API}/api/store/affirmations/${affEditingId}/update/`,{method:'PUT',headers:{'Content-Type':'application/json','X-Admin-Key':ADMIN_KEY},body:JSON.stringify(payload)});
+    }else{
+      res=await fetch(`${API}/api/store/affirmations/create/`,{method:'POST',headers:{'Content-Type':'application/json','X-Admin-Key':ADMIN_KEY},body:JSON.stringify(payload)});
+    }
+    const data=await res.json();
+    if(!res.ok){toast('⚠️',data.error||'Save failed.');return;}
+    toast('✦',affEditingId?'Affirmation updated.':'Affirmation added.');
+    closeAffModal();
+    loadAffirmations();
+  }catch(_){toast('⚠️','Server error. Make sure Django is running.');}
+}
+
+async function deleteAffirmation(id){
+  if(!confirm('Delete this affirmation? This cannot be undone.'))return;
+  try{
+    const res=await fetch(`${API}/api/store/affirmations/${id}/delete/`,{method:'DELETE',headers:{'X-Admin-Key':ADMIN_KEY}});
+    if(!res.ok){const d=await res.json();toast('⚠️',d.error||'Delete failed.');return;}
+    AFFIRMATIONS_ADMIN=AFFIRMATIONS_ADMIN.filter(a=>a.id!==id);
+    renderAffirmationsTable();
+    document.getElementById('sb-aff-count').textContent=AFFIRMATIONS_ADMIN.length;
+    toast('✕','Affirmation removed.');
   }catch(_){toast('⚠️','Server error.');}
 }
 
@@ -2416,7 +2748,7 @@ async function submitPayout(){
 
 /* ── INIT ── */
 document.addEventListener('DOMContentLoaded',()=>{
-  loadProducts();loadResellers();loadApplications();loadOrders();loadSettings();
+  loadProducts();loadResellers();loadApplications();loadOrders();loadSettings();loadBlogPosts();loadAffirmations();
   // Wire drag-drop on video upload zone only (image slots handle their own clicks)
   [['vid','video']].forEach(([prefix,type])=>{
     const zone=document.getElementById(prefix+'-drop-zone');

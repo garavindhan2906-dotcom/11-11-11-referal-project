@@ -7,7 +7,7 @@ from rest_framework.response import Response
 from rest_framework.permissions import AllowAny
 from rest_framework.parsers import MultiPartParser, FormParser, JSONParser
 
-from .models import Product, ProductImage, Reel, ReelComment, Customer, Order, OrderItem, PageView, ProductClick
+from .models import Product, ProductImage, Reel, ReelComment, Customer, Order, OrderItem, PageView, ProductClick, BlogPost, Affirmation
 from resellers.models import Reseller
 
 
@@ -156,6 +156,162 @@ class ProductImageDeleteView(APIView):
             return Response({"success": True})
         except ProductImage.DoesNotExist:
             return Response({"error": "Not found."}, status=404)
+
+
+def _blog_data(b, request):
+    return {
+        "id": b.id,
+        "title": b.title,
+        "tag": b.tag,
+        "excerpt": b.excerpt,
+        "image_url": request.build_absolute_uri(b.image.url) if b.image else None,
+        "order": b.order,
+    }
+
+
+class BlogPostsView(APIView):
+    permission_classes = [AllowAny]
+
+    def get(self, request):
+        posts = BlogPost.objects.all()
+        return Response([_blog_data(b, request) for b in posts])
+
+
+class BlogPostCreateView(APIView):
+    permission_classes = [AllowAny]
+    parser_classes = [MultiPartParser, FormParser, JSONParser]
+
+    def post(self, request):
+        from resellers.views import ADMIN_SECRET
+        if request.headers.get("X-Admin-Key") != ADMIN_SECRET:
+            return Response({"error": "Unauthorized."}, status=401)
+        title = request.data.get("title", "").strip()
+        if not title:
+            return Response({"error": "Title is required."}, status=400)
+        post = BlogPost(
+            title=title,
+            tag=request.data.get("tag", "").strip(),
+            excerpt=request.data.get("excerpt", "").strip(),
+            order=request.data.get("order") or 0,
+        )
+        if "image" in request.FILES:
+            post.image = request.FILES["image"]
+        post.save()
+        return Response({"success": True, **_blog_data(post, request)}, status=201)
+
+
+class BlogPostUpdateView(APIView):
+    permission_classes = [AllowAny]
+    parser_classes = [MultiPartParser, FormParser, JSONParser]
+
+    def put(self, request, pk):
+        from resellers.views import ADMIN_SECRET
+        if request.headers.get("X-Admin-Key") != ADMIN_SECRET:
+            return Response({"error": "Unauthorized."}, status=401)
+        try:
+            post = BlogPost.objects.get(pk=pk)
+        except BlogPost.DoesNotExist:
+            return Response({"error": "Not found."}, status=404)
+        for field in ["title", "tag", "excerpt"]:
+            if field in request.data:
+                setattr(post, field, request.data[field])
+        if "order" in request.data:
+            post.order = request.data.get("order") or 0
+        if "image" in request.FILES:
+            if post.image:
+                post.image.delete(save=False)
+            post.image = request.FILES["image"]
+        post.save()
+        return Response({"success": True, **_blog_data(post, request)})
+
+
+class BlogPostDeleteView(APIView):
+    permission_classes = [AllowAny]
+
+    def delete(self, request, pk):
+        from resellers.views import ADMIN_SECRET
+        if request.headers.get("X-Admin-Key") != ADMIN_SECRET:
+            return Response({"error": "Unauthorized."}, status=401)
+        try:
+            post = BlogPost.objects.get(pk=pk)
+        except BlogPost.DoesNotExist:
+            return Response({"error": "Not found."}, status=404)
+        if post.image:
+            post.image.delete(save=False)
+        post.delete()
+        return Response({"success": True})
+
+
+def _affirmation_data(a):
+    return {
+        "id": a.id,
+        "for_products": a.for_products,
+        "text": a.text,
+        "intent": a.intent,
+        "order": a.order,
+    }
+
+
+class AffirmationsView(APIView):
+    permission_classes = [AllowAny]
+
+    def get(self, request):
+        items = Affirmation.objects.all()
+        return Response([_affirmation_data(a) for a in items])
+
+
+class AffirmationCreateView(APIView):
+    permission_classes = [AllowAny]
+
+    def post(self, request):
+        from resellers.views import ADMIN_SECRET
+        if request.headers.get("X-Admin-Key") != ADMIN_SECRET:
+            return Response({"error": "Unauthorized."}, status=401)
+        text = request.data.get("text", "").strip()
+        if not text:
+            return Response({"error": "Affirmation text is required."}, status=400)
+        item = Affirmation.objects.create(
+            for_products=request.data.get("for_products", "").strip(),
+            text=text,
+            intent=request.data.get("intent", "").strip(),
+            order=request.data.get("order") or 0,
+        )
+        return Response({"success": True, **_affirmation_data(item)}, status=201)
+
+
+class AffirmationUpdateView(APIView):
+    permission_classes = [AllowAny]
+
+    def put(self, request, pk):
+        from resellers.views import ADMIN_SECRET
+        if request.headers.get("X-Admin-Key") != ADMIN_SECRET:
+            return Response({"error": "Unauthorized."}, status=401)
+        try:
+            item = Affirmation.objects.get(pk=pk)
+        except Affirmation.DoesNotExist:
+            return Response({"error": "Not found."}, status=404)
+        for field in ["for_products", "text", "intent"]:
+            if field in request.data:
+                setattr(item, field, request.data[field])
+        if "order" in request.data:
+            item.order = request.data.get("order") or 0
+        item.save()
+        return Response({"success": True, **_affirmation_data(item)})
+
+
+class AffirmationDeleteView(APIView):
+    permission_classes = [AllowAny]
+
+    def delete(self, request, pk):
+        from resellers.views import ADMIN_SECRET
+        if request.headers.get("X-Admin-Key") != ADMIN_SECRET:
+            return Response({"error": "Unauthorized."}, status=401)
+        try:
+            item = Affirmation.objects.get(pk=pk)
+        except Affirmation.DoesNotExist:
+            return Response({"error": "Not found."}, status=404)
+        item.delete()
+        return Response({"success": True})
 
 
 class PlaceOrderView(APIView):
