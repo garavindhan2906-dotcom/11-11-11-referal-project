@@ -246,9 +246,9 @@ nav:not(.scrolled) .hamburger span{background:rgba(255,248,242,.55)}
 .hero-num{font-family:'Inter',sans-serif;font-size:clamp(1.3rem,3vw,2rem);font-weight:400;letter-spacing:0.2em;color:rgba(255,248,242,.65);margin-bottom:2.2rem;display:block}
 .hero-p{font-size:1.1rem;color:rgba(255,248,242,.85);line-height:1.95;max-width:540px;margin:0 0 3rem;letter-spacing:0.02em;text-shadow:0 1px 10px rgba(0,0,0,.35)}
 .hero-btns{display:flex;gap:1.2rem;justify-content:flex-start;flex-wrap:wrap}
-.btn-primary{padding:.95rem 2.8rem;background:var(--ink);color:var(--white);border:none;font-family:'Inter',sans-serif;font-size:0.82rem;letter-spacing:0.185em;text-transform:uppercase;cursor:pointer;transition:all .38s;font-weight:500}
+.btn-primary{padding:.95rem 2.8rem;background:var(--ink);color:var(--white);border:none;border-radius:8px;font-family:'Inter',sans-serif;font-size:0.82rem;letter-spacing:0.185em;text-transform:uppercase;cursor:pointer;transition:all .38s;font-weight:500}
 .btn-primary:hover{background:var(--gold);transform:translateY(-2px);box-shadow:0 8px 24px rgba(125,32,53,.25)}
-.btn-outline{padding:.95rem 2.8rem;background:transparent;color:rgba(255,248,242,.94);border:1px solid rgba(255,248,242,.45);font-family:'Inter',sans-serif;font-size:0.82rem;letter-spacing:0.185em;text-transform:uppercase;cursor:pointer;transition:all .38s}
+.btn-outline{padding:.95rem 2.8rem;background:transparent;color:rgba(255,248,242,.94);border:1px solid rgba(255,248,242,.45);border-radius:8px;font-family:'Inter',sans-serif;font-size:0.82rem;letter-spacing:0.185em;text-transform:uppercase;cursor:pointer;transition:all .38s}
 .btn-outline:hover{border-color:var(--gold2);color:var(--gold2)}
 .hero-scroll{position:absolute;bottom:2.5rem;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:.5rem;color:rgba(255,248,242,.5);font-size:0.72rem;letter-spacing:0.189em;text-transform:uppercase}
 .scroll-line{width:1px;height:45px;background:linear-gradient(to bottom,var(--gold),transparent);animation:scPulse 2s ease-in-out infinite}
@@ -623,6 +623,9 @@ footer{padding:5rem 4rem 2.5rem;background:var(--ink);border-top:1px solid rgba(
   .fg.two{grid-template-columns:1fr}
   #cart-drawer{width:100%}
   #hero{padding:7rem 1.2rem 4rem}
+  .hero-inner{width:100%;max-width:100%}
+  .hero-btns{flex-wrap:nowrap;gap:.7rem}
+  .btn-primary,.btn-outline{flex:1;min-width:0;padding:.85rem .5rem;font-size:0.62rem;letter-spacing:0.04em;text-align:center;white-space:normal;line-height:1.3}
   .ritual-grid,.journey-grid,.coach-grid,.res-grid{padding:0 1.2rem}
   footer{padding:3rem 1.2rem 2rem}
   .sec-wrap{padding:0 1.2rem}

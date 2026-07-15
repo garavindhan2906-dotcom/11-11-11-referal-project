@@ -232,11 +232,9 @@ body{padding-bottom:64px}
 
 <!-- STEPS -->
 <div class="steps-bar">
-  <div class="step-item active" id="si1"><div class="snum">01</div>Contact</div>
+  <div class="step-item active" id="si1"><div class="snum">01</div>Address</div>
   <span class="step-sep">›</span>
-  <div class="step-item" id="si2"><div class="snum">02</div>Address</div>
-  <span class="step-sep">›</span>
-  <div class="step-item" id="si3"><div class="snum">03</div>Review</div>
+  <div class="step-item" id="si2"><div class="snum">02</div>Review &amp; Pay</div>
 </div>
 
 <div class="co-main">
@@ -244,38 +242,90 @@ body{padding-bottom:64px}
   <!-- LEFT: STEPS -->
   <div>
 
-    <!-- ── SECTION 01 · CONTACT ── -->
+    <!-- ── SECTION 01 · ADDRESS ── -->
     <div class="co-sec active" id="sec1">
       <div class="co-sec-head">
         <div class="cs-left">
           <div class="cs-badge">01</div>
-          <div class="cs-label">Contact &amp; Login</div>
+          <div class="cs-label">Delivery Address</div>
         </div>
         <div class="cs-done-info" id="s1-done" style="display:none">
-          <span id="s1-email-done"></span>
-          <button class="cs-edit" onclick="editStep1()">Change</button>
+          <span id="s1-addr-done"></span>
+          <button class="cs-edit" onclick="editStep1()">Edit</button>
         </div>
       </div>
       <div class="cs-body" id="s1-body">
 
-        <!-- Phone step -->
-        <div id="email-step">
-          <p style="font-size:.84rem;color:var(--muted);margin-bottom:1.4rem;line-height:1.78">Enter your mobile number. We'll send a one-time password to verify your identity and retrieve any saved addresses.</p>
-          <div class="fg" style="margin-bottom:.5rem">
-            <label class="flbl">Mobile Number *</label>
-            <input type="tel" class="fbox" id="ei" placeholder="10-digit mobile number" maxlength="10" inputmode="numeric" oninput="onEmail()" onkeydown="if(event.key==='Enter')sendOTP()">
+        <!-- Saved address banner (shown if returning customer) -->
+        <div class="saved-addr-bar" id="saved-bar" style="display:none">
+          <div class="sa-info">
+            <div class="sa-title">✓ Saved Address Found</div>
+            <div class="sa-text" id="saved-preview"></div>
           </div>
-          <button class="btn-primary" id="otp-btn" onclick="sendOTP()" disabled>
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 8.81a19.79 19.79 0 01-3.07-8.63A2 2 0 012 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 14.92z"/></svg>
-            Send OTP
-          </button>
+          <button class="sa-use" onclick="useSaved()">Use This</button>
         </div>
 
-        <!-- OTP step (hidden) -->
-        <div id="otp-step" style="display:none">
+        <form id="addr-form" onsubmit="return false">
+          <div class="row2">
+            <div class="fg"><label class="flbl">Full Name *</label><input type="text" class="finput" id="a-name" placeholder="Your full name"></div>
+            <div class="fg"><label class="flbl">Mobile Number *</label><input type="tel" class="finput" id="a-phone" placeholder="10-digit mobile number" maxlength="10" inputmode="numeric" oninput="onPhoneInput()"></div>
+          </div>
+          <div class="row1">
+            <div class="fg"><label class="flbl">Address Line 1 *</label><input type="text" class="finput" id="a-line1" placeholder="House / Flat No., Street, Locality"></div>
+          </div>
+          <div class="row1">
+            <div class="fg"><label class="flbl">Address Line 2</label><input type="text" class="finput" id="a-line2" placeholder="Area, Landmark (optional)"></div>
+          </div>
+          <div class="row1">
+            <div class="fg"><label class="flbl">Pincode *</label><input type="text" class="finput" id="a-pin" placeholder="6-digit Pincode" maxlength="6" inputmode="numeric" oninput="onPincodeInput()"></div>
+          </div>
+          <div class="row2">
+            <div class="fg"><label class="flbl">City *</label><input type="text" class="finput" id="a-city" placeholder="Auto-filled from pincode"></div>
+            <div class="fg"><label class="flbl">State *</label><input type="text" class="finput" id="a-state" placeholder="Auto-filled from pincode"></div>
+          </div>
+          <label class="save-row">
+            <input type="checkbox" id="save-cb" checked>
+            <span>Save this address for future orders</span>
+          </label>
+          <button class="btn-primary" onclick="confirmAddress()">Continue to Review →</button>
+        </form>
+
+      </div>
+    </div>
+
+    <!-- ── SECTION 02 · REVIEW & PAY ── -->
+    <div class="co-sec locked" id="sec2">
+      <div class="co-sec-head">
+        <div class="cs-left">
+          <div class="cs-badge">02</div>
+          <div class="cs-label">Review &amp; Place Order</div>
+        </div>
+      </div>
+      <div class="cs-body" id="s2-body">
+
+        <div id="review-items" style="margin-bottom:1.4rem"></div>
+
+        <div class="pay-opts">
+          <div class="pay-title">Payment Method</div>
+          <label class="pay-option">
+            <input type="radio" name="pay" value="upi" checked onchange="onPayMethodChange()">
+            <span class="pay-label">UPI / Google Pay / PhonePe</span>
+          </label>
+          <label class="pay-option">
+            <input type="radio" name="pay" value="card" onchange="onPayMethodChange()">
+            <span class="pay-label">Credit / Debit Card</span>
+          </label>
+          <label class="pay-option">
+            <input type="radio" name="pay" value="cod" onchange="onPayMethodChange()">
+            <span class="pay-label">Cash on Delivery <span class="pay-sub">(₹50 handling fee)</span></span>
+          </label>
+        </div>
+
+        <!-- OTP verification (only shown for prepaid methods, right before placing order) -->
+        <div id="otp-verify-panel" style="display:none">
           <div class="info-bar otp-sent">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="20 6 9 17 4 12"/></svg>
-            <span>OTP sent to <strong id="otp-dest"></strong>. Check your SMS.</span>
+            <span>For payment security, verify <strong id="otp-dest"></strong> with the OTP just sent.</span>
           </div>
           <div class="fg">
             <label class="flbl">Enter 4-Digit OTP</label>
@@ -290,97 +340,10 @@ body{padding-bottom:64px}
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
             Incorrect OTP. Please try again.
           </div>
-          <button class="btn-primary" onclick="verifyOTP()">Verify &amp; Continue →</button>
-          <div style="display:flex;justify-content:space-between;margin-top:.9rem">
-            <button class="btn-secondary" onclick="resendOTP()">Resend OTP</button>
-            <button class="btn-secondary" onclick="backToEmail()">Change Number</button>
-          </div>
+          <button class="btn-secondary" onclick="resendOTP()" style="margin-top:.9rem">Resend OTP</button>
         </div>
 
-      </div>
-    </div>
-
-    <!-- ── SECTION 02 · ADDRESS ── -->
-    <div class="co-sec locked" id="sec2">
-      <div class="co-sec-head">
-        <div class="cs-left">
-          <div class="cs-badge">02</div>
-          <div class="cs-label">Delivery Address</div>
-        </div>
-        <div class="cs-done-info" id="s2-done" style="display:none">
-          <span id="s2-addr-done"></span>
-          <button class="cs-edit" onclick="editStep2()">Edit</button>
-        </div>
-      </div>
-      <div class="cs-body" id="s2-body">
-
-        <!-- Saved address banner (shown if returning customer) -->
-        <div class="saved-addr-bar" id="saved-bar" style="display:none">
-          <div class="sa-info">
-            <div class="sa-title">✓ Saved Address Found</div>
-            <div class="sa-text" id="saved-preview"></div>
-          </div>
-          <button class="sa-use" onclick="useSaved()">Use This</button>
-        </div>
-
-        <form id="addr-form" onsubmit="return false">
-          <div class="row2">
-            <div class="fg"><label class="flbl">Full Name *</label><input type="text" class="finput" id="a-name" placeholder="Your full name"></div>
-            <div class="fg"><label class="flbl">Phone Number *</label><input type="tel" class="finput" id="a-phone" placeholder="10-digit mobile number" maxlength="10" inputmode="numeric" oninput="this.value=this.value.replace(/\D/g,'').slice(0,10)"></div>
-          </div>
-          <div class="row1">
-            <div class="fg"><label class="flbl">Address Line 1 *</label><input type="text" class="finput" id="a-line1" placeholder="House / Flat No., Street, Locality"></div>
-          </div>
-          <div class="row1">
-            <div class="fg"><label class="flbl">Address Line 2</label><input type="text" class="finput" id="a-line2" placeholder="Area, Landmark (optional)"></div>
-          </div>
-          <div class="row2">
-            <div class="fg"><label class="flbl">City *</label><input type="text" class="finput" id="a-city" placeholder="City"></div>
-            <div class="fg"><label class="flbl">State *</label><input type="text" class="finput" id="a-state" placeholder="State"></div>
-          </div>
-          <div class="row2">
-            <div class="fg"><label class="flbl">Pincode *</label><input type="text" class="finput" id="a-pin" placeholder="6-digit Pincode" maxlength="6" inputmode="numeric"></div>
-            <div class="fg"><label class="flbl">Account Mobile</label><input type="tel" class="finput" id="a-email" readonly tabindex="-1"></div>
-          </div>
-          <label class="save-row">
-            <input type="checkbox" id="save-cb" checked>
-            <span>Save this address for future orders</span>
-          </label>
-          <button class="btn-primary" onclick="confirmAddress()">Continue to Review →</button>
-        </form>
-
-      </div>
-    </div>
-
-    <!-- ── SECTION 03 · REVIEW & PAY ── -->
-    <div class="co-sec locked" id="sec3">
-      <div class="co-sec-head">
-        <div class="cs-left">
-          <div class="cs-badge">03</div>
-          <div class="cs-label">Review &amp; Place Order</div>
-        </div>
-      </div>
-      <div class="cs-body" id="s3-body">
-
-        <div id="review-items" style="margin-bottom:1.4rem"></div>
-
-        <div class="pay-opts">
-          <div class="pay-title">Payment Method</div>
-          <label class="pay-option">
-            <input type="radio" name="pay" value="upi" checked>
-            <span class="pay-label">UPI / Google Pay / PhonePe</span>
-          </label>
-          <label class="pay-option">
-            <input type="radio" name="pay" value="card">
-            <span class="pay-label">Credit / Debit Card</span>
-          </label>
-          <label class="pay-option">
-            <input type="radio" name="pay" value="cod">
-            <span class="pay-label">Cash on Delivery <span class="pay-sub">(₹50 handling fee)</span></span>
-          </label>
-        </div>
-
-        <button class="btn-primary" onclick="placeOrder()">
+        <button class="btn-primary" id="place-btn-inline" onclick="placeOrder()">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
           ✦ Place Sacred Order
         </button>
@@ -465,9 +428,9 @@ body{padding-bottom:64px}
    STATE
 ───────────────────────────────────────────── */
 let cart = [];
-let userEmail = '';
+let userEmail = ''; // holds the customer's mobile number (identity key)
 let generatedOTP = '';
-let loggedIn = false;
+let otpVerified = false;
 let addrDone = false;
 let discount = 0;
 let promoApplied = false;
@@ -491,14 +454,16 @@ function init() {
   renderSummary();
   initRefChip();
 
-  // Auto-login if a still-valid session exists (expires after 24h)
+  // Pre-fill mobile number if a still-valid session exists (expires after 24h)
   const sess = localStorage.getItem('111_session');
   if (sess) {
     try {
       const s = JSON.parse(sess);
       const isFresh = s.ts && (Date.now() - s.ts) < 24 * 60 * 60 * 1000;
-      if (s.email && isFresh) { userEmail = s.email; completeLogin(true); }
-      else { localStorage.removeItem('111_session'); }
+      if (s.email && isFresh) {
+        document.getElementById('a-phone').value = s.email;
+        checkSavedAddress(s.email);
+      } else { localStorage.removeItem('111_session'); }
     } catch(e) { localStorage.removeItem('111_session'); }
   }
 }
@@ -567,12 +532,148 @@ function renderSummary() {
 }
 
 /* ─────────────────────────────────────────────
-   STEP 1 — EMAIL / OTP
+   STEP 1 — DELIVERY ADDRESS (with pincode autofill
+   and saved-address lookup keyed by mobile number)
 ───────────────────────────────────────────── */
-function onEmail() {
-  const el = document.getElementById('ei');
+function fillAddr(a) {
+  document.getElementById('a-name').value  = a.name  || '';
+  document.getElementById('a-phone').value = a.phone || '';
+  document.getElementById('a-line1').value = a.line1 || '';
+  document.getElementById('a-line2').value = a.line2 || '';
+  document.getElementById('a-city').value  = a.city  || '';
+  document.getElementById('a-state').value = a.state || '';
+  document.getElementById('a-pin').value   = a.pin   || '';
+}
+
+function checkSavedAddress(phone) {
+  const saved = localStorage.getItem('111_addr_' + phone);
+  if (saved) {
+    const addr = JSON.parse(saved);
+    const preview = addr.name + ' · ' + addr.line1 + ', ' + addr.city + ' - ' + addr.pin;
+    document.getElementById('saved-preview').textContent = preview;
+    document.getElementById('saved-bar').style.display = 'flex';
+  } else {
+    document.getElementById('saved-bar').style.display = 'none';
+  }
+}
+
+function onPhoneInput() {
+  const el = document.getElementById('a-phone');
   el.value = el.value.replace(/\D/g, '').slice(0, 10);
-  document.getElementById('otp-btn').disabled = !/^\d{10}$/.test(el.value);
+  if (/^\d{10}$/.test(el.value)) checkSavedAddress(el.value);
+}
+
+function useSaved() {
+  const phone = document.getElementById('a-phone').value.trim();
+  const saved = localStorage.getItem('111_addr_' + phone);
+  if (saved) { fillAddr(JSON.parse(saved)); document.getElementById('saved-bar').style.display = 'none'; }
+  toast('✓', 'Saved address loaded.');
+}
+
+// Free India Post pincode lookup — autofills City/State, both remain editable.
+async function onPincodeInput() {
+  const el = document.getElementById('a-pin');
+  el.value = el.value.replace(/\D/g, '').slice(0, 6);
+  if (!/^\d{6}$/.test(el.value)) return;
+  try {
+    const res = await fetch('https://api.postalpincode.in/pincode/' + el.value);
+    const data = await res.json();
+    const po = data && data[0] && data[0].Status === 'Success' && data[0].PostOffice && data[0].PostOffice[0];
+    if (po) {
+      document.getElementById('a-city').value = po.District || '';
+      document.getElementById('a-state').value = po.State || '';
+    }
+  } catch (e) { /* silent — user can type city/state manually */ }
+}
+
+function confirmAddress() {
+  const name  = document.getElementById('a-name').value.trim();
+  const phone = document.getElementById('a-phone').value.trim();
+  const line1 = document.getElementById('a-line1').value.trim();
+  const city  = document.getElementById('a-city').value.trim();
+  const state = document.getElementById('a-state').value.trim();
+  const pin   = document.getElementById('a-pin').value.trim();
+
+  if (!name || !phone || !line1 || !city || !state || !pin) {
+    toast('✦', 'Please fill in all required fields.'); return;
+  }
+  if (!/^\d{10}$/.test(phone)) {
+    toast('✦', 'Enter a valid 10-digit mobile number.'); return;
+  }
+  if (!/^\d{6}$/.test(pin)) {
+    toast('✦', 'Enter a valid 6-digit pincode.'); return;
+  }
+
+  userEmail = phone; // mobile number is the customer identity key
+
+  const addrObj = {
+    name, phone, line1,
+    line2: document.getElementById('a-line2').value.trim(),
+    city, state, pin, email: userEmail
+  };
+
+  if (document.getElementById('save-cb').checked) {
+    localStorage.setItem('111_addr_' + phone, JSON.stringify(addrObj));
+  }
+  localStorage.setItem('111_session', JSON.stringify({email: userEmail, ts: Date.now()}));
+
+  // Collapse step 1
+  const sec1 = document.getElementById('sec1');
+  sec1.classList.remove('active');
+  sec1.classList.add('sec-done');
+  document.getElementById('s1-body').style.display = 'none';
+  document.getElementById('s1-done').style.display = 'flex';
+  document.getElementById('s1-addr-done').textContent = name + ' · ' + line1 + ', ' + city + ' – ' + pin;
+  document.getElementById('si1').classList.remove('active');
+  document.getElementById('si1').classList.add('done');
+
+  // Unlock step 2
+  const sec2 = document.getElementById('sec2');
+  sec2.classList.remove('locked');
+  sec2.classList.add('active');
+  document.getElementById('si2').classList.add('active');
+
+  addrDone = true;
+  updatePlaceBtn();
+  renderSummary();
+  setTimeout(() => sec2.scrollIntoView({behavior:'smooth', block:'start'}), 300);
+}
+
+function editStep1() {
+  addrDone = false;
+  otpVerified = false;
+  const sec1 = document.getElementById('sec1');
+  sec1.classList.remove('sec-done');
+  sec1.classList.add('active');
+  document.getElementById('s1-body').style.display = 'block';
+  document.getElementById('s1-done').style.display = 'none';
+  document.getElementById('si1').classList.add('active');
+  document.getElementById('si1').classList.remove('done');
+  // Re-lock step 2
+  document.getElementById('sec2').classList.add('locked');
+  document.getElementById('sec2').classList.remove('active');
+  document.getElementById('si2').classList.remove('active','done');
+  resetOtpPanel();
+  updatePlaceBtn();
+}
+
+/* ─────────────────────────────────────────────
+   STEP 2 — REVIEW, PAYMENT & OTP (prepaid only)
+───────────────────────────────────────────── */
+function onPayMethodChange() {
+  // Any payment method change requires re-verification
+  otpVerified = false;
+  resetOtpPanel();
+}
+
+function resetOtpPanel() {
+  document.getElementById('otp-verify-panel').style.display = 'none';
+  document.getElementById('otp-err').style.display = 'none';
+  clearOTPBoxes();
+}
+
+function getSelectedPayMethod() {
+  return document.querySelector('input[name="pay"]:checked').value;
 }
 
 function generateDemoOTP() {
@@ -580,25 +681,9 @@ function generateDemoOTP() {
   toast('✦', `Demo OTP: ${generatedOTP} (sent to ${userEmail})`);
 }
 
-function sendOTP() {
-  userEmail = document.getElementById('ei').value.trim();
-  document.getElementById('otp-dest').textContent = userEmail;
-  document.getElementById('email-step').style.display = 'none';
-  document.getElementById('otp-step').style.display = 'block';
-  document.getElementById('ob0').focus();
-  generateDemoOTP();
-}
-
 function resendOTP() {
   clearOTPBoxes();
   generateDemoOTP();
-}
-
-function backToEmail() {
-  document.getElementById('otp-step').style.display = 'none';
-  document.getElementById('email-step').style.display = 'block';
-  document.getElementById('otp-err').style.display = 'none';
-  clearOTPBoxes();
 }
 
 function otpIn(idx) {
@@ -628,11 +713,13 @@ function getOTP() {
   return [0,1,2,3].map(i => document.getElementById('ob'+i).value).join('');
 }
 
-function verifyOTP() {
+async function verifyOTP() {
   const otp = getOTP();
   if (otp.length === 4 && otp === generatedOTP) {
     document.getElementById('otp-err').style.display = 'none';
-    completeLogin(false);
+    otpVerified = true;
+    toast('✓', 'Verified! Placing your order…');
+    await submitOrder();
   } else {
     document.getElementById('otp-err').style.display = 'flex';
     clearOTPBoxes();
@@ -640,153 +727,12 @@ function verifyOTP() {
   }
 }
 
-function completeLogin(wasAuto) {
-  loggedIn = true;
-  localStorage.setItem('111_session', JSON.stringify({email: userEmail, ts: Date.now()}));
-
-  // Collapse step 1 to done state
-  const sec1 = document.getElementById('sec1');
-  sec1.classList.remove('active');
-  sec1.classList.add('sec-done');
-  document.getElementById('s1-body').style.display = 'none';
-  document.getElementById('s1-done').style.display = 'flex';
-  document.getElementById('s1-email-done').textContent = '✓ ' + userEmail;
-  document.getElementById('si1').classList.remove('active');
-  document.getElementById('si1').classList.add('done');
-
-  // Unlock step 2
-  const sec2 = document.getElementById('sec2');
-  sec2.classList.remove('locked');
-  sec2.classList.add('active');
-  document.getElementById('si2').classList.add('active');
-
-  // Pre-fill email in address form
-  document.getElementById('a-email').value = userEmail;
-
-  // Load saved address if exists
-  const saved = localStorage.getItem('111_addr_' + userEmail);
-  if (saved) {
-    const addr = JSON.parse(saved);
-    const preview = addr.name + ' · ' + addr.line1 + ', ' + addr.city + ' - ' + addr.pin;
-    document.getElementById('saved-preview').textContent = preview;
-    document.getElementById('saved-bar').style.display = 'flex';
-    fillAddr(addr);
-    if (!wasAuto) toast('✦', 'Welcome back! Your saved address has been loaded.');
-  } else {
-    if (!wasAuto) toast('✦', 'Verified! Please fill in your delivery details.');
-  }
-
-  // Scroll to step 2
-  setTimeout(() => sec2.scrollIntoView({behavior:'smooth', block:'start'}), 300);
-}
-
-function editStep1() {
-  localStorage.removeItem('111_session');
-  loggedIn = false; addrDone = false;
-  document.getElementById('sec1').classList.remove('sec-done');
-  document.getElementById('sec1').classList.add('active');
-  document.getElementById('s1-body').style.display = 'block';
-  document.getElementById('s1-done').style.display = 'none';
-  document.getElementById('otp-step').style.display = 'none';
-  document.getElementById('email-step').style.display = 'block';
-  document.getElementById('ei').value = '';
-  document.getElementById('otp-btn').disabled = true;
-  document.getElementById('si1').classList.add('active');
-  document.getElementById('si1').classList.remove('done');
-  // Re-lock steps 2 & 3
-  document.getElementById('sec2').classList.add('locked');
-  document.getElementById('sec2').classList.remove('active','sec-done');
-  document.getElementById('s2-body').style.display = 'block';
-  document.getElementById('s2-done').style.display = 'none';
-  document.getElementById('sec3').classList.add('locked');
-  document.getElementById('sec3').classList.remove('active');
-  document.getElementById('si2').classList.remove('active','done');
-  document.getElementById('si3').classList.remove('active','done');
-  updatePlaceBtn();
-}
-
-/* ─────────────────────────────────────────────
-   STEP 2 — ADDRESS
-───────────────────────────────────────────── */
-function fillAddr(a) {
-  document.getElementById('a-name').value  = a.name  || '';
-  document.getElementById('a-phone').value = a.phone || '';
-  document.getElementById('a-line1').value = a.line1 || '';
-  document.getElementById('a-line2').value = a.line2 || '';
-  document.getElementById('a-city').value  = a.city  || '';
-  document.getElementById('a-state').value = a.state || '';
-  document.getElementById('a-pin').value   = a.pin   || '';
-}
-
-function useSaved() {
-  const saved = localStorage.getItem('111_addr_' + userEmail);
-  if (saved) { fillAddr(JSON.parse(saved)); document.getElementById('saved-bar').style.display = 'none'; }
-  toast('✓', 'Saved address loaded.');
-}
-
-function confirmAddress() {
-  const name  = document.getElementById('a-name').value.trim();
-  const phone = document.getElementById('a-phone').value.trim();
-  const line1 = document.getElementById('a-line1').value.trim();
-  const city  = document.getElementById('a-city').value.trim();
-  const state = document.getElementById('a-state').value.trim();
-  const pin   = document.getElementById('a-pin').value.trim();
-
-  if (!name || !phone || !line1 || !city || !state || !pin) {
-    toast('✦', 'Please fill in all required fields.'); return;
-  }
-  if (!/^\d{10}$/.test(phone)) {
-    toast('✦', 'Enter a valid 10-digit mobile number.'); return;
-  }
-  if (!/^\d{6}$/.test(pin)) {
-    toast('✦', 'Enter a valid 6-digit pincode.'); return;
-  }
-
-  const addrObj = {
-    name, phone, line1,
-    line2: document.getElementById('a-line2').value.trim(),
-    city, state, pin, email: userEmail
-  };
-
-  if (document.getElementById('save-cb').checked) {
-    localStorage.setItem('111_addr_' + userEmail, JSON.stringify(addrObj));
-  }
-
-  // Collapse step 2
-  const sec2 = document.getElementById('sec2');
-  sec2.classList.remove('active');
-  sec2.classList.add('sec-done');
-  document.getElementById('s2-body').style.display = 'none';
-  document.getElementById('s2-done').style.display = 'flex';
-  document.getElementById('s2-addr-done').textContent = name + ' · ' + line1 + ', ' + city + ' – ' + pin;
-  document.getElementById('si2').classList.remove('active');
-  document.getElementById('si2').classList.add('done');
-
-  // Unlock step 3
-  const sec3 = document.getElementById('sec3');
-  sec3.classList.remove('locked');
-  sec3.classList.add('active');
-  document.getElementById('si3').classList.add('active');
-
-  addrDone = true;
-  updatePlaceBtn();
-  renderSummary();
-  setTimeout(() => sec3.scrollIntoView({behavior:'smooth', block:'start'}), 300);
-}
-
-function editStep2() {
-  addrDone = false;
-  const sec2 = document.getElementById('sec2');
-  sec2.classList.remove('sec-done');
-  sec2.classList.add('active');
-  document.getElementById('s2-body').style.display = 'block';
-  document.getElementById('s2-done').style.display = 'none';
-  document.getElementById('si2').classList.add('active');
-  document.getElementById('si2').classList.remove('done');
-  document.getElementById('sec3').classList.add('locked');
-  document.getElementById('sec3').classList.remove('active');
-  document.getElementById('si3').classList.remove('active','done');
-  updatePlaceBtn();
+function startOtpVerification() {
+  document.getElementById('otp-dest').textContent = userEmail;
+  document.getElementById('otp-verify-panel').style.display = 'block';
+  generateDemoOTP();
+  setTimeout(() => document.getElementById('ob0')?.focus(), 100);
+  document.getElementById('otp-verify-panel').scrollIntoView({behavior:'smooth', block:'center'});
 }
 
 /* ─────────────────────────────────────────────
@@ -829,15 +775,28 @@ function applyPromo() {
 ───────────────────────────────────────────── */
 function updatePlaceBtn() {
   const btn = document.getElementById('place-btn');
-  (loggedIn && addrDone) ? btn.classList.add('ready') : btn.classList.remove('ready');
+  addrDone ? btn.classList.add('ready') : btn.classList.remove('ready');
 }
 
 async function placeOrder() {
-  if (!loggedIn || !addrDone) {
-    toast('✦', 'Please complete login and address steps first.'); return;
+  if (!addrDone) {
+    toast('✦', 'Please complete your delivery address first.'); return;
   }
-  const btn = document.getElementById('place-btn');
-  btn.textContent = '✦ Processing…'; btn.disabled = true;
+
+  // Prepaid methods require OTP verification before the order is submitted;
+  // COD skips it since there's no payment to protect.
+  const method = getSelectedPayMethod();
+  if (method !== 'cod' && !otpVerified) {
+    startOtpVerification();
+    return;
+  }
+
+  await submitOrder();
+}
+
+async function submitOrder() {
+  const btns = [document.getElementById('place-btn'), document.getElementById('place-btn-inline')].filter(Boolean);
+  btns.forEach(b => { b.dataset.orig = b.innerHTML; b.textContent = '✦ Processing…'; b.disabled = true; });
 
   let customerName = userEmail;
   let addr = {};
@@ -864,7 +823,7 @@ async function placeOrder() {
     const res = await fetch('/api/store/place-order/', {
       method: 'POST',
       headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({email: userEmail + '@customer.local', phone: userEmail, name: customerName, ref_code, items, total, address})
+      body: JSON.stringify({email: userEmail + '@customer.local', phone: userEmail, name: customerName, ref_code, items, total, address, payment_method: getSelectedPayMethod()})
     });
     const data = await res.json();
     if (!res.ok) { toast('✦', data.error || 'Order failed. Please try again.'); return; }
@@ -875,7 +834,7 @@ async function placeOrder() {
   } catch(e) {
     toast('✦', 'Could not connect to server. Please try again in a moment.');
   } finally {
-    btn.textContent = '✦ Place Sacred Order'; btn.disabled = false;
+    btns.forEach(b => { b.innerHTML = b.dataset.orig; b.disabled = false; });
   }
 }
 
