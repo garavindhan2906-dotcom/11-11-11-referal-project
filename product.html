@@ -92,6 +92,10 @@ body{padding-bottom:64px}
 .prod-tag{position:absolute;top:1rem;left:1rem;background:var(--ink);color:#fff;font-size:.5rem;letter-spacing:.28em;text-transform:uppercase;padding:.3rem .75rem;z-index:2}
 .prod-video-wrap{margin-top:.8rem;border:1px solid var(--border);overflow:hidden;background:var(--ink)}
 .prod-video-wrap video{width:100%;display:block;max-height:280px;object-fit:contain}
+.prod-thumbs{display:flex;gap:.6rem;margin-top:.8rem;flex-wrap:wrap}
+.prod-thumb{width:64px;height:64px;border:1px solid var(--border);background:var(--cream2);cursor:pointer;overflow:hidden;padding:0;flex-shrink:0;transition:border-color .2s}
+.prod-thumb img{width:100%;height:100%;object-fit:contain;display:block}
+.prod-thumb.active{border-color:var(--gold);border-width:2px}
 .prod-badges-row{display:flex;gap:.5rem;margin-top:.75rem;flex-wrap:wrap}
 .p-badge{padding:.26rem .7rem;border:1px solid var(--border);font-size:.5rem;letter-spacing:.24em;text-transform:uppercase;color:var(--muted);background:var(--white)}
 
@@ -485,6 +489,7 @@ body{padding-bottom:64px}
       <div class="prod-emoji-fallback" id="prod-emoji">✦</div>
       <div class="prod-tag" id="prod-tag"></div>
     </div>
+    <div id="prod-thumbs" class="prod-thumbs" style="display:none"></div>
     <div id="prod-video-wrap" style="display:none" class="prod-video-wrap">
       <video id="prod-video" controls playsinline></video>
     </div>
@@ -698,18 +703,18 @@ body{padding-bottom:64px}
 <script>
 /* ── VISUAL META ── */
 const PRODUCT_VISUAL={
-  1:{glow:'#e879b0',bg:'#fdf2f8',emoji:'🌹',image:'images/products/kleoma.jpeg'},
-  2:{glow:'#93c5fd',bg:'#eff6ff',emoji:'🌿',image:'images/products/klinfon-male.jpeg'},
-  3:{glow:'#fbbf24',bg:'#fffbeb',emoji:'⚖️',image:'images/products/mystra.jpeg'},
-  4:{glow:'#c9a84c',bg:'#fdf8ee',emoji:'👑',image:'images/products/shreemsri.jpeg'},
-  5:{glow:'#a78bfa',bg:'#f5f3ff',emoji:'🏆',image:'images/products/sukce.png'},
-  6:{glow:'#f472b6',bg:'#fdf2f8',emoji:'🌸',image:'images/products/kamavya.jpeg'},
-  7:{glow:'#6ee7b7',bg:'#ecfdf5',emoji:'🌙',image:'images/products/klinfon-female.jpeg'},
-  8:{glow:'#fbbf24',bg:'#fffbeb',emoji:'✨',image:'images/products/hremaan.jpeg'},
-  9:{glow:'#c9a84c',bg:'#fdf8ee',emoji:'💛',image:'images/products/shrivaa.jpeg'},
-  10:{glow:'#c084fc',bg:'#faf5ff',emoji:'⭐',image:'images/products/ycnex.jpeg'},
-  11:{glow:'#93c5fd',bg:'#eff6ff',emoji:'🤍',image:'images/products/klinfon-combo.png'},
-  12:{glow:'#f472b6',bg:'#fdf2f8',emoji:'💕',image:'images/products/love-combo.png'},
+  1:{glow:'#e879b0',bg:'#fff',emoji:'🌹',image:'images/products/kleoma.jpeg'},
+  2:{glow:'#93c5fd',bg:'#fff',emoji:'🌿',image:'images/products/klinfon-male.jpeg'},
+  3:{glow:'#fbbf24',bg:'#fff',emoji:'⚖️',image:'images/products/mystra.jpeg'},
+  4:{glow:'#c9a84c',bg:'#fff',emoji:'👑',image:'images/products/shreemsri.jpeg'},
+  5:{glow:'#a78bfa',bg:'#fff',emoji:'🏆',image:'images/products/sukce.png'},
+  6:{glow:'#f472b6',bg:'#fff',emoji:'🌸',image:'images/products/kamavya.jpeg'},
+  7:{glow:'#6ee7b7',bg:'#fff',emoji:'🌙',image:'images/products/klinfon-female.jpeg'},
+  8:{glow:'#fbbf24',bg:'#fff',emoji:'✨',image:'images/products/hremaan.jpeg'},
+  9:{glow:'#c9a84c',bg:'#fff',emoji:'💛',image:'images/products/shrivaa.jpeg'},
+  10:{glow:'#c084fc',bg:'#fff',emoji:'⭐',image:'images/products/ycnex.jpeg'},
+  11:{glow:'#93c5fd',bg:'#fff',emoji:'🤍',image:'images/products/klinfon-combo.png'},
+  12:{glow:'#f472b6',bg:'#fff',emoji:'💕',image:'images/products/love-combo.png'},
 };
 
 /* ── RICH CONTENT PER PRODUCT ── */
@@ -964,7 +969,7 @@ function trackProductClick(id,name){
 /* ── RENDER ── */
 function renderProduct(p){
   currentProduct=p;
-  const vis=PRODUCT_VISUAL[p.id]||{glow:'#c9a84c',bg:'#fdf8ee',emoji:'✦'};
+  const vis=PRODUCT_VISUAL[p.id]||{glow:'#c9a84c',bg:'#fff',emoji:'✦'};
   const r=getRich(p.id,p);
   const suffix=new URLSearchParams(location.search).get('suffix')||'';
   const dn=suffix?`${p.name}-${suffix}`:p.name;
@@ -990,7 +995,28 @@ function renderProduct(p){
   imgMain.style.background=vis.bg;
   document.getElementById('prod-glow').style.background=vis.glow;
   document.getElementById('prod-emoji').textContent=vis.emoji||p.emoji||'✦';
-  if(p.image_url){const img=document.createElement('img');img.src=p.image_url;img.alt=dn;img.style.cssText='position:absolute;inset:0;width:100%;height:100%;object-fit:contain;z-index:2';imgMain.appendChild(img);}
+  const allImages=[p.image_url,...(p.gallery||[]).map(g=>g.url)].filter(Boolean);
+  function setMainImage(url){
+    const old=imgMain.querySelector('img');
+    if(old)old.remove();
+    if(url){const img=document.createElement('img');img.src=url;img.alt=dn;img.style.cssText='position:absolute;inset:0;width:100%;height:100%;object-fit:contain;z-index:2';imgMain.appendChild(img);}
+  }
+  setMainImage(allImages[0]);
+  const thumbsEl=document.getElementById('prod-thumbs');
+  if(allImages.length>1){
+    thumbsEl.style.display='flex';
+    thumbsEl.innerHTML=allImages.map((url,i)=>`<button type="button" class="prod-thumb${i===0?' active':''}" data-idx="${i}"><img src="${url}" alt="${dn} ${i+1}"></button>`).join('');
+    thumbsEl.querySelectorAll('.prod-thumb').forEach(btn=>{
+      btn.addEventListener('click',()=>{
+        setMainImage(allImages[parseInt(btn.dataset.idx)]);
+        thumbsEl.querySelectorAll('.prod-thumb').forEach(b=>b.classList.remove('active'));
+        btn.classList.add('active');
+      });
+    });
+  }else{
+    thumbsEl.style.display='none';
+    thumbsEl.innerHTML='';
+  }
   if(p.video_url){document.getElementById('prod-video-wrap').style.display='block';document.getElementById('prod-video').src=p.video_url;}
 
   /* NOTES accordion */
@@ -1058,7 +1084,7 @@ function renderRelated(current){
   const related=all.filter(p=>p.id!==current.id&&p.for_gender===current.for_gender).slice(0,4);
   if(!related.length){document.getElementById('related-grid').innerHTML='<div style="grid-column:1/-1;text-align:center;font-size:.78rem;color:var(--muted);padding:2rem"><a href="index.html#collections" style="color:var(--gold);text-decoration:none">View all oils →</a></div>';return;}
   document.getElementById('related-grid').innerHTML=related.map(p=>{
-    const vis=PRODUCT_VISUAL[p.id]||{bg:'#fdf8ee',emoji:'✦',glow:'#c9a84c'};
+    const vis=PRODUCT_VISUAL[p.id]||{bg:'#fff',emoji:'✦',glow:'#c9a84c'};
     const imgUrl=p.image_url||vis.image;
     const dn=suffix?`${p.name}-${suffix}`:p.name;
     return`<div class="rel-card" onclick="trackProductClick(${p.id},'${dn.replace(/'/g,"\\'")}');location.href='product.html?id=${p.id}${suffix?'&suffix='+suffix:''}';localStorage.setItem('111_viewed_product',JSON.stringify(${JSON.stringify({...p,image_url:imgUrl})}))">

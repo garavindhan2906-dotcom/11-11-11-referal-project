@@ -525,15 +525,18 @@ section{position:relative;z-index:1}
 
 /* ── HOLISTIC ── */
 #holistic{padding:7rem 0;background:var(--white)}
+#holistic .sec-label{justify-content:flex-start}
+#holistic .sec-h2,#holistic .sec-p{text-align:left}
+#holistic .sec-p{margin-left:0;margin-right:0}
 .holistic-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:0;max-width:1200px;margin:0 auto;border:1px solid var(--border)}
-.hc{background:var(--white);padding:2.4rem 1.8rem;text-align:center;transition:background .4s;border-right:1px solid var(--border);position:relative}
+.hc{background:var(--white);padding:2.4rem 1.8rem;text-align:left;transition:background .4s;border-right:1px solid var(--border);position:relative}
 .hc:last-child{border-right:none}
 .hc::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:transparent;transition:background .4s}
 .hc:hover{background:var(--cream2)}
 .hc:hover::after{background:var(--gold)}
-.hc-img{max-width:110px;max-height:110px;width:auto;height:auto;object-fit:contain;margin:0 auto 1.1rem;display:block}
-.hc-title{font-family:'Inter',sans-serif;font-size:1.3rem;font-weight:700;color:var(--gold);margin-bottom:.65rem}
-.hc-desc{font-size:0.92rem;color:var(--muted);line-height:1.9;font-weight:600}
+.hc-img{max-width:110px;max-height:110px;width:auto;height:auto;object-fit:contain;margin:0 0 1.1rem;display:block}
+.hc-title{font-family:'Inter',sans-serif;font-size:1.05rem;font-weight:700;color:var(--gold);margin-bottom:.65rem}
+.hc-desc{font-size:0.8rem;color:var(--muted);line-height:1.9;font-weight:600}
 
 /* ── FOOTER ── */
 footer{padding:5rem 4rem 2.5rem;background:var(--ink);border-top:1px solid rgba(255,255,255,.06)}
@@ -786,9 +789,11 @@ footer{padding:5rem 4rem 2.5rem;background:var(--ink);border-top:1px solid rgba(
 
 <!-- HOLISTIC -->
 <section id="holistic">
-  <div class="sec-label">Holistic Care</div>
-  <h2 class="sec-h2">Complete Your <em>Practice</em></h2>
-  <p class="sec-p">Everything included to support your full manifestation journey, beyond the fragrance.</p>
+  <div class="sec-wrap">
+    <div class="sec-label">Holistic Care</div>
+    <h2 class="sec-h2">Complete Your <em>Practice</em></h2>
+    <p class="sec-p">Everything included to support your full manifestation journey, beyond the fragrance.</p>
+  </div>
   <div class="holistic-grid">
     <div class="hc fade-up"><img class="hc-img" src="images/sacred2.png" alt="Sacred Fire Preparation"><div class="hc-title">Sacred Fire Preparation</div><p class="hc-desc">Every oil is ceremonially prepared through sacred fire rituals, a Vedic tradition ensuring each bottle carries intentional vibrational energy.</p></div>
     <div class="hc fade-up" style="transition-delay:.08s"><img class="hc-img" src="images/sacred3.png" alt="Artisan Wooden Bottles"><div class="hc-title">Artisan Wooden Bottles</div><p class="hc-desc">Hand-turned by Channapatna master craftsmen using traditional techniques, a UNESCO-recognised sustainable craft from Karnataka.</p></div>
@@ -1161,18 +1166,18 @@ footer{padding:5rem 4rem 2.5rem;background:var(--ink);border-top:1px solid rgba(
 
 <script>
 const PRODUCTS=[
-  {id:1,name:'KLEOMA',for:'male',intent:'Love & Attraction',notes:'Rose · Ylang Ylang · Musk · Amber · Spice',desc:'A ritual-infused attar to support emotional connection, attraction, and presence. Velvety, warm, and floral, a blooming heart of rose and ylang ylang over soft musk and amber.',price:1234,glow:'#e879b0',grad:'#be185d',bg:'#fdf2f8',emoji:'🌹',image_url:'images/products/kleoma.jpeg'},
-  {id:2,name:'KLINFON',for:'male',intent:'Relaxation & Calm',notes:'Lavender · Lemon · Caraway · Saffron · Jasmine · Oud · Amber',desc:'Supports calm presence and smooth transition into rest. Herbal and grounding, a sacred oil for those who need to still the mind and restore balance.',price:1234,glow:'#93c5fd',grad:'#1d4ed8',bg:'#eff6ff',emoji:'🌿',outOfStock:true,image_url:'images/products/klinfon-male.jpeg'},
-  {id:3,name:'MYSTRA',for:'male',intent:'Financial Clarity',notes:'Citrus · Saffron · Cinnamon · Vetiver · Oud · Amber · Leather',desc:'For financial clarity, balance, and mindful decision-making. Opens with zesty citrus and saffron, grounded by oud, amber, and sacred resins.',price:1234,glow:'#fbbf24',grad:'#92400e',bg:'#fffbeb',emoji:'⚖️',image_url:'images/products/mystra.jpeg'},
-  {id:4,name:'SHREEMSRI',for:'male',intent:'Wealth & Prosperity',notes:'Golden Saffron · Cinnamon · Smoky Musk · Patchouli · Sacred Resins',desc:'Earthy, warm, and rich with subtle spice. A sacred oil for those walking the path of meaningful wealth creation: abundance, expansion, conscious prosperity.',price:1234,glow:'#c9a84c',grad:'#78350f',bg:'#fdf8ee',emoji:'👑',image_url:'images/products/shreemsri.jpeg'},
-  {id:5,name:'SUKCE',for:'male',intent:'Success & Achievement',notes:'Lavender · Lemon · Saffron · Jasmine · Oud · Warm Amber',desc:'A sensory anchor for entrepreneurs, leaders, and creators. Supports focus, discipline, and the unwavering belief that your success is inevitable.',price:1234,glow:'#a78bfa',grad:'#4c1d95',bg:'#f5f3ff',emoji:'🏆',image_url:'images/products/sukce.png'},
-  {id:6,name:'KAMAVYA',for:'female',intent:'Attraction & Love',notes:'Sweet Almond · Jasmine Sambac · Crystal Tuberose · Tonka Bean · Cocoa',desc:'Romantic and magnetic. A sweet whisper of almond into lush jasmine and crystal tuberose, settling into tonka bean and cocoa.',price:1234,glow:'#f472b6',grad:'#9d174d',bg:'#fdf2f8',emoji:'🌸',image_url:'images/products/kamavya.jpeg'},
-  {id:7,name:'KLINFON',for:'female',intent:'Relaxation & Calm',notes:'Lavender · Lemon · Caraway · Saffron · Jasmine · Oud · Amber',desc:'Encourages ease, softness, and balanced rhythm between activity and restoration. A sacred oil to transition into deep rest and inner stillness.',price:1234,glow:'#6ee7b7',grad:'#065f46',bg:'#ecfdf5',emoji:'🌙',outOfStock:true,image_url:'images/products/klinfon-female.jpeg'},
-  {id:8,name:'HREMAAN',for:'female',intent:'Financial Clarity',notes:'Lavender · Lemon · Caraway · Saffron · Jasmine · Oud · Warm Amber',desc:'A sacred anchor for clarity in financial thinking, calm steady awareness, and balanced mindful decisions for women walking with abundance.',price:1234,glow:'#fbbf24',grad:'#78350f',bg:'#fffbeb',emoji:'✨',image_url:'images/products/hremaan.jpeg'},
-  {id:9,name:'SHRIVAA',for:'female',intent:'Wealth & Prosperity',notes:'Golden Saffron · Cinnamon · Smoky Musk · Patchouli · Sacred Resins',desc:'Earthy, warm, and rich. "The scent is soft, but the impact is loud." For those walking the path of conscious prosperity: abundance in every drop.',price:1234,glow:'#c9a84c',grad:'#92400e',bg:'#fdf8ee',emoji:'💛',image_url:'images/products/shrivaa.jpeg'},
-  {id:10,name:'YCNEX',for:'female',intent:'Confidence & Success',notes:'Citrus · Saffron · Cinnamon · Florals · Vetiver · Sandalwood · Oud · Amber',desc:'A sensory anchor for the woman who leads, creates, and rises. Focus, mental clarity, confident personal presence, consistent intentional action.',price:1234,glow:'#c084fc',grad:'#5b21b6',bg:'#faf5ff',emoji:'⭐',image_url:'images/products/ycnex.jpeg'},
-  {id:11,name:'KLINFON Combo',for:'combo',intent:'Relaxation for Him & Her',notes:'Two 10ml Roll-Ons · Male + Female Formulations',desc:'The complete KLINFON ritual set. Two complementary formulations for couples or for those who hold both energies: sacred shared rest.',price:2345,glow:'#93c5fd',grad:'#1d4ed8',bg:'#eff6ff',emoji:'🤍',image_url:'images/products/klinfon-combo.png'},
-  {id:12,name:'Love Combo',for:'combo',intent:'Love & Attraction for Him & Her',notes:'KLEOMA (Male) + KAMAVYA (Female) · Two 10ml Roll-Ons',desc:'The sacred love pairing: KLEOMA for him and KAMAVYA for her. One intention: to draw love closer and magnetise meaningful connections.',price:2345,glow:'#f472b6',grad:'#be185d',bg:'#fdf2f8',emoji:'💕',image_url:'images/products/love-combo.png'},
+  {id:1,name:'KLEOMA',for:'male',intent:'Love & Attraction',notes:'Rose · Ylang Ylang · Musk · Amber · Spice',desc:'A ritual-infused attar to support emotional connection, attraction, and presence. Velvety, warm, and floral, a blooming heart of rose and ylang ylang over soft musk and amber.',price:1234,glow:'#e879b0',grad:'#be185d',bg:'#fff',emoji:'🌹',image_url:'images/products/kleoma.jpeg'},
+  {id:2,name:'KLINFON',for:'male',intent:'Relaxation & Calm',notes:'Lavender · Lemon · Caraway · Saffron · Jasmine · Oud · Amber',desc:'Supports calm presence and smooth transition into rest. Herbal and grounding, a sacred oil for those who need to still the mind and restore balance.',price:1234,glow:'#93c5fd',grad:'#1d4ed8',bg:'#fff',emoji:'🌿',outOfStock:true,image_url:'images/products/klinfon-male.jpeg'},
+  {id:3,name:'MYSTRA',for:'male',intent:'Financial Clarity',notes:'Citrus · Saffron · Cinnamon · Vetiver · Oud · Amber · Leather',desc:'For financial clarity, balance, and mindful decision-making. Opens with zesty citrus and saffron, grounded by oud, amber, and sacred resins.',price:1234,glow:'#fbbf24',grad:'#92400e',bg:'#fff',emoji:'⚖️',image_url:'images/products/mystra.jpeg'},
+  {id:4,name:'SHREEMSRI',for:'male',intent:'Wealth & Prosperity',notes:'Golden Saffron · Cinnamon · Smoky Musk · Patchouli · Sacred Resins',desc:'Earthy, warm, and rich with subtle spice. A sacred oil for those walking the path of meaningful wealth creation: abundance, expansion, conscious prosperity.',price:1234,glow:'#c9a84c',grad:'#78350f',bg:'#fff',emoji:'👑',image_url:'images/products/shreemsri.jpeg'},
+  {id:5,name:'SUKCE',for:'male',intent:'Success & Achievement',notes:'Lavender · Lemon · Saffron · Jasmine · Oud · Warm Amber',desc:'A sensory anchor for entrepreneurs, leaders, and creators. Supports focus, discipline, and the unwavering belief that your success is inevitable.',price:1234,glow:'#a78bfa',grad:'#4c1d95',bg:'#fff',emoji:'🏆',image_url:'images/products/sukce.png'},
+  {id:6,name:'KAMAVYA',for:'female',intent:'Attraction & Love',notes:'Sweet Almond · Jasmine Sambac · Crystal Tuberose · Tonka Bean · Cocoa',desc:'Romantic and magnetic. A sweet whisper of almond into lush jasmine and crystal tuberose, settling into tonka bean and cocoa.',price:1234,glow:'#f472b6',grad:'#9d174d',bg:'#fff',emoji:'🌸',image_url:'images/products/kamavya.jpeg'},
+  {id:7,name:'KLINFON',for:'female',intent:'Relaxation & Calm',notes:'Lavender · Lemon · Caraway · Saffron · Jasmine · Oud · Amber',desc:'Encourages ease, softness, and balanced rhythm between activity and restoration. A sacred oil to transition into deep rest and inner stillness.',price:1234,glow:'#6ee7b7',grad:'#065f46',bg:'#fff',emoji:'🌙',outOfStock:true,image_url:'images/products/klinfon-female.jpeg'},
+  {id:8,name:'HREMAAN',for:'female',intent:'Financial Clarity',notes:'Lavender · Lemon · Caraway · Saffron · Jasmine · Oud · Warm Amber',desc:'A sacred anchor for clarity in financial thinking, calm steady awareness, and balanced mindful decisions for women walking with abundance.',price:1234,glow:'#fbbf24',grad:'#78350f',bg:'#fff',emoji:'✨',image_url:'images/products/hremaan.jpeg'},
+  {id:9,name:'SHRIVAA',for:'female',intent:'Wealth & Prosperity',notes:'Golden Saffron · Cinnamon · Smoky Musk · Patchouli · Sacred Resins',desc:'Earthy, warm, and rich. "The scent is soft, but the impact is loud." For those walking the path of conscious prosperity: abundance in every drop.',price:1234,glow:'#c9a84c',grad:'#92400e',bg:'#fff',emoji:'💛',image_url:'images/products/shrivaa.jpeg'},
+  {id:10,name:'YCNEX',for:'female',intent:'Confidence & Success',notes:'Citrus · Saffron · Cinnamon · Florals · Vetiver · Sandalwood · Oud · Amber',desc:'A sensory anchor for the woman who leads, creates, and rises. Focus, mental clarity, confident personal presence, consistent intentional action.',price:1234,glow:'#c084fc',grad:'#5b21b6',bg:'#fff',emoji:'⭐',image_url:'images/products/ycnex.jpeg'},
+  {id:11,name:'KLINFON Combo',for:'combo',intent:'Relaxation for Him & Her',notes:'Two 10ml Roll-Ons · Male + Female Formulations',desc:'The complete KLINFON ritual set. Two complementary formulations for couples or for those who hold both energies: sacred shared rest.',price:2345,glow:'#93c5fd',grad:'#1d4ed8',bg:'#fff',emoji:'🤍',image_url:'images/products/klinfon-combo.png'},
+  {id:12,name:'Love Combo',for:'combo',intent:'Love & Attraction for Him & Her',notes:'KLEOMA (Male) + KAMAVYA (Female) · Two 10ml Roll-Ons',desc:'The sacred love pairing: KLEOMA for him and KAMAVYA for her. One intention: to draw love closer and magnetise meaningful connections.',price:2345,glow:'#f472b6',grad:'#be185d',bg:'#fff',emoji:'💕',image_url:'images/products/love-combo.png'},
 ];
 const INTENTS=[
   {icon:'🌹',label:'Love & Attraction',p:0},
@@ -1230,9 +1235,9 @@ function initNav(){const nav=document.getElementById('navbar');window.addEventLi
 function initScrollObs(){const obs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('vis');});},{threshold:.1});document.querySelectorAll('.fade-up').forEach(el=>obs.observe(el));}
 
 const GENDER_CARD_DEFAULTS={
-  male:{glow:'#93c5fd',grad:'#1d4ed8',bg:'#eff6ff'},
-  female:{glow:'#f472b6',grad:'#9d174d',bg:'#fdf2f8'},
-  combo:{glow:'#c9a84c',grad:'#78350f',bg:'#fdf8ee'},
+  male:{glow:'#93c5fd',grad:'#1d4ed8',bg:'#fff'},
+  female:{glow:'#f472b6',grad:'#9d174d',bg:'#fff'},
+  combo:{glow:'#c9a84c',grad:'#78350f',bg:'#fff'},
 };
 
 async function syncProductsFromAPI(){

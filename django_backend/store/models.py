@@ -6,6 +6,7 @@ class Product(models.Model):
     GENDER_CHOICES = [('male', 'For Him'), ('female', 'For Her'), ('combo', 'Combo')]
     name = models.CharField(max_length=200)
     intent = models.CharField(max_length=200)
+    notes = models.CharField(max_length=300, blank=True)
     description = models.TextField(blank=True)
     price = models.DecimalField(max_digits=10, decimal_places=2)
     for_gender = models.CharField(max_length=10, choices=GENDER_CHOICES)

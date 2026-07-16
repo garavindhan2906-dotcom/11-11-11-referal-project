@@ -21,6 +21,7 @@ def _product_data(p, request):
         "id": p.id,
         "name": p.name,
         "intent": p.intent,
+        "notes": p.notes,
         "description": p.description,
         "price": float(p.price),
         "for_gender": p.for_gender,
@@ -59,6 +60,7 @@ class ProductCreateView(APIView):
         product = Product(
             name=name,
             intent=request.data.get("intent", ""),
+            notes=request.data.get("notes", ""),
             price=request.data.get("price", 1234),
             for_gender=request.data.get("for_gender", "male"),
             emoji=request.data.get("emoji", "✦"),
@@ -89,7 +91,7 @@ class ProductUpdateView(APIView):
             product = Product.objects.get(pk=pk)
         except Product.DoesNotExist:
             return Response({"error": "Not found."}, status=404)
-        for field in ["name", "intent", "description", "price", "for_gender", "emoji"]:
+        for field in ["name", "intent", "notes", "description", "price", "for_gender", "emoji"]:
             if field in request.data:
                 setattr(product, field, request.data[field])
         in_stock_raw = request.data.get("in_stock")
